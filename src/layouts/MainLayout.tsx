@@ -1,8 +1,16 @@
+import Container from '@/components/Container'
+import Footer from '@/components/common/Footer'
+
 interface MainLayoutProps {
   children: React.ReactNode
 }
 const MainLayout = ({ children }: MainLayoutProps) => {
-  return <div>{children}</div>
+  return (
+    <div>
+      <Container>{children}</Container>
+      <Footer></Footer>
+    </div>
+  )
 }
 
 export default MainLayout
