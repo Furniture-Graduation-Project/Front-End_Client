@@ -1,7 +1,7 @@
 import { Facebook, Instagram, Youtube } from 'lucide-react'
 import { Link, NavLink } from 'react-router-dom'
 import Container from '../Container'
-import { LogoFooter } from '@/assets'
+import BrandLink from './BrandLink'
 
 const Footer = () => {
   return (
@@ -10,8 +10,8 @@ const Footer = () => {
         <Container className='flex flex-col justify-center'>
           <div className='flex sm:justify-between sm:flex-row flex-col items-center caption-1'>
             <div className='flex flex-col sm:flex-row items-center'>
-              <div className='border-b border-b-neutral-4 pb-3 sm:p-0 sm:border-none'>
-                <img src={LogoFooter} className='sm:w-[124px] sm:h-[24px] sm:pr-10 ' alt='' />
+              <div className='border-b border-b-neutral-4 pb-3 sm:p-0 sm:border-none sm:w-[124px] sm:h-[24px] sm:pr-10 '>
+                <BrandLink color={false} />
               </div>
               <p className='text-center sm:text-left md:pl-10 my-5 sm:my-0 md:border-l md:border-l-neutral-4'>
                 Gift & Decoration Store
@@ -51,10 +51,10 @@ const Footer = () => {
                 Terms of Use
               </Link>
             </div>
-            <div className='flex mt-5 sm:mt-0'>
-              <Instagram className='mr-5' />
-              <Facebook className='mr-5' />
-              <Youtube className='mr-0' />
+            <div className='flex mt-5 sm:mt-08 space-x-5'>
+              <Instagram />
+              <Facebook />
+              <Youtube />
             </div>
           </div>
         </Container>

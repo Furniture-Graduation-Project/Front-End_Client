@@ -1,5 +1,5 @@
-import LogoHeader from '@/assets/images/icon/3legant.svg'
-import LogoFooter from '@/assets/images//icon/3legant-1.svg'
+import LogoWhite from '@/assets/images/icon/3legant.svg'
+import LogoBlack from '@/assets/images//icon/3legant-1.svg'
 import BannerImage from '@/assets/images/banner.png'
 import BannerImage1 from '@/assets/images/banner-1.png'
 import BannerGrid0 from '@/assets/images/Paste image.png'
@@ -9,8 +9,8 @@ import Auth from '@/assets/images/auth/auth.png'
 import ProductImage from '@/assets/images/3.png'
 import ArticlesImage from '@/assets/images/5.png'
 export {
-  LogoHeader,
-  LogoFooter,
+  LogoWhite,
+  LogoBlack,
   BannerImage1,
   BannerImage,
   BannerGrid0,
