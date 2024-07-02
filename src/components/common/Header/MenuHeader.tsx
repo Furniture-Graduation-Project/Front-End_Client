@@ -17,7 +17,7 @@ const MenuHeader = () => {
         </SheetTrigger>
         <SheetContent
           side='left'
-          className='w-screen max-w-md fixed flex flex-col justify-between bg-white px-6 py-6 rounded-lg'
+          className='w-screen max-w-md overflow-y-auto no-scrollbar min-h-[350px] fixed flex flex-col justify-between bg-white px-6 py-6 rounded-lg'
         >
           <div className=''>
             <div className='flex items-center justify-between'>

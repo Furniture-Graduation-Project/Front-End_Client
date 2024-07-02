@@ -1,15 +1,15 @@
 import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
 import ProtectedLayout from '@/layouts/ProtectedLayout'
-import AccountPage from '@/pages/(user)/AccountPage'
-import CartPage from '@/pages/(site)/CartPage'
-import CheckoutPage from '@/pages/(site)/CheckoutPage'
-import HomePage from '@/pages/(site)/HomePage'
-import ShopPage from '@/pages/(site)/ShopPage'
 import SignIn from '@/pages/(auth)/SignIn'
 import SignUp from '@/pages/(auth)/SignUp'
-import BlogPage from '@/pages/(site)/BlogPage'
-import ContactPage from '@/pages/(site)/ContactPage'
+import BlogPage from '@/pages/(site)/blog/BlogPage'
+import CartPage from '@/pages/(site)/cart/CartPage'
+import CheckoutPage from '@/pages/(site)/checkout/CheckoutPage'
+import ContactPage from '@/pages/(site)/contact/ContactPage'
+import HomePage from '@/pages/(site)/home/HomePage'
+import ShopPage from '@/pages/(site)/shop/ShopPage'
+import AccountPage from '@/pages/(user)/AccountPage'
 
 const routes = [
   { path: '/signin', component: SignIn, layout: AuthLayout },
