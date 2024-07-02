@@ -1,4 +1,4 @@
-import { NavigationMenuLink, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
+import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 import { cn } from '@/utils/classUtils'
 import { NavLink } from 'react-router-dom'
 
