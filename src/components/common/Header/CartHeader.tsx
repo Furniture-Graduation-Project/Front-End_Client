@@ -49,14 +49,14 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
             side='right'
             className='w-screen max-w-md fixed flex flex-col justify-between bg-white rounded-lg'
           >
-            <div className='flex-1 overflow-y-auto'>
+            <div className='flex-1 overflow-y-auto no-scrollbar'>
               <h1 className='headline-6 font-medium text-[#121212]'>Cart</h1>
               <div className='mt-8'>
                 <div className='flow-root'>
                   <ul role='list' className='-my-6 divide-y divide-neuborder-neutral-3'>
                     {cart.map((item) => (
-                      <li key={item.id} className='flex py-6'>
-                        <div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-neutral-3'>
+                      <li key={item.id} className='flex py-6 '>
+                        <div className='h-24 w-24 flex-shrink-0  rounded-md border border-neutral-3'>
                           <img
                             src={item.imageSrc}
                             alt={item.imageAlt}
