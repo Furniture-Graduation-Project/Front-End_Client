@@ -1,5 +1,5 @@
 ### Công nghệ
-
+- **Netlify:** https://futnituresho.netlify.app/
 - **Xây dựng web app:** React, Typescript, Tailwind CSS, Shadcn UI
 - **Thư viện và công cụ sử dụng:**
   - `@hookform/resolvers`: Tích hợp các thư viện validation với react-hook-form.
