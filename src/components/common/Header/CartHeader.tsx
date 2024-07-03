@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { useTranslate } from '@/hooks/useTranslate'
 import { Minus, Plus, ShoppingBag, X } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -8,7 +9,7 @@ const cart = [
     id: 1,
     name: 'Throwback Hip Bag',
     href: '#',
-    color: 'Salmon',
+    color: 'red',
     price: '$90.00',
     quantity: 1,
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
@@ -18,7 +19,7 @@ const cart = [
     id: 2,
     name: 'Medium Stuff Satchel',
     href: '#',
-    color: 'Blue',
+    color: 'blue',
     price: '$32.00',
     quantity: 1,
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
@@ -26,6 +27,7 @@ const cart = [
   }
 ]
 const CartHeader = ({ mobile }: { mobile: boolean }) => {
+  const { t } = useTranslate('header.cartHeader')
   const [count, setCount] = useState(1)
   const setPlus = () => {
     setCount(count + 1)
@@ -40,7 +42,7 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
       <div className='z-30 flex h-14 items-center bg-background sm:h-auto sm:border-0'>
         <Sheet>
           <SheetTrigger asChild>
-            <Button size='icon' variant='ghost' className='hover:bg-inherit'>
+            <Button size='icon' variant='ghost' className='hover:bg-inherit block'>
               <ShoppingBag />
               <span className='sr-only'>Toggle Menu</span>
             </Button>
@@ -50,7 +52,7 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
             className='w-screen max-w-md fixed flex flex-col justify-between bg-white rounded-lg'
           >
             <div className='flex-1 overflow-y-auto no-scrollbar'>
-              <h1 className='headline-6 font-medium text-[#121212]'>Cart</h1>
+              <h1 className='headline-6 font-medium text-[#121212]'>{t('cart')}</h1>
               <div className='mt-8'>
                 <div className='flow-root'>
                   <ul role='list' className='-my-6 divide-y divide-neuborder-neutral-3'>
@@ -73,7 +75,9 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                               <p className='ml-4 text-[#121212]'>{item.price}</p>
                             </div>
                             <div className='flex flex-1 justify-between items-center mt-1'>
-                              <p className='mt-1 caption-2 text-gray-500'>Color: {item.color}</p>
+                              <p className='mt-1 caption-2 text-gray-500'>
+                                {t('color')}: {t(item.color)}
+                              </p>
                               <div className='flex'>
                                 <button type='button' className='font-medium '>
                                   <X className='text-neutral-4 w-[14px] h-[14px]' strokeWidth={2} />
@@ -101,14 +105,14 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
             </div>
             <div className='border-b border-neutral-3'>
               <div className='flex justify-between text-neutral-7'>
-                <p className='body-2'>Subtotal</p>
+                <p className='body-2'>{t('subtotal')}</p>
                 <p className='body-2-semi'>$262.00</p>
               </div>
             </div>
 
             <div className=' border-neutral-3'>
               <div className='flex justify-between headline-7 text-neutral-7'>
-                <p>Total</p>
+                <p>{t('total')}</p>
                 <p>$262.00</p>
               </div>
 
@@ -117,17 +121,17 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                   href='#'
                   className='flex items-center justify-center rounded-md border border-transparent bg-black px-6 py-3 buuton-m text-white shadow-sm hover:bg-neutral-7'
                 >
-                  Checkout
+                  {t('checkout')}
                 </a>
               </div>
               <div className='mt-6 flex justify-center text-center caption-1-semi text-neutral-4 space-x-3'>
                 <Link to='' className='text-black hover:text-neutral-7 underline'>
-                  View Cart
+                  {t('viewCart')}
                 </Link>
-                <span>or</span>
+                <span>{t('or')}</span>
                 <SheetTrigger asChild>
                   <button className='text-black hover:text-neutral-7'>
-                    Continue Shopping
+                    {t('continue')}
                     <span aria-hidden='true'> &rarr;</span>
                   </button>
                 </SheetTrigger>

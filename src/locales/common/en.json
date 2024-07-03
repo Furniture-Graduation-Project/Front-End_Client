@@ -1,0 +1,48 @@
+{
+  "header": {
+    "notificationBar": {
+      "notification": "30% off storewide — Limited time!",
+      "shopNow": "Shop Now"
+    },
+    "menuHeader": {
+      "home": "Home",
+      "product": "Product",
+      "about": "About",
+      "contact": "Contact",
+      "wishlist": "Wishlist",
+      "cart": "Cart",
+      "sign-in": "Sign In",
+      "search": "Search",
+      "language": "Language"
+    },
+    "cartHeader": {
+      "cart": "Cart",
+      "color": "Color",
+      "black": "Black",
+      "red": "Red",
+      "gold": "Gold",
+      "blue": "Blue",
+      "subtotal": "Subtotal",
+      "total": "Total",
+      "checkout": "Checkout",
+      "viewCart": "Xem giỏ hàng",
+      "or": "or",
+      "continue": "Continue Shopping"
+    },
+    "userMenu": {
+      "signIn": "Sign In",
+      "signUp": "Sign Up"
+    }
+  },
+  "footer": {
+    "brand": "Gift & Decoration Store",
+    "home": "Home",
+    "shop": "Shop",
+    "product": "Product",
+    "blog": "Blog",
+    "contactUs": "Contact Us",
+    "copyright": "Copyright © 2023 3legant. All rights reserved",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use"
+  }
+}

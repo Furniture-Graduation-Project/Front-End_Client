@@ -1,0 +1,48 @@
+{
+  "header": {
+    "notificationBar": {
+      "notification": "Giảm giá 30% toàn cửa hàng — Thời gian có hạn!",
+      "shopNow": "Mua Ngay"
+    },
+    "menuHeader": {
+      "home": "Trang chủ",
+      "product": "Sản phẩm",
+      "about": "Về chúng tôi",
+      "contact": "Liên hệ",
+      "wishlist": "Danh sách yêu thích",
+      "cart": "Giỏ hàng",
+      "sign-in": "Đăng nhập",
+      "search": "Tìm kiếm",
+      "language": "Ngôn Ngữ"
+    },
+    "cartHeader": {
+      "cart": "Giỏ hàng",
+      "color": "Màu",
+      "black": "Đen",
+      "red": "Đỏ",
+      "gold": "Vàng",
+      "blue": "Xanh Dương",
+      "subtotal": "Tổng phụ",
+      "total": "Tổng cộng",
+      "checkout": "Thanh toán",
+      "viewCart": "Xem giỏ hàng",
+      "or": "Hoặc",
+      "continue": "Tiếp tục mua hàng"
+    },
+    "userMenu": {
+      "signIn": "Đăng nhập",
+      "signUp": "Đăng ký"
+    }
+  },
+  "footer": {
+    "brand": "Cửa hàng Quà tặng & Trang trí",
+    "home": "Trang chủ",
+    "shop": "Cửa hàng",
+    "product": "Sản phẩm",
+    "blog": "Blog",
+    "contactUs": "Liên hệ",
+    "copyright": "Bản quyền © 2023 3legant. Bảo lưu mọi quyền",
+    "privacyPolicy": "Chính sách",
+    "termsOfUse": "Điều khoản"
+  }
+}
