@@ -4,8 +4,20 @@ import { Facebook, Heart, Instagram, Menu, Search, ShoppingBag, Youtube } from '
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Link } from 'react-router-dom'
 import BrandLink from '../BrandLink'
+import { useTranslate } from '@/hooks/useTranslate'
+import React from 'react'
+import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
+
+type Checked = DropdownMenuCheckboxItemProps['checked']
 
 const MenuHeader = () => {
+  const { t, i18n, setLocale } = useTranslate('header.menuHeader')
+
+  const [language, setLanguage] = React.useState<Checked>(() => (i18n.language === 'en' ? true : false))
+  const handleLanguage = async (change: boolean) => {
+    setLanguage(change)
+    await setLocale(language ? 'vi' : 'en')
+  }
   return (
     <header className='z-30 flex h-14 items-center bg-background sm:h-auto sm:border-0'>
       <Sheet>
@@ -33,20 +45,16 @@ const MenuHeader = () => {
                       name='search'
                       type='text'
                       className='w-auto flex-auto rounded-md border-0 pl-2 caption-1 sm:leading-6 focus:outline-none'
-                      placeholder='Search...'
+                      placeholder={t('search')}
                     />
                   </div>
                   <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
-                    Home
-                  </Link>
-                  <div className='border-b border-neutral-3'></div>
-                  <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
-                    Shop
+                    {t('home')}
                   </Link>
                   <div className='border-b border-neutral-3'></div>
                   <Accordion type='single' collapsible className='w-full'>
                     <AccordionItem value='item-1 '>
-                      <AccordionTrigger className='hover:no-underline '>Products</AccordionTrigger>
+                      <AccordionTrigger className='hover:no-underline '>{t('product')}</AccordionTrigger>
                       <AccordionContent className='pl-3 pt-5 button-xs border-b border-neutral-3'>
                         <Link to=''>All Products</Link>
                       </AccordionContent>
@@ -56,7 +64,11 @@ const MenuHeader = () => {
                     </AccordionItem>
                   </Accordion>
                   <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
-                    Contact Us
+                    {t('about')}
+                  </Link>
+                  <div className='border-b border-neutral-3'></div>
+                  <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
+                    {t('contact')}
                   </Link>
                   <div className='border-b border-neutral-3'></div>
                 </div>
@@ -66,10 +78,33 @@ const MenuHeader = () => {
 
           <div className=''>
             <div className='mt-6 flow-root'>
+              <Accordion type='single' collapsible className='-mx-3 px-3 py-2 block text-base button-xs text-neutral-4'>
+                <AccordionItem value='item-1 '>
+                  <AccordionTrigger className='hover:no-underline '>{t('language')}</AccordionTrigger>
+                  <AccordionContent className='border-b border-neutral-3 py-1'>
+                    <Button
+                      onClick={() => handleLanguage(false)}
+                      className={language ? '' : 'text-red'}
+                      variant={'none'}
+                    >
+                      Tiếng Việt
+                    </Button>
+                  </AccordionContent>
+                  <AccordionContent className='py-1'>
+                    <Button
+                      onClick={() => handleLanguage(true)}
+                      className={language ? 'text-red' : ''}
+                      variant={'none'}
+                    >
+                      English
+                    </Button>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
               <div className='-my-6'>
                 <div className='py-6 flex justify-between items-center'>
                   <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-4 hover:bg-neutral-2'>
-                    Cart
+                    {t('cart')}
                   </Link>
                   <div className='flex items-center'>
                     <ShoppingBag className='mr-[6px] w-[18px]' />
@@ -79,11 +114,12 @@ const MenuHeader = () => {
                   </div>
                 </div>
               </div>
+
               <div className='border-b border-neutral-3 mt-1'></div>
               <div className='-my-6 '>
                 <div className='mt-1 py-6 flex justify-between items-center'>
                   <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-4 hover:bg-neutral-2'>
-                    Wishlist
+                    {t('wishlist')}
                   </Link>
                   <div className='flex items-center'>
                     <Heart className='mr-[6px] w-[18px]' />
@@ -94,7 +130,9 @@ const MenuHeader = () => {
                 </div>
               </div>
               <div className='border-b border-neutral-3 mt-1'></div>
-              <button className='mx-auto bg-black w-full mt-5 h-[52px] rounded-lg text-white button-m'>Sign In</button>
+              <button className='mx-auto bg-black w-full mt-5 h-[52px] rounded-lg text-white button-m'>
+                {t('sign-in')}
+              </button>
               <div className='flex mt-4 space-x-4 *:w-5 *:h-5'>
                 <Instagram />
                 <Facebook />

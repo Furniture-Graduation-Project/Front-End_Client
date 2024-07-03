@@ -5,13 +5,14 @@ import {
   NavigationMenuList
 } from '@/components/ui/navigation-menu'
 import NavigationLink from './NavigationLink'
-
+import { useTranslate } from '@/hooks/useTranslate'
 const components = [
   {
     title: 'Alert Dialog',
     to: '/docs/primitives/alert-dialog',
     description: 'A modal dialog that interrupts the user with important content and expects a response.'
   },
+
   {
     title: 'Hover Card',
     to: '/docs/primitives/hover-card',
@@ -42,16 +43,15 @@ const components = [
 ]
 
 const NavigationLinks = () => {
+  const { t } = useTranslate('header.menuHeader')
+
   return (
     <NavigationMenuList className='gap-x-6 text-neutral-4 text-base'>
       <NavigationMenuItem>
-        <NavigationLink title='Home' to='/'></NavigationLink>
+        <NavigationLink title={t('home')} to='/'></NavigationLink>
       </NavigationMenuItem>
       <NavigationMenuItem>
-        <NavigationLink title='Shop' to='/shop'></NavigationLink>
-      </NavigationMenuItem>
-      <NavigationMenuItem>
-        <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+        <NavigationMenuTrigger>{t('product')}</NavigationMenuTrigger>
         <NavigationMenuContent>
           <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] '>
             {components.map((component, index) => (
@@ -62,9 +62,11 @@ const NavigationLinks = () => {
           </ul>
         </NavigationMenuContent>
       </NavigationMenuItem>
-
       <NavigationMenuItem>
-        <NavigationLink title='Contact' to='/contact'></NavigationLink>
+        <NavigationLink title={t('about')} to='/about'></NavigationLink>
+      </NavigationMenuItem>
+      <NavigationMenuItem>
+        <NavigationLink title={t('contact')} to='/contact'></NavigationLink>
       </NavigationMenuItem>
     </NavigationMenuList>
   )

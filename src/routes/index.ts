@@ -3,6 +3,7 @@ import MainLayout from '@/layouts/MainLayout'
 import ProtectedLayout from '@/layouts/ProtectedLayout'
 import SignIn from '@/pages/(auth)/SignIn'
 import SignUp from '@/pages/(auth)/SignUp'
+import AboutPage from '@/pages/(site)/about/AboutPage'
 import BlogPage from '@/pages/(site)/blog/BlogPage'
 import CartPage from '@/pages/(site)/cart/CartPage'
 import CheckoutPage from '@/pages/(site)/checkout/CheckoutPage'
@@ -19,6 +20,7 @@ const routes = [
   { path: '/cart', component: CartPage, layout: MainLayout },
   { path: '/checkout', component: CheckoutPage, layout: MainLayout },
   { path: '/blog', component: BlogPage, layout: MainLayout },
+  { path: '/about', component: AboutPage, layout: MainLayout },
   { path: '/contact', component: ContactPage, layout: MainLayout },
   { path: '/account', component: AccountPage, layout: ProtectedLayout }
 ]

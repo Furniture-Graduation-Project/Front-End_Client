@@ -8,6 +8,7 @@ import MenuHeader from './MenuHeader'
 import CartHeader from './CartHeader'
 import UserMenu from './UserMenu'
 import NavigationLinks from './NavigationLinks'
+import LanguageMenu from './LanguageMenu'
 
 const Header = () => {
   const [search, setSearch] = useState(false)
@@ -26,14 +27,15 @@ const Header = () => {
             <NavigationMenu className='hidden lg:flex lg:gap-x-12'>
               <NavigationLinks />
             </NavigationMenu>
-            <div className='hidden lg:flex lg:flex-1 lg:justify-end lg:items-center'>
-              <Search className='mr-[20px] hover:cursor-pointer' onClick={() => setSearch(true)} />
+            <div className='hidden lg:flex lg:flex-1 lg:justify-end lg:items-center space-x-5 button-xs'>
+              <Search className='hover:cursor-pointer' onClick={() => setSearch(true)} />
               <CommandDialog open={search} onOpenChange={setSearch}>
                 <CommandInput placeholder='Type a command or search...' />
                 <CommandList>
                   <CommandEmpty>No results found.</CommandEmpty>
                 </CommandList>
               </CommandDialog>
+              <LanguageMenu></LanguageMenu>
               <UserMenu />
               <CartHeader mobile={false} />
             </div>
