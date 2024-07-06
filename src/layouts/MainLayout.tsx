@@ -7,11 +7,11 @@ interface MainLayoutProps {
 }
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <div>
+    <>
       <Header></Header>
       <Container>{children}</Container>
       <Footer></Footer>
-    </div>
+    </>
   )
 }
 

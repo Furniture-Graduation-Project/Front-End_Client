@@ -2,7 +2,7 @@ interface ProtectedLayoutProps {
   children: React.ReactNode
 }
 const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
-  return <div>{children}</div>
+  return <>{children}</>
 }
 
 export default ProtectedLayout
