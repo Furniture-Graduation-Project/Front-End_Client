@@ -1,0 +1,12 @@
+{
+  "signin": {
+    "title": "Sign In",
+    "noAccount": "Don’t have an account yet?",
+    "signup": "Sign Up",
+    "usernamePlaceholder": "Your username or email address",
+    "passwordPlaceholder": "Password",
+    "remember": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "signinButton": "Sign In"
+  }
+}
