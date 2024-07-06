@@ -1,0 +1,16 @@
+{
+  "signup": {
+    "title": "Đăng Ký",
+    "alreadyAccount": "Đã có tài khoản?",
+    "signin": "Đăng Nhập",
+    "yournamePlaceholder": "Tên của bạn",
+    "emailPlaceholder": "Địa chỉ email của bạn",
+    "usernamePlaceholder": "Tên người dùng của bạn",
+    "passwordPlaceholder": "Mật khẩu",
+    "privacyPolicy": "Tôi đồng ý với",
+    "privacyPolicyLink": "Chính Sách Bảo Mật",
+    "andTermsOfUse": "và",
+    "termsOfUseLink": "Điều Khoản Sử Dụng",
+    "signupButton": "Đăng Ký"
+  }
+}

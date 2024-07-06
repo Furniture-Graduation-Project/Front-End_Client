@@ -5,6 +5,12 @@ import { LocaleCodeName } from '@/interface/LocaleCodeName'
 import commonEN from '../locales/common/en.json'
 import commonVI from '../locales/common/vi.json'
 
+import signInEN from '../locales/auth/signin/en.json'
+import signInVI from '../locales/auth/signin/vi.json'
+
+import signUpEN from '../locales/auth/signup/en.json'
+import signUpVI from '../locales/auth/signup/vi.json'
+
 export const currentLocales: LocaleCodeName[] = [
   { code: 'vi', name: 'Tiếng Việt' },
   { code: 'en', name: 'English' }
@@ -12,11 +18,14 @@ export const currentLocales: LocaleCodeName[] = [
 
 export const localizationResources = {
   en: {
-    common: commonEN
+    common: commonEN,
+    singin: signInEN,
+    singup: signUpEN
   },
   vi: {
     common: commonVI,
-    common1: commonVI
+    singin: signInVI,
+    singup: signUpVI
   }
 } as const
 

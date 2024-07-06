@@ -1,0 +1,16 @@
+{
+  "signup": {
+    "title": "Sign Up",
+    "alreadyAccount": "Already have an account?",
+    "signin": "Sign In",
+    "yournamePlaceholder": "Your name",
+    "emailPlaceholder": "Your email address",
+    "usernamePlaceholder": "Your username",
+    "passwordPlaceholder": "Password",
+    "privacyPolicy": "I agree with",
+    "privacyPolicyLink": "Privacy Policy",
+    "andTermsOfUse": "and",
+    "termsOfUseLink": "Terms of Use",
+    "signupButton": "Sign Up"
+  }
+}

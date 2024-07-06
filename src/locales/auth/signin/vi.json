@@ -1,0 +1,12 @@
+{
+  "signin": {
+    "title": "Đăng Nhập",
+    "noAccount": "Chưa có tài khoản?",
+    "signup": "Đăng Ký",
+    "usernamePlaceholder": "Tên người dùng hoặc địa chỉ email của bạn",
+    "passwordPlaceholder": "Mật khẩu",
+    "remember": "Ghi nhớ",
+    "forgotPassword": "Quên mật khẩu?",
+    "signinButton": "Đăng Nhập"
+  }
+}
