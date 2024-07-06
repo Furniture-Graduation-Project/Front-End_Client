@@ -1,0 +1,50 @@
+{
+  "home": {
+    "banner": {
+      "headline1": "Đơn giản độc đáo",
+      "headline2": "Đơn giản tốt nhất",
+      "description": "là một công ty thiết kế & trang trí nội thất có trụ sở tại Hà Nội,",
+      "location": "Việt Nam. Thành lập từ năm 2019."
+    },
+    "bannerGrid": {
+      "livingRoom": "Phòng Khách",
+      "bedroom": "Phòng Ngủ",
+      "kitchen": "Nhà Bếp",
+      "shopNow": "Mua ngay"
+    },
+    "carousel": {
+      "newArrivals": {
+        "line1": "Mới",
+        "line2": "Nhập Hàng"
+      },
+      "moreProducts": "Xem thêm sản phẩm"
+    },
+    "values": {
+      "freeShipping": "Miễn phí vận chuyển",
+      "freeShippingDescription": "Đơn hàng trên $200",
+      "moneyBack": "Hoàn tiền",
+      "moneyBackDescription": "Bảo đảm 30 ngày",
+      "securePayments": "Thanh toán an toàn",
+      "securePaymentsDescription": "Được bảo vệ bởi Stripe",
+      "support": "Hỗ trợ 24/7",
+      "supportDescription": "Hỗ trợ qua điện thoại và email"
+    },
+    "sale": {
+      "title": "GIẢM GIÁ LÊN ĐẾN 35%",
+      "headline1": "HÀNG TRĂM SẢN PHẨM",
+      "headline2": "Giá mới thấp hơn!",
+      "description": "Giờ đây, dễ dàng hơn bao giờ hết để trang trí cho từng phòng trong ngôi nhà của bạn một diện mạo phong cách.",
+      "shopNow": "Mua Ngay"
+    },
+    "articles": {
+      "title": "Bài viết",
+      "moreArticles": "Xem thêm bài viết"
+    },
+    "newsletter": {
+      "join": "Tham gia cùng chúng tôi",
+      "signupText": "Đăng ký để nhận ưu đãi, sản phẩm mới và khuyến mãi",
+      "emailPlaceholder": "Địa chỉ email",
+      "signupButton": "Đăng ký"
+    }
+  }
+}

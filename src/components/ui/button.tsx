@@ -21,7 +21,7 @@ const buttonVariants = cva(
         link: 'text-slate-900 underline-offset-4 hover:underline dark:text-slate-50',
         auth: 'bg-black rounded-[8px] button-s text-white',
         none: '',
-        icon: 'rounded-full flex items-center justify-center bg-white border shadow-md p-2 transform translate-y-10 group-hover:translate-y-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100 hover:scale-110'
+        icon: 'rounded-full cursor-pointer flex items-center justify-center bg-white border shadow-md p-2 transform translate-y-10 group-hover:translate-y-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100 hover:scale-110'
       },
       size: {
         default: 'h-10 px-4 py-2',

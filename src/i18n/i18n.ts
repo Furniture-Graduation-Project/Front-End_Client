@@ -11,6 +11,9 @@ import signInVI from '../locales/auth/signin/vi.json'
 import signUpEN from '../locales/auth/signup/en.json'
 import signUpVI from '../locales/auth/signup/vi.json'
 
+import homeEN from '../locales/site/home/en.json'
+import homeVI from '../locales/site/home/vi.json'
+
 export const currentLocales: LocaleCodeName[] = [
   { code: 'vi', name: 'Tiếng Việt' },
   { code: 'en', name: 'English' }
@@ -20,12 +23,14 @@ export const localizationResources = {
   en: {
     common: commonEN,
     singin: signInEN,
-    singup: signUpEN
+    singup: signUpEN,
+    home: homeEN
   },
   vi: {
     common: commonVI,
     singin: signInVI,
-    singup: signUpVI
+    singup: signUpVI,
+    home: homeVI
   }
 } as const
 
