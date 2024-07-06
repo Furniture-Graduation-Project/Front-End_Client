@@ -2,11 +2,13 @@ import { Eye, Heart, ShoppingCart, Star, StarHalf } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { ProductImage } from '@/assets'
 import { Button } from '@/components/ui/button'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const ProductCard = () => {
+  const { t } = useTranslate('productCard')
   return (
     <>
-      <div className='bg-neutral-1 rounded-xl relative group transition duration-500 ease-in-out hover:shadow-lg'>
+      <div className='bg-neutral-2 rounded-xl relative group transition duration-500 ease-in-out hover:shadow-lg'>
         <Link to={''} className='cursor-pointer'>
           <img
             src={ProductImage}
@@ -14,7 +16,7 @@ const ProductCard = () => {
             className='transform scale-100 group-hover:scale-105 transition-transform duration-500 ease-in-out'
           />
         </Link>
-        <div className='absolute top-6 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-white'>New</div>
+        <div className='absolute top-6 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-white'>{t('new')}</div>
         <div className='absolute top-14 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-green text-white'>
           -50%
         </div>
@@ -23,15 +25,15 @@ const ProductCard = () => {
           size={'icon'}
           className='absolute top-6 right-4 p-[6px] hover:bg-red hover:text-white '
         >
-          <Heart className='w-9 h-8' />
+          <Heart />
         </Button>
 
         <div className='flex absolute left-0 right-0 bottom-6 items-center gap-x-20 justify-center'>
           <Button variant={'icon'} size={'icon'} onClick={() => {}} asChild>
-            <Eye className='w-6 h-6' />
+            <Eye />
           </Button>
           <Button variant={'icon'} size={'icon'} onClick={() => {}} asChild>
-            <ShoppingCart className='h-6 w-6' />
+            <ShoppingCart />
           </Button>
         </div>
       </div>

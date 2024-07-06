@@ -5,11 +5,17 @@ import { LocaleCodeName } from '@/interface/LocaleCodeName'
 import commonEN from '../locales/common/en.json'
 import commonVI from '../locales/common/vi.json'
 
+import commonCardEN from '../locales/site/commonCard/en.json'
+import commonCardVI from '../locales/site/commonCard/vi.json'
+
 import signInEN from '../locales/auth/signin/en.json'
 import signInVI from '../locales/auth/signin/vi.json'
 
 import signUpEN from '../locales/auth/signup/en.json'
 import signUpVI from '../locales/auth/signup/vi.json'
+
+import homeEN from '../locales/site/home/en.json'
+import homeVI from '../locales/site/home/vi.json'
 
 export const currentLocales: LocaleCodeName[] = [
   { code: 'vi', name: 'Tiếng Việt' },
@@ -19,13 +25,17 @@ export const currentLocales: LocaleCodeName[] = [
 export const localizationResources = {
   en: {
     common: commonEN,
+    commonCard: commonCardEN,
     singin: signInEN,
-    singup: signUpEN
+    singup: signUpEN,
+    home: homeEN
   },
   vi: {
     common: commonVI,
+    commonCard: commonCardVI,
     singin: signInVI,
-    singup: signUpVI
+    singup: signUpVI,
+    home: homeVI
   }
 } as const
 

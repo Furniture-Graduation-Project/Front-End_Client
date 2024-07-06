@@ -1,0 +1,50 @@
+{
+  "home": {
+    "banner": {
+      "headline1": "Simply Unique",
+      "headline2": "Simply Better",
+      "description": "is an interior design and decoration company based in Hanoi,",
+      "location": "Vietnam. Est since 2019."
+    },
+    "bannerGrid": {
+      "livingRoom": "Living Room",
+      "bedroom": "Bedroom",
+      "kitchen": "Kitchen",
+      "shopNow": "Shop Now"
+    },
+    "carousel": {
+      "newArrivals": {
+        "line1": "New",
+        "line2": "Arrivals"
+      },
+      "moreProducts": "More Products"
+    },
+    "values": {
+      "freeShipping": "Free Shipping",
+      "freeShippingDescription": "Order above $200",
+      "moneyBack": "Money-back",
+      "moneyBackDescription": "30 days guarantee",
+      "securePayments": "Secure Payments",
+      "securePaymentsDescription": "Secured by Stripe",
+      "support": "24/7 Support",
+      "supportDescription": "Phone and Email support"
+    },
+    "sale": {
+      "title": "SALE UP TO 35% OFF",
+      "headline1": "HUNDREDS of",
+      "headline2": "New lower prices!",
+      "description": "It’s more affordable than ever to give every room in your home a stylish makeover.",
+      "shopNow": "Shop Now"
+    },
+    "articles": {
+      "title": "Articles",
+      "moreArticles": "More Articles"
+    },
+    "newsletter": {
+      "join": "Join Our Newsletter",
+      "signupText": "Sign up for deals, new products and promotions",
+      "emailPlaceholder": "Email address",
+      "signupButton": "Signup"
+    }
+  }
+}
