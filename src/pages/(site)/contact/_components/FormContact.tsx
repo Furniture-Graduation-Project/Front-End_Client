@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { useState } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -16,6 +17,7 @@ const formSchema = z.object({
 type ContactFormValue = z.infer<typeof formSchema>
 
 const FormContact = () => {
+  const { t } = useTranslate('contact.formContact')
   const [loading, setLoading] = useState(false)
 
   const form = useForm<ContactFormValue>({
@@ -48,9 +50,9 @@ const FormContact = () => {
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel>{t('name')}</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='Your Name' />
+                    <Input {...field} placeholder={t('namePlaceholder')} />
                   </FormControl>
                 </FormItem>
               )}
@@ -60,9 +62,9 @@ const FormContact = () => {
               name='email'
               render={({ field }) => (
                 <FormItem className='mt-4'>
-                  <FormLabel>Email Address</FormLabel>
+                  <FormLabel>{t('email')}</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='Your Email' />
+                    <Input {...field} placeholder={t('emailPlaceholder')} />
                   </FormControl>
                 </FormItem>
               )}
@@ -72,15 +74,15 @@ const FormContact = () => {
               name='message'
               render={({ field }) => (
                 <FormItem className='mt-4'>
-                  <FormLabel>Message</FormLabel>
+                  <FormLabel>{t('message')}</FormLabel>
                   <FormControl>
-                    <Textarea className='h-[140px]' {...field} placeholder='Your Message' />
+                    <Textarea className='h-[140px]' {...field} placeholder={t('messagePlaceholder')} />
                   </FormControl>
                 </FormItem>
               )}
             ></FormField>
-            <Button type='submit' className='mt-4 sm:px-0 px-8' disabled={loading}>
-              Send Message
+            <Button type='submit' className='mt-4 px-8' disabled={loading}>
+              {t('button')}
             </Button>
           </form>
         </Form>

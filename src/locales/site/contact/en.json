@@ -7,6 +7,32 @@
     "headerContent": {
       "headerText": "We believe in sustainable decor. We’re passionate about life at home.",
       "contentText": "Our features timeless furniture, with natural fabrics, curved lines, plenty of mirrors and classic design, which can be incorporated into any decor project. The pieces enchant for their sobriety, to last for generations, faithful to the shapes of each period, with a touch of the present"
+    },
+    "featureSection": {
+      "title": "About Us",
+      "text1": "3legant is a gift & decorations store based in HCMC,",
+      "text2": "Vietnam. Est since 2019.",
+      "text3": "Our customer service is always prepared to",
+      "text4": "support you 24/7.",
+      "link": "Shop now"
+    },
+    "contactSection": {
+      "title": "Contact Us",
+      "elementTitle1": "Address",
+      "elementContent1": "234 Hai Trieu, Ho Chi Minh City, Viet Nam",
+      "elementTitle2": "Contact Us",
+      "elementContent2": "+84 234 567 890",
+      "elementTitle3": "Email",
+      "elementContent3": "hello@3legant.com"
+    },
+    "formContact": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "message": "Message",
+      "namePlaceholder": "Your Name",
+      "emailPlaceholder": "Your Email",
+      "messagePlaceholder": "Your Message",
+      "button": "Send Message"
     }
   }
 }

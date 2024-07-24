@@ -7,6 +7,32 @@
     "headerContent": {
       "headerText": "Chúng tôi tin vào thiết kế nội thất bền vững và đam mê tạo ra không gian sống đẹp, thoải mái cho ngôi nhà của bạn.",
       "contentText": "Cửa hàng của chúng tôi cung cấp các sản phẩm nội thất mang phong cách cổ điển, với chất liệu tự nhiên, các đường cong, nhiều gương và thiết kế cổ điển, có thể kết hợp vào bất kỳ dự án trang trí nào. Các sản phẩm của chúng tôi gây ấn tượng với sự đơn giản, để tồn tại qua nhiều thế hệ, trung thành với hình dạng của mỗi thời kỳ, với một chút hiện đại."
+    },
+    "featureSection": {
+      "title": "Về chúng tôi",
+      "text1": "3legant là cửa hàng quà tặng và trang trí có trụ sở tại TP.HCM,",
+      "text2": "Việt Nam. Thành lập từ năm 2019.",
+      "text3": "Dịch vụ khách hàng của chúng tôi luôn sẵn sàng",
+      "text4": "hỗ trợ bạn 24/7.",
+      "link": "Mua ngay"
+    },
+    "contactSection": {
+      "title": "Liên hệ với chúng tôi",
+      "elementTitle1": "Địa chỉ",
+      "elementContent1": "234 Hai Trieu, Thành phố Hồ Chí Minh, Việt Nam",
+      "elementTitle2": "Liên hệ",
+      "elementContent2": "+84 234 567 890",
+      "elementTitle3": "Email",
+      "elementContent3": "hello@3legant.com"
+    },
+    "formContact": {
+      "name": "Họ tên",
+      "email": "Email",
+      "message": "Tin nhắn",
+      "namePlaceholder": "Họ tên...",
+      "emailPlaceholder": "Email...",
+      "messagePlaceholder": "Tin nhắn...",
+      "button": "Gửi"
     }
   }
 }
