@@ -17,7 +17,7 @@ const Sale = () => {
             <h1 className='headline-5 sm:headline-4 leading-tight mb-3 tracking-wider'>
               {t('headline1')} <br className='sm:block hidden' /> {t('headline2')}
             </h1>
-            <p className='body-1 mb-6 tracking-wider'>{t('description')}</p>
+            <p className='body-1 mb-6 tracking-wider sm:w-[472px]'>{t('description')}</p>
             <div className='underline flex items-center transition duration-500 ease-in-out transform hover:translate-x-2 hover:opacity-70 '>
               <Link className='button-s' to=''>
                 {t('shopNow')}

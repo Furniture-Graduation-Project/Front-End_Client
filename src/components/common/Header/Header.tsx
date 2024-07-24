@@ -1,25 +1,48 @@
-import { useState } from 'react'
-import { Search } from 'lucide-react'
+import Container from '@/components/Container'
 import { CommandDialog, CommandEmpty, CommandInput, CommandList } from '@/components/ui/command'
 import { NavigationMenu } from '@/components/ui/navigation-menu'
+import { Search } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import BrandLink from '../BrandLink'
-import NotificationBar from './NotificationBar'
-import MenuHeader from './MenuHeader'
 import CartHeader from './CartHeader'
-import UserMenu from './UserMenu'
-import NavigationLinks from './NavigationLinks'
 import LanguageMenu from './LanguageMenu'
+import MenuHeader from './MenuHeader'
+import NavigationLinks from './NavigationLinks'
+import NotificationBar from './NotificationBar'
+import UserMenu from './UserMenu'
 
 const Header = () => {
   const [search, setSearch] = useState(false)
+  const [showNotification, setShowNotification] = useState(true)
+  const [isSticky, setIsSticky] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsSticky(true)
+      } else {
+        setIsSticky(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   return (
     <>
-      <NotificationBar />
-      <div className='w-auto mx-auto container'>
-        <header className='bg-white'>
-          <nav className='mx-auto flex items-center justify-between py-6 ' aria-label='Global'>
-            <div className='flex lg:flex-1 items-center '>
+      {showNotification && <NotificationBar setShow={setShowNotification} />}
+      <header
+        className={`bg-white transition-all duration-300 ease-in-out transform ${
+          isSticky ? 'fixed top-0 left-0 right-0 shadow-lg z-50 translate-y-0 opacity-90' : ''
+        }`}
+      >
+        <Container className='px-8'>
+          <nav className='mx-auto flex items-center justify-between py-4 lg:py-6' aria-label='Global'>
+            <div className='flex lg:flex-1 items-center'>
               <MenuHeader />
               <BrandLink color />
             </div>
@@ -27,7 +50,7 @@ const Header = () => {
             <NavigationMenu className='hidden lg:flex lg:gap-x-12'>
               <NavigationLinks />
             </NavigationMenu>
-            <div className='hidden lg:flex lg:flex-1 lg:justify-end lg:items-center space-x-5 button-xs'>
+            <div className='hidden lg:flex lg:flex-1 lg:justify-end lg:items-center space-x-5'>
               <Search className='hover:cursor-pointer' onClick={() => setSearch(true)} />
               <CommandDialog open={search} onOpenChange={setSearch}>
                 <CommandInput placeholder='Type a command or search...' />
@@ -35,13 +58,13 @@ const Header = () => {
                   <CommandEmpty>No results found.</CommandEmpty>
                 </CommandList>
               </CommandDialog>
-              <LanguageMenu></LanguageMenu>
+              <LanguageMenu />
               <UserMenu />
               <CartHeader mobile={false} />
             </div>
           </nav>
-        </header>
-      </div>
+        </Container>
+      </header>
     </>
   )
 }

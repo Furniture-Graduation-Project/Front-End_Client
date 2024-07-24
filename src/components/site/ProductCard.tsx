@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ProductImage } from '@/assets'
 import { Button } from '@/components/ui/button'
 import { useTranslate } from '@/hooks/useTranslate'
+import IconButton from '@/components/ui/icon-button'
 
 const ProductCard = () => {
   const { t } = useTranslate('productCard')
@@ -20,21 +21,26 @@ const ProductCard = () => {
         <div className='absolute top-14 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-green text-white'>
           -50%
         </div>
-        <Button
-          variant={'icon'}
-          size={'icon'}
-          className='absolute top-6 right-4 p-[6px] hover:bg-red hover:text-white '
-        >
+        <IconButton
+          className='absolute top-5 right-5 p-[6px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 hover:bg-red hover:text-white'
+          onClick={() => {}}
+          icon={<Heart className='h-5 w-5' size={12} />}
+        />
+        {/* <Button variant={'icon'} size={'icon'} className='absolute top-6 right-4 p-[6px] hover:bg-red hover:text-white'>
           <Heart />
-        </Button>
+        </Button> */}
 
         <div className='flex absolute left-0 right-0 bottom-6 items-center gap-x-20 justify-center'>
-          <Button variant={'icon'} size={'icon'} onClick={() => {}} asChild>
-            <Eye />
-          </Button>
-          <Button variant={'icon'} size={'icon'} onClick={() => {}} asChild>
-            <ShoppingCart />
-          </Button>
+          <IconButton
+            className='opacity-0 group-hover:translate-y-0 group-hover:opacity-100'
+            onClick={() => {}}
+            icon={<Eye className='h-6 w-6' size={15} />}
+          />
+          <IconButton
+            className='opacity-0 group-hover:translate-y-0 group-hover:opacity-100'
+            onClick={() => {}}
+            icon={<ShoppingCart className='h-6 w-6' size={15} />}
+          />
         </div>
       </div>
       <div className='*:my-3'>

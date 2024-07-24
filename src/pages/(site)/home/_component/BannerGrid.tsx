@@ -8,7 +8,7 @@ const BannerGrid = () => {
   const { t } = useTranslate('home.bannerGrid')
 
   return (
-    <Container>
+    <Container className='px-8'>
       <div className='grid grid-cols-1 lg:grid-cols-2 lg:grid-flow-col gap-7 *:bg-neutral-2 '>
         <div className='row-span-3 h-auto sm:h-[784px] relative rounded-xl'>
           <div className='absolute top-[48px] left-[48px] space-y-2'>

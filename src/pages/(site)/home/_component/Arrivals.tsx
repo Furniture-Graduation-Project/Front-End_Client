@@ -11,15 +11,15 @@ export function CarouselSize() {
 
   return (
     <>
-      <Container>
+      <Container className='px-8'>
         <div className='flex justify-between *:font-medium mb-12 mt-9'>
           <div className='headline-4'>
             <h1>
               {t('newArrivals.line1', 'New')} <br /> {t('newArrivals.line2', 'Arrivals')}
             </h1>
           </div>
-          <div className='flex items-center transition duration-500 ease-in-out transform hover:-translate-x-1 hover:opacity-70'>
-            <Link to={''} className='underline'>
+          <div className='sm:flex hidden  items-center transition duration-500 ease-in-out transform hover:-translate-x-1 hover:opacity-70'>
+            <Link to={''} className='underline '>
               {t('moreProducts', 'More Products')}
             </Link>
             <ArrowRight className='h-4' />

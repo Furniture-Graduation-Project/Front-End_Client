@@ -38,15 +38,17 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
     }
   }
   return (
-    <div className={`flex items-center ${mobile ? 'lg:hidden' : 'hidden lg:flex'}`}>
+    <div className={`items-center ${mobile ? 'lg:hidden' : 'hidden lg:flex'}`}>
       <div className='z-30 flex h-14 items-center bg-background sm:h-auto sm:border-0'>
         <Sheet>
           <SheetTrigger asChild>
-            <Button size='icon' variant='ghost' className='hover:bg-inherit block'>
+            <Button size='icon' variant='ghost' className='hover:bg-inherit w-auto'>
               <ShoppingBag />
               <span className='sr-only'>Toggle Menu</span>
             </Button>
           </SheetTrigger>
+          <div className='rounded-full bg-black text-white w-[20px] h-[20px] text-center leading-[20px] ml-1'>2</div>
+
           <SheetContent
             side='right'
             className='w-screen max-w-md fixed flex flex-col justify-between bg-white rounded-lg'

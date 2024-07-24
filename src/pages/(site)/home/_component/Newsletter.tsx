@@ -9,7 +9,7 @@ const Newsletter = () => {
       <div className='relative mt-[74px] h-[300px] md:h-[300px] bg-neutral-2 lg:h-auto'>
         <img src='src/assets/images/footer.png' alt='' className='hidden lg:block' />
         <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center tracking-wider'>
-          <h1 className='headline-5 sm:headline-4'>{t('join')}</h1>
+          <h1 className='headline-5 sm:headline-4 mb-3'>{t('join')}</h1>
           <p className='text-[14px] sm:text-[18px] text-[#141718]'>{t('signupText')}</p>
           <div className='flex md:justify-around lg:justify-between items-center border-b-neutral-4 border-t-0 border border-r-0 border-l-0 mt-5 pb-3'>
             <Mail className='h-6 w-6' strokeWidth={1} />

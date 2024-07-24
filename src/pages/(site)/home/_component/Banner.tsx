@@ -1,9 +1,9 @@
 import Autoplay from 'embla-carousel-autoplay'
 import * as React from 'react'
 
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { BannerImage2, BannerImage3 } from '@/assets'
 import Container from '@/components/Container'
-import { BannerImage } from '@/assets'
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { useTranslate } from '@/hooks/useTranslate'
 
 const Banner = () => {
@@ -12,7 +12,7 @@ const Banner = () => {
 
   return (
     <>
-      <Container>
+      <Container className='px-8'>
         <Carousel
           plugins={[plugin.current]}
           className='w-full'
@@ -21,15 +21,15 @@ const Banner = () => {
         >
           <CarouselContent>
             <CarouselItem>
-              <img src={BannerImage} alt='' className='w-full sm:h-auto h-[300px] object-cover rounded-lg' />
+              <img src={BannerImage2} alt='' className='w-full sm:h-auto h-[300px] object-cover rounded-lg' />
             </CarouselItem>
             <CarouselItem>
-              <img src={BannerImage} alt='' className='w-full sm:h-auto h-[300px] object-cover rounded-lg' />
+              <img src={BannerImage3} alt='' className='w-full sm:h-auto h-[300px] object-cover rounded-lg' />
             </CarouselItem>
           </CarouselContent>
         </Carousel>
         <div className='lg:grid lg:grid-cols-2 lg:gap-3 flex-col my-8'>
-          <div className='sm:headline-4 headline-7 '>
+          <div className='sm:headline-2 headline-4'>
             <h1>
               {t('headline1', 'Simply Unique')} <span className='text-neutral-4'>/</span>
             </h1>
@@ -38,11 +38,11 @@ const Banner = () => {
               <span className='text-neutral-4'>.</span>
             </h1>
           </div>
-          <div className='text-neutral-4 lg:m-auto tracking-wider my-5 text-[12px] sm:body-2'>
-            <p className=''>
-              <b className='text-neutral-5'>3legant</b>{' '}
-              {t('description', 'is an interior design and decoration company based in Hanoi, ')}
-              {t('location', 'Vietnam. Est since 2019.')}
+          <div className='text-neutral-4 lg:m-auto tracking-wider my-5 text-[12px] sm:body-2 sm:w-[424px]'>
+            <p>
+              <b className='text-neutral-5 mr-1'>3legant</b>
+              {t('description', ' is an interior design and decoration company based in Hanoi, ')}
+              {t('location', ' Vietnam. Est since 2019.')}
             </p>
           </div>
         </div>
