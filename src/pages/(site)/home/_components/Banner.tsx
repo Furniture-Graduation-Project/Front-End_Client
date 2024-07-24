@@ -12,7 +12,7 @@ const Banner = () => {
 
   return (
     <>
-      <Container className='px-8'>
+      <Container className='sm:px-0 px-8 relative z-10'>
         <Carousel
           plugins={[plugin.current]}
           className='w-full'

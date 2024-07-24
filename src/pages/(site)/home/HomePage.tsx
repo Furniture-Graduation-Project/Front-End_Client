@@ -1,10 +1,10 @@
-import { CarouselSize } from './_component/Arrivals'
-import Articles from './_component/Articles'
-import Banner from './_component/Banner'
-import BannerGrid from './_component/BannerGrid'
-import Newsletter from './_component/Newsletter'
-import Sale from './_component/Sale'
-import Values from './_component/Values'
+import { CarouselSize } from './_components/Arrivals'
+import Articles from './_components/Articles'
+import Banner from './_components/Banner'
+import BannerGrid from './_components/BannerGrid'
+import Newsletter from './_components/Newsletter'
+import Sale from './_components/Sale'
+import Values from './_components/Values'
 
 const HomePage = () => {
   return (
@@ -12,7 +12,7 @@ const HomePage = () => {
       <Banner />
       <BannerGrid />
       <CarouselSize />
-      <Values />
+      <Values bgColor='' />
       <Sale />
       <Articles />
       <Newsletter />

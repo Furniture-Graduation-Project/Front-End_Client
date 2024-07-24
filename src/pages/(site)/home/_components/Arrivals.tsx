@@ -11,7 +11,7 @@ export function CarouselSize() {
 
   return (
     <>
-      <Container className='px-8'>
+      <Container className='sm:px-0 px-8'>
         <div className='flex justify-between *:font-medium mb-12 mt-9'>
           <div className='headline-4'>
             <h1>

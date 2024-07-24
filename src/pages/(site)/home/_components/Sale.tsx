@@ -7,7 +7,7 @@ const Sale = () => {
 
   return (
     <>
-      <div className='grid md:grid-cols-1 lg:grid-cols-2 gap-0 w-full'>
+      <div className='grid md:grid-cols-1 lg:grid-cols-2 gap-0 w-full mt-[74px]'>
         <div className=''>
           <img src='src/assets/images/4.png' alt='' />
         </div>

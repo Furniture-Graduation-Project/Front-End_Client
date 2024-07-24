@@ -18,18 +18,11 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsSticky(true)
-      } else {
-        setIsSticky(false)
-      }
+      setIsSticky(window.scrollY > 50)
     }
 
     window.addEventListener('scroll', handleScroll)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
@@ -37,10 +30,10 @@ const Header = () => {
       {showNotification && <NotificationBar setShow={setShowNotification} />}
       <header
         className={`bg-white transition-all duration-300 ease-in-out transform ${
-          isSticky ? 'fixed top-0 left-0 right-0 shadow-lg z-50 translate-y-0 opacity-90' : ''
+          isSticky ? 'fixed top-0 left-0 right-0 shadow-lg z-50 opacity-90' : 'relative z-50'
         }`}
       >
-        <Container className='px-8'>
+        <Container className='sm:px-0 px-8'>
           <nav className='mx-auto flex items-center justify-between py-4 lg:py-6' aria-label='Global'>
             <div className='flex lg:flex-1 items-center'>
               <MenuHeader />
