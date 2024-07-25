@@ -20,6 +20,9 @@ import homeVI from '../locales/site/home/vi.json'
 import contactEN from '../locales/site/contact/en.json'
 import contactVI from '../locales/site/contact/vi.json'
 
+import cartEN from '../locales/site/cart/en.json'
+import cartVI from '../locales/site/cart/vi.json'
+
 export const currentLocales: LocaleCodeName[] = [
   { code: 'vi', name: 'Tiếng Việt' },
   { code: 'en', name: 'English' }
@@ -32,7 +35,8 @@ export const localizationResources = {
     singin: signInEN,
     singup: signUpEN,
     home: homeEN,
-    contact: contactEN
+    contact: contactEN,
+    cart: cartEN
   },
   vi: {
     common: commonVI,
@@ -40,7 +44,8 @@ export const localizationResources = {
     singin: signInVI,
     singup: signUpVI,
     home: homeVI,
-    contact: contactVI
+    contact: contactVI,
+    cart: cartVI
   }
 } as const
 

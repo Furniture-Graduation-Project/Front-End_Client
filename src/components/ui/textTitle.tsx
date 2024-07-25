@@ -1,13 +1,17 @@
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+import { useTranslate } from '@/hooks/useTranslate'
 import { cn } from '@/utils/classUtils'
 import { Check } from 'lucide-react'
 import React from 'react'
-interface CartTitleProps {
+
+interface TextTitleProps {
   checkout?: boolean
   order?: boolean
   title: string
 }
-const CheckoutTitle: React.FC<CartTitleProps> = ({ checkout, order, title }) => {
+
+const TextTitle: React.FC<TextTitleProps> = ({ checkout, order, title }) => {
+  const { t } = useTranslate('cart.textTitle')
   return (
     <>
       <h1 className='font-medium text-[54px] text-center mb-10 my-20'>{title}</h1>
@@ -37,7 +41,7 @@ const CheckoutTitle: React.FC<CartTitleProps> = ({ checkout, order, title }) => 
                 >
                   {checkout || order ? <Check size={24} /> : '1'}
                 </div>
-                <p className={cn(`font-semibold`, checkout || order ? 'text-[#38CB89]' : '')}>Shopping Cart</p>
+                <p className={cn(`font-semibold`, checkout || order ? 'text-[#38CB89]' : '')}>{t('shop')}</p>
               </div>
             </div>
           </CarouselItem>
@@ -66,7 +70,7 @@ const CheckoutTitle: React.FC<CartTitleProps> = ({ checkout, order, title }) => 
                     order ? 'text-[#38CB89]' : ''
                   )}
                 >
-                  Checkout Details
+                  {t('checkoutDetail')}
                 </p>
               </div>
             </div>
@@ -82,7 +86,7 @@ const CheckoutTitle: React.FC<CartTitleProps> = ({ checkout, order, title }) => 
                 >
                   3
                 </div>
-                <p className={cn(`font-semibold`, order ? 'text-black' : 'text-[#B1B5C3]')}>Order Complete</p>
+                <p className={cn(`font-semibold`, order ? 'text-black' : 'text-[#B1B5C3]')}>{t('orderComplete')}</p>
               </div>
             </div>
           </CarouselItem>
@@ -92,4 +96,4 @@ const CheckoutTitle: React.FC<CartTitleProps> = ({ checkout, order, title }) => 
   )
 }
 
-export default CheckoutTitle
+export default TextTitle

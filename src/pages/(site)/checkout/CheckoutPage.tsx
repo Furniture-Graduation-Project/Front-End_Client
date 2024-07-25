@@ -1,5 +1,5 @@
 import Container from '@/components/Container'
-import CheckoutTitle from '@/components/ui/checkoutTitle'
+import CheckoutTitle from '@/components/ui/textTitle'
 import Checkout from './_components/Checkout'
 
 const CheckoutPage = () => {

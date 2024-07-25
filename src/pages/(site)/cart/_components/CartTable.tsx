@@ -1,17 +1,19 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { useTranslate } from '@/hooks/useTranslate'
 import { Minus, Plus, X } from 'lucide-react'
 
 const CartTable = () => {
+  const { t } = useTranslate('cart.cartTable')
   return (
     <>
       <Table>
         <TableHeader className='w-full'>
           <TableRow className='*:text-black *:font-semibold w-full'>
-            <TableHead className='w-[420px] lg:p-4 px-0'>Product</TableHead>
+            <TableHead className='w-[420px] lg:p-4 px-0'>{t('product')}</TableHead>
             <TableHead className='sm:hidden'></TableHead>
-            <TableHead className='hidden sm:table-cell'>Quantity</TableHead>
-            <TableHead className='hidden sm:table-cell'>Price</TableHead>
-            <TableHead className='hidden sm:table-cell'>Subtotal</TableHead>
+            <TableHead className='hidden sm:table-cell'>{t('quantity')}</TableHead>
+            <TableHead className='hidden sm:table-cell'>{t('price')}</TableHead>
+            <TableHead className='hidden sm:table-cell'>{t('subtotal')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -29,7 +31,7 @@ const CartTable = () => {
                     <p className='text-[12px] text-[#6C7275]'>Color: Black</p>
                     <button className='hidden sm:flex items-center gap-1 *:text-[#605F5F] '>
                       <X size={24} />
-                      <p className='font-semibold text-[14px]'>Remove</p>
+                      <p className='font-semibold text-[14px]'>{t('action')}</p>
                     </button>
                     <div className='w-20 justify-center flex items-center border sm:hidden border-black rounded-lg py-1.5'>
                       <button>
