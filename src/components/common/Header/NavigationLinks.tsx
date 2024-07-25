@@ -2,10 +2,13 @@ import {
   NavigationMenuItem,
   NavigationMenuTrigger,
   NavigationMenuContent,
-  NavigationMenuList
+  NavigationMenuList,
+  NavigationMenuLink
 } from '@/components/ui/navigation-menu'
 import NavigationLink from './NavigationLink'
 import { useTranslate } from '@/hooks/useTranslate'
+import { Link } from 'react-router-dom'
+import { cn } from '@/utils/classUtils'
 
 const components = [
   {
@@ -56,7 +59,17 @@ const NavigationLinks = () => {
           <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]'>
             {components.map((component, index) => (
               <li key={index}>
-                <NavigationLink description={component.description} title={component.title} to={component.to} />
+                <NavigationMenuLink className='hover:bg-neutral-100' asChild>
+                  <Link
+                    to={component.to}
+                    className={cn(
+                      'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors  hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground'
+                    )}
+                  >
+                    <div className='text-sm font-medium leading-none'>{component.title}</div>
+                    <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>{component.description}</p>
+                  </Link>
+                </NavigationMenuLink>
               </li>
             ))}
           </ul>

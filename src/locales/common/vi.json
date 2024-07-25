@@ -1,7 +1,8 @@
 {
   "header": {
     "notificationBar": {
-      "notification": "Giảm giá 30% toàn cửa hàng — Thời gian có hạn!",
+      "notification": "Giảm giá 30% toàn cửa hàng ",
+      "notification2": " — Thời gian có hạn!",
       "shopNow": "Mua Ngay"
     },
     "menuHeader": {

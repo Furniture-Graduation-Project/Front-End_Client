@@ -24,7 +24,8 @@ const NotificationBar: React.FC<NotificationBarProps> = ({ setShow }) => {
     >
       <div className='flex justify-center items-center mr-4'>
         <TicketPercent className='mr-2 h-auto' />
-        <span className='text-[12px] sm:caption-1-semi'>{t('notification')} </span>
+        <span className='text-[12px] sm:caption-1-semi'>{t('notification')}</span>
+        <span className='hidden sm:flex text-[12px] sm:caption-1-semi ml-1'>{t('notification2')}</span>
       </div>
       <div className='hidden md:flex justify-center items-center button-xs underline text-blue'>
         <Link className='mr-1' to=''>

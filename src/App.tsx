@@ -2,6 +2,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import routes from '@/routes'
 import ScrollToTopButton from '@/components/ui/ScrollToTopButton'
+import { Toaster } from '@/components/ui/toaster'
 const App = () => {
   const location = useLocation()
 
@@ -22,6 +23,7 @@ const App = () => {
           ))}
         </Routes>
       </AnimatePresence>
+      <Toaster />
       <ScrollToTopButton />
     </>
   )
