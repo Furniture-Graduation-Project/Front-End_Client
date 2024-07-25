@@ -11,8 +11,8 @@ const NavigationLink = (link: { title: string; to: string; description?: string 
       <div
         className={
           link.description
-            ? 'block text-[15px] font-semibold select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foregroun'
-            : cn(navigationMenuTriggerStyle(), 'font-semibold')
+            ? 'block text-[15px] font-semibold select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground bg-opacity-0'
+            : cn(navigationMenuTriggerStyle(), 'font-semibold bg-opacity-0')
         }
       >
         <div>{link.title}</div>

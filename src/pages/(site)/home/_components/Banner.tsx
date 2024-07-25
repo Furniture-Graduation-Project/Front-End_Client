@@ -1,7 +1,7 @@
 import Autoplay from 'embla-carousel-autoplay'
 import * as React from 'react'
 
-import { BannerImage2, BannerImage3 } from '@/assets'
+import { BannerImage2, BannerImage3, BannerImage4 } from '@/assets'
 import Container from '@/components/Container'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { useTranslate } from '@/hooks/useTranslate'
@@ -25,6 +25,9 @@ const Banner = () => {
             </CarouselItem>
             <CarouselItem>
               <img src={BannerImage3} alt='' className='w-full sm:h-auto h-[300px] object-cover rounded-lg' />
+            </CarouselItem>
+            <CarouselItem>
+              <img src={BannerImage4} alt='' className='w-full sm:h-auto h-[300px] object-cover rounded-lg' />
             </CarouselItem>
           </CarouselContent>
         </Carousel>

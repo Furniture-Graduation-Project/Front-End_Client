@@ -12,6 +12,9 @@ module.exports = {
   prefix: '',
   theme: {
     extend: {
+      fontFamily: {
+        serif: ['Playfair Display', 'Georgia', 'serif']
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
@@ -75,8 +78,16 @@ module.exports = {
           95: 'rgba(20, 23, 24, 0.95)',
           50: 'rgba(20, 23, 24, 0.5)'
         }
+      },
+      backdropBlur: {
+        xs: '2px',
+        sm: '4px',
+        md: '8px',
+        lg: '12px',
+        xl: '16px',
+        '2xl': '24px'
       }
     }
   },
-  plugins: [require('tailwindcss-animate')]
+  plugins: [require('tailwindcss-filters'), require('tailwindcss-animate')]
 }
