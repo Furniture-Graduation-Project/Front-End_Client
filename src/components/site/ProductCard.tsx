@@ -30,10 +30,14 @@ const ProductCard = () => {
 
         <div className='flex absolute left-0 right-0 bottom-6 items-center gap-x-20 justify-center'>
           <Button variant={'icon'} size={'icon'} onClick={() => {}} asChild>
-            <Eye />
+            <div>
+              <Eye />
+            </div>
           </Button>
           <Button variant={'icon'} size={'icon'} onClick={() => {}} asChild>
-            <ShoppingCart />
+            <div className=''>
+              <ShoppingCart />
+            </div>
           </Button>
         </div>
       </div>

@@ -1,4 +1,3 @@
-import Container from '@/components/Container'
 import Footer from '@/components/common/Footer'
 import Header from '@/components/common/Header/Header'
 
@@ -8,9 +7,9 @@ interface MainLayoutProps {
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <>
-      <Header></Header>
-      <Container>{children}</Container>
-      <Footer></Footer>
+      <Header />
+      {children}
+      <Footer />
     </>
   )
 }

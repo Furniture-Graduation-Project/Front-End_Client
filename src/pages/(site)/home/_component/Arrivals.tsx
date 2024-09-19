@@ -12,34 +12,34 @@ export function CarouselSize() {
   return (
     <>
       <Container>
-        <div className='flex justify-between *:font-medium mb-12 mt-9'>
-          <div className='headline-4'>
-            <h1>
-              {t('newArrivals.line1', 'New')} <br /> {t('newArrivals.line2', 'Arrivals')}
-            </h1>
-          </div>
-          <div className='flex items-center transition duration-500 ease-in-out transform hover:-translate-x-1 hover:opacity-70'>
-            <Link to={''} className='underline'>
-              {t('moreProducts', 'More Products')}
-            </Link>
-            <ArrowRight className='h-4' />
-          </div>
-        </div>
         <Carousel
           opts={{
             align: 'start'
           }}
-          className='w-full'
+          className='w-full relative'
         >
-          <CarouselContent className='-ml-[30px]'>
+          <div className='flex justify-between *:font-medium mb-12 mt-9'>
+            <div className='headline-4'>
+              <h1>
+                {t('newArrivals.line1', 'New')} <br /> {t('newArrivals.line2', 'Arrivals')}
+              </h1>
+            </div>
+            <div className='flex items-center transition duration-500 ease-in-out transform hover:-translate-x-1 hover:opacity-70'>
+              <Link to={''} className='underline'>
+                {t('moreProducts', 'More Products')}
+              </Link>
+              <ArrowRight className='h-4' />
+            </div>
+          </div>
+          <CarouselContent className='relative'>
             {Array.from({ length: 8 }).map((_, index) => (
-              <CarouselItem key={index} className='md:basis-1/2 lg:basis-1/4 pl-[30px]'>
+              <CarouselItem key={index} className='basis-1 md:basis-1/2 lg:basis-1/4 pl-[30px]'>
                 <ProductCard />
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className='hidden xl:flex' />
-          <CarouselNext className='hidden xl:flex' />
+          <CarouselPrevious className='hidden 2xl:flex absolute top-1/2 left-0 -translate-x-1/2' />
+          <CarouselNext className='hidden 2xl:flex absolute top-1/2 right-0 translate-x-1/2' />
         </Carousel>
         <Separator className='mt-[62px]' />
       </Container>
