@@ -33,7 +33,7 @@ export function CarouselSize() {
           </div>
           <CarouselContent className='relative'>
             {Array.from({ length: 8 }).map((_, index) => (
-              <CarouselItem key={index} className='basis-1 md:basis-1/2 lg:basis-1/4 pl-[30px]'>
+              <CarouselItem key={index} className='sm:basis-1/2 lg:basis-1/4 pl-[30px]'>
                 <ProductCard />
               </CarouselItem>
             ))}

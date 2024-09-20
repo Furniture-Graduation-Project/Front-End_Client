@@ -1,5 +1,6 @@
 import Footer from '@/components/common/Footer'
 import Header from '@/components/common/Header/Header'
+import NotificationBar from '@/components/common/NotificationBar'
 
 interface MainLayoutProps {
   children: React.ReactNode
@@ -7,6 +8,7 @@ interface MainLayoutProps {
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <>
+      <NotificationBar />
       <Header />
       {children}
       <Footer />

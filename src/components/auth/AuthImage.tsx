@@ -1,5 +1,5 @@
 import { Auth } from '@/assets'
-import BrandLink from '../common/BrandLink'
+import BrandLink from '../common/Header/_component/BrandLink'
 
 const AuthImage = () => {
   return (

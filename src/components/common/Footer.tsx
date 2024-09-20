@@ -1,14 +1,14 @@
 import { Facebook, Instagram, Youtube } from 'lucide-react'
 import { Link, NavLink } from 'react-router-dom'
 import Container from '../Container'
-import BrandLink from './BrandLink'
+import BrandLink from './Header/_component/BrandLink'
 import { useTranslate } from '@/hooks/useTranslate'
 
 const Footer = () => {
   const { t } = useTranslate('footer')
 
   return (
-    <div className='flex sm:h-[250px] h-auto bg-neutral-6 sm:bg-neutral-7 text-neutral-1 p-10 sm:p-0'>
+    <div className='flex sm:h-[250px] h-auto bg-neutral-6 sm:bg-neutral-7 text-neutral-1 p-5 sm:p-0'>
       <Container className='flex flex-col justify-center'>
         {/* Top Section */}
         <div className='flex sm:justify-between sm:flex-row flex-col items-center caption-1'>
