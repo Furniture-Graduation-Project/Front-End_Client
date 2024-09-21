@@ -1,0 +1,41 @@
+{
+  "checkout": {
+    "textTitle": {
+      "title": "Thủ tục thanh toán"
+    },
+    "form": {
+      "title1": "Thông Tin Liên Hệ",
+      "title2": "Địa Chỉ Giao Hàng",
+      "title3": "Phương Thức Thanh Toán",
+      "firstName": "Tên",
+      "lastName": "Họ",
+      "phone": "Số Điện Thoại",
+      "email": "Địa Chỉ Email",
+      "emailPlaceholder": "Email của bạn",
+      "street": "Địa Chỉ",
+      "country": "Quốc Gia",
+      "city": "Thị Trấn / Thành Phố",
+      "state": "Tỉnh / Bang",
+      "zip": "Mã Bưu Điện",
+      "checkbox": "Sử dụng địa chỉ thanh toán khác (tùy chọn)",
+      "paymentMethod1": "Thanh Toán Bằng Thẻ Tín Dụng",
+      "paymentMethod2": "Thanh Toán Bằng PayPal",
+      "cardNumber": "Số Thẻ",
+      "cardNumberPlaceholder": "1234 1234 1234",
+      "date": "NGÀY HẾT HẠN",
+      "cvc": "Mã CVC",
+      "cvcPlaceholder": "Mã CVC",
+      "submit": "Đặt Hàng"
+    },
+    "order": {
+      "title": "Tóm Tắt Đơn Hàng",
+      "coupon": "Mã Giảm Giá",
+      "button": "Áp Dụng",
+      "remove": "[Giảm Giá]",
+      "shipping": "Vận Chuyển",
+      "free": "Miễn Phí",
+      "subtotal": "Tổng Phụ",
+      "total": "Tổng Cộng"
+    }
+  }
+}

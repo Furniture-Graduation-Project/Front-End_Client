@@ -11,6 +11,9 @@ import ContactPage from '@/pages/(site)/contact/ContactPage'
 import HomePage from '@/pages/(site)/home/HomePage'
 import ShopPage from '@/pages/(site)/shop/ShopPage'
 import AccountPage from '@/pages/(user)/AccountPage'
+import AddressForm from '@/pages/(user)/Address/_components/AddressForm'
+import AddressDetailPage from '@/pages/(user)/Address/AddressDetail/page'
+import AddressPage from '@/pages/(user)/Address/page'
 
 const routes = [
   { path: '/signin', component: SignIn, layout: AuthLayout },
@@ -22,7 +25,10 @@ const routes = [
   { path: '/blog', component: BlogPage, layout: MainLayout },
   { path: '/about', component: AboutPage, layout: MainLayout },
   { path: '/contact', component: ContactPage, layout: MainLayout },
-  { path: '/account', component: AccountPage, layout: ProtectedLayout }
+  { path: '/account', component: AccountPage, layout: ProtectedLayout },
+  { path: '/account/settings/address', component: AddressPage, layout: MainLayout },
+  { path: '/account/settings/address/add', component: AddressForm, layout: MainLayout },
+  { path: '/account/settings/address/:id', component: AddressDetailPage, layout: MainLayout }
 ]
 
 export default routes

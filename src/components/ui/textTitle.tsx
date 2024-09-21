@@ -35,7 +35,7 @@ const TextTitle: React.FC<TextTitleProps> = ({ checkout, order, title }) => {
                   className={cn(
                     `w-10 h-10 rounded-full text-white mr-4`,
                     checkout || order
-                      ? 'bg-green-400 sm:flex items-center justify-center'
+                      ? 'bg-green sm:flex items-center justify-center'
                       : 'bg-black text-center leading-10'
                   )}
                 >
@@ -58,7 +58,7 @@ const TextTitle: React.FC<TextTitleProps> = ({ checkout, order, title }) => {
                   className={cn(
                     `w-10 h-10 rounded-full text-white text-center leading-10 mr-4`,
                     checkout ? 'bg-black' : 'bg-[#B1B5C3]',
-                    order ? 'bg-green-400 sm:flex items-center justify-center' : ''
+                    order ? 'bg-green sm:flex items-center justify-center' : ''
                   )}
                 >
                   {checkout ? '2' : order ? <Check size={24} /> : '2'}

@@ -10,6 +10,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/utils/classUtils'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const formSchema = z.object({
   firstName: z.string().min(1),
@@ -28,6 +29,8 @@ const formSchema = z.object({
 })
 
 const CheckoutForm = () => {
+  const { t } = useTranslate('checkout.form')
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,16 +59,18 @@ const CheckoutForm = () => {
         <form action='' onSubmit={form.handleSubmit(onSubmit)}>
           <div className='gap-y-6 flex flex-col'>
             <div className='px-6 py-10 border rounded-md flex flex-col gap-y-6 border-black'>
-              <h1 className='font-medium text-xl'>Contact Information</h1>
+              <h1 className='font-medium text-xl'>{t('title1')}</h1>
               <div className='grid grid-cols-2 gap-x-6'>
                 <FormField
                   control={form.control}
                   name='firstName'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className={cn(`uppercase text-[#6C7275] font-bold text-[12px]`)}>First Name</FormLabel>
+                      <FormLabel className={cn(`uppercase text-[#6C7275] font-bold text-[12px]`)}>
+                        {t('firstName')}
+                      </FormLabel>
                       <FormControl>
-                        <Input type='text' {...field} placeholder='First name' />
+                        <Input type='text' {...field} placeholder={t('firstName')} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -75,9 +80,9 @@ const CheckoutForm = () => {
                   name='lastName'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>Last Name</FormLabel>
+                      <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('lastName')}</FormLabel>
                       <FormControl>
-                        <Input type='text' {...field} placeholder='Last name' />
+                        <Input type='text' {...field} placeholder={t('lastName')} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -88,9 +93,9 @@ const CheckoutForm = () => {
                 name='phone'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>Phone Number</FormLabel>
+                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('phone')}</FormLabel>
                     <FormControl>
-                      <Input type='text' {...field} placeholder='Phone number' />
+                      <Input type='text' {...field} placeholder={t('phone')} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -100,24 +105,24 @@ const CheckoutForm = () => {
                 name='email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>Email Address</FormLabel>
+                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('email')}</FormLabel>
                     <FormControl>
-                      <Input type='email' {...field} placeholder='Your email' />
+                      <Input type='email' {...field} placeholder={t('emailPlaceholder')} />
                     </FormControl>
                   </FormItem>
                 )}
               ></FormField>
             </div>
             <div className='px-6 py-10 border border-black rounded-md flex flex-col gap-y-6'>
-              <h1 className='font-medium text-xl'>Shipping Address</h1>
+              <h1 className='font-medium text-xl'>{t('title2')}</h1>
               <FormField
                 control={form.control}
                 name='street'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>Street Address *</FormLabel>
+                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('street')}</FormLabel>
                     <FormControl>
-                      <Input type='text' {...field} placeholder='Street address' />
+                      <Input type='text' {...field} placeholder={t('street')} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -127,7 +132,7 @@ const CheckoutForm = () => {
                 name='country'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>Country *</FormLabel>
+                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('country')}</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
@@ -148,9 +153,9 @@ const CheckoutForm = () => {
                 name='city'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>Town / City</FormLabel>
+                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('city')}</FormLabel>
                     <FormControl>
-                      <Input type='text' {...field} placeholder='Town / City' />
+                      <Input type='text' {...field} placeholder={t('city')} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -161,9 +166,9 @@ const CheckoutForm = () => {
                   name='state'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>State</FormLabel>
+                      <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('state')}</FormLabel>
                       <FormControl>
-                        <Input type='text' {...field} placeholder='State' />
+                        <Input type='text' {...field} placeholder={t('state')} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -173,9 +178,9 @@ const CheckoutForm = () => {
                   name='zip'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>Zip Code</FormLabel>
+                      <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('zip')}</FormLabel>
                       <FormControl>
-                        <Input type='text' {...field} placeholder='Zip Code' />
+                        <Input type='text' {...field} placeholder={t('zip')} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -187,12 +192,12 @@ const CheckoutForm = () => {
                   htmlFor='terms'
                   className='font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
                 >
-                  Use a different billing address (optional)
+                  {t('checkbox')}
                 </label>
               </div>
             </div>
             <div className='px-6 py-10 border border-black rounded-md flex flex-col gap-y-6'>
-              <h1 className='font-medium text-xl'>Payment Method</h1>
+              <h1 className='font-medium text-xl'>{t('title3')}</h1>
               <FormField
                 control={form.control}
                 name='payment'
@@ -207,7 +212,7 @@ const CheckoutForm = () => {
                             <FormControl>
                               <RadioGroupItem value='credit' />
                             </FormControl>
-                            <FormLabel className='font-normal cursor-pointer'>Pay by Card Credit</FormLabel>
+                            <FormLabel className='font-normal cursor-pointer'>{t('paymentMethod1')}</FormLabel>
                           </div>
 
                           <p className='text-right'>
@@ -219,7 +224,7 @@ const CheckoutForm = () => {
                             <FormControl>
                               <RadioGroupItem value='paypal' />
                             </FormControl>
-                            <FormLabel className='font-normal cursor-pointer'>Paypal</FormLabel>
+                            <FormLabel className='font-normal cursor-pointer'>{t('paymentMethod2')}</FormLabel>
                           </div>
                           <p className='text-right'>
                             <DollarSign size={24} strokeWidth={1.3} />
@@ -236,9 +241,9 @@ const CheckoutForm = () => {
                 name='cardNumber'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>Card Number</FormLabel>
+                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('cardNumber')}</FormLabel>
                     <FormControl>
-                      <Input type='text' {...field} placeholder='1234 1234 1234' />
+                      <Input type='text' {...field} placeholder={t('cardNumberPlaceholder')} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -249,9 +254,9 @@ const CheckoutForm = () => {
                   name='expirationDate'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>Expiration Date</FormLabel>
+                      <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('date')}</FormLabel>
                       <FormControl>
-                        <Input type='date' {...field} placeholder='Expiration date' />
+                        <Input type='date' {...field} placeholder={t('date')} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -261,9 +266,9 @@ const CheckoutForm = () => {
                   name='cvc'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>CVC</FormLabel>
+                      <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('cvc')}</FormLabel>
                       <FormControl>
-                        <Input type='number' {...field} placeholder='CVC Code' />
+                        <Input type='number' {...field} placeholder={t('cvcPlaceholder')} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -271,7 +276,7 @@ const CheckoutForm = () => {
               </div>
             </div>
             <Button variant={'default'} className='bg-black py-6' type='submit'>
-              Place Order
+              {t('submit')}
             </Button>
           </div>
         </form>
