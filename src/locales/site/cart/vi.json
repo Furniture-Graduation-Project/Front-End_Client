@@ -1,0 +1,30 @@
+{
+  "cart": {
+    "textTitle": {
+      "cart": "Giỏ hàng",
+      "shop": "Giỏ mua hàng",
+      "checkoutDetail": "Chi tiết thanh toán",
+      "orderComplete": "Hoàn tất đơn hàng"
+    },
+    "cartTable": {
+      "product": "Sản phẩm",
+      "quantity": "Số lượng",
+      "price": "Giá",
+      "subtotal": "Tạm tính",
+      "action": "Xóa"
+    },
+    "cartForm": {
+      "coupon": "Có mã giảm giá",
+      "couponPlaceholder": "Mã giảm giá",
+      "couponText": "Thêm mã của bạn để được giảm giá ngay lập tức",
+      "action": "Áp dụng",
+      "title": "Tóm tắt giỏ hàng",
+      "select1": "Miễn phí vận chuyển",
+      "select2": "Vận chuyển nhanh",
+      "select3": "Nhận hàng tại cửa hàng",
+      "subtotal": "Tạm tính",
+      "total": "Tổng cộng",
+      "checkout": "Thanh toán"
+    }
+  }
+}

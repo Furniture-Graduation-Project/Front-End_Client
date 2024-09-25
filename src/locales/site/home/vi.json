@@ -1,8 +1,8 @@
 {
   "home": {
     "banner": {
-      "headline1": "Đơn giản độc đáo",
-      "headline2": "Đơn giản tốt nhất",
+      "headline1": "Tinh tế độc đáo",
+      "headline2": "Tinh tế nhất",
       "description": "là một công ty thiết kế & trang trí nội thất có trụ sở tại Hà Nội,",
       "location": "Việt Nam. Thành lập từ năm 2019."
     },
@@ -14,8 +14,8 @@
     },
     "carousel": {
       "newArrivals": {
-        "line1": "Mới",
-        "line2": "Nhập Hàng"
+        "line1": "Hàng",
+        "line2": "Mới"
       },
       "moreProducts": "Xem thêm sản phẩm"
     },
@@ -28,6 +28,11 @@
       "securePaymentsDescription": "Được bảo vệ bởi Stripe",
       "support": "Hỗ trợ 24/7",
       "supportDescription": "Hỗ trợ qua điện thoại và email"
+    },
+    "collection": {
+      "title": "BỘ SƯU TẬP MÙA THU MỚI",
+      "subtitle": "CUỘC SĂN LÙNG ĐÃ KẾT THÚC",
+      "button": "Mua Sắm Sản Phẩm Mới"
     },
     "sale": {
       "title": "GIẢM GIÁ LÊN ĐẾN 35%",

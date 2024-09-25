@@ -17,6 +17,15 @@ import signUpVI from '../locales/auth/signup/vi.json'
 import homeEN from '../locales/site/home/en.json'
 import homeVI from '../locales/site/home/vi.json'
 
+import contactEN from '../locales/site/contact/en.json'
+import contactVI from '../locales/site/contact/vi.json'
+
+import cartEN from '../locales/site/cart/en.json'
+import cartVI from '../locales/site/cart/vi.json'
+
+import checkoutEN from '../locales/site/checkout/en.json'
+import checkoutVI from '../locales/site/checkout/vi.json'
+
 export const currentLocales: LocaleCodeName[] = [
   { code: 'vi', name: 'Tiếng Việt' },
   { code: 'en', name: 'English' }
@@ -28,14 +37,20 @@ export const localizationResources = {
     commonCard: commonCardEN,
     singin: signInEN,
     singup: signUpEN,
-    home: homeEN
+    home: homeEN,
+    contact: contactEN,
+    cart: cartEN,
+    checkout: checkoutEN
   },
   vi: {
     common: commonVI,
     commonCard: commonCardVI,
     singin: signInVI,
     singup: signUpVI,
-    home: homeVI
+    home: homeVI,
+    contact: contactVI,
+    cart: cartVI,
+    checkout: checkoutVI
   }
 } as const
 

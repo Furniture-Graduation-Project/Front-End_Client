@@ -52,8 +52,8 @@ const MenuHeader = () => {
                     {t('home')}
                   </Link>
                   <div className='border-b border-neutral-3'></div>
-                  <Accordion type='single' collapsible className='w-full'>
-                    <AccordionItem value='item-1 '>
+                  <Accordion type='single' collapsible className='w-full z-50'>
+                    <AccordionItem value='item-1'>
                       <AccordionTrigger className='hover:no-underline '>{t('product')}</AccordionTrigger>
                       <AccordionContent className='pl-3 pt-5 button-xs border-b border-neutral-3'>
                         <Link to=''>All Products</Link>

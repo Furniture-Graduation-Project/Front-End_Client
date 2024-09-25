@@ -1,0 +1,30 @@
+{
+  "cart": {
+    "textTitle": {
+      "cart": "Cart",
+      "shop": "Shopping Cart",
+      "checkoutDetail": "Checkout Details",
+      "orderComplete": "Order Complete"
+    },
+    "cartTable": {
+      "product": "Product",
+      "quantity": "Quantity",
+      "price": "Price",
+      "subtotal": "Subtotal",
+      "action": "Remove"
+    },
+    "cartForm": {
+      "coupon": "Have a coupon",
+      "couponPlaceholder": "Coupon Code",
+      "couponText": "Add your code for an instant cart discount",
+      "action": "Apply",
+      "title": "Cart Summary",
+      "select1": "Free Shipping",
+      "select2": "Express Shipping",
+      "select3": "Pick Up",
+      "subtotal": "Subtotal",
+      "total": "Total",
+      "checkout": "Checkout"
+    }
+  }
+}

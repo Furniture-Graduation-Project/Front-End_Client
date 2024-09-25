@@ -1,0 +1,41 @@
+{
+  "checkout": {
+    "textTitle": {
+      "title": "Check Out"
+    },
+    "form": {
+      "title1": "Contact Information",
+      "title2": "Shipping Address",
+      "title3": "Payment Method",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phone": "Phone Number",
+      "email": "Email Address",
+      "emailPlaceholder": "Your Email",
+      "street": "Street Address",
+      "country": "Country",
+      "city": "TOWN / CITY",
+      "state": "State",
+      "zip": "Zip Code",
+      "checkbox": "Use a different billing address (optional)",
+      "paymentMethod1": "Pay by Card Credit",
+      "paymentMethod2": "Pay by PayPal",
+      "cardNumber": "Card Number",
+      "cardNumberPlaceholder": "1234 1234 1234",
+      "date": "EXPIRATION DATE",
+      "cvc": "Cvc",
+      "cvcPlaceholder": "CVC Code",
+      "submit": "Place Order"
+    },
+    "order": {
+      "title": "Order Summary",
+      "coupon": "Coupon",
+      "button": "Apply",
+      "remove": "[Remove]",
+      "shipping": "Shipping",
+      "free": "Free",
+      "subtotal": "Subtotal",
+      "total": "Total"
+    }
+  }
+}

@@ -1,7 +1,8 @@
 {
   "header": {
     "notificationBar": {
-      "notification": "30% off storewide — Limited time!",
+      "notification": "30% off storewide ",
+      "notification2": " — Limited time!",
       "shopNow": "Shop Now"
     },
     "menuHeader": {
