@@ -33,13 +33,13 @@ export function CarouselSize() {
         >
           <CarouselContent className='-ml-[30px]'>
             {Array.from({ length: 8 }).map((_, index) => (
-              <CarouselItem key={index} className='md:basis-1/2 lg:basis-1/4 pl-[30px]'>
+              <CarouselItem key={index} className='basis-1 md:basis-1/2 lg:basis-1/4 pl-[30px]'>
                 <ProductCard />
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className='hidden xl:flex' />
-          <CarouselNext className='hidden xl:flex' />
+          <CarouselPrevious className='hidden 2xl:flex absolute top-1/2 left-0 -translate-x-1/2' />
+          <CarouselNext className='hidden 2xl:flex absolute top-1/2 right-0 translate-x-1/2' />
         </Carousel>
         <Separator className='mt-[62px]' />
       </Container>

@@ -1,9 +1,8 @@
+import { ProductImage } from '@/assets'
+import IconButton from '@/components/ui/icon-button'
+import { useTranslate } from '@/hooks/useTranslate'
 import { Eye, Heart, ShoppingCart, Star, StarHalf } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { ProductImage } from '@/assets'
-import { Button } from '@/components/ui/button'
-import { useTranslate } from '@/hooks/useTranslate'
-import IconButton from '@/components/ui/icon-button'
 
 const ProductCard = () => {
   const { t } = useTranslate('productCard')
