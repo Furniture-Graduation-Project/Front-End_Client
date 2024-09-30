@@ -1,5 +1,7 @@
+import Banner from "./components/Banner/Banner"
+
 const BlogPage = () => {
-  return <div>BlogPage</div>
+  return <div><Banner></Banner></div>
 }
 
 export default BlogPage
