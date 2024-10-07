@@ -1,7 +1,8 @@
-import Banner from "./components/Banner/Banner"
+import Banner from "./components/Banner"
+import Post from "./components/Post"
 
 const BlogPage = () => {
-  return <div><Banner></Banner></div>
+  return <div><Banner></Banner><Post></Post></div>
 }
 
 export default BlogPage
