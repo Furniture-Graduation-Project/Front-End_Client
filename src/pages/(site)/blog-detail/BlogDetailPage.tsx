@@ -1,35 +1,34 @@
-import React from 'react'
-import 'animate.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import RelatedPosts from './components/RelatedPosts'
-import JoinNewsletter from './components/JoinNewsletter'
+import React from 'react';
+import { User, Calendar } from 'lucide-react';
+import RelatedPosts from './components/RelatedPosts';
+import JoinNewsletter from './components/JoinNewsletter';
+
 
 const BlogDetailPage = () => {
   return (
     <div className="">
-      <div className='container mx-auto px-4 py-8 animate__animated animate__fadeIn'>
-      <div className="bg-white text-gray-900">
-      <div className="container mx-auto px-4 py-8">
-        <nav className="text-sm text-gray-500 mb-16">
-          <a href="#" className="hover:underline">Home</a>
-          <span className="mx-2">&gt;</span>
-          <a href="#" className="hover:underline">Blog</a>
-          <span className="mx-2">&gt;</span>
-          <span>How to make a busy bathroom a place to relax</span>
-        </nav>
-        <article>
-          <h1 className="text-xs font-bold text-gray-500 mb-2">ARTICLE</h1>
-          <h2 className="text-4xl font-bold mb-4">How to make a busy bathroom a place to relax</h2>
-          <div className="flex items-center text-sm text-gray-500">
-            <FontAwesomeIcon icon={faUser} className="mr-2" />
-            <span className="mr-4">Henrik Annemark</span>
-            <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
-            <span>October 16, 2023</span>
+      <div className='container mx-auto px-4 py-8'>
+        <div className="bg-white text-gray-900">
+          <div className="container mx-auto px-4 py-8">
+            <nav className="text-sm text-gray-500 mb-16">
+              <a href="#" className="hover:underline">Home</a>
+              <span className="mx-2">&gt;</span>
+              <a href="#" className="hover:underline">Blog</a>
+              <span className="mx-2">&gt;</span>
+              <span>How to make a busy bathroom a place to relax</span>
+            </nav>
+            <article>
+              <h1 className="text-xs font-bold text-gray-500 mb-2">ARTICLE</h1>
+              <h2 className="text-4xl font-bold mb-4">How to make a busy bathroom a place to relax</h2>
+              <div className="flex items-center text-sm text-gray-500">
+                <User className="mr-2" />
+                <span className="mr-4">Henrik Annemark</span>
+                <Calendar className="mr-2" />
+                <span>October 16, 2023</span>
+              </div>
+            </article>
           </div>
-        </article>
-      </div>
-    </div>
+        </div>
         <main>
           <section className='mb-8'>
             <img
@@ -90,12 +89,13 @@ const BlogDetailPage = () => {
               </div>
             </div>
           </section>
-          <RelatedPosts></RelatedPosts>
+          <RelatedPosts />
         </main>
       </div>
-      <JoinNewsletter></JoinNewsletter>
-      </div>
-  )
-}
+      <JoinNewsletter />
+    </div>
+  );
+};
 
-export default BlogDetailPage
+export default BlogDetailPage;
+
