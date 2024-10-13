@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import 'animate.css';
 import {
-  faThLarge,
-  faThList,
-  faChevronUp,
-  faChevronDown,
-  faBars,
-  faGripHorizontal
-} from '@fortawesome/free-solid-svg-icons'
+  Grid,
+  List,
+  ChevronUp,
+  ChevronDown,
+  Menu,
+  GripHorizontal
+} from 'lucide-react';
 const Post = () => {
   const initialPosts = [
     {
@@ -66,9 +64,9 @@ const Post = () => {
       alt: 'Living room with modern decor'
     }
   ]
-  const [posts, setPosts] = useState(initialPosts)
-  const [sortOrder, setSortOrder] = useState('asc')
-  const [view, setView] = useState('grid')
+  const [posts, setPosts] = useState(initialPosts);
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [view, setView] = useState('grid');
 
   const handleSort = () => {
     const sortedPosts = [...posts].sort((a, b) => {
@@ -82,12 +80,12 @@ const Post = () => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
-  const handleViewChange = (viewType: any) => {
-    setView(viewType)
-  }
+  const handleViewChange = (viewType: 'grid' | 'list' | 'bars' | 'menu') => {
+    setView(viewType);
+  };
 
   return (
-    <section className='container mx-auto px-4 py-8 animate__animated animate__fadeIn'>
+    <section className='container mx-auto px-4 py-8'>
       <div className='flex justify-between items-center mb-6'>
         <div className='flex gap-4'>
           <div className='text-gray-600 font-bold'>All Blog</div>
@@ -96,31 +94,31 @@ const Post = () => {
         <div className='flex items-center space-x-4'>
           <span className='text-gray-600 font-bold'>Sort by</span>
           <button onClick={handleSort} className='text-gray-600 font-bold'>
-            <FontAwesomeIcon icon={sortOrder === 'asc' ? faChevronUp : faChevronDown} />
+            {sortOrder === 'asc' ? <ChevronUp /> : <ChevronDown />}
           </button>
           <button
             onClick={() => handleViewChange('grid')}
             className={`text-gray-600 font-bold ${view === 'grid' ? 'text-black' : ''}`}
           >
-            <FontAwesomeIcon icon={faGripHorizontal} />
+            <GripHorizontal />
           </button>
           <button
             onClick={() => handleViewChange('list')}
             className={`text-gray-600 font-bold ${view === 'list' ? 'text-black' : ''}`}
           >
-            <FontAwesomeIcon icon={faThLarge} />
+            <Grid />
           </button>
           <button
             onClick={() => handleViewChange('bars')}
             className={`text-gray-600 font-bold ${view === 'bars' ? 'text-black' : ''}`}
           >
-            <FontAwesomeIcon icon={faThList} />
+            <List />
           </button>
           <button
-            onClick={() => handleViewChange('grip')}
-            className={`text-gray-600 font-bold ${view === 'grip' ? 'text-black' : ''}`}
+            onClick={() => handleViewChange('menu')}
+            className={`text-gray-600 font-bold ${view === 'menu' ? 'text-black' : ''}`}
           >
-            <FontAwesomeIcon icon={faBars} />
+            <Menu />
           </button>
         </div>
       </div>
@@ -139,7 +137,7 @@ const Post = () => {
         <button className='px-8 py-2 rounded-full border border-solid'>Show more</button>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Post
+export default Post;
