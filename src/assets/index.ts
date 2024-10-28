@@ -1,5 +1,5 @@
-import LogoWhite from '@/assets/images/icon/3legant.svg'
-import LogoBlack from '@/assets/images//icon/3legant-1.svg'
+import LogoBlack from '@/assets/images/icon/3legant.svg'
+import LogoWhite from '@/assets/images//icon/3legant-1.svg'
 import BannerImage from '@/assets/images/banner.png'
 import BannerImage1 from '@/assets/images/banner-1.png'
 import BannerImage2 from '@/assets/images/banner-2.png'
