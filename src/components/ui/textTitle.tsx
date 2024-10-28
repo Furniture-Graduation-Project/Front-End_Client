@@ -51,7 +51,7 @@ const TextTitle: React.FC<TextTitleProps> = ({ checkout, order, title }) => {
                 className={cn(
                   `flex items-center pb-6`,
                   checkout ? 'border-b-2 border-black' : '',
-                  order ? 'border-b-2 border-green-500' : ''
+                  order ? 'border-b-2 border-green' : ''
                 )}
               >
                 <div

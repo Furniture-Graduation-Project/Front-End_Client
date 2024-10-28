@@ -13,7 +13,7 @@ import { useTranslate } from '@/hooks/useTranslate'
 const UserMenu = () => {
   const { t } = useTranslate()
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <CircleUserRound className='hover:cursor-pointer' />
       </DropdownMenuTrigger>

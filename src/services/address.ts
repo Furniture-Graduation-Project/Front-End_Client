@@ -1,5 +1,6 @@
 import { axiosInstance } from '@/config/axios'
 import { IAddress } from '@/interface/address'
+import Cookies from 'js-cookie'
 
 export const AddressServices = {
   create: async (data: IAddress) => {
@@ -13,7 +14,12 @@ export const AddressServices = {
   },
   getById: async (id: string) => {
     try {
-      const { data } = await axiosInstance.get(`/locations/${id}`)
+      const { data } = await axiosInstance.get(`/locations/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${Cookies.get('accessToken')}`
+        }
+      })
       return data
     } catch (error) {
       console.log(error)

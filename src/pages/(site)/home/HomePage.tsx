@@ -53,7 +53,7 @@ const HomePage = () => {
   return (
     <motion.div initial='hidden' animate='visible' variants={staggerContainer}>
       <AnimatedSection variants={zoomIn}>
-        <Banner />
+        <Banner text={true} />
       </AnimatedSection>
       <AnimatedSection variants={fadeInUp}>
         <BannerGrid />

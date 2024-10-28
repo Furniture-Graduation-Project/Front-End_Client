@@ -37,7 +37,7 @@ const Header = () => {
           <nav className='mx-auto flex items-center justify-between py-4 lg:py-6' aria-label='Global'>
             <div className='flex lg:flex-1 items-center'>
               <MenuHeader />
-              <BrandLink color />
+              <BrandLink />
             </div>
             <CartHeader mobile />
             <NavigationMenu className='hidden lg:flex lg:gap-x-12 '>
