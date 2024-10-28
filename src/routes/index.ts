@@ -9,6 +9,7 @@ import CartPage from '@/pages/(site)/cart/CartPage'
 import CheckoutPage from '@/pages/(site)/checkout/CheckoutPage'
 import ContactPage from '@/pages/(site)/contact/ContactPage'
 import HomePage from '@/pages/(site)/home/HomePage'
+import OrderPage from '@/pages/(site)/order/OrderComplete'
 import ShopPage from '@/pages/(site)/shop/ShopPage'
 import AccountPage from '@/pages/(user)/AccountPage'
 import AddressForm from '@/pages/(user)/Address/_components/AddressForm'
@@ -28,7 +29,8 @@ const routes = [
   { path: '/account', component: AccountPage, layout: ProtectedLayout },
   { path: '/account/settings/address', component: AddressPage, layout: MainLayout },
   { path: '/account/settings/address/add', component: AddressForm, layout: MainLayout },
-  { path: '/account/settings/address/:id', component: AddressDetailPage, layout: MainLayout }
+  { path: '/account/settings/address/:id', component: AddressDetailPage, layout: MainLayout },
+  { path: '/order', component: OrderPage, layout: MainLayout }
 ]
 
 export default routes

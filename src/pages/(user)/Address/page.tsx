@@ -11,6 +11,7 @@ interface User {
 
 const AddressPage = () => {
   const user = useReadLocalStorage<User>('user')
+  console.log(user)
 
   const { data } = useAddressQuery(user?.userId as string)
 

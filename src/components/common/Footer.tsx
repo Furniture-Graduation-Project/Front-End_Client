@@ -14,7 +14,7 @@ const Footer = () => {
         <div className='flex sm:justify-between sm:flex-row flex-col items-center caption-1'>
           <div className='flex flex-col sm:flex-row items-center'>
             <div className='border-b border-b-neutral-4 pb-3 sm:p-0 sm:border-none sm:w-[124px] sm:h-[24px] sm:pr-10'>
-              <BrandLink color={false} />
+              <BrandLink color={true} />
             </div>
             <p className='text-center sm:text-left md:pl-10 my-5 sm:my-0 md:border-l md:border-l-neutral-4'>
               {t('brand')}

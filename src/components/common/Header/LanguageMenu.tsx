@@ -20,7 +20,7 @@ const LanguageMenu = () => {
     await setLocale(language ? 'vi' : 'en')
   }
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Globe className='hover:cursor-pointer' />
       </DropdownMenuTrigger>
