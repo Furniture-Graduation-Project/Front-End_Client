@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import CartForm from './CartForm'
 import CartTable from './CartTable'
 import { useLocation } from 'react-router-dom'
+import { useState } from 'react'
 
 const slideInLeft = {
   hidden: { opacity: 0, x: -50 },
@@ -14,14 +15,13 @@ const slideInRight = {
 }
 
 const Cart = () => {
-  const location = useLocation()
-  console.log(location.pathname)
 
+  const [amount, setAmount ] = useState<number>(0)
   return (
     <div className='my-20'>
       <div className='lg:grid lg:grid-cols-5 xl:grid-cols-3 gap-x-16'>
         <motion.div className='xl:col-span-2 lg:col-span-3' initial='hidden' animate='visible' variants={slideInLeft}>
-          <CartTable />
+          <CartTable setAmount={setAmount} amount={amount} />
         </motion.div>
         <motion.div
           className='mt-6 lg:mt-0 xl:col-span-1 lg:col-span-2'
@@ -29,7 +29,7 @@ const Cart = () => {
           animate='visible'
           variants={slideInRight}
         >
-          <CartForm />
+          <CartForm amount={amount} />
         </motion.div>
       </div>
     </div>
