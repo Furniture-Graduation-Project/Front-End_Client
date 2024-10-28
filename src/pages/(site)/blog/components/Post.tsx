@@ -1,12 +1,5 @@
-import React, { useState } from 'react'
-import {
-  Grid,
-  List,
-  ChevronUp,
-  ChevronDown,
-  Menu,
-  GripHorizontal
-} from 'lucide-react';
+import { ChevronDown, ChevronUp, Grid, GripHorizontal, List, Menu } from 'lucide-react'
+import { useState } from 'react'
 const Post = () => {
   const initialPosts = [
     {
@@ -64,25 +57,25 @@ const Post = () => {
       alt: 'Living room with modern decor'
     }
   ]
-  const [posts, setPosts] = useState(initialPosts);
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [view, setView] = useState('grid');
+  const [posts, setPosts] = useState(initialPosts)
+  const [sortOrder, setSortOrder] = useState('asc')
+  const [view, setView] = useState('grid')
 
   const handleSort = () => {
     const sortedPosts = [...posts].sort((a, b) => {
       if (sortOrder === 'asc') {
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
+        return new Date(a.date).getTime() - new Date(b.date).getTime()
       } else {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+        return new Date(b.date).getTime() - new Date(a.date).getTime()
       }
-    });
-    setPosts(sortedPosts);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-  };
+    })
+    setPosts(sortedPosts)
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+  }
 
   const handleViewChange = (viewType: 'grid' | 'list' | 'bars' | 'menu') => {
-    setView(viewType);
-  };
+    setView(viewType)
+  }
 
   return (
     <section className='container mx-auto px-4 py-8'>
@@ -137,7 +130,7 @@ const Post = () => {
         <button className='px-8 py-2 rounded-full border border-solid'>Show more</button>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Post;
+export default Post
