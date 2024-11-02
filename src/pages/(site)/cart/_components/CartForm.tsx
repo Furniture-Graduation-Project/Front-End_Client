@@ -17,13 +17,12 @@ const FormSchema = z.object({
   })
 })
 
-const CartForm = () => {
+const CartForm = ({amount} : {amount : number}) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema)
   })
 
   const [selected, setSelected] = useState('')
-
   const { t } = useTranslate('cart.cartForm')
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -112,12 +111,12 @@ const CartForm = () => {
                     </FormControl>
                     <div className='flex justify-between items-center mt-4 py-3'>
                       <h1>{t('subtotal')}</h1>
-                      <h1 className='font-semibold'>$1234</h1>
+                      <h1 className='font-semibold'>${amount.toFixed(2)}</h1>
                     </div>
                     <Separator />
                     <div className='flex justify-between items-center py-3'>
                       <h1 className='text-xl font-semibold'>{t('total')}</h1>
-                      <h1 className='text-xl font-semibold'>$1234</h1>
+                      <h1 className='text-xl font-semibold'>${amount.toFixed(2)}</h1>
                     </div>
                   </FormItem>
                 )}
