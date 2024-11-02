@@ -1,0 +1,95 @@
+import { Check, ChevronsUpDown, Columns2, Grid3X3, LayoutGrid } from 'lucide-react'
+import { useState } from 'react'
+
+import ProductCard from '@/components/site/ProductCard'
+import { Button } from '@/components/ui/button'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { cn } from '@/utils/classUtils'
+
+const sortBy = [
+  {
+    value: 'price',
+    label: 'Price'
+  },
+  {
+    value: 'name',
+    label: 'Name'
+  },
+  {
+    value: 'rating',
+    label: 'Rating'
+  },
+  {
+    value: 'popularity',
+    label: 'Popularity'
+  }
+]
+
+const ProductGrid = () => {
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState('')
+  return (
+    <>
+      <div className='pl-6 flex-col w-full flex-grow'>
+        <div className='flex justify-between h-10'>
+          <p className='font-semibold text-xl'>Living Room</p>
+          <div className='flex space-x-6'>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button variant='ghost' role='combobox' aria-expanded={open}>
+                  {value ? sortBy.find((sort) => sort.value === value)?.label : 'Sort By'}
+                  <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className='w-[200px] p-0'>
+                <Command>
+                  <CommandInput placeholder='Search framework...' />
+                  <CommandList>
+                    <CommandEmpty>No sort found.</CommandEmpty>
+                    <CommandGroup>
+                      {sortBy.map((sort) => (
+                        <CommandItem
+                          key={sort.value}
+                          value={sort.value}
+                          onSelect={(currentValue) => {
+                            setValue(currentValue === value ? '' : currentValue)
+                            setOpen(false)
+                          }}
+                        >
+                          <Check className={cn('mr-2 h-4 w-4', value === sort.value ? 'opacity-100' : 'opacity-0')} />
+                          {sort.label}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+            <div className='pt-1 '>
+              <button className='px-1.5 py-1 border rounded-s-sm hover:bg-[#E8ECEF] transform duration-200'>
+                <Grid3X3 className='w-5 h-5' />
+              </button>
+              <button className='px-1.5 py-1 border border-l-0 hover:bg-[#E8ECEF] transform duration-200'>
+                <LayoutGrid className='w-5 h-5' />
+              </button>
+              <button className='px-1.5 py-1 border border-l-0 hover:bg-[#E8ECEF] transform duration-200'>
+                <Columns2 className='w-5 h-5' />
+              </button>
+              <button className='px-1.5 py-1 border rounded-e-sm border-l-0 hover:bg-[#E8ECEF] transform duration-200'>
+                <Columns2 className='rotate-90 w-5 h-5' />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className='grid grid-cols-4 gap-6 mt-10'>
+          {Array.from({ length: 16 }, (_, i) => (
+            <ProductCard height='349px' width='262px' key={i} />
+          ))}
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default ProductGrid

@@ -1,19 +1,29 @@
 import { ProductImage } from '@/assets'
 import IconButton from '@/components/ui/icon-button'
 import { useTranslate } from '@/hooks/useTranslate'
+import { cn } from '@/utils/classUtils'
 import { Eye, Heart, ShoppingCart, Star, StarHalf } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-const ProductCard = () => {
+interface ProductCardProps {
+  width?: string
+  height?: string
+}
+
+const ProductCard = ({ width, height }: ProductCardProps) => {
   const { t } = useTranslate('productCard')
   return (
-    <>
+    <div>
       <div className='bg-neutral-2 rounded-xl relative group transition duration-500 ease-in-out hover:shadow-lg'>
         <Link to={''} className='cursor-pointer'>
           <img
             src={ProductImage}
-            alt=''
-            className='transform scale-100 group-hover:scale-105 transition-transform duration-500 ease-in-out'
+            alt='product-image'
+            className={cn(
+              'transform scale-100 group-hover:scale-105 transition-transform duration-500 ease-in-out mx-auto',
+              width && `w-[${width}]`,
+              height && `h-[${height}]`
+            )}
           />
         </Link>
         <div className='absolute top-6 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-white'>{t('new')}</div>
@@ -61,7 +71,7 @@ const ProductCard = () => {
           <p className='line-through caption-1 text-[#6C7275]'>$400.00</p>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
