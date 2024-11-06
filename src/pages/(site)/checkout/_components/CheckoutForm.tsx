@@ -11,6 +11,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/utils/classUtils'
 import { useTranslate } from '@/hooks/useTranslate'
+import { useQuery } from '@tanstack/react-query'
+import { axiosInstance } from '@/config/axios'
+import { IApiResponse } from '@/interface/apiRespose'
+import { AxiosResponse } from 'axios'
+import { useState } from 'react'
 
 const formSchema = z.object({
   firstName: z.string().min(1),
@@ -27,9 +32,40 @@ const formSchema = z.object({
   expirationDate: z.string(),
   cvc: z.string()
 })
-
+type Location = {
+  id: number
+  name: string
+  codename: string
+  division_type: string
+  phone_code: number
+  districts: District[]
+}
+type District = {
+  name: string
+  code: number
+  codename: string
+  division_type: string
+  wards: Ward[]
+}
+type Ward = {
+  name: string
+  code: number
+  codename: string
+  division_type: string
+}
 const CheckoutForm = () => {
   const { t } = useTranslate('checkout.form')
+  const [currentDistrict, setCurrentDistrict] = useState<District[]>([])
+  const [currentWard, setCurrentWard] = useState<Ward[]>([])
+  const [payment, setPayment] = useState()
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['location'],
+    queryFn: async () => {
+      const response: AxiosResponse<IApiResponse<Location[]>> = await axiosInstance.get(`locations`)
+      return response.data.data
+    }
+  })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,7 +75,7 @@ const CheckoutForm = () => {
       phone: '',
       email: '',
       street: '',
-      country: '',
+      country: 'Việt Nam',
       city: '',
       state: '',
       zip: '',
@@ -50,6 +86,16 @@ const CheckoutForm = () => {
     }
   })
 
+  const handleChangeDistrict = (value: string, field: any) => {
+    field.onChange(value)
+    const selectedCity = data?.find((city) => city.name === value)
+    setCurrentDistrict(selectedCity ? selectedCity.districts : [])
+  }
+  const handleChangeWard = (value: string, field: any) => {
+    field.onChange(value)
+    const selectedWard = currentDistrict?.find((ward) => ward.name === value)
+    setCurrentWard(selectedWard ? selectedWard.wards : [])
+  }
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     console.log(data)
   }
@@ -115,18 +161,7 @@ const CheckoutForm = () => {
             </div>
             <div className='px-6 py-10 border border-black rounded-md flex flex-col gap-y-6'>
               <h1 className='font-medium text-xl'>{t('title2')}</h1>
-              <FormField
-                control={form.control}
-                name='street'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('street')}</FormLabel>
-                    <FormControl>
-                      <Input type='text' {...field} placeholder={t('street')} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              ></FormField>
+
               <FormField
                 control={form.control}
                 name='country'
@@ -140,9 +175,7 @@ const CheckoutForm = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='VietNam'>Việt Nam</SelectItem>
-                        <SelectItem value='USA'>USA</SelectItem>
-                        <SelectItem value='Thailand'>Thái Lan</SelectItem>
+                        <SelectItem value='Việt Nam'>Việt Nam</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormItem>
@@ -154,9 +187,26 @@ const CheckoutForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('city')}</FormLabel>
-                    <FormControl>
-                      <Input type='text' {...field} placeholder={t('city')} />
-                    </FormControl>
+                    <Select onValueChange={(value) => handleChangeDistrict(value, field)} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue className='placeholder-gray-400' placeholder={t('city')} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {data && data.length > 0 ? (
+                          data.map((item: Location) => (
+                            <SelectItem key={item.codename} value={item.name}>
+                              {item.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem key='-1' value='-1'>
+                            Trống
+                          </SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
                   </FormItem>
                 )}
               ></FormField>
@@ -167,9 +217,26 @@ const CheckoutForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('state')}</FormLabel>
-                      <FormControl>
-                        <Input type='text' {...field} placeholder={t('state')} />
-                      </FormControl>
+                      <Select onValueChange={(value) => handleChangeWard(value, field)} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue className='placeholder-gray-400' placeholder={t('state')} />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {currentDistrict && currentDistrict.length > 0 ? (
+                            currentDistrict.map((item: District) => (
+                              <SelectItem key={item.codename} value={item.name}>
+                                {item.name}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <SelectItem key='-1' value='-1'>
+                              Trống
+                            </SelectItem>
+                          )}
+                        </SelectContent>
+                      </Select>
                     </FormItem>
                   )}
                 ></FormField>
@@ -180,21 +247,43 @@ const CheckoutForm = () => {
                     <FormItem>
                       <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('zip')}</FormLabel>
                       <FormControl>
-                        <Input type='text' {...field} placeholder={t('zip')} />
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue className='placeholder-gray-400' placeholder={t('zip')} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {currentWard && currentWard.length > 0 ? (
+                              currentWard.map((item: Ward) => (
+                                <SelectItem key={item.codename} value={item.name}>
+                                  {item.name}
+                                </SelectItem>
+                              ))
+                            ) : (
+                              <SelectItem key='-1' value='-1'>
+                                Trống
+                              </SelectItem>
+                            )}
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                     </FormItem>
                   )}
                 ></FormField>
               </div>
-              <div className='flex gap-x-3 items-center'>
-                <Checkbox id='terms' />
-                <label
-                  htmlFor='terms'
-                  className='font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                >
-                  {t('checkbox')}
-                </label>
-              </div>
+              <FormField
+                control={form.control}
+                name='street'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('street')}</FormLabel>
+                    <FormControl>
+                      <Input type='text' {...field} placeholder={t('street')} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              ></FormField>
             </div>
             <div className='px-6 py-10 border border-black rounded-md flex flex-col gap-y-6'>
               <h1 className='font-medium text-xl'>{t('title3')}</h1>
