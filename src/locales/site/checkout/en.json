@@ -10,25 +10,19 @@
       "firstName": "First Name",
       "lastName": "Last Name",
       "phone": "Phone Number",
-      "email": "Email Address",
       "emailPlaceholder": "Your Email",
       "street": "Street Address",
       "country": "Country",
-      "city": "TOWN / CITY",
-      "state": "State",
-      "zip": "Zip Code",
-      "checkbox": "Use a different billing address (optional)",
-      "paymentMethod1": "Pay by Card Credit",
-      "paymentMethod2": "Pay by PayPal",
-      "cardNumber": "Card Number",
-      "cardNumberPlaceholder": "1234 1234 1234",
-      "date": "EXPIRATION DATE",
-      "cvc": "Cvc",
-      "cvcPlaceholder": "CVC Code",
+      "city": "City",
+      "district": "District ",
+      "ward": "Ward",
+      "paymentMethod1": "Pay Before Receiving",
+      "paymentMethod2": "Pay on Delivery",
       "submit": "Place Order"
     },
     "order": {
       "title": "Order Summary",
+      "quantity": "Quantity",
       "coupon": "Coupon",
       "button": "Apply",
       "remove": "[Remove]",
@@ -36,6 +30,11 @@
       "free": "Free",
       "subtotal": "Subtotal",
       "total": "Total"
+    },
+    "toast": {
+      "errorTitle": "An error occurred while fetching your cart!",
+      "retryAction": "Retry",
+      "retryAltText": "Try again"
     }
   }
 }
