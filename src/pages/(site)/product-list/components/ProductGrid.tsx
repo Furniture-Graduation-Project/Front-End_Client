@@ -29,6 +29,8 @@ const sortBy = [
 const ProductGrid = () => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
+  const [productNumber, setProductNumber] = useState(0)
+
   return (
     <>
       <div className='md:pl-6 flex-col w-full flex-grow'>
@@ -67,22 +69,40 @@ const ProductGrid = () => {
               </PopoverContent>
             </Popover>
             <div className='pt-1 hidden md:block'>
-              <button className='px-1.5 py-1 border rounded-s-sm hover:bg-[#E8ECEF] transform duration-200'>
+              <button
+                onClick={() => setProductNumber(4)}
+                className='px-1.5 py-1 border rounded-s-sm hover:bg-[#E8ECEF] transform duration-200'
+              >
                 <Grid3X3 className='w-5 h-5' />
               </button>
-              <button className='px-1.5 py-1 border border-l-0 hover:bg-[#E8ECEF] transform duration-200'>
+              <button
+                onClick={() => setProductNumber(3)}
+                className='px-1.5 py-1 border border-l-0 hover:bg-[#E8ECEF] transform duration-200'
+              >
                 <LayoutGrid className='w-5 h-5' />
               </button>
-              <button className='px-1.5 py-1 border border-l-0 hover:bg-[#E8ECEF] transform duration-200'>
+              <button
+                onClick={() => setProductNumber(2)}
+                className='px-1.5 py-1 border border-l-0 hover:bg-[#E8ECEF] transform duration-200'
+              >
                 <Columns2 className='w-5 h-5' />
               </button>
-              <button className='px-1.5 py-1 border rounded-e-sm border-l-0 hover:bg-[#E8ECEF] transform duration-200'>
+              <button
+                onClick={() => setProductNumber(1)}
+                className='px-1.5 py-1 border rounded-e-sm border-l-0 hover:bg-[#E8ECEF] transform duration-200'
+              >
                 <Columns2 className='rotate-90 w-5 h-5' />
               </button>
             </div>
           </div>
         </div>
-        <div className='grid grid-cols-2 xl:grid-cols-4 gap-6 mt-10'>
+        <div
+          className={cn(
+            `grid gap-6 mt-10`,
+            productNumber && `grid-cols-${productNumber}`,
+            !productNumber && `xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 `
+          )}
+        >
           {Array.from({ length: 16 }, (_, i) => (
             <ProductCard height='349px' width='262px' key={i} />
           ))}

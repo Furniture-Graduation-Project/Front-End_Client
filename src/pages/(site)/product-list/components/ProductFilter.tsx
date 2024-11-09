@@ -2,7 +2,7 @@ import { Checkbox } from '@/components/ui/checkbox.tsx'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Columns2, SlidersHorizontal } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
-import { ComboboxDropdownMenu } from './ProductFilter-mobile'
+import { ComboboxDropdownMenu } from './ProductFilterMobile'
 
 const categories = [
   'All Rooms',
@@ -27,7 +27,9 @@ const ProductFilter = () => {
           <div className='flex items-center'>
             <SlidersHorizontal className='w-6 h-6 mr-2' />
             <p className='font-semibold text-xl'>Filter</p>
-            <ComboboxDropdownMenu />
+            <div className='md:hidden flex items-center'>
+              <ComboboxDropdownMenu />
+            </div>
           </div>
           <div className='md:hidden block'>
             <button className='px-[11px] py-2 border hover:bg-[#E8ECEF] transform duration-200'>
