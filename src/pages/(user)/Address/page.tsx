@@ -3,7 +3,7 @@ import { useReadLocalStorage } from 'usehooks-ts'
 import Container from '@/components/Container'
 import AddressCard from './_components/AddressCard'
 import Sidebar from './_components/Sidebar'
-import useAddressQuery from '@/hooks/queries/useAddressQuery'
+import { useAddressQuery } from '@/hooks/queries/useAddressQuery'
 
 interface User {
   userId: string
@@ -12,9 +12,7 @@ interface User {
 const AddressPage = () => {
   const user = useReadLocalStorage<User>('user')
   console.log(user)
-
   const { data } = useAddressQuery(user?.userId as string)
-
   return (
     <Container>
       <h1 className='text-[54px] text-center py-20'>My Account</h1>
