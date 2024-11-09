@@ -1,10 +1,10 @@
-import { ChevronDown, ChevronUp, Grid, GripHorizontal, List, Menu, Search } from 'lucide-react'
+import { Grid, GripHorizontal, List, Menu, Search } from 'lucide-react'
 import { useBlogQuery } from '@/hooks/queries/useBlogQuery'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Post = () => {
-  const [sortOrder, setSortOrder] = useState('asc')
+  // const [sortOrder, setSortOrder] = useState('asc')
   const [view, setView] = useState<'grid' | 'list' | 'bars' | 'menu'>('grid')
   const [searchTerm, setSearchTerm] = useState('')
   const { blogs, isLoading, error, page, limit, handlePageChange, handleLimitChange } = useBlogQuery()
@@ -13,16 +13,16 @@ const Post = () => {
   if (error) return <div className='text-center py-4 text-red-500'>Error loading blogs</div>
   if (!blogs || blogs.length === 0) return <div className='text-center py-4'>No blogs found</div>
 
-  const handleSort = () => {
-    const sortedBlogs = [...blogs].sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      } else {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      }
-    })
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
-  }
+  // const handleSort = () => {
+  //   const sortedBlogs = [...blogs].sort((a, b) => {
+  //     if (sortOrder === 'asc') {
+  //       return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  //     } else {
+  //       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  //     }
+  //   })
+  //   setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+  // }
 
   const handleViewChange = (viewType: 'grid' | 'list' | 'bars' | 'menu') => {
     setView(viewType)

@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import CartForm from './CartForm'
 import CartTable from './CartTable'
-import { useLocation } from 'react-router-dom'
 import { useState } from 'react'
 
 const slideInLeft = {
