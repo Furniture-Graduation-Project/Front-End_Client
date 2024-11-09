@@ -9,7 +9,7 @@ import { ToastAction } from '@/components/ui/toast'
 import { Toaster } from '@/components/ui/toaster'
 import { useTranslate } from '@/hooks/useTranslate'
 import useSessionStorage from '@/hooks/useSessionStorage'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const slideInLeft = {
   hidden: { opacity: 0, x: -50 },
