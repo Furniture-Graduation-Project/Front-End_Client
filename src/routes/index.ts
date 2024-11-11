@@ -34,7 +34,7 @@ const routes = [
   { path: '/account/settings/address', component: AddressPage, layout: MainLayout },
   { path: '/account/settings/address/add', component: AddressForm, layout: MainLayout },
   { path: '/account/settings/address/:id', component: AddressDetailPage, layout: MainLayout },
-  { path: '/order', component: OrderPage, layout: MainLayout }
+  { path: '/order/:id', component: OrderPage, layout: MainLayout }
 ]
 
 export default routes

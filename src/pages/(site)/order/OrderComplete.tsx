@@ -1,15 +1,19 @@
 import Container from '@/components/Container'
 import TextTitle from '@/components/ui/textTitle'
 import Order from './components/Order'
+import Confetti from './components/Confetti'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const OrderPage = () => {
+  const { t } = useTranslate('order')
   return (
-    <>
+    <div className='relative overflow-hidden'>
       <Container>
-        <TextTitle title='Complete!' order={true} />
+        <TextTitle  title={t('title')} order={true} />
         <Order />
+        <Confetti />
       </Container>
-    </>
+    </div>
   )
 }
 
