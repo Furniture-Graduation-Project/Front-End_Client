@@ -1,8 +1,14 @@
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import AvatarAccount from '@/components/auth/AvatarAccount'
 import { Button } from '@/components/ui/button'
 import { Camera } from 'lucide-react'
+import { useTranslate } from '@/hooks/useTranslate'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
-const Sidebar = () => {
+const SidebarAccount = () => {
+  const { t } = useTranslate('account.sidebar')
+  const navigate = useNavigate()
+  const location = useLocation()
   return (
     <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit md:h-[498px]'>
       <div className='relative'>
@@ -15,16 +21,86 @@ const Sidebar = () => {
         <p className='text-xl font-semibold text-center mt-2'>Sofia Havertz</p>
       </div>
       <div className='mt-10'>
-        <ul className='*:text-base *:font-semibold *:py-2 *:my-[6px]'>
-          <li className='border-b-[1.5px] border-black'>Account</li>
-          <li className='text-neutral-400'>Address</li>
-          <li className='text-neutral-400'>Orders</li>
-          <li className='text-neutral-400'>Wishlist</li>
-          <li className='text-neutral-400'>Log Out</li>
+        <ul className='*:text-base *:font-semibold *:py-2 *:my-[6px] hidden md:flex flex-col'>
+          <li className='*:flex'>
+            <NavLink
+              to='/account'
+              end
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-black font-bold border-b-[1.5px] border-black'
+                  : 'text-neutral-400 hover:text-black transition'
+              }
+            >
+              {t('account')}
+            </NavLink>
+          </li>
+          <li className='*:flex'>
+            <NavLink
+              to='/account/address'
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-black font-bold border-b-[1.5px] border-black'
+                  : 'text-neutral-400 hover:text-black transition'
+              }
+            >
+              {t('address')}
+            </NavLink>
+          </li>
+          <li className='*:flex'>
+            <NavLink
+              to='/account/order'
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-black font-bold border-b-[1.5px] border-black'
+                  : 'text-neutral-400 hover:text-black transition'
+              }
+            >
+              {t('orders')}
+            </NavLink>
+          </li>
+          <li className='*:flex'>
+            <NavLink
+              to='/account/wishlist'
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-black font-bold border-b-[1.5px] border-black'
+                  : 'text-neutral-400 hover:text-black transition'
+              }
+            >
+              {t('wishlist')}
+            </NavLink>
+          </li>
+          <li className='*:flex'>
+            <NavLink
+              to='/logout'
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-black font-bold border-b-[1.5px] border-black'
+                  : 'text-neutral-400 hover:text-black transition'
+              }
+            >
+              {t('logout')}
+            </NavLink>
+          </li>
         </ul>
+        <Select defaultValue={location.pathname} onValueChange={(value) => navigate(value)}>
+          <SelectTrigger className='w-full flex md:hidden'>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value='/account'>{t('account')}</SelectItem>
+              <SelectItem value='/account/address'>{t('address')}</SelectItem>
+              <SelectItem value='/account/order'>{t('orders')}</SelectItem>
+              <SelectItem value='/account/wishlist'>{t('wishlist')}</SelectItem>
+              <SelectItem value='/logout'>{t('logout')}</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
     </aside>
   )
 }
 
-export default Sidebar
+export default SidebarAccount
