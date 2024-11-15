@@ -1,0 +1,12 @@
+{
+    "account": {
+        "sidebar": {
+            "account": "Account",
+            "address": "Address",
+            "orders": "Orders",
+            "wishlist": "Wishlist",
+            "logout": "Log Out",
+            "selectMenu": "Select Menu"
+        }
+    }
+}

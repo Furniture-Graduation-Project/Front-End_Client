@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 const FormSchema = z.object({
