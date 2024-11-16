@@ -41,4 +41,4 @@
 - `.gitignore`: Danh sách các file và thư mục Git nên bỏ qua.
 - `package.json`: File cấu hình npm, chứa danh sách dependencies và scripts.
 - `tsconfig.json`: File cấu hình TypeScript.
-- `vite.config.ts`: File cấu hình Vite. 
+- `vite.config.ts`: File cấu hình Vite.
