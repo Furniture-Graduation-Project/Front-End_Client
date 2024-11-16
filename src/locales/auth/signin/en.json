@@ -3,7 +3,7 @@
     "title": "Sign In",
     "noAccount": "Don’t have an account yet?",
     "signup": "Sign Up",
-    "usernamePlaceholder": "Your username or email address",
+    "emailPlaceholder": "Your email address",
     "passwordPlaceholder": "Password",
     "remember": "Remember me",
     "forgotPassword": "Forgot password?",

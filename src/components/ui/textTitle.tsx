@@ -14,7 +14,7 @@ const TextTitle: React.FC<TextTitleProps> = ({ checkout, order, title }) => {
   const { t } = useTranslate('cart.textTitle')
   return (
     <>
-      <h1 className='font-medium text-[54px] text-center mb-10 my-20'>{title}</h1>
+      <h1 className='font-medium text-[54px] text-center mb-10'>{title}</h1>
       <Carousel className='w-4/5 sm:w-[312px] md:w-[500px] lg:w-[832px] mx-auto'>
         <CarouselContent className='-ml-1'>
           <CarouselItem
@@ -51,7 +51,7 @@ const TextTitle: React.FC<TextTitleProps> = ({ checkout, order, title }) => {
                 className={cn(
                   `flex items-center pb-6`,
                   checkout ? 'border-b-2 border-black' : '',
-                  order ? 'border-b-2 border-green-500' : ''
+                  order ? 'border-b-2 border-green' : ''
                 )}
               >
                 <div

@@ -26,6 +26,12 @@ import cartVI from '../locales/site/cart/vi.json'
 import checkoutEN from '../locales/site/checkout/en.json'
 import checkoutVI from '../locales/site/checkout/vi.json'
 
+import orderEN from '../locales/site/order/en.json'
+import orderVI from '../locales/site/order/vi.json'
+
+import accountEN from '../locales/site/account/en.json'
+import acconntVI from '../locales/site/account/vi.json'
+
 export const currentLocales: LocaleCodeName[] = [
   { code: 'vi', name: 'Tiếng Việt' },
   { code: 'en', name: 'English' }
@@ -40,7 +46,9 @@ export const localizationResources = {
     home: homeEN,
     contact: contactEN,
     cart: cartEN,
-    checkout: checkoutEN
+    checkout: checkoutEN,
+    order: orderEN,
+    account: accountEN
   },
   vi: {
     common: commonVI,
@@ -50,7 +58,9 @@ export const localizationResources = {
     home: homeVI,
     contact: contactVI,
     cart: cartVI,
-    checkout: checkoutVI
+    checkout: checkoutVI,
+    order: orderVI,
+    account: acconntVI
   }
 } as const
 
