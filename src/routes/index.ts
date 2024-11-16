@@ -11,6 +11,7 @@ import CheckoutPage from '@/pages/(site)/checkout/CheckoutPage'
 import ContactPage from '@/pages/(site)/contact/ContactPage'
 import HomePage from '@/pages/(site)/home/HomePage'
 import OrderPage from '@/pages/(site)/order/OrderComplete'
+import ProductDetail from '@/pages/(site)/product-detail/ProductDetail'
 import ProductList from '@/pages/(site)/product-list/ProductList'
 import ShopPage from '@/pages/(site)/shop/ShopPage'
 import AccountOrder from '@/pages/(user)/AccountOrder.tsx/AccountOrder'
@@ -26,7 +27,12 @@ const routes: IRoute[] = [
   { path: '/signup', component: SignUp, layout: AuthLayout },
   { path: '/', component: HomePage, layout: MainLayout },
   { path: '/shop', component: ShopPage, layout: MainLayout },
-  { path: '/products', component: ProductList, layout: MainLayout },
+  {
+    path: '/products',
+    component: ProductList,
+    layout: MainLayout
+  },
+  { path: '/products/:id', component: ProductDetail, layout: MainLayout },
   { path: '/cart', component: CartPage, layout: MainLayout },
   { path: '/checkout', component: CheckoutPage, layout: MainLayout },
   { path: '/blog', component: BlogPage, layout: MainLayout },
