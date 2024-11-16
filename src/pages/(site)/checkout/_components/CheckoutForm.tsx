@@ -60,7 +60,7 @@ const CheckoutForm = ({ dataCart, amount }: any) => {
     setCurrentWard(selectedWard ? selectedWard.wards : [])
   }
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    const items = dataCart.map((item: any) => {
+    const items = JSON.parse(dataCart).map((item: any) => {
       return {
         productId: item.productID._id,
         productOptionId: item.productItemID._id,

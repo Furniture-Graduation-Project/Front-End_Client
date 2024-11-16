@@ -16,12 +16,17 @@ export const OrderService = {
     }
   },
 
-  getAll: async (): Promise<AxiosResponse<IApiResponse<IOrder[]>>> => {
+  getAll: async (pagination: {
+    pageIndex: number
+    pageSize: number
+  }): Promise<AxiosResponse<IApiResponse<IOrder[]>>> => {
     try {
-      const response: AxiosResponse<IApiResponse<IOrder[]>> = await axiosInstance.get(API)
+      const response: AxiosResponse<IApiResponse<IOrder[]>> = await axiosInstance.get(
+        `${API}/limited?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
+      )
       return response
     } catch (error) {
-      console.error('Lỗi khi lấy tất cả đơn hàng:', error)
+      console.error('Lỗi khi lấy danh sách đơn hàng:', error)
       throw error
     }
   },
@@ -52,33 +57,6 @@ export const OrderService = {
       return response
     } catch (error) {
       console.error(`Lỗi khi xóa đơn hàng với ID ${id}:`, error)
-      throw error
-    }
-  },
-
-  getLimited: async (pagination: {
-    pageIndex: number
-    pageSize: number
-  }): Promise<AxiosResponse<IApiResponse<IOrder[]>>> => {
-    try {
-      const response: AxiosResponse<IApiResponse<IOrder[]>> = await axiosInstance.get(
-        `${API}/limited?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
-      )
-      return response
-    } catch (error) {
-      console.error('Lỗi khi lấy danh sách đơn hàng:', error)
-      throw error
-    }
-  },
-
-  getByOrderNumber: async (orderNumber: string): Promise<AxiosResponse<IApiResponse<IOrder[]>>> => {
-    try {
-      const response: AxiosResponse<IApiResponse<IOrder[]>> = await axiosInstance.get(
-        `${API}/search?orderNumber=${orderNumber}`
-      )
-      return response
-    } catch (error) {
-      console.error('Lỗi khi tìm kiếm đơn hàng theo mã đơn hàng:', error)
       throw error
     }
   }
