@@ -35,6 +35,7 @@ const CartForm = ({ amount }: { amount: number }) => {
       )
     })
   }
+  
 
   return (
     <>
