@@ -3,7 +3,6 @@ import { useTranslate } from '@/hooks/useTranslate'
 import { Minus, Plus, X } from 'lucide-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { axiosInstance } from '@/config/axios'
-import { useState } from 'react'
 
 type CartTableProps = {
   amount: number
@@ -12,7 +11,6 @@ type CartTableProps = {
 
 const CartTable = ({ setAmount }: CartTableProps) => {
   const { t } = useTranslate('cart.cartTable')
-  const [errorMessage, setErrorMesage] = useState('')
   const queryClient = useQueryClient()
 
   const {
@@ -70,7 +68,6 @@ const CartTable = ({ setAmount }: CartTableProps) => {
   const handleDecreaseQuantity = (item: any) => {
     if (item.quantity > 1) {
       decreaseQuantity({ productId: item.productID._id, productItemId: item.productItemID._id })
-      setErrorMesage
     }
   }
 

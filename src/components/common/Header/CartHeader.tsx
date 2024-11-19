@@ -10,8 +10,6 @@ import { useState } from 'react';
 const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { t } = useTranslate('header.cartHeader');
   const queryClient = useQueryClient();
-  const [errorMessage, setErrorMesage] = useState('');
-
   const { data: cartData, isLoading, isError } = useQuery({
     queryKey: ['cart'],
     queryFn: async () => {
