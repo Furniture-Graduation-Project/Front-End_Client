@@ -4,6 +4,7 @@ import { IUser } from '@/interface/user'
 import { AuthService } from '@/services/account'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 type MutationQueryProps = {
   action: 'SIGNIN' | 'SIGNUP' | 'DELETE'
@@ -12,6 +13,7 @@ type MutationQueryProps = {
 const useAccountMutation = ({ action }: MutationQueryProps) => {
   const { toast } = useToast()
   const { login } = useAuthContext()
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
 
   const handleSuccess = (data?: any) => {
@@ -33,6 +35,7 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
           variant: 'success'
         })
         login(data.accessToken)
+        navigate('/')
         break
       case 'DELETE':
         toast({

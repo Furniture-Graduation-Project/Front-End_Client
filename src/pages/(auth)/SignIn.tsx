@@ -110,13 +110,13 @@ export default function SignIn() {
       </Form>
 
       <div className='space-y-4'>
-        <Link to={`http://localhost:8080/auth/google`}>
+        <Link to={`${import.meta.env.VITE_API_URL}/auth/google`}>
           <Button variant='outline' size='auth' className='w-full flex items-center justify-center space-x-2'>
             <img src='/public/google-logo.webp' alt='logo-auth' className='w-5 h-5' />
             <span>{t('googleSignIn', 'Sign in with Google')}</span>
           </Button>
         </Link>
-        <Link to={`http://localhost:8080/auth/facebook`}>
+        <Link to={`${import.meta.env.VITE_API_URL}/auth/facebook`}>
           <Button variant='outline' size='auth' className='w-full flex items-center justify-center space-x-2'>
             <img src='/public/logo-fb.svg' alt='logo-auth' className='w-5 h-5' />
             <span>{t('facebookSignIn', 'Sign in with Facebook')}</span>

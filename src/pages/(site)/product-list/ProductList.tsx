@@ -8,7 +8,9 @@ import { Separator } from '@/components/ui/separator'
 const ProductList = () => {
   return (
     <>
-      <Banner text={false} />
+      <div className='flex items-center h-[400px] overflow-hidden'>
+        <Banner text={false} />
+      </div>
       <Container className='xl:px-0 px-8 pt-16 pb-24'>
         <div className='flex flex-col md:flex-row'>
           <Separator className='md:hidden block' />
