@@ -22,7 +22,7 @@ export const OrderService = {
   }): Promise<AxiosResponse<IApiResponse<IOrder[]>>> => {
     try {
       const response: AxiosResponse<IApiResponse<IOrder[]>> = await axiosInstance.get(
-        `${API}/limited?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
+        `${API}/client/limited?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
       )
       return response
     } catch (error) {

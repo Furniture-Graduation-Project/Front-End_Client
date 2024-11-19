@@ -18,6 +18,8 @@ const AccountOrder = () => {
     pagination,
     setPagination
   })
+  console.log(data)
+
   return (
     <div>
       <DataTableCustom columns={columns} isError={isError} isLoading={isLoading} refetch={refetch} table={table} />
