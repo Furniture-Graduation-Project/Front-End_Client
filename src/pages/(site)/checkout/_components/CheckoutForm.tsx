@@ -14,6 +14,7 @@ import { IDistrict, ILocation, IWard } from '@/interface/location'
 import useOrderMutation from '@/hooks/mutations/useOrderMutation'
 import { IOrder } from '@/interface/order'
 import { useAllAddressQuery } from '@/hooks/queries/useAddressQuery'
+import { useAuthContext } from '@/context/AuthContext'
 
 const formSchema = z.object({
   firstName: z.string().min(1, 'Họ không được để trống.'),
@@ -30,6 +31,7 @@ const formSchema = z.object({
 })
 
 const CheckoutForm = ({ dataCart, amount }: any) => {
+  const { user } = useAuthContext()
   const { t } = useTranslate('checkout.form')
   const [currentDistrict, setCurrentDistrict] = useState<IDistrict[]>([])
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
@@ -60,7 +62,7 @@ const CheckoutForm = ({ dataCart, amount }: any) => {
     setCurrentWard(selectedWard ? selectedWard.wards : [])
   }
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    const items = dataCart.map((item: any) => {
+    const items = JSON.parse(dataCart).map((item: any) => {
       return {
         productId: item.productID._id,
         productOptionId: item.productItemID._id,
@@ -68,19 +70,21 @@ const CheckoutForm = ({ dataCart, amount }: any) => {
         unitPrice: item.price
       }
     })
-    const order: IOrder = {
-      userId: '652bc4e5a2f2b8123e9d4567',
-      orderName: data.firstName + ' ' + data.lastName,
-      orderPhone: data.phone,
-      orderAddress: data.country + ', ' + data.city + ', ' + data.district + ', ' + data.ward + ', ' + data.street,
-      totalPrice: amount,
-      items,
-      payment: {
-        paymentMethod: data.payment,
-        amount: amount
+    if (user && user._id) {
+      const order: IOrder = {
+        userId: user._id,
+        orderName: data.firstName + ' ' + data.lastName,
+        orderPhone: data.phone,
+        orderAddress: data.country + ', ' + data.city + ', ' + data.district + ', ' + data.ward + ', ' + data.street,
+        totalPrice: amount,
+        items,
+        payment: {
+          paymentMethod: data.payment,
+          amount: amount
+        }
       }
+      mutate(order)
     }
-    mutate(order)
   }
   return (
     <Form {...form}>

@@ -24,6 +24,7 @@ const slideInRight = {
 const Checkout = () => {
   const { t } = useTranslate('checkout.toast')
   const [state, setState, removeState] = useSessionStorage('stateOrder', null)
+
   const [amount, setAmount] = useState<number>(0)
   const { toast } = useToast()
   const location = useLocation()
@@ -31,9 +32,8 @@ const Checkout = () => {
     queryKey: ['cart'],
     queryFn: async () => {
       const response = await axiosInstance.get(`cart/652bc4e5a2f2b8123e9d4567`)
-      console.log(response.data.data.carts)
-      setState(response.data.data.carts)
-      setAmount(response.data.data.carts.reduce((acc: any, item: any) => acc + item.price * item.quantity, 0))
+      console.log(response.data)
+
       return response.data
     }
   })
@@ -50,12 +50,21 @@ const Checkout = () => {
         )
       })
     }
-  }, [data, isError])
+    if (data) {
+      setState(JSON.stringify(data.data.carts))
+      if (state) {
+        setAmount(JSON.parse(state).reduce((acc: any, item: any) => acc + item.price * item.quantity, 0))
+      }
+    }
+  }, [state, data, isError])
   useEffect(() => {
     return () => {
-      removeState()
+      if (location.pathname !== '/checkout' && location.pathname !== '/cart') {
+        removeState()
+      }
     }
   }, [location])
+
   return (
     <div className='flex flex-col-reverse gap-y-6 lg:grid lg:grid-cols-7 gap-x-16 my-20'>
       <motion.div className='lg:col-span-4' initial='hidden' animate='visible' variants={slideInLeft}>
