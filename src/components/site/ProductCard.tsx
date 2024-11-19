@@ -15,7 +15,7 @@ const ProductCard = ({ width, height }: ProductCardProps) => {
   return (
     <div>
       <div className='bg-neutral-2 rounded-xl relative group transition duration-500 ease-in-out hover:shadow-lg'>
-        <Link to={''} className='cursor-pointer'>
+        <Link to={'/products/1'} className='cursor-pointer'>
           <img
             src={ProductImage}
             alt='product-image'
@@ -35,10 +35,6 @@ const ProductCard = ({ width, height }: ProductCardProps) => {
           onClick={() => {}}
           icon={<Heart className='h-5 w-5' size={12} />}
         />
-        {/* <Button variant={'icon'} size={'icon'} className='absolute top-6 right-4 p-[6px] hover:bg-red hover:text-white'>
-          <Heart />
-        </Button> */}
-
         <div className='flex absolute left-0 right-0 bottom-6 items-center gap-x-20 justify-center'>
           <IconButton
             className='opacity-0 group-hover:translate-y-0 group-hover:opacity-100'

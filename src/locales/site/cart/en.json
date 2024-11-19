@@ -20,8 +20,6 @@
       "action": "Apply",
       "title": "Cart Summary",
       "select1": "Free Shipping",
-      "select2": "Express Shipping",
-      "select3": "Pick Up",
       "subtotal": "Subtotal",
       "total": "Total",
       "checkout": "Checkout"
