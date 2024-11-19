@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+import filters from 'tailwindcss-filters'
+import animate from 'tailwindcss-animate'
+
+const tailwindConfig = {
   darkMode: ['class'],
   content: [
     './pages/auth/**/*.{ts,tsx}',
@@ -89,5 +92,7 @@ module.exports = {
       }
     }
   },
-  plugins: [require('tailwindcss-filters'), require('tailwindcss-animate')]
+  plugins: [filters, animate]
 }
+
+export default tailwindConfig

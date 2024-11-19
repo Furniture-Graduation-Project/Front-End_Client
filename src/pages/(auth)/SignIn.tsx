@@ -40,7 +40,6 @@ export default function SignIn() {
   }
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log(data)
     handleSubmit(data)
   }
 

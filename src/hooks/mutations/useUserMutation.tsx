@@ -1,4 +1,5 @@
 import { useToast } from '@/components/ui/use-toast'
+import { useAuthContext } from '@/context/AuthContext'
 import { IUser } from '@/interface/user'
 import { AuthService } from '@/services/account'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -10,9 +11,10 @@ type MutationQueryProps = {
 
 const useAccountMutation = ({ action }: MutationQueryProps) => {
   const { toast } = useToast()
+  const { login } = useAuthContext()
   const queryClient = useQueryClient()
 
-  const handleSuccess = () => {
+  const handleSuccess = (data?: any) => {
     queryClient.invalidateQueries({
       queryKey: ['ACCOUNT']
     })
@@ -30,6 +32,7 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
           description: 'Chuyển đến trang chính...',
           variant: 'success'
         })
+        login(data.accessToken)
         break
       case 'DELETE':
         toast({

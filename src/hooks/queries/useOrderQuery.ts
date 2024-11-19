@@ -23,13 +23,8 @@ export const useMultipleOrderQuery = (pagination?: any) => {
   const { data, ...rest } = useQuery({
     queryKey: ['ORDER', pageIndex, pageSize],
     queryFn: async () => {
-      if (pagination) {
-        const response = await OrderService.getLimited({ pageIndex, pageSize })
-        return response.data
-      } else {
-        const response = await OrderService.getAll()
-        return response.data
-      }
+      const response = await OrderService.getAll({ pageIndex, pageSize })
+      return response.data
     }
   })
   return { data, ...rest }

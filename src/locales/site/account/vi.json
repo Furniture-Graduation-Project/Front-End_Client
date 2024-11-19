@@ -1,0 +1,12 @@
+{
+    "account": {
+        "sidebar": {
+            "account": "Tài khoản",
+            "address": "Địa chỉ",
+            "orders": "Đơn hàng",
+            "wishlist": "Yêu thích",
+            "logout": "Đăng xuất",
+            "selectMenu" : "Chọn menu"
+        }
+    }
+}

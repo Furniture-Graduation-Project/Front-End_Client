@@ -17,7 +17,7 @@ const FormSchema = z.object({
   })
 })
 
-const CartForm = ({amount} : {amount : number}) => {
+const CartForm = ({ amount }: { amount: number }) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema)
   })

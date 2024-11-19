@@ -43,7 +43,7 @@ const OrderSummary = ({ amount, dataCart, isLoading }: { amount: number; dataCar
                 <Skeleton className='w-12 h-5' />
               </div>
             ) : (
-              dataCart.map((item: any, i: number) => (
+              JSON.parse(dataCart).map((item: any, i: number) => (
                 <div key={i}>
                   <div className='flex justify-between py-7'>
                     <div className='flex gap-4'>

@@ -55,8 +55,8 @@ const ProductCard = ({ width, height }: ProductCardProps) => {
       <div className='*:my-3'>
         <div className='star-rating relative'>
           <div className='stars flex *:h-5 *:w-5'>
-            {Array.from({ length: 5 }, () => (
-              <Star />
+            {Array.from({ length: 5 }, (_, i) => (
+              <Star key={i} />
             ))}
           </div>
           <div className='stars rating absolute top-0 flex *:h-5 *:w-5'>

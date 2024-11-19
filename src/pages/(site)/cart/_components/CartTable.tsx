@@ -7,9 +7,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
 type CartTableProps = {
-  amount: number;
-  setAmount: (value: number) => void;
-};
+  amount: number
+  setAmount: (value: number) => void
+}
 
 const CartTable = ({ setAmount }: CartTableProps) => {
   const { t } = useTranslate('cart.cartTable');
@@ -36,7 +36,7 @@ const CartTable = ({ setAmount }: CartTableProps) => {
   
   const handleIncreaseQuantity = (item: any) => {
     if (item.quantity >= item.productItemID.stock) {
-      alert('Số lượng hàng không thể lớn hơn hàng tồn kho!');
+      alert('Số lượng hàng không thể lớn hơn hàng tồn kho!')
     } else {
       increaseQuantity(
         { userId, productId: item.productID._id, productItemId: item.productItemID._id },
@@ -47,7 +47,7 @@ const CartTable = ({ setAmount }: CartTableProps) => {
         }
       );
     }
-  };
+  }
 
   const handleDecreaseQuantity = (item: any) => {
     if (item.quantity > 1) {
@@ -60,7 +60,7 @@ const CartTable = ({ setAmount }: CartTableProps) => {
         }
       );
     }
-  };
+  }
 
   const handleDeleteItem = (item: any) => {
     deleteItem(
@@ -171,4 +171,4 @@ const CartTable = ({ setAmount }: CartTableProps) => {
   );
 };
 
-export default CartTable;
+export default CartTable
