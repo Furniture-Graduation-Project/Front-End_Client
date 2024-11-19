@@ -14,7 +14,9 @@ const slideInRight = {
 }
 
 const Cart = () => {
-  const [amount, setAmount] = useState<number>(0)
+
+  const [amount, setAmount ] = useState<number>(0)
+  console.log('Amount in Cart:', amount);
   return (
     <div className='my-20'>
       <div className='lg:grid lg:grid-cols-5 xl:grid-cols-3 gap-x-16'>
