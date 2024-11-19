@@ -1,8 +1,5 @@
 import { axiosInstance } from '@/config/axios';
 import { AddToCartData, UpdateCartItemData } from '@/interface/cart';
-import debounce from 'lodash.debounce';
-
-const debounceRequest = debounce(async (fn: () => Promise<any>) => await fn(), 500);
 
 export const CartService = {
   getCartByUserId: async (userId: string) => {
@@ -55,26 +52,23 @@ export const CartService = {
   },
 
   increaseQuantity: async (userId: string, productId: string, productItemId: string) => {
-    return debounceRequest(async () => {
-      try {
-        const response = await axiosInstance.patch(`/cart/increase/${userId}/${productId}/${productItemId}`);
-        return response.data;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
-    });
+
+    try {
+      const response = await axiosInstance.patch(`/cart/increase/${userId}/${productId}/${productItemId}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   },
 
   decreaseQuantity: async (userId: string, productId: string, productItemId: string) => {
-    return debounceRequest(async () => {
-      try {
-        const response = await axiosInstance.patch(`/cart/decrease/${userId}/${productId}/${productItemId}`);
-        return response.data;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
-    });
-  },
+    try {
+      const response = await axiosInstance.patch(`/cart/decrease/${userId}/${productId}/${productItemId}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 };
