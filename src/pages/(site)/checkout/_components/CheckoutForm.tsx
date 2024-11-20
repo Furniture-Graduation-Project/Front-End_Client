@@ -30,7 +30,7 @@ const formSchema = z.object({
   })
 })
 
-const CheckoutForm = ({ dataCart, amount }: any) => {
+const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart }: any) => {
   const { user } = useAuthContext()
   const { t } = useTranslate('checkout.form')
   const [currentDistrict, setCurrentDistrict] = useState<IDistrict[]>([])
@@ -309,7 +309,12 @@ const CheckoutForm = ({ dataCart, amount }: any) => {
               )}
             />
           </div>
-          <Button disabled={isLoading || isError} variant={'default'} className={`bg-black py-6`} type='submit'>
+          <Button
+            disabled={isLoading || isError || isLoadingCart || !user}
+            variant={'default'}
+            className={`bg-black py-6`}
+            type='submit'
+          >
             {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : t('submit')}
           </Button>
         </div>

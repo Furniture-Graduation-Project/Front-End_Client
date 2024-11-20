@@ -26,7 +26,7 @@ const getUserIdFromToken = (token: string | null): string | null => {
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken, removeToken] = useLocalStorage('user', null)
+  const [token, setToken, removeToken] = useLocalStorage('accessToken', null)
   const [id, setId] = useState<string | null>(null)
   const [user, setUser] = useState<IUser | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -53,9 +53,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const userId = getUserIdFromToken(token)
       setId(userId)
     }
-  }, [])
+  }, [token])
 
   useEffect(() => {
+    console.log(data);
     if (data) {
       setUser(data.data)
       setIsLoading(false)

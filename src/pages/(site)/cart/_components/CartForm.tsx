@@ -2,13 +2,17 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
-import { toast } from '@/components/ui/use-toast'
+import { useToast } from '@/hooks/use-toast'
+import useSessionStorage from '@/hooks/useSessionStorage'
 import { useTranslate } from '@/hooks/useTranslate'
+import { IApiResponse } from '@/interface/apiRespose'
+import { ICart } from '@/interface/cart'
 import { cn } from '@/utils/classUtils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TicketPercent } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 
 const FormSchema = z.object({
@@ -17,25 +21,31 @@ const FormSchema = z.object({
   })
 })
 
-const CartForm = ({ amount }: { amount: number }) => {
+const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse<ICart> }) => {
+  const [state, setState, removeState] = useSessionStorage('stateOrder', null)
+  const { toast } = useToast()
+  const navigate = useNavigate()
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema)
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      type: 'free'
+    }
   })
-
   const [selected, setSelected] = useState('')
   const { t } = useTranslate('cart.cartForm')
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      )
-    })
+  function onSubmit() {
+    if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
+      setState(JSON.stringify(cartData.data.carts))
+      navigate('/checkout')
+    } else {
+      toast({
+        
+        title: "Vui lòng nhập thêm sản phẩm",
+        description: "Số sản phẩm phải lớn hơn 1",
+        variant: 'default'
+      })
+    }
   }
-  
 
   return (
     <>
@@ -74,55 +84,27 @@ const CartForm = ({ amount }: { amount: number }) => {
                         >
                           <div className='flex items-center space-x-3 space-y-0'>
                             <FormControl>
-                              <RadioGroupItem onClick={() => setSelected('free')} value='free' />
+                              <RadioGroupItem disabled onClick={() => setSelected('free')} value='free' />
                             </FormControl>
                             <FormLabel className='font-normal cursor-pointer'>{t('select1')}</FormLabel>
                           </div>
-                          <p className='text-right'>$0.00</p>
-                        </FormItem>
-                        <FormItem
-                          className={cn(
-                            `flex border items-center justify-between space-y-0 border-black py-3 px-4 rounded-md transition duration-200 ease-in-out transform`,
-                            selected === 'express' && 'bg-neutral-2-100'
-                          )}
-                        >
-                          <div className='flex items-center space-x-3 space-y-0'>
-                            <FormControl>
-                              <RadioGroupItem onClick={() => setSelected('express')} value='express' />
-                            </FormControl>
-                            <FormLabel className='font-normal cursor-pointer'>{t('select2')}</FormLabel>
-                          </div>
-                          <p className='text-right'>$0.00</p>
-                        </FormItem>
-                        <FormItem
-                          className={cn(
-                            `flex border items-center justify-between space-y-0 border-black py-3 px-4 rounded-md transition duration-200 ease-in-out transform`,
-                            selected === 'pickup' && 'bg-neutral-2-100'
-                          )}
-                        >
-                          <div className='flex items-center space-x-3 space-y-0'>
-                            <FormControl>
-                              <RadioGroupItem onClick={() => setSelected('pickup')} value='pickup' />
-                            </FormControl>
-                            <FormLabel className='font-normal cursor-pointer'>{t('select3')}</FormLabel>
-                          </div>
-                          <p className='text-right'>$0.00</p>
+                          <p className='text-right'>0.00 Vnd</p>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
                     <div className='flex justify-between items-center mt-4 py-3'>
                       <h1>{t('subtotal')}</h1>
-                      <h1 className='font-semibold'>${amount.toFixed(2)}</h1>
+                      <h1 className='font-semibold'>{amount.toFixed(2)} Vnd</h1>
                     </div>
                     <Separator />
                     <div className='flex justify-between items-center py-3'>
                       <h1 className='text-xl font-semibold'>{t('total')}</h1>
-                      <h1 className='text-xl font-semibold'>${amount.toFixed(2)}</h1>
+                      <h1 className='text-xl font-semibold'>{amount.toFixed(2)} Vnd</h1>
                     </div>
                   </FormItem>
                 )}
               />
-              <Button type='submit' className='w-full py-6 text-[18px]'>
+              <Button type='submit' className='w-full py-6 text-[18px]' disabled={!cartData?.data?.carts}>
                 {t('checkout')}
               </Button>
             </form>

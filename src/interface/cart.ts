@@ -6,8 +6,8 @@ export interface ICartItem {
 }
 
 export interface ICart {
-  userId?: string
-  items?: ICartItem[]
+  UserID?: string
+  carts?: ICartItem[]
 }
 
 export interface AddToCartData {
