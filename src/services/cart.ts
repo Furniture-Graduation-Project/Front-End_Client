@@ -51,10 +51,10 @@ export const CartService = {
     }
   },
 
-  increaseQuantity: async (userId: string, productId: string, productItemId: string) => {
+  increaseQuantity: async (productId: string, productItemId: string) => {
 
     try {
-      const response = await axiosInstance.patch(`/cart/increase/${userId}/${productId}/${productItemId}`);
+      const response = await axiosInstance.patch(`/cart/increase/${productId}/${productItemId}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -62,9 +62,9 @@ export const CartService = {
     }
   },
 
-  decreaseQuantity: async (userId: string, productId: string, productItemId: string) => {
+  decreaseQuantity: async ( productId: string, productItemId: string) => {
     try {
-      const response = await axiosInstance.patch(`/cart/decrease/${userId}/${productId}/${productItemId}`);
+      const response = await axiosInstance.patch(`/cart/decrease/${productId}/${productItemId}`);
       return response.data;
     } catch (error) {
       console.log(error);

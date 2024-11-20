@@ -6,8 +6,10 @@ import { useCartMutation } from '@/hooks/mutations/useCartMutation'
 import { useCartQuery } from '@/hooks/queries/useCartQuery'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '@/context/AuthContext'
+import useSessionStorage from '@/hooks/useSessionStorage'
+import { useToast } from '@/hooks/use-toast'
 
 type CartHeaderProps = {
   mobile: boolean
@@ -18,11 +20,13 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
   const { t } = useTranslate('header.cartHeader')
   const queryClient = useQueryClient()
   const [amount, setAmount] = useState(0)
+  const [state, setState, removeState] = useSessionStorage('stateOrder', null)
   const { data: cartData, isLoading, isError } = useCartQuery(user?._id as string)
   const { mutate: deleteItem } = useCartMutation('REMOVE')
   const { mutate: increaseQuantity } = useCartMutation('INCREASE')
   const { mutate: decreaseQuantity } = useCartMutation('DECREASE')
-
+  const navigate = useNavigate()
+  const { toast } = useToast()
   useEffect(() => {
     if (cartData && cartData.data && cartData.data.carts) {
       setAmount(
@@ -36,6 +40,8 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
     }
   }, [cartData])
 
+  console.log(cartData)
+
   const handleIncreaseQuantity = (item: any) => {
     if (item.quantity >= item.productItemID.stock) {
       alert('Số lượng hàng không thể lớn hơn hàng tồn kho!')
@@ -43,7 +49,7 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
     }
     if (user) {
       increaseQuantity(
-        { userId: user?._id, productId: item.productID._id, productItemId: item.productItemID._id },
+        { productId: item.productID._id, productItemId: item.productItemID._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
@@ -56,7 +62,7 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
   const handleDecreaseQuantity = (item: any) => {
     if (item.quantity > 1 && user) {
       decreaseQuantity(
-        { userId: user?._id, productId: item.productID._id, productItemId: item.productItemID._id },
+        { productId: item.productID._id, productItemId: item.productItemID._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
@@ -67,24 +73,36 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
   }
 
   const handleDeleteItem = (item: any) => {
-   if (user) {
-     deleteItem(
-       { userId: user?._id, productId: item.productID._id, productItemId: item.productItemID._id },
-       {
-         onSuccess: () => {
-           queryClient.invalidateQueries({ queryKey: ['cart'] })
-         },
-         onError: (error) => {
-           console.error('Lỗi khi xóa sản phẩm:', error)
-           alert('Không thể xóa sản phẩm, vui lòng thử lại.')
-         }
-       }
-     )
-   }
+    if (user) {
+      deleteItem(
+        { productId: item.productID._id, productItemId: item.productItemID._id },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['cart'] })
+          },
+          onError: (error) => {
+            console.error('Lỗi khi xóa sản phẩm:', error)
+            alert('Không thể xóa sản phẩm, vui lòng thử lại.')
+          }
+        }
+      )
+    }
   }
 
   const calculateTotal = () => {
     return amount.toFixed(2)
+  }
+  function onSubmit() {
+    if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
+      setState(JSON.stringify(cartData.data.carts))
+      navigate('/checkout')
+    } else {
+      toast({
+        title: 'Vui lòng nhập thêm sản phẩm',
+        description: 'Số sản phẩm phải lớn hơn 1',
+        variant: 'default'
+      })
+    }
   }
 
   return (
@@ -98,7 +116,7 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
             </Button>
           </SheetTrigger>
           <div className='rounded-full bg-black text-white w-[20px] h-[20px] text-center leading-[20px] ml-1'>
-            {cartData?.data.carts.length || 0}
+            {cartData?.data ? cartData?.data.carts.length : 0}
           </div>
 
           <SheetContent
@@ -114,7 +132,7 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
                       <div>Loading...</div>
                     ) : isError ? (
                       <div>Error loading cart</div>
-                    ) : (
+                    ) : cartData?.data?.carts?.length > 0 ? (
                       cartData.data.carts.map((item: any) => (
                         <li
                           key={item.productItemID._id}
@@ -173,6 +191,8 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
                           </div>
                         </li>
                       ))
+                    ) : (
+                      <div>Không có sản phẩm trong giỏ hàng</div>
                     )}
                   </ul>
                 </div>
@@ -193,12 +213,12 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
               </div>
 
               <div className='mt-6'>
-                <a
-                  href='#'
-                  className='flex items-center justify-center rounded-md border border-transparent bg-black px-6 py-3 button-m text-white shadow-sm hover:bg-neutral-7'
+                <Button
+                  onClick={onSubmit}
+                  className='w-full bg-black text-white hover:bg-neutral-7'
                 >
                   {t('checkout')}
-                </a>
+                </Button>
               </div>
 
               <div className='mt-6 flex justify-center text-center caption-1-semi text-neutral-4 space-x-3'>

@@ -6,7 +6,7 @@ type CartMutation = 'ADD' | 'UPDATE' | 'REMOVE' | 'INCREASE' | 'DECREASE';
 export const useCartMutation = (key: CartMutation) => {
   const { mutate } = useMutation({
     mutationKey: ['cart'],
-    mutationFn: async (params: { userId: string; productId: string; productItemId: string; data?: any }) => {
+    mutationFn: async (params: { productId: string; productItemId: string; data?: any }) => {
       try {
         switch (key) {
           case 'ADD':
@@ -16,9 +16,9 @@ export const useCartMutation = (key: CartMutation) => {
           case 'REMOVE':
             return await CartService.removeCartItem(params.productId, params.productItemId);
           case 'INCREASE':
-            return await CartService.increaseQuantity(params.userId, params.productId, params.productItemId);
+            return await CartService.increaseQuantity(params.productId, params.productItemId);
           case 'DECREASE':
-            return await CartService.decreaseQuantity(params.userId, params.productId, params.productItemId);
+            return await CartService.decreaseQuantity(params.productId, params.productItemId);
           default:
             throw new Error('Khóa không hợp lệ');
         }

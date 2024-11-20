@@ -27,6 +27,7 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
           description: 'Chuyển đến trang đăng nhập...',
           variant: 'success'
         })
+        navigate('/signin')
         break
       case 'SIGNIN':
         toast({
@@ -34,7 +35,7 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
           description: 'Chuyển đến trang chính...',
           variant: 'success'
         })
-        login(data.accessToken)
+        login(data.data.accessToken)
         navigate('/')
         break
       case 'DELETE':
@@ -73,7 +74,7 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
     onError: handleError
   })
 
-  const onSubmit: SubmitHandler<IUser> = (data) => {
+  const onSubmit: SubmitHandler<any> = (data) => {
     mutate(data)
   }
 

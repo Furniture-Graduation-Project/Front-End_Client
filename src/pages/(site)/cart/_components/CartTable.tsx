@@ -43,7 +43,7 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
     }
     if (user) {
       increaseQuantity(
-        { userId: user?._id, productId: item.productID._id, productItemId: item.productItemID._id },
+        { productId: item.productID._id, productItemId: item.productItemID._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
@@ -56,7 +56,7 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
   const handleDecreaseQuantity = (item: any) => {
     if (item.quantity > 1 && user) {
       decreaseQuantity(
-        { userId: user?._id, productId: item.productID._id, productItemId: item.productItemID._id },
+        { productId: item.productID._id, productItemId: item.productItemID._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
@@ -69,7 +69,7 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
   const handleDeleteItem = (item: any) => {
     if (user) {
       deleteItem(
-        { userId: user?._id, productId: item.productID._id, productItemId: item.productItemID._id },
+        { productId: item.productID._id, productItemId: item.productItemID._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
@@ -97,13 +97,13 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
         {isLoading ? (
           <TableRow>
             <TableCell colSpan={5} style={{ textAlign: 'center' }}>
-              Loading...
+              Đang tải...
             </TableCell>
           </TableRow>
         ) : isError ? (
           <TableRow>
             <TableCell colSpan={5} style={{ textAlign: 'center' }}>
-              Error...
+              L...
             </TableCell>
           </TableRow>
         ) : cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0 ? (
@@ -152,7 +152,7 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
               </TableCell>
               <TableCell className='sm:hidden sm:p-4 px-0'>
                 <div className='flex flex-col items-end justify-start -mt-10 gap-2'>
-                  <p className='font-semibold'>${item.price.toFixed(2)}</p>
+                  <p className='font-semibold whitespace-nowrap'>{item.price.toFixed(2)} Vnd</p>
                   <button className='flex items-center gap-1 *:text-[#605F5F]' onClick={() => handleDeleteItem(item)}>
                     <X size={24} />
                     <p className='font-semibold text-[14px]'>{t('action')}</p>
@@ -171,17 +171,19 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
                 </div>
               </TableCell>
               <TableCell className='hidden sm:table-cell sm:p-4 px-0'>
-                <p className='font-semibold text-center'>${item.price.toFixed(2)}</p>
+                <p className='font-semibold text-center whitespace-nowrap'>{item.price.toFixed(2)} Vnd</p>
               </TableCell>
               <TableCell className='hidden sm:table-cell sm:p-4 px-0'>
-                <p className='font-semibold text-center'>${(item.quantity * item.price).toFixed(2)}</p>
+                <p className='font-semibold text-center whitespace-nowrap'>
+                  {(item.quantity * item.price).toFixed(2)} Vnd
+                </p>
               </TableCell>
             </TableRow>
           ))
         ) : (
           <TableRow>
             <TableCell colSpan={5} style={{ textAlign: 'center' }}>
-              No items found
+              Không có sản phẩm trong giỏ hàng
             </TableCell>
           </TableRow>
         )}
