@@ -1,12 +1,15 @@
+import { NewsletterBanner } from '@/assets'
 import { useTranslate } from '@/hooks/useTranslate'
 import { Mail } from 'lucide-react'
 
 const Newsletter = () => {
   const { t } = useTranslate('home.newsletter')
+  console.log(NewsletterBanner)
 
   return (
-    <>
-      <div className='relative mt-[74px] h-[300px] md:h-[300px] bg-neutral-2 lg:h-auto'>
+    <div className='relative mt-[74px] h-[300px]  lg:h-auto'>
+      <img className='w-full h-full md:object-cover' src={NewsletterBanner} alt='banner' />
+      <div>
         <img src='/images/footer.png' alt='' className='hidden lg:block' />
         <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center tracking-wider'>
           <h1 className='headline-5 sm:headline-4 mb-3'>{t('join')}</h1>
@@ -19,14 +22,14 @@ const Newsletter = () => {
                 placeholder={t('emailPlaceholder')}
                 className='bg-neutral-2 lg:w-[396px] md:w-[320px] px-3 py-1 focus:outline-none'
               />
-              <button className='text-neutral-4 font-medium transition duration-500 ease-in-out transform hover:scale-110 '>
+              <button className='text-neutral-4 font-medium transition duration-500 ease-in-out transform hover:scale-110 whitespace-nowrap'>
                 {t('signupButton')}
               </button>
             </form>
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

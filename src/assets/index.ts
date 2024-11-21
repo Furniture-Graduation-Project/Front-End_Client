@@ -11,7 +11,7 @@ import BannerGrid2 from '@/assets/images/2.png'
 import Auth from '@/assets/images/auth/auth.png'
 import ProductImage from '@/assets/images/3.png'
 import ArticlesImage from '@/assets/images/5.png'
-
+import NewsletterBanner from '@/assets/images/footer.png'
 export {
   LogoWhite,
   LogoBlack,
@@ -25,5 +25,6 @@ export {
   BannerGrid2,
   Auth,
   ProductImage,
-  ArticlesImage
+  ArticlesImage,
+  NewsletterBanner
 }

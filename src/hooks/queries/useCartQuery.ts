@@ -3,7 +3,7 @@ import { CartService } from '@/services/cart';
 
 export const useCartQuery = (userId: string) => {
   const { data, isLoading, isError, error, ...rest } = useQuery({
-    queryKey: ['cart', userId],
+    queryKey: ['cart'],
     queryFn: async () => {
       return await CartService.getCartByUserId(userId);
     },

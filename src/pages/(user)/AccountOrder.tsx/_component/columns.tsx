@@ -75,7 +75,7 @@ export const columns: ColumnDef<IOrder>[] = [
     header: 'Tổng Giá Trị',
     cell: ({ row }) => {
       const price = row.getValue<number>('totalPrice')
-      return <h3>{`$${price.toFixed(2)}`}</h3>
+      return <h3>{`$${price.toFixed(3)}`}</h3>
     }
   },
   {

@@ -96,10 +96,10 @@ const OrderSummary = ({ amount, dataCart, isLoading }: { amount: number; dataCar
           <div className='flex justify-between items-center'>
             <div className='flex items-center gap-x-2'>
               <TicketPercent size={24} />
-              <p>JenkateMW</p>
+              <p>Không có</p>
             </div>
             <p className='text-[#38CB89] font-semibold'>
-              -$25.00 <span className='hidden sm:inline-block'>{t('remove')}</span>
+              -0% <span className='hidden sm:inline-block'>{t('remove')}</span>
             </p>
           </div>
           <Separator />
@@ -114,14 +114,14 @@ const OrderSummary = ({ amount, dataCart, isLoading }: { amount: number; dataCar
             <div className='flex items-center gap-x-2'>
               <p>{t('subtotal')}</p>
             </div>
-            <p className='font-semibold'>${amount}.00</p>
+            <p className='font-semibold'>{amount} Vnd</p>
           </div>
           <Separator />
           <div className='flex justify-between items-center'>
             <div className='flex items-center gap-x-2'>
               <p className='font-medium text-xl'>{t('total')}</p>
             </div>
-            <p className='text-xl font-medium'>${amount}.00</p>
+            <p className='text-xl font-medium'>{amount} Vnd</p>
           </div>
         </div>
       </div>
