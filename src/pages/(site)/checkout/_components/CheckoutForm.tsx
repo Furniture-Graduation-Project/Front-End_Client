@@ -48,7 +48,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart }: any) => {
       city: '',
       district: '',
       ward: '',
-      payment: 'credit_card'
+      payment: 'cash_on_delivery'
     }
   })
   const handleChangeDistrict = (value: string, field: any) => {
@@ -281,7 +281,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart }: any) => {
                       >
                         <div className='flex items-center space-x-3 space-y-0'>
                           <FormControl>
-                            <RadioGroupItem value='credit_card' />
+                            <RadioGroupItem disabled value='credit_card' />
                           </FormControl>
                           <FormLabel className='font-normal cursor-pointer'>{t('paymentMethod1')}</FormLabel>
                         </div>

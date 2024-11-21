@@ -94,12 +94,12 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
                     </FormControl>
                     <div className='flex justify-between items-center mt-4 py-3'>
                       <h1>{t('subtotal')}</h1>
-                      <h1 className='font-semibold'>{amount.toFixed(2)} Vnd</h1>
+                      <h1 className='font-semibold'>{amount.toFixed(3)} Vnd</h1>
                     </div>
                     <Separator />
                     <div className='flex justify-between items-center py-3'>
                       <h1 className='text-xl font-semibold'>{t('total')}</h1>
-                      <h1 className='text-xl font-semibold'>{amount.toFixed(2)} Vnd</h1>
+                      <h1 className='text-xl font-semibold'>{amount.toFixed(3)} Vnd</h1>
                     </div>
                   </FormItem>
                 )}
