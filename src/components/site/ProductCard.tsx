@@ -8,15 +8,17 @@ import { Link } from 'react-router-dom'
 interface ProductCardProps {
   width?: string
   height?: string
+  product?: any
 }
 
-const ProductCard = ({ width, height }: ProductCardProps) => {
+const ProductCard = ({ width, height, product }: ProductCardProps) => {
   const { t } = useTranslate('productCard')
   return (
     <div>
       <div className='bg-neutral-2 rounded-xl relative group transition duration-500 ease-in-out hover:shadow-lg'>
-        <Link to={'/products/1'} className='cursor-pointer'>
+        <Link to={`/products/${product._id}`} className='cursor-pointer'>
           <img
+            // src={product.image || ProductImage}
             src={ProductImage}
             alt='product-image'
             className={cn(
@@ -61,7 +63,7 @@ const ProductCard = ({ width, height }: ProductCardProps) => {
             <StarHalf fill='black' strokeWidth={0} />
           </div>
         </div>
-        <h1 className='body-2-semi'>Loveseat Sofa</h1>
+        <h1 className='body-2-semi'>{product.name}</h1>
         <div className='flex'>
           <p className='mr-3 caption-1-semi'>$199.00</p>
           <p className='line-through caption-1 text-[#6C7275]'>$400.00</p>
