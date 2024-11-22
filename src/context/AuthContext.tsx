@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [token])
 
   useEffect(() => {
-    console.log(data);
+    console.log(data)
     if (data) {
       setUser(data.data)
       setIsLoading(false)

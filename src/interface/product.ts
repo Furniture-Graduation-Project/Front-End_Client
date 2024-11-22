@@ -1,9 +1,9 @@
-import { ICategory } from "./category"
+import { ICategory } from './category'
 
 export interface IProduct {
   _id?: string
   name: string
-  category: ICategory
+  category?: ICategory
   description?: string
   price: number
   SKU: string
