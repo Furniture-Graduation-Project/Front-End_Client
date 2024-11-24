@@ -1,24 +1,27 @@
 import { IApiResponse } from '@/interface/apiRespose'
-import { IOrder } from '@/interface/order'
+import { IOrder, IOrderItem } from '@/interface/order'
 import { OrderService } from '@/services/order'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 type MutationQueryProps = {
-  action: 'CREATE' | 'UPDATE' | 'DELETE'
+  action: 'CREATE' | 'UPDATE' | 'DELETE' | 'CHECK'
 }
 
 const useOrderMutation = ({ action }: MutationQueryProps) => {
   const navigate = useNavigate()
-
   const mutationFn = async (
-    data: IOrder
-  ): Promise<AxiosResponse<IApiResponse<IOrder>> | AxiosResponse<IApiResponse<void>>> => {
+    data: any
+  ): Promise<
+    AxiosResponse<IApiResponse<IOrder>> | AxiosResponse<IApiResponse<void>> | AxiosResponse<IApiResponse<IOrderItem[]>>
+  > => {
     try {
       switch (action) {
         case 'CREATE':
           return await OrderService.create(data)
+        case 'CHECK':
+          return await OrderService.checkProducts(data)
         case 'UPDATE':
           if (data._id) {
             return await OrderService.update(data._id, data)
@@ -48,9 +51,6 @@ const useOrderMutation = ({ action }: MutationQueryProps) => {
           navigate('/order/' + orderData._id)
         }
       }
-    },
-    onError: (error) => {
-      console.error('Mutation failed:', error)
     }
   })
   return { mutate, ...rest }

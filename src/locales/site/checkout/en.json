@@ -18,7 +18,9 @@
       "ward": "Ward",
       "paymentMethod1": "Pay Before Receiving",
       "paymentMethod2": "Pay on Delivery",
-      "submit": "Place Order"
+      "submit": "Place Order",
+      "errorOrder": "Go back to cart",
+      "tryAgain": "Try again"
     },
     "order": {
       "title": "Order Summary",
@@ -29,7 +31,12 @@
       "shipping": "Shipping",
       "free": "Free",
       "subtotal": "Subtotal",
-      "total": "Total"
+      "total": "Total",
+      "product_not_available": "Product is not available!",
+      "insufficient_quantity": "Insufficient product quantity!",
+      "price_changed": "Product price has changed!",
+      "remove_product": "Remove product",
+      "update_price": "Update price"
     },
     "toast": {
       "errorTitle": "An error occurred while fetching your cart!",

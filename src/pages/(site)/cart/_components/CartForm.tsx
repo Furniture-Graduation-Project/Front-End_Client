@@ -8,6 +8,7 @@ import { useTranslate } from '@/hooks/useTranslate'
 import { IApiResponse } from '@/interface/apiRespose'
 import { ICart } from '@/interface/cart'
 import { cn } from '@/utils/classUtils'
+import { formatCurrency } from '@/utils/formatCurrency'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TicketPercent } from 'lucide-react'
 import { useState } from 'react'
@@ -22,7 +23,7 @@ const FormSchema = z.object({
 })
 
 const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse<ICart> }) => {
-  const [state, setState, removeState] = useSessionStorage('stateOrder', null)
+  const [state, setState] = useSessionStorage('stateOrder', null)
   const { toast } = useToast()
   const navigate = useNavigate()
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -36,12 +37,12 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
   function onSubmit() {
     if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
       setState(JSON.stringify(cartData.data.carts))
+      console.log(state);
       navigate('/checkout')
     } else {
       toast({
-        
-        title: "Vui lòng nhập thêm sản phẩm",
-        description: "Số sản phẩm phải lớn hơn 1",
+        title: 'Vui lòng nhập thêm sản phẩm',
+        description: 'Số sản phẩm phải lớn hơn 1',
         variant: 'default'
       })
     }
@@ -88,18 +89,18 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
                             </FormControl>
                             <FormLabel className='font-normal cursor-pointer'>{t('select1')}</FormLabel>
                           </div>
-                          <p className='text-right'>0.00 Vnd</p>
+                          <p className='text-right'>{formatCurrency(0)}</p>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
                     <div className='flex justify-between items-center mt-4 py-3'>
                       <h1>{t('subtotal')}</h1>
-                      <h1 className='font-semibold'>{amount.toFixed(3)} Vnd</h1>
+                      <h1 className='font-semibold'>{formatCurrency(amount)}</h1>
                     </div>
                     <Separator />
                     <div className='flex justify-between items-center py-3'>
                       <h1 className='text-xl font-semibold'>{t('total')}</h1>
-                      <h1 className='text-xl font-semibold'>{amount.toFixed(3)} Vnd</h1>
+                      <h1 className='text-xl font-semibold'>{formatCurrency(amount)}</h1>
                     </div>
                   </FormItem>
                 )}
