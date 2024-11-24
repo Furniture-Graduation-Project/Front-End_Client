@@ -28,7 +28,14 @@
       "checkout": "Thanh toán",
       "viewCart": "Xem giỏ hàng",
       "or": "Hoặc",
-      "continue": "Tiếp tục mua hàng"
+      "continue": "Tiếp tục mua hàng",
+      "stockLimit": "Số lượng hàng không thể lớn hơn hàng tồn kho!",
+      "deleteError": "Không thể xóa sản phẩm, vui lòng thử lại.",
+      "cartError": "Lỗi khi tải giỏ hàng.",
+      "loading": "Đang tải...",
+      "pleaseAddProduct": "Vui lòng thêm sản phẩm vào giỏ hàng.",
+      "cartMustHaveProduct": "Số lượng sản phẩm phải lớn hơn 1.",
+      "noProductInCart": "Không có sản phẩm trong giỏ hàng"
     },
     "userMenu": {
       "signIn": "Đăng nhập",

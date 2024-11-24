@@ -4,11 +4,11 @@ import { ArrowRight, Heart, Minus, Plus, Star } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { IProductItem, IVariant } from '@/interface/productItem'
-import { useProductItemsByProductId } from '@/hooks/queries/useProductItemQuery'
+import { useProductItemsByproductId } from '@/hooks/queries/useProductItemQuery'
 import { useCartMutation } from '@/hooks/mutations/useCartMutation'
 
 const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
-  const { data: productItem, isLoading: productItemLoading } = useProductItemsByProductId(data?.data?._id)
+  const { data: productItem, isLoading: productItemLoading } = useProductItemsByproductId(data?.data?._id)
   const { mutate } = useCartMutation('ADD')
   const [selectedVariant, setSelectedVariant] = useState<IProductItem | undefined>()
   const [price, setPrice] = useState<number>(0)
@@ -44,10 +44,10 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
   const handleAddToCart = () => {
     mutate({
       data: {
-        productID: data.data._id,
-        productItemID: selectedVariant?._id,
+        productId: data.data._id,
+        productOptionId: selectedVariant?._id,
         quantity: quantity,
-        price: price
+        unitPrice: price
       }
     })
   }
