@@ -116,7 +116,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
       <div className='space-y-2'>
         {isLoading ? (
           <div className='flex space-x-4'>
-            {Object.entries(timeLeft).map(([key, value]) => (
+            {Object.entries(timeLeft).map(([key]) => (
               <div key={key} className='text-center'>
                 <Skeleton className='h-10 w-20' />
                 <Skeleton className='h-3 w-16' />
