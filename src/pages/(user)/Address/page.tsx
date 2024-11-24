@@ -1,15 +1,11 @@
-import { useReadLocalStorage } from 'usehooks-ts'
+import { useAuthContext } from '@/context/AuthContext'
 import AddressCard from './_components/AddressCard'
 import { useAddressQuery } from '@/hooks/queries/useAddressQuery'
 
-interface User {
-  userId: string
-}
-
 const AddressPage = () => {
-  const user = useReadLocalStorage<User>('user')
+  const { user } = useAuthContext()
   console.log(user)
-  const { data } = useAddressQuery(user?.userId as string)
+  const { data } = useAddressQuery(user?._id as string)
   return <AddressCard data={data} />
 }
 

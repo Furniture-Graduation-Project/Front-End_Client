@@ -30,7 +30,7 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
           if (item.productItemID.stock > 0) {
             return acc + item.price * item.quantity
           }
-          return acc
+          return acc.toFixed(3)
         }, 0)
       )
     }
@@ -152,7 +152,7 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
               </TableCell>
               <TableCell className='sm:hidden sm:p-4 px-0'>
                 <div className='flex flex-col items-end justify-start -mt-10 gap-2'>
-                  <p className='font-semibold whitespace-nowrap'>{item.price.toFixed(2)} Vnd</p>
+                  <p className='font-semibold whitespace-nowrap'>{item.price.toFixed(3)} Vnd</p>
                   <button className='flex items-center gap-1 *:text-[#605F5F]' onClick={() => handleDeleteItem(item)}>
                     <X size={24} />
                     <p className='font-semibold text-[14px]'>{t('action')}</p>
@@ -171,11 +171,11 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
                 </div>
               </TableCell>
               <TableCell className='hidden sm:table-cell sm:p-4 px-0'>
-                <p className='font-semibold text-center whitespace-nowrap'>{item.price.toFixed(2)} Vnd</p>
+                <p className='font-semibold text-center whitespace-nowrap'>{item.price.toFixed(3)} Vnd</p>
               </TableCell>
               <TableCell className='hidden sm:table-cell sm:p-4 px-0'>
                 <p className='font-semibold text-center whitespace-nowrap'>
-                  {(item.quantity * item.price).toFixed(2)} Vnd
+                  {(item.quantity * item.price).toFixed(3)} Vnd
                 </p>
               </TableCell>
             </TableRow>

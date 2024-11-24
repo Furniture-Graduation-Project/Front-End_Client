@@ -90,7 +90,7 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
   }
 
   const calculateTotal = () => {
-    return amount.toFixed(2)
+    return amount.toFixed(3)
   }
   function onSubmit() {
     if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
@@ -152,7 +152,7 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
                                 <h3>
                                   <a href={item.productID.href}>{item.productID.name}</a>
                                 </h3>
-                                <p className='ml-4 text-[#121212]'>${item.price.toFixed(2)}</p>
+                                <p className='ml-4 text-[#121212]'>${item.price.toFixed(3)}</p>
                               </div>
                               <div className='flex flex-1 justify-between items-center mt-1'>
                                 <p className='text-[12px] text-[#6C7275]'>
@@ -213,10 +213,7 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
               </div>
 
               <div className='mt-6'>
-                <Button
-                  onClick={onSubmit}
-                  className='w-full bg-black text-white hover:bg-neutral-7'
-                >
+                <Button onClick={onSubmit} className='w-full bg-black text-white hover:bg-neutral-7'>
                   {t('checkout')}
                 </Button>
               </div>

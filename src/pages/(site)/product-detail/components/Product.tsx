@@ -1,11 +1,18 @@
 import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
 import { ArrowRight, Heart, Minus, Plus, Star } from 'lucide-react'
 import { useEffect, useState } from 'react'
-const Product = () => {
-  const [selectedColor, setSelectedColor] = useState('black')
+import { Skeleton } from '@/components/ui/skeleton'
+import { IProductItem, IVariant } from '@/interface/productItem'
+import { useProductItemsByProductId } from '@/hooks/queries/useProductItemQuery'
+import { useCartMutation } from '@/hooks/mutations/useCartMutation'
+
+const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
+  const { data: productItem, isLoading: productItemLoading } = useProductItemsByProductId(data?.data?._id)
+  const { mutate } = useCartMutation('ADD')
+  const [selectedVariant, setSelectedVariant] = useState<IProductItem | undefined>()
+  const [price, setPrice] = useState<number>(0)
+
   const [quantity, setQuantity] = useState(1)
   const [timeLeft, setTimeLeft] = useState({
     days: 2,
@@ -13,7 +20,37 @@ const Product = () => {
     minutes: 45,
     seconds: 5
   })
+  const getUniqueVariants = (variantName: string) => {
+    if (!productItem || !productItem.data) return []
+    const variants = productItem.data.reduce<IVariant[]>((acc, item) => {
+      item.variants.forEach((variant) => {
+        if (variant.variant === variantName && !acc.some((v) => v.value === variant.value)) {
+          acc.push(variant)
+        }
+      })
+      return acc
+    }, [])
 
+    return variants
+  }
+  const handleVariantSelect = (variant: IVariant) => {
+    if (!productItem || !productItem.data) return
+    const item: IProductItem | undefined = productItem.data.find((item) => {
+      return item.variants.some((v) => v.variant === variant.variant && v.value === variant.value)
+    })
+    setSelectedVariant(item)
+    setPrice(item?.price || 0)
+  }
+  const handleAddToCart = () => {
+    mutate({
+      data: {
+        productID: data.data._id,
+        productItemID: selectedVariant?._id,
+        quantity: quantity,
+        price: price
+      }
+    })
+  }
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -32,110 +69,171 @@ const Product = () => {
 
     return () => clearInterval(timer)
   }, [])
-
-  const colors = [
-    { id: 'black', name: 'Black', value: 'bg-black' },
-    { id: 'gray', name: 'Gray', value: 'bg-gray-400' },
-    { id: 'red', name: 'Red', value: 'bg-red' },
-    { id: 'white', name: 'White', value: 'bg-white border border-gray-200' }
-  ]
+  useEffect(() => {
+    if (productItem) {
+      setSelectedVariant(productItem.data[0])
+      setPrice(productItem.data[0].price)
+    }
+  }, [productItem])
   return (
     <div className='space-y-6'>
-      <div className='space-y-2'>
-        <div className='flex flex-col gap-y-4'>
-          <div className='flex items-center space-x-2 '>
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className={`h-5 w-5 ${i < 3 ? 'fill-primary' : 'fill-muted stroke-muted-foreground'}`} />
-            ))}
-            <span className='text-sm text-muted-foreground'>(11 Reviews)</span>
-          </div>
-          <h1 className='text-3xl font-bold'>Tray Table</h1>
-          <p className='text-muted-foreground'>
-            Buy one or buy a few and make every space where you sit more convenient. Light and easy to move around with
-            removable tray top, handy for serving snacks.
-          </p>
+      {isLoading ? (
+        <div className='space-y-4'>
+          <Skeleton className='h-5 w-20' />
+          <Skeleton className='h-5 w-20' />
+          <Skeleton className='h-5 w-full' />
+          <Skeleton className='h-3 w-full' />
         </div>
-      </div>
+      ) : (
+        <div className='space-y-2'>
+          <div className='flex flex-col gap-y-4'>
+            <div className='flex items-center space-x-2'>
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className={`h-5 w-5 ${i < 3 ? 'fill-primary' : 'fill-muted stroke-muted-foreground'}`} />
+              ))}
+              <span className='text-sm text-muted-foreground'>(11 Reviews)</span>
+            </div>
+            <h1 className='text-3xl font-bold'>{data?.data.name}</h1>
+            <p className='text-muted-foreground'>{data?.data.description}</p>
+          </div>
+        </div>
+      )}
 
       <div className='flex items-baseline space-x-4'>
-        <span className='text-3xl font-bold'>$199.00</span>
-        <span className='text-xl text-muted-foreground line-through'>$400.00</span>
+        {isLoading ? (
+          <>
+            <Skeleton className='h-8 w-24' />
+            <Skeleton className='h-8 w-24' />
+          </>
+        ) : (
+          <>
+            <span className='text-3xl font-bold'>${price.toFixed(3)} Vnd</span>
+            <span className='text-xl text-muted-foreground line-through'>400.000 Vnd</span>
+          </>
+        )}
       </div>
 
       <div className='space-y-2'>
-        <p className='text-sm text-muted-foreground'>Offer expires in:</p>
-        <div className='flex space-x-4'>
-          {Object.entries(timeLeft).map(([key, value]) => (
-            <div key={key} className='text-center'>
-              <div className='bg-[#F3F5F7] px-3 py-2 rounded-lg'>
-                <span className='text-2xl font-bold'>{value.toString().padStart(2, '0')}</span>
+        {isLoading ? (
+          <div className='flex space-x-4'>
+            {Object.entries(timeLeft).map(([key, value]) => (
+              <div key={key} className='text-center'>
+                <Skeleton className='h-10 w-20' />
+                <Skeleton className='h-3 w-16' />
               </div>
-              <span className='text-sm text-muted-foreground capitalize'>{key}</span>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className='flex space-x-4'>
+            {Object.entries(timeLeft).map(([key, value]) => (
+              <div key={key} className='text-center'>
+                <div className='bg-[#F3F5F7] px-3 py-2 rounded-lg'>
+                  <span className='text-2xl font-bold'>{value.toString().padStart(2, '0')}</span>
+                </div>
+                <span className='text-sm text-muted-foreground capitalize'>{key}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className='space-y-4'>
-        <div>
-          <h3 className='font-medium mb-2'>Measurements</h3>
-          <p>17 1/2×20 5/8"</p>
-        </div>
+        {isLoading ? (
+          <Skeleton className='h-6 w-1/2' />
+        ) : (
+          <div>
+            <h3 className='font-medium mb-2'>Measurements</h3>
+            <p>17 1/2×20 5/8"</p>
+          </div>
+        )}
 
-        <div>
-          <h3 className='font-medium mb-2 flex items-center'>
-            Choose Color <ArrowRight className='w-3 h-3 ml-1' />
-          </h3>
-          <RadioGroup value={selectedColor} onValueChange={setSelectedColor} className='flex space-x-4'>
-            {colors.map((color) => (
-              <div key={color.id} className='text-center space-y-2'>
-                <RadioGroupItem value={color.id} id={color.id} className='peer sr-only' />
-                <Label
-                  htmlFor={color.id}
-                  className='block w-8 h-8 rounded-full cursor-pointer ring-offset-2 peer-data-[state=checked]:ring-2 ring-primary'
-                >
-                  <span className={`block w-full h-full rounded-full ${color.value}`} />
-                </Label>
-                <span className='text-sm'>{color.name}</span>
+        {isLoading || productItemLoading ? (
+          <Skeleton className='h-6 w-1/2' />
+        ) : (
+          productItem &&
+          productItem.data[0].variants.map((variant: IVariant, index: number) => {
+            return (
+              <div key={variant._id}>
+                <h3 className='font-medium mb-2 flex items-center'>
+                  Choose {variant.variant} <ArrowRight className='w-3 h-3 ml-1' />
+                </h3>
+                <div className='flex flex-wrap gap-4'>
+                  {getUniqueVariants(variant.variant).map((variantOption: IVariant) => {
+                    return (
+                      <Button
+                        key={variantOption._id}
+                        variant={'outline'}
+                        onClick={() => handleVariantSelect(variantOption)}
+                        className={
+                          variantOption.value === selectedVariant?.variants[index].value ? 'bg-black text-white' : ''
+                        }
+                      >
+                        <span className='text-sm'>{variantOption.value}</span>
+                      </Button>
+                    )
+                  })}
+                </div>
               </div>
-            ))}
-          </RadioGroup>
-        </div>
+            )
+          })
+        )}
 
         <div className='flex items-center space-x-4'>
-          <div className='flex items-center border rounded-md'>
-            <Button variant='ghost' size='icon' onClick={() => setQuantity((q) => Math.max(1, q - 1))}>
-              <Minus className='h-4 w-4' />
-            </Button>
-            <span className='w-12 text-center'>{quantity}</span>
-            <Button variant='ghost' size='icon' onClick={() => setQuantity((q) => q + 1)}>
-              <Plus className='h-4 w-4' />
-            </Button>
-          </div>
-          <Button className='w-full border-black' variant='outline' size='lg'>
-            <Heart className='mr-2 h-4 w-4' />
-            Add to Wishlist
-          </Button>
+          {isLoading ? (
+            <>
+              <Skeleton className='h-8 w-8' />
+              <Skeleton className='h-8 w-32' />
+            </>
+          ) : (
+            <>
+              <div className='flex items-center border rounded-md'>
+                <Button variant='ghost' size='icon' onClick={() => setQuantity((q) => Math.max(1, q - 1))}>
+                  <Minus className='h-4 w-4' />
+                </Button>
+                <span className='w-12 text-center'>{quantity}</span>
+                <Button variant='ghost' size='icon' onClick={() => setQuantity((q) => q + 1)}>
+                  <Plus className='h-4 w-4' />
+                </Button>
+              </div>
+              <Button className='w-full border-black' variant='outline' size='lg'>
+                <Heart className='mr-2 h-4 w-4' />
+                Add to Wishlist
+              </Button>
+            </>
+          )}
         </div>
 
         <div className='flex flex-col sm:flex-row gap-4'>
-          <Button className='flex-1 bg-black' size='lg'>
-            Add to Cart
-          </Button>
+          {isLoading ? (
+            <Skeleton className='h-12 w-full' />
+          ) : (
+            <Button onClick={handleAddToCart} className='flex-1 bg-black' size='lg'>
+              Add to Cart
+            </Button>
+          )}
         </div>
       </div>
 
       <Separator />
 
       <div className='space-y-2'>
-        <div className='flex gap-x-20'>
-          <span className='text-[#6C7275]'>SKU</span>
-          <span>1117</span>
-        </div>
-        <div className='flex gap-x-10'>
-          <span className='text-[#6C7275]'>Category</span>
-          <span>Living Room, Bedroom</span>
-        </div>
+        {isLoading ? (
+          <>
+            <Skeleton className='h-4 w-1/2' />
+            <Skeleton className='h-4 w-1/2' />
+          </>
+        ) : (
+          <div className='grid grid-cols-[120px_1fr] gap-4'>
+            <span className='text-[#6C7275]'>SKU</span>
+            <span>{data?.data.SKU}</span>
+
+            <span className='text-[#6C7275]'>Category</span>
+            <span>{data?.data.category.categoryName}</span>
+
+            <span className='text-[#6C7275]'>Material</span>
+            <span>{data?.data.material.materialName}</span>
+          </div>
+        )}
       </div>
     </div>
   )

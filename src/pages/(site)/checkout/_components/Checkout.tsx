@@ -23,7 +23,11 @@ const Checkout = () => {
   const location = useLocation()
   useEffect(() => {
     if (state) {
-      setAmount(JSON.parse(state).reduce((acc: any, item: any) => acc + item.price * item.quantity, 0))
+      setAmount(
+        JSON.parse(state)
+          .reduce((acc: any, item: any) => acc + item.price * item.quantity, 0)
+          .toFixed(3)
+      )
       setIsLoading(false)
     }
   }, [state])

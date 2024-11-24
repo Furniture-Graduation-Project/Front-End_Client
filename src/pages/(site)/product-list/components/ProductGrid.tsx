@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/utils/classUtils'
+import { useProductListQuery } from '@/hooks/queries/useProductQuery'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const sortBy = [
   {
@@ -30,6 +32,18 @@ const ProductGrid = () => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
   const [productNumber, setProductNumber] = useState(0)
+  const { data: products, isLoading } = useProductListQuery()
+
+  // if (isLoading)
+  //   return (
+  //     <Skeleton>
+  //       <div className='grid gap-6 mt-10'>
+  //         {Array.from({ length: 16 }, (_, i) => (
+  //           <ProductCard height='349px' width='262px' key={i} />
+  //         ))}
+  //       </div>
+  //     </Skeleton>
+  //   )
 
   return (
     <>
@@ -103,8 +117,11 @@ const ProductGrid = () => {
             !productNumber && `xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 `
           )}
         >
-          {Array.from({ length: 16 }, (_, i) => (
+          {/* {Array.from({ length: 16 }, (_, i) => (
             <ProductCard height='349px' width='262px' key={i} />
+          ))} */}
+          {products?.data?.map((product) => (
+            <ProductCard height='349px' width='262px' product={product} key={product._id} />
           ))}
         </div>
         <div className='flex justify-center'>

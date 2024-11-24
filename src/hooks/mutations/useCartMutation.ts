@@ -1,42 +1,54 @@
-import { useMutation } from '@tanstack/react-query';
-import { CartService } from '@/services/cart';
+import { useMutation } from '@tanstack/react-query'
+import { CartService } from '@/services/cart'
 
-type CartMutation = 'ADD' | 'UPDATE' | 'REMOVE' | 'INCREASE' | 'DECREASE';
+type CartMutation = 'ADD' | 'UPDATE' | 'REMOVE' | 'INCREASE' | 'DECREASE'
 
 export const useCartMutation = (key: CartMutation) => {
   const { mutate } = useMutation({
     mutationKey: ['cart'],
-    mutationFn: async (params: { productId: string; productItemId: string; data?: any }) => {
+    mutationFn: async ({
+      productId,
+      productItemId,
+      data
+    }: {
+      productId?: string
+      productItemId?: string
+      data?: any
+    }) => {
       try {
         switch (key) {
           case 'ADD':
-            return await CartService.addToCart(params.data);
+            return await CartService.addToCart(data)
           case 'UPDATE':
-            return await CartService.updateCartItem(params.productItemId, params.data);
+            if (!productItemId) throw new Error('ProductItemId is required')
+            return await CartService.updateCartItem(productItemId, data)
           case 'REMOVE':
-            return await CartService.removeCartItem(params.productId, params.productItemId);
+            if (!productItemId || !productId) throw new Error('Id is required')
+            return await CartService.removeCartItem(productId, productItemId)
           case 'INCREASE':
-            return await CartService.increaseQuantity(params.productId, params.productItemId);
+            if (!productItemId || !productId) throw new Error('Id is required')
+            return await CartService.increaseQuantity(productId, productItemId)
           case 'DECREASE':
-            return await CartService.decreaseQuantity(params.productId, params.productItemId);
+            if (!productItemId || !productId) throw new Error('Id is required')
+            return await CartService.decreaseQuantity(productId, productItemId)
           default:
-            throw new Error('Khóa không hợp lệ');
+            throw new Error('Khóa không hợp lệ')
         }
       } catch (error) {
-        console.error("Lỗi mutation:", error);
-        throw error;
+        console.error('Lỗi mutation:', error)
+        throw error
       }
     },
     onSuccess: () => {
-      console.log('Thao tác thành công');
+      console.log('Thao tác thành công')
     },
     onError: (error) => {
-      console.error('Lỗi trong quá trình thực hiện thao tác:', error);
+      console.error('Lỗi trong quá trình thực hiện thao tác:', error)
     },
     onSettled: () => {
-      console.log('Đã hoàn thành thao tác');
-    },
-  });
+      console.log('Đã hoàn thành thao tác')
+    }
+  })
 
-  return { mutate };
-};
+  return { mutate }
+}

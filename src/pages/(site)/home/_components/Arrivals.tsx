@@ -5,9 +5,11 @@ import Container from '@/components/Container'
 import ProductCard from '@/components/site/ProductCard'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { useTranslate } from '@/hooks/useTranslate'
+import { useProductListQuery } from '@/hooks/queries/useProductQuery'
 
 export function CarouselSize() {
   const { t } = useTranslate('home.carousel')
+  const { data: products, isLoading } = useProductListQuery()
 
   return (
     <>
@@ -32,9 +34,14 @@ export function CarouselSize() {
           className='w-full'
         >
           <CarouselContent className='-ml-[30px]'>
-            {Array.from({ length: 8 }).map((_, index) => (
+            {/* {Array.from({ length: 8 }).map((_, index) => (
               <CarouselItem key={index} className='basis-1 md:basis-1/2 lg:basis-1/4 pl-[30px]'>
-                <ProductCard />
+                <ProductCard product={} />
+              </CarouselItem>
+            ))} */}
+            {products?.data?.map((product) => (
+              <CarouselItem key={product._id} className='basis-1 md:basis-1/2 lg:basis-1/4 pl-[30px]'>
+                <ProductCard product={product} />
               </CarouselItem>
             ))}
           </CarouselContent>
