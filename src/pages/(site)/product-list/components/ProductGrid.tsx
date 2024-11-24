@@ -7,7 +7,6 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/utils/classUtils'
 import { useProductListQuery } from '@/hooks/queries/useProductQuery'
-import { Skeleton } from '@/components/ui/skeleton'
 
 const sortBy = [
   {
@@ -32,7 +31,7 @@ const ProductGrid = () => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
   const [productNumber, setProductNumber] = useState(0)
-  const { data: products, isLoading } = useProductListQuery()
+  const { data: products } = useProductListQuery()
 
   // if (isLoading)
   //   return (

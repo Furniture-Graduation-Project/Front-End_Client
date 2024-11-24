@@ -12,16 +12,12 @@ import useSessionStorage from '@/hooks/useSessionStorage'
 import { useToast } from '@/hooks/use-toast'
 import { formatCurrency } from '@/utils/formatCurrency'
 
-type CartHeaderProps = {
-  mobile: boolean
-}
-
-const CartHeader = ({ mobile }: CartHeaderProps) => {
+const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { user } = useAuthContext()
   const { t } = useTranslate('header.cartHeader')
   const queryClient = useQueryClient()
   const [amount, setAmount] = useState(0)
-  const [state, setState, removeState] = useSessionStorage('stateOrder', null)
+  const [state, setState] = useSessionStorage('stateOrder', null)
   const { data: cartData, isLoading, isError } = useCartQuery(user?._id as string)
   const { mutate: deleteItem } = useCartMutation('REMOVE')
   const { mutate: increaseQuantity } = useCartMutation('INCREASE')
@@ -39,7 +35,7 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
         }, 0)
       )
     }
-  }, [cartData])
+  }, [cartData, state])
 
   console.log(cartData)
 

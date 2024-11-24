@@ -23,7 +23,7 @@ const FormSchema = z.object({
 })
 
 const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse<ICart> }) => {
-  const [state, setState, removeState] = useSessionStorage('stateOrder', null)
+  const [state, setState] = useSessionStorage('stateOrder', null)
   const { toast } = useToast()
   const navigate = useNavigate()
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -37,6 +37,7 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
   function onSubmit() {
     if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
       setState(JSON.stringify(cartData.data.carts))
+      console.log(state);
       navigate('/checkout')
     } else {
       toast({

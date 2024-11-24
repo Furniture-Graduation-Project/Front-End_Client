@@ -67,8 +67,8 @@ const OrderSummary = ({
   }
 
   const handleRemoveItem = (index: number) => {
-    const newStateOrder = JSON.parse(dataCart).filter((item: any, i: number) => i !== index)
-    const newErrorOrder = errorOrder.filter((item: any, i: number) => i !== index)
+    const newStateOrder = JSON.parse(dataCart).filter((_item: any, i: number) => i !== index )
+    const newErrorOrder = errorOrder.filter((_item: any, i: number) => i !== index)
     setErrorOrder(newErrorOrder)
     setState(JSON.stringify(newStateOrder))
     for (let index = 0; index < dataCart.length; index++) {
