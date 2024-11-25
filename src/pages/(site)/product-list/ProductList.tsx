@@ -4,8 +4,14 @@ import ProductFilter from './components/ProductFilter'
 import ProductGrid from './components/ProductGrid'
 import Newsletter from '@/pages/(site)/home/_components/Newsletter'
 import { Separator } from '@/components/ui/separator'
+import { useLocation } from 'react-router-dom'
 
 const ProductList = () => {
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+
+  const categoryId = queryParams.get('category') || undefined
+  const materialId = queryParams.get('material') || undefined
   return (
     <>
       <div className='flex items-center h-[400px] overflow-hidden'>
@@ -16,7 +22,7 @@ const ProductList = () => {
           <Separator className='md:hidden block' />
           <ProductFilter />
           <Separator className='mb-4 md:hidden block' />
-          <ProductGrid />
+          <ProductGrid categoryId={categoryId} materialId={materialId} />
         </div>
       </Container>
       <Newsletter />
