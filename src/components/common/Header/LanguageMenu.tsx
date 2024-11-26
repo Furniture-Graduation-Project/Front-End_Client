@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -8,17 +7,21 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Globe } from 'lucide-react'
-import { useTranslate } from '@/hooks/useTranslate'
-
-type Checked = DropdownMenuCheckboxItemProps['checked']
+import { useLanguage } from '@/context/LanguageContext'
 
 const LanguageMenu = () => {
-  const { i18n, setLocale } = useTranslate()
-  const [language, setLanguage] = React.useState<Checked>(() => (i18n.language === 'en' ? true : false))
-  const handleLanguage = async (change: boolean) => {
-    setLanguage(change)
-    await setLocale(language ? 'vi' : 'en')
+  const { language, setLanguage } = useLanguage()
+  const [isEnglish, setIsEnglish] = React.useState(language === 'en')
+
+  const handleLanguage = (change: boolean) => {
+    setIsEnglish(change)
+    setLanguage(change ? 'en' : 'vi')
   }
+
+  React.useEffect(() => {
+    setIsEnglish(language === 'en') 
+  }, [language])
+
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
@@ -26,16 +29,16 @@ const LanguageMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56'>
         <DropdownMenuCheckboxItem
-          className={language ? '' : 'text-red'}
-          checked={!language}
+          className={isEnglish ? '' : 'text-red'}
+          checked={!isEnglish}
           onCheckedChange={() => handleLanguage(false)}
         >
           Tiếng Việt
         </DropdownMenuCheckboxItem>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
-          className={language ? 'text-red' : ''}
-          checked={language}
+          className={isEnglish ? 'text-red' : ''}
+          checked={isEnglish}
           onCheckedChange={() => handleLanguage(true)}
         >
           English

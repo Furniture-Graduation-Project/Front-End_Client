@@ -35,7 +35,9 @@
       "loading": "Đang tải...",
       "pleaseAddProduct": "Vui lòng thêm sản phẩm vào giỏ hàng.",
       "cartMustHaveProduct": "Số lượng sản phẩm phải lớn hơn 1.",
-      "noProductInCart": "Không có sản phẩm trong giỏ hàng"
+      "noProductInCart": "Không có sản phẩm trong giỏ hàng",
+      "out_of_stock": "Hết hàng",
+      "stock_quantity": "Số lượng hàng tồn kho: "
     },
     "userMenu": {
       "signIn": "Đăng nhập",

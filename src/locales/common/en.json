@@ -35,7 +35,9 @@
       "loading": "Loading...",
       "pleaseAddProduct": "Please add products to your cart.",
       "cartMustHaveProduct": "The cart must contain more than one product.",
-      "noProductInCart": "No products in the cart."
+      "noProductInCart": "No products in the cart.",
+      "out_of_stock": "Out of stock",
+      "stock_quantity": "Stock quantity: "
     },
     "userMenu": {
       "signIn": "Sign In",

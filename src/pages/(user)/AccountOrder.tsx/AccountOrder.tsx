@@ -3,13 +3,15 @@ import { useMultipleOrderQuery } from '@/hooks/queries/useOrderQuery'
 import { useDataTable } from '@/hooks/useDataTable'
 import { columns } from './_component/columns'
 import { PaginationState } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const AccountOrder = () => {
-  const { data, isLoading, isError, refetch } = useMultipleOrderQuery()
-  console.log(data)
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10
+  })
+  const { data, isLoading, isError, refetch } = useMultipleOrderQuery(pagination)
 
-  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 })
   const { table } = useDataTable({
     data: data?.data ?? [],
     columns: columns,
@@ -18,11 +20,20 @@ const AccountOrder = () => {
     pagination,
     setPagination
   })
-  console.log(data)
+
+  useEffect(() => {
+    setPagination(pagination)
+  }, [pagination])
 
   return (
     <div>
-      <DataTableCustom columns={columns} isError={isError} isLoading={isLoading} refetch={refetch} table={table} />
+      <DataTableCustom 
+        columns={columns} 
+        isError={isError} 
+        isLoading={isLoading} 
+        refetch={refetch} 
+        table={table} 
+      />
     </div>
   )
 }
