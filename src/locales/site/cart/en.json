@@ -14,7 +14,13 @@
       "action": "Remove",
       "loading": "Loading...",
       "error": "Something went wrong!",
-      "cartEmpty": "Your cart is empty"
+      "cartEmpty": "Your cart is empty",
+      "stockLimit": "Quantity cannot exceed stock availability!",
+      "deleteError": "Unable to delete product, please try again.",
+      "cartError": "Error loading cart.",
+      "noProductInCart": "No products in the cart.",
+      "out_of_stock": "Out of stock",
+      "stock_quantity": "Stock quantity: "
     },
     "cartForm": {
       "coupon": "Have a coupon",
@@ -25,7 +31,9 @@
       "select1": "Free Shipping",
       "subtotal": "Subtotal",
       "total": "Total",
-      "checkout": "Checkout"
+      "checkout": "Checkout",
+      "pleaseAddProduct": "Please add products to your cart.",
+      "cartMustHaveProduct": "The cart must contain more than one product."
     }
   }
 }

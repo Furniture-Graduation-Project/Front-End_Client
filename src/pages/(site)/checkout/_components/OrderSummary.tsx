@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { useLanguage } from '@/context/LanguageContext'
 import { useTranslate } from '@/hooks/useTranslate'
 import { IOrderItem } from '@/interface/order'
 import { formatCurrency } from '@/utils/formatCurrency'
@@ -33,6 +34,7 @@ const OrderSummary = ({
   setStateErrorOrder: (value: boolean) => void
 }) => {
   const { t } = useTranslate('checkout.order')
+  const { language } = useLanguage()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -67,7 +69,7 @@ const OrderSummary = ({
   }
 
   const handleRemoveItem = (index: number) => {
-    const newStateOrder = JSON.parse(dataCart).filter((_item: any, i: number) => i !== index )
+    const newStateOrder = JSON.parse(dataCart).filter((_item: any, i: number) => i !== index)
     const newErrorOrder = errorOrder.filter((_item: any, i: number) => i !== index)
     setErrorOrder(newErrorOrder)
     setState(JSON.stringify(newStateOrder))
@@ -134,7 +136,10 @@ const OrderSummary = ({
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
-                      <Button onClick={() => hanldeUpdatePrice(i)} className={item.unitPrice !== errorOrder[i].unitPrice ? 'block' : 'hidden'}>
+                      <Button
+                        onClick={() => hanldeUpdatePrice(i)}
+                        className={item.unitPrice !== errorOrder[i].unitPrice ? 'block' : 'hidden'}
+                      >
                         {t('update_price')}
                       </Button>
                     </div>
@@ -161,7 +166,7 @@ const OrderSummary = ({
                           </div>
                         </div>
                       </div>
-                      <p className='text-sm font-semibold mt-2'>{formatCurrency(item.unitPrice)}</p>
+                      <p className='text-sm font-semibold mt-2'>{formatCurrency(item.unitPrice, language)}</p>
                     </div>
                     <Separator />
                   </div>
@@ -207,14 +212,14 @@ const OrderSummary = ({
             <div className='flex items-center gap-x-2'>
               <p>{t('subtotal')}</p>
             </div>
-            <p className='font-semibold'>{formatCurrency(amount)}</p>
+            <p className='font-semibold'>{formatCurrency(amount, language)}</p>
           </div>
           <Separator />
           <div className='flex justify-between items-center'>
             <div className='flex items-center gap-x-2'>
               <p className='font-medium text-xl'>{t('total')}</p>
             </div>
-            <p className='text-xl font-medium'>{formatCurrency(amount)}</p>
+            <p className='text-xl font-medium'>{formatCurrency(amount, language)}</p>
           </div>
         </div>
       </div>

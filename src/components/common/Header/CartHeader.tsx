@@ -11,10 +11,12 @@ import { useAuthContext } from '@/context/AuthContext'
 import useSessionStorage from '@/hooks/useSessionStorage'
 import { useToast } from '@/hooks/use-toast'
 import { formatCurrency } from '@/utils/formatCurrency'
+import { useLanguage } from '@/context/LanguageContext'
 
 const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { user } = useAuthContext()
   const { t } = useTranslate('header.cartHeader')
+  const { language } = useLanguage()
   const queryClient = useQueryClient()
   const [amount, setAmount] = useState(0)
   const [state, setState] = useSessionStorage('stateOrder', null)
@@ -29,15 +31,13 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
       setAmount(
         cartData.data.carts.reduce((acc: any, item: any) => {
           if (item.productOptionId.stock > 0) {
-            return acc + item.unitPrice * item.quantity
+            return acc + item.productOptionId.price * item.quantity
           }
           return acc
         }, 0)
       )
     }
   }, [cartData, state])
-
-  console.log(cartData)
 
   const handleIncreaseQuantity = (item: any) => {
     if (item.quantity >= item.productOptionId.stock - item.productOptionId.outStock) {
@@ -93,7 +93,21 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
   }
   function onSubmit() {
     if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
-      setState(JSON.stringify(cartData.data.carts))
+      const stateOrder = cartData.data.carts
+        .filter((item: any) => item.productId.status == 'available')
+        .map((item: any) => ({
+          ...item,
+          unitPrice: item.productOptionId.price
+        }))
+      if (!stateOrder || stateOrder.length <= 0) {
+        toast({
+          title: t('pleaseAddProduct'),
+          description: t('cartMustHaveProduct'),
+          variant: 'default'
+        })
+        return
+      }
+      setState(JSON.stringify(stateOrder))
       navigate('/checkout')
     } else {
       toast({
@@ -133,10 +147,10 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                       <div>{t('cartError')}</div>
                     ) : cartData?.data?.carts?.length > 0 ? (
                       cartData.data.carts.map((item: any) => (
-                        <li
-                          key={item.productOptionId._id}
-                          className={`flex py-6 ${item.productOptionId.stock === 0 ? 'opacity-50' : ''}`}
-                        >
+                        <li key={item.productOptionId._id} className={`flex py-6 relative `}>
+                          <div
+                            className={`absolute w-full h-full items-center justify-center ${item.productOptionId.stock === 0 || item.productId.status !== 'available' ? 'bg-slate-50/50 flex' : 'hidden'}`}
+                          ></div>
                           <div className='h-24 w-24 flex-shrink-0 rounded-md border border-neutral-3'>
                             <img
                               src='https://assets.weimgs.com/weimgs/rk/images/wcm/products/202420/0120/meyer-wooden-drink-tables-18-21-5-o.jpg'
@@ -151,7 +165,9 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                                 <h3>
                                   <a href={item.productId.href}>{item.productId.name}</a>
                                 </h3>
-                                <p className='ml-4 text-[#121212]'>{formatCurrency(item.unitPrice)}</p>
+                                <p className='ml-4 text-[#121212]'>
+                                  {formatCurrency(item.productOptionId.price, language)}
+                                </p>
                               </div>
                               <div className='flex flex-1 justify-between items-center mt-1'>
                                 <p className='text-[12px] text-[#6C7275]'>
@@ -168,6 +184,14 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                                 >
                                   <X className='text-neutral-4 w-[14px] h-[14px]' strokeWidth={2} />
                                 </button>
+                              </div>
+                              <div>
+                                <p className='text-[12px] text-[#6C7275]'>
+                                  {item.productOptionId.stock === 0
+                                    ? t('out_of_stock')
+                                    : t('stock_quantity') +
+                                      (item.productOptionId.stock - item.productOptionId.outStock)}
+                                </p>
                               </div>
                             </div>
                             <div className='flex flex-1 items-end justify-between text-[12px]'>
@@ -201,14 +225,14 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
             <div className='border-b border-neutral-3 p-4'>
               <div className='flex justify-between text-neutral-7'>
                 <p className='body-2'>{t('subtotal')}</p>
-                <p className='body-2-semi'>{formatCurrency(amount)}</p>
+                <p className='body-2-semi'>{formatCurrency(amount, language)}</p>
               </div>
             </div>
 
             <div className='p-4 border-neutral-3'>
               <div className='flex justify-between headline-7 text-neutral-7'>
                 <p>{t('total')}</p>
-                <p>{formatCurrency(amount)}</p>
+                <p>{formatCurrency(amount, language)}</p>
               </div>
 
               <div className='mt-6'>

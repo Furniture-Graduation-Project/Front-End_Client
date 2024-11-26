@@ -8,6 +8,8 @@ import { IApiResponse } from '@/interface/apiRespose'
 import { ICart } from '@/interface/cart'
 import { useAuthContext } from '@/context/AuthContext'
 import { formatCurrency } from '@/utils/formatCurrency'
+import { useToast } from '@/hooks/use-toast'
+import { useLanguage } from '@/context/LanguageContext'
 
 type CartTableProps = {
   cartData: IApiResponse<ICart>
@@ -19,6 +21,8 @@ type CartTableProps = {
 const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) => {
   const { user } = useAuthContext()
   const { t } = useTranslate('cart.cartTable')
+  const { language } = useLanguage()
+  const { toast } = useToast()
   const queryClient = useQueryClient()
   const { mutate: deleteItem } = useCartMutation('REMOVE')
   const { mutate: increaseQuantity } = useCartMutation('INCREASE')
@@ -29,7 +33,7 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
       setAmount(
         cartData.data.carts.reduce((acc: any, item: any) => {
           if (item.productOptionId.stock > 0) {
-            return acc + item.unitPrice * item.quantity
+            return acc + item.productOptionId.price * item.quantity
           }
           return acc.toFixed(3)
         }, 0)
@@ -38,8 +42,11 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
   }, [cartData, setAmount])
 
   const handleIncreaseQuantity = (item: any) => {
-    if (item.quantity >= item.productOptionId.stock) {
-      alert('Số lượng hàng không thể lớn hơn hàng tồn kho!')
+    if (item.quantity >= item.productOptionId.stock - item.productOptionId.outStock) {
+      toast({
+        title: t('stockLimit'),
+        variant: 'default'
+      })
       return
     }
     if (user) {
@@ -76,8 +83,11 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
             queryClient.invalidateQueries({ queryKey: ['cart'] })
           },
           onError: (error) => {
-            console.error('Lỗi khi xóa sản phẩm:', error)
-            alert('Không thể xóa sản phẩm, vui lòng thử lại.')
+            toast({
+              title: t('deleteError'),
+              description: error.message,
+              variant: 'default'
+            })
           }
         }
       )
@@ -109,7 +119,12 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
           </TableRow>
         ) : cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0 ? (
           cartData.data.carts.map((item: any, index: number) => (
-            <TableRow key={index} className={item.productOptionId.stock === 0 ? 'opacity-50' : ''}>
+            <TableRow
+              key={index}
+              className={
+                item.productOptionId.stock === 0 || item.productId.status !== 'available' ? 'opacity-50 pointer-events-none' : ''
+              }
+            >
               <TableCell className='lg:p-4 px-0'>
                 <div className='flex gap-4'>
                   <img
@@ -128,13 +143,12 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
                     </p>
                     <p className='text-[12px] text-[#6C7275]'>
                       {item.productOptionId.stock === 0
-                        ? 'Hết hàng'
-                        : `Số lượng hàng tồn kho: ${item.productOptionId.stock}`}
+                        ? t('out_of_stock')
+                        : t('stock_quantity') + (item.productOptionId.stock - item.productOptionId.outStock)}
                     </p>
                     <button
                       className='hidden sm:flex items-center gap-1 *:text-[#605F5F]'
                       onClick={() => handleDeleteItem(item)}
-                      disabled={item.productOptionId.stock === 0}
                     >
                       <X size={24} />
                       <p className='font-semibold text-[14px]'>{t('action')}</p>
@@ -153,7 +167,10 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
               </TableCell>
               <TableCell className='sm:hidden sm:p-4 px-0'>
                 <div className='flex flex-col items-end justify-start -mt-10 gap-2'>
-                  <p className='font-semibold whitespace-nowrap'>{formatCurrency(item.unitPrice)}{formatCurrency(item.unitPrice)}</p>
+                  <p className='font-semibold whitespace-nowrap'>
+                    {formatCurrency(item.productOptionId.price, language)}
+                    {formatCurrency(item.productOptionId.price, language)}
+                  </p>
                   <button className='flex items-center gap-1 *:text-[#605F5F]' onClick={() => handleDeleteItem(item)}>
                     <X size={24} />
                     <p className='font-semibold text-[14px]'>{t('action')}</p>
@@ -172,11 +189,13 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
                 </div>
               </TableCell>
               <TableCell className='hidden sm:table-cell sm:p-4 px-0'>
-                <p className='font-semibold text-center whitespace-nowrap'>{formatCurrency(item.unitPrice)}</p>
+                <p className='font-semibold text-center whitespace-nowrap'>
+                  {formatCurrency(item.productOptionId.price, language)}
+                </p>
               </TableCell>
               <TableCell className='hidden sm:table-cell sm:p-4 px-0'>
                 <p className='font-semibold text-center whitespace-nowrap'>
-                  {formatCurrency(item.quantity * item.unitPrice)}
+                  {formatCurrency(item.quantity * item.productOptionId.price, language)}
                 </p>
               </TableCell>
             </TableRow>
