@@ -22,7 +22,7 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
   const [productNumber, setProductNumber] = useState(0)
-  const [pagination, setPagination] = useState({ pageIndex: 1, pageSize: 4 })
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 4 })
   const [searchQuery, setSearchQuery] = useState('')
   const [showAllProducts, setShowAllProducts] = useState(false)
 
@@ -54,7 +54,7 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
   }
 
   const handlePreviousPage = () => {
-    setPagination((prev) => ({ ...prev, pageIndex: Math.max(prev.pageIndex - 1, 1) }))
+    setPagination((prev) => ({ ...prev, pageIndex: Math.max(prev.pageIndex - 1, 0) }))
   }
 
   const isLastPage = filteredProducts.length < pagination.pageSize
@@ -167,7 +167,7 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
           {t('previous')}
         </button>
         <span className='text-lg font-semibold'>
-          {t('page')} {pagination.pageIndex}
+          {t('page')} {pagination.pageIndex + 1}
         </span>
         <button
           onClick={handleNextPage}
