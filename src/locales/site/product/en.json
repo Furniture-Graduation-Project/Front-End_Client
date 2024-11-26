@@ -1,0 +1,10 @@
+{
+  "productFilter": {
+    "filter": "Filter",
+    "categories": "Categories",
+    "materials": "Materials",
+    "loading": "Loading...",
+    "showMore": "Show More",
+    "showLess": "Show Less"
+  }
+}

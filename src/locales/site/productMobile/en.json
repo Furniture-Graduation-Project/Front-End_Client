@@ -1,0 +1,13 @@
+{
+  "comboboxDropdownMenu": {
+    "loading": "Loading...",
+    "error": "Error loading data.",
+    "actions": "Actions",
+    "categories": "Categories",
+    "filterLabel": "Filter label...",
+    "noCategoryFound": "No category found.",
+    "materials": "Materials",
+    "noMaterialFound": "No material found.",
+    "clearAll": "Clear All"
+  }
+}

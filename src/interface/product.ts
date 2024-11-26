@@ -11,3 +11,4 @@ export interface IProduct {
   material?: string
   status: 'available' | 'out of stock' | 'discontinued'
 }
+;``
