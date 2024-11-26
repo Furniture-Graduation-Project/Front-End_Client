@@ -53,6 +53,7 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
         return
       }
       setState(JSON.stringify(stateOrder))
+      console.log(state);
       navigate('/checkout')
     } else {
       toast({
