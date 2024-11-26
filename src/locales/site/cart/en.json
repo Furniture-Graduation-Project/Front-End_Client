@@ -18,7 +18,9 @@
       "stockLimit": "Quantity cannot exceed stock availability!",
       "deleteError": "Unable to delete product, please try again.",
       "cartError": "Error loading cart.",
-      "noProductInCart": "No products in the cart."
+      "noProductInCart": "No products in the cart.",
+      "out_of_stock": "Out of stock",
+      "stock_quantity": "Stock quantity: "
     },
     "cartForm": {
       "coupon": "Have a coupon",

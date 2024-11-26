@@ -1,5 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { IOrder } from '@/interface/order'
+import { formatCurrency } from '@/utils/formatCurrency'
+import { formatDate } from '@/utils/formatDate'
+import { useLanguage } from '@/context/LanguageContext'
 
 const getStatusBgColor = (status: string) => {
   switch (status) {
@@ -59,6 +62,7 @@ export const columns: ColumnDef<IOrder>[] = [
     accessorKey: 'createdAt',
     header: 'Ngày mua',
     cell: ({ getValue }) => {
+      const { language } = useLanguage()
       const dateValue = getValue()
       const parsedDate =
         dateValue instanceof Date
@@ -66,16 +70,20 @@ export const columns: ColumnDef<IOrder>[] = [
           : typeof dateValue === 'string' || typeof dateValue === 'number'
             ? new Date(dateValue)
             : null
-      const formattedDate = parsedDate && !isNaN(parsedDate.getTime()) ? parsedDate.toDateString() : '#Trống'
+
+      const formattedDate = parsedDate && !isNaN(parsedDate.getTime()) ? formatDate(parsedDate, language) : '#Trống'
+
       return <h3>{formattedDate}</h3>
     }
   },
+
   {
     accessorKey: 'totalPrice',
     header: 'Tổng Giá Trị',
     cell: ({ row }) => {
+      const { language } = useLanguage()
       const price = row.getValue<number>('totalPrice')
-      return <h3>{`$${price.toFixed(3)}`}</h3>
+      return <h3>{formatCurrency(price, language)}</h3>
     }
   },
   {

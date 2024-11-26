@@ -1,8 +1,8 @@
-import { DEFAULT_PAGE_SIZE } from '@/constants/pagination'
 import { IApiResponse } from '@/interface/apiRespose'
 import { IOrder } from '@/interface/order'
 import { OrderService } from '@/services/order'
 import { useQuery } from '@tanstack/react-query'
+import { PaginationState } from '@tanstack/react-table'
 
 export const useSingleOrderQuery = (id: string | undefined) => {
   const { data, ...rest } = useQuery({
@@ -18,8 +18,7 @@ export const useSingleOrderQuery = (id: string | undefined) => {
   return { data, ...rest }
 }
 
-export const useMultipleOrderQuery = (pagination?: any) => {
-  const { pageIndex = DEFAULT_PAGE_SIZE.pageIndex, pageSize = DEFAULT_PAGE_SIZE.pageSize } = pagination || {}
+export const useMultipleOrderQuery = ({ pageIndex, pageSize }: PaginationState) => {
   const { data, ...rest } = useQuery({
     queryKey: ['ORDER', pageIndex, pageSize],
     queryFn: async () => {

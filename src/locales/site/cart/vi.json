@@ -18,7 +18,9 @@
       "stockLimit": "Số lượng hàng không thể lớn hơn hàng tồn kho!",
       "deleteError": "Không thể xóa sản phẩm, vui lòng thử lại.",
       "cartError": "Lỗi khi tải giỏ hàng.",
-      "noProductInCart": "Không có sản phẩm trong giỏ hàng"
+      "noProductInCart": "Không có sản phẩm trong giỏ hàng",
+      "out_of_stock": "Hết hàng",
+      "stock_quantity": "Số lượng hàng tồn kho: "
     },
     "cartForm": {
       "coupon": "Có mã giảm giá",
