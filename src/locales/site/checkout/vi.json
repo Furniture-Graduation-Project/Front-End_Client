@@ -18,7 +18,9 @@
       "ward": "Xã / Phường",
       "paymentMethod1": "Thanh Toán Trước Khi Nhận Hàng",
       "paymentMethod2": "Thanh Toán Khi Nhận Hàng",
-      "submit": "Đặt Hàng"
+      "submit": "Đặt Hàng",
+      "errorOrder": "Quay lại trang giỏ hàng !",
+      "tryAgain": "Quay lại"
     },
     "order": {
       "title": "Tóm Tắt Đơn Hàng",
@@ -29,7 +31,12 @@
       "shipping": "Vận Chuyển",
       "free": "Miễn Phí",
       "subtotal": "Tổng Phụ",
-      "total": "Tổng Cộng"
+      "total": "Tổng Cộng",
+      "product_not_available": "Sản phẩm không sẵn có!",
+      "insufficient_quantity": "Số lượng sản phẩm còn lại không đủ!",
+      "price_changed": "Giá sản phẩm có sự thay đổi!",
+      "remove_product": "Loại bỏ sản phẩm",
+      "update_price": "Cập nhật giá"
     },
     "toast": {
       "errorTitle": "Có lỗi xảy ra khi lấy giỏ hàng của bạn!",

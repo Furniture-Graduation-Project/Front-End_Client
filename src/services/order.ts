@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/config/axios'
 import { IApiResponse } from '@/interface/apiRespose'
-import { IOrder } from '@/interface/order'
+import { IOrder, IOrderItem } from '@/interface/order'
 import { AxiosResponse } from 'axios'
 
 const API = 'order'
@@ -57,6 +57,15 @@ export const OrderService = {
       return response
     } catch (error) {
       console.error(`Lỗi khi xóa đơn hàng với ID ${id}:`, error)
+      throw error
+    }
+  },
+  checkProducts: async (data: IOrderItem[]): Promise<AxiosResponse<IApiResponse<IOrderItem[]>>> => {
+    try {
+      const response: AxiosResponse<IApiResponse<IOrderItem[]>> = await axiosInstance.post(`${API}/check`, data)
+      return response
+    } catch (error) {
+      console.error(`Lỗi khi kiểm tra đơn hàng:`, error)
       throw error
     }
   }

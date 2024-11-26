@@ -11,7 +11,10 @@
       "quantity": "Số lượng",
       "price": "Giá",
       "subtotal": "Tạm tính",
-      "action": "Xóa"
+      "action": "Xóa",
+      "loading": "Đang tải...",
+      "error": "Lỗi khi lấy danh sách giỏ hàng !",
+      "cartEmpty": "Không có sản phẩm trong giỏ hàng"
     },
     "cartForm": {
       "coupon": "Có mã giảm giá",

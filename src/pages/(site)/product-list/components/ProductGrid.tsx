@@ -7,6 +7,7 @@ import { cn } from '@/utils/classUtils'
 import { useMultipleProductQuery } from '@/hooks/queries/useProductQuery'
 import { Check, ChevronsUpDown, Grid3X3, LayoutGrid, Columns2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const sortBy = [
   { value: 'price', label: 'Price' },
@@ -16,6 +17,8 @@ const sortBy = [
 ]
 
 const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; materialId?: string }) => {
+  const { t } = useTranslate('productGrid')
+
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
   const [productNumber, setProductNumber] = useState(0)
@@ -29,6 +32,7 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
     isError,
     refetch
   } = useMultipleProductQuery(pagination, searchQuery, categoryId, materialId)
+  console.log(products)
 
   const noProducts = products?.data?.length === 0
   const filteredProducts =
@@ -63,24 +67,23 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
             type='text'
             value={searchQuery}
             onChange={handleSearch}
-            placeholder='Tìm kiếm......'
+            placeholder={t('searchPlaceholder')}
             className='border dark:border-gray-600 p-2 rounded mb-5 ml-auto dark:bg-gray-700 dark:text-gray-100'
           />
         </div>
         <div className='flex space-x-6'>
-          {/* Sorting Popover */}
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button variant='ghost' role='combobox' aria-expanded={open}>
-                {value ? sortBy.find((sort) => sort.value === value)?.label : 'Sort By'}
+                {value ? sortBy.find((sort) => sort.value === value)?.label : t('sortBy')}
                 <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
               </Button>
             </PopoverTrigger>
             <PopoverContent className='w-[200px] p-0'>
               <Command>
-                <CommandInput placeholder='Search sort...' />
+                <CommandInput placeholder={t('sortBy')} />
                 <CommandList>
-                  <CommandEmpty>No sort found.</CommandEmpty>
+                  <CommandEmpty>{t('noSearchResults')}</CommandEmpty>
                   <CommandGroup>
                     {sortBy.map((sort) => (
                       <CommandItem
@@ -130,23 +133,23 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
       </div>
 
       {isLoading ? (
-        <div>Loading...</div>
+        <div>{t('loading')}</div>
       ) : isError ? (
-        <div>Error loading products</div>
+        <div>{t('errorLoadingProducts')}</div>
       ) : noProducts ? (
         <div className='text-center text-lg mt-10'>
-          <p>Không có sản phẩm nào có sẵn trong danh mục này.</p>
+          <p>{t('noProductsAvailable')}</p>
         </div>
       ) : noSearchResults ? (
         <div className='text-center text-lg mt-10'>
-          <p>Không có sản phẩm nào bạn tìm kiếm.</p>
+          <p>{t('noSearchResults')}</p>
         </div>
       ) : (
         <div
           className={cn(
-            `grid gap-6 mt-10`,
+            'grid gap-6 mt-10',
             productNumber && `grid-cols-${productNumber}`,
-            !productNumber && `xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 `
+            !productNumber && 'xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2'
           )}
         >
           {visibleProducts?.map((product) => (
@@ -155,21 +158,23 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
         </div>
       )}
 
-      <div className='flex justify-center items-center space-x-4 mt-4'>
+      <div className='flex justify-center items-center space-x-4 mt-4 pt-12'>
         <button
           onClick={handlePreviousPage}
           className='px-10 border border-black rounded-full py-2 hover:bg-neutral-700 hover:text-white transform duration-200'
           disabled={pagination.pageIndex === 0}
         >
-          Previous
+          {t('previous')}
         </button>
-        <span className='text-lg font-semibold'>{`Page ${pagination.pageIndex}`}</span>
+        <span className='text-lg font-semibold'>
+          {t('page')} {pagination.pageIndex}
+        </span>
         <button
           onClick={handleNextPage}
           className='px-10 border border-black rounded-full py-2 hover:bg-neutral-700 hover:text-white transform duration-200'
           disabled={isLastPage}
         >
-          Next
+          {t('next')}
         </button>
       </div>
     </div>

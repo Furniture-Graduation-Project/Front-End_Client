@@ -38,6 +38,9 @@ import productVI from '../locales/site/product/vi.json'
 import productMobileEN from '../locales/site/productMobile/en.json'
 import productMobileVI from '../locales/site/productMobile/vi.json'
 
+import productGridEN from '../locales/site/productGrid/en.json'
+import productGridVI from '../locales/site/productGrid/vi.json'
+
 export const currentLocales: LocaleCodeName[] = [
   { code: 'vi', name: 'Tiếng Việt' },
   { code: 'en', name: 'English' }
@@ -56,7 +59,8 @@ export const localizationResources = {
     order: orderEN,
     account: accountEN,
     product: productEN,
-    productMobile: productMobileEN
+    productMobile: productMobileEN,
+    productGrid: productGridEN
   },
   vi: {
     common: commonVI,
@@ -70,7 +74,8 @@ export const localizationResources = {
     order: orderVI,
     account: acconntVI,
     product: productVI,
-    productMobile: productMobileVI
+    productMobile: productMobileVI,
+    productGrid: productGridVI
   }
 } as const
 

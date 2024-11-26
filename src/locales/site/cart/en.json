@@ -11,7 +11,10 @@
       "quantity": "Quantity",
       "price": "Price",
       "subtotal": "Subtotal",
-      "action": "Remove"
+      "action": "Remove",
+      "loading": "Loading...",
+      "error": "Something went wrong!",
+      "cartEmpty": "Your cart is empty"
     },
     "cartForm": {
       "coupon": "Have a coupon",

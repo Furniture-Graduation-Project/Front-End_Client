@@ -18,3 +18,9 @@ export interface AddToCartData {
 export interface UpdateCartItemData {
   quantity: number
 }
+export interface IItemCartData {
+  productId: string
+  productOptionId: string
+  quantity: number
+  price: number
+}

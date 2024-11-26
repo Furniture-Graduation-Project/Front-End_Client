@@ -1,4 +1,3 @@
-import { ProductImage } from '@/assets'
 import IconButton from '@/components/ui/icon-button'
 import { useTranslate } from '@/hooks/useTranslate'
 import { cn } from '@/utils/classUtils'
@@ -13,20 +12,25 @@ interface ProductCardProps {
 
 const ProductCard = ({ width, height, product }: ProductCardProps) => {
   const { t } = useTranslate('productCard')
+
+  const minPrice = product?.prices ? Math.min(...product.prices) : null
+  const maxPrice = product?.prices ? Math.max(...product.prices) : null
+
   return (
     <div>
       <div className='bg-neutral-2 rounded-xl relative group transition duration-500 ease-in-out hover:shadow-lg'>
         <Link to={`/products/${product._id}`} className='cursor-pointer'>
-          <img
-            // src={product.image || ProductImage}
-            src={ProductImage}
-            alt='product-image'
-            className={cn(
-              'transform scale-100 group-hover:scale-105 transition-transform duration-500 ease-in-out mx-auto',
-              width && `w-[${width}]`,
-              height && `h-[${height}]`
-            )}
-          />
+          <div className='w-full h-[300px]'>
+            <img
+              src={product.images[0]}
+              alt='product-image'
+              className={cn(
+                'object-cover w-full h-full mx-auto transition-transform duration-500 ease-in-out transform scale-100 group-hover:scale-105',
+                width && `w-[${width}]`,
+                height && `h-[${height}]`
+              )}
+            />
+          </div>
         </Link>
         <div className='absolute top-6 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-white'>{t('new')}</div>
         <div className='absolute top-14 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-green text-white'>
@@ -50,7 +54,7 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
           />
         </div>
       </div>
-      <div className='*:my-3'>
+      <div className='my-3'>
         <div className='star-rating relative'>
           <div className='stars flex *:h-5 *:w-5'>
             {Array.from({ length: 5 }, (_, i) => (
@@ -64,10 +68,14 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
           </div>
         </div>
         <h1 className='body-2-semi'>{product.name}</h1>
-        <div className='flex'>
-          <p className='mr-3 caption-1-semi'>$199.00</p>
-          <p className='line-through caption-1 text-[#6C7275]'>$400.00</p>
-        </div>
+        {minPrice !== null && maxPrice !== null ? (
+          <div className='flex'>
+            <p className='mr-3 caption-1-semi'>{minPrice}</p>
+            {minPrice !== maxPrice && <p className='line-through caption-1 text-[#6C7275]'>{maxPrice}</p>}
+          </div>
+        ) : (
+          <p>Chưa có biến thể, vui lòng tạo mới</p>
+        )}
       </div>
     </div>
   )
