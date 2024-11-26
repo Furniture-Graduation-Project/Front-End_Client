@@ -37,12 +37,12 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
   function onSubmit() {
     if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
       setState(JSON.stringify(cartData.data.carts))
-      console.log(state);
+      console.log(state)
       navigate('/checkout')
     } else {
       toast({
-        title: 'Vui lòng nhập thêm sản phẩm',
-        description: 'Số sản phẩm phải lớn hơn 1',
+        title: t('pleaseAddProduct'),
+        description: t('cartMustHaveProduct'),
         variant: 'default'
       })
     }

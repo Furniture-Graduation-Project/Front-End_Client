@@ -14,7 +14,11 @@
       "action": "Xóa",
       "loading": "Đang tải...",
       "error": "Lỗi khi lấy danh sách giỏ hàng !",
-      "cartEmpty": "Không có sản phẩm trong giỏ hàng"
+      "cartEmpty": "Không có sản phẩm trong giỏ hàng",
+      "stockLimit": "Số lượng hàng không thể lớn hơn hàng tồn kho!",
+      "deleteError": "Không thể xóa sản phẩm, vui lòng thử lại.",
+      "cartError": "Lỗi khi tải giỏ hàng.",
+      "noProductInCart": "Không có sản phẩm trong giỏ hàng"
     },
     "cartForm": {
       "coupon": "Có mã giảm giá",
@@ -25,7 +29,9 @@
       "select1": "Miễn phí vận chuyển",
       "subtotal": "Tạm tính",
       "total": "Tổng cộng",
-      "checkout": "Thanh toán"
+      "checkout": "Thanh toán",
+      "pleaseAddProduct": "Vui lòng thêm sản phẩm vào giỏ hàng.",
+      "cartMustHaveProduct": "Số lượng sản phẩm phải lớn hơn 1."
     }
   }
 }
