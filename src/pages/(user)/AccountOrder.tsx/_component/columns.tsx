@@ -4,29 +4,6 @@ import { formatCurrency } from '@/utils/formatCurrency'
 import { formatDate } from '@/utils/formatDate'
 import { useLanguage } from '@/context/LanguageContext'
 
-const getStatusBgColor = (status: string) => {
-  switch (status) {
-    case 'pending':
-      return 'text-yellow-200'
-    case 'confirmed':
-      return 'text-blue-200'
-    case 'processing':
-      return 'text-orange-200'
-    case 'shipped':
-      return 'text-green-200'
-    case 'delivered':
-      return 'text-teal-200 '
-    case 'cancelled':
-      return 'text-red-200'
-    case 'returned':
-      return 'text-purple-200'
-    case 'refunded':
-      return 'text-gray-200'
-    default:
-      return ''
-  }
-}
-
 const getStatusText = (status: string) => {
   switch (status) {
     case 'pending':
@@ -55,7 +32,11 @@ export const columns: ColumnDef<IOrder>[] = [
     accessorKey: '_id',
     header: 'Mã đơn hàng',
     cell: ({ row }) => {
-      return <h3 className='uppercase'>{row.original._id}</h3>
+      return (
+        <div>
+          <h3 className='uppercase line-clamp-1'>{row.original._id}</h3>
+        </div>
+      )
     }
   },
   {
@@ -73,7 +54,7 @@ export const columns: ColumnDef<IOrder>[] = [
 
       const formattedDate = parsedDate && !isNaN(parsedDate.getTime()) ? formatDate(parsedDate, language) : '#Trống'
 
-      return <h3>{formattedDate}</h3>
+      return <h3 className='line-clamp-1'>{formattedDate}</h3>
     }
   },
 
@@ -91,9 +72,8 @@ export const columns: ColumnDef<IOrder>[] = [
     header: 'Trạng Thái',
     cell: ({ row }) => {
       const status = row.getValue<string>('status')
-      const bgColor = getStatusBgColor(status)
       const statusText = getStatusText(status)
-      return <h3 className={bgColor}>{statusText}</h3>
+      return <h3 className='line-clamp-1'>{statusText}</h3>
     }
   },
   {
@@ -107,7 +87,7 @@ export const columns: ColumnDef<IOrder>[] = [
           : paymentStatus === 'unpaid'
             ? 'Chưa Thanh Toán'
             : 'Chưa có thông tin'
-      return <h3 className={paymentStatus === 'paid' ? 'text-green' : 'text-red'}> {paymentText}</h3>
+      return <h3 className={paymentStatus === 'paid' ? 'text-green' : 'text-red' + ' line-clamp-1'}> {paymentText}</h3>
     }
   }
 ]

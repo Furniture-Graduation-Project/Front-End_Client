@@ -5,7 +5,9 @@ import { TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { ITableCustom } from '@/interface/table'
 import { flexRender } from '@tanstack/react-table'
 import { AlertCircle } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 const DataTableBody = ({ table, columns, isLoading, isError, refetch }: ITableCustom) => {
+  const navigate = useNavigate()
   const rowCount = 10
   const columnCount = columns.length
   return (
@@ -37,7 +39,7 @@ const DataTableBody = ({ table, columns, isLoading, isError, refetch }: ITableCu
         </TableRow>
       ) : table.getRowModel().rows?.length ? (
         table.getRowModel().rows.map((row) => (
-          <TableRow key={row.id} className='cursor-pointer'>
+          <TableRow key={row.id} className='cursor-pointer' onClick={()=> navigate('/account/order/'+row.original._id)}>
             {row.getVisibleCells().map((cell) => (
               <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())} </TableCell>
             ))}
