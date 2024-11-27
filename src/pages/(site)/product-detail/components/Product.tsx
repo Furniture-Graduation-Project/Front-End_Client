@@ -12,14 +12,15 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
   const { mutate } = useCartMutation('ADD')
   const [selectedVariant, setSelectedVariant] = useState<IProductItem | undefined>()
   const [price, setPrice] = useState<number>(0)
-
+  const [stock, setStock] = useState(0)
   const [quantity, setQuantity] = useState(1)
-  const [timeLeft, setTimeLeft] = useState({
-    days: 2,
-    hours: 12,
-    minutes: 45,
-    seconds: 5
-  })
+  const [sku, setSku] = useState<string | undefined>(undefined)
+  // const [timeLeft, setTimeLeft] = useState({
+  //   days: 2,
+  //   hours: 12,
+  //   minutes: 45,
+  //   seconds: 5
+  // })
   const getUniqueVariants = (variantName: string) => {
     if (!productItem || !productItem.data) return []
     const variants = productItem.data.reduce<IVariant[]>((acc, item) => {
@@ -40,7 +41,10 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
     })
     setSelectedVariant(item)
     setPrice(item?.price || 0)
+    setStock(item?.stock || 0)
+    setSku(item?.SKU)
   }
+
   const handleAddToCart = () => {
     mutate({
       data: {
@@ -51,30 +55,32 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
       }
     })
   }
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) {
-          return { ...prev, seconds: prev.seconds - 1 }
-        } else if (prev.minutes > 0) {
-          return { ...prev, minutes: prev.minutes - 1, seconds: 59 }
-        } else if (prev.hours > 0) {
-          return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 }
-        } else if (prev.days > 0) {
-          return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 }
-        }
-        return prev
-      })
-    }, 1000)
 
-    return () => clearInterval(timer)
-  }, [])
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTimeLeft((prev) => {
+  //       if (prev.seconds > 0) {
+  //         return { ...prev, seconds: prev.seconds - 1 }
+  //       } else if (prev.minutes > 0) {
+  //         return { ...prev, minutes: prev.minutes - 1, seconds: 59 }
+  //       } else if (prev.hours > 0) {
+  //         return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 }
+  //       } else if (prev.days > 0) {
+  //         return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 }
+  //       }
+  //       return prev
+  //     })
+  //   }, 1000)
+
+  //   return () => clearInterval(timer)
+  // }, [])
   useEffect(() => {
     if (productItem) {
       setSelectedVariant(productItem.data[0])
       setPrice(productItem.data[0].price)
     }
   }, [productItem])
+
   return (
     <div className='space-y-6'>
       {isLoading ? (
@@ -109,11 +115,12 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
           <>
             <span className='text-3xl font-bold'>${price.toFixed(3)} Vnd</span>
             <span className='text-xl text-muted-foreground line-through'>400.000 Vnd</span>
+            <p className='text-sm text-muted-foreground'>Số lượng hàng tồn kho: {stock}</p>{' '}
           </>
         )}
       </div>
 
-      <div className='space-y-2'>
+      {/* <div className='space-y-2'>
         {isLoading ? (
           <div className='flex space-x-4'>
             {Object.entries(timeLeft).map(([key, value]) => (
@@ -135,7 +142,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
 
       <div className='space-y-4'>
         {isLoading ? (
@@ -159,14 +166,19 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
                 </h3>
                 <div className='flex flex-wrap gap-4'>
                   {getUniqueVariants(variant.variant).map((variantOption: IVariant) => {
+                    const item = productItem.data.find((item) =>
+                      item.variants.some((v) => v.variant === variantOption.variant && v.value === variantOption.value)
+                    )
+                    const isOutOfStock = item ? item.stock <= 0 : true
                     return (
                       <Button
                         key={variantOption._id}
                         variant={'outline'}
-                        onClick={() => handleVariantSelect(variantOption)}
-                        className={
+                        onClick={() => !isOutOfStock && handleVariantSelect(variantOption)}
+                        className={`${
                           variantOption.value === selectedVariant?.variants[index].value ? 'bg-black text-white' : ''
-                        }
+                        } ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={isOutOfStock}
                       >
                         <span className='text-sm'>{variantOption.value}</span>
                       </Button>
@@ -225,7 +237,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
         ) : (
           <div className='grid grid-cols-[120px_1fr] gap-4'>
             <span className='text-[#6C7275]'>SKU</span>
-            <span>{data?.data.SKU}</span>
+            <span>{sku}</span>
 
             <span className='text-[#6C7275]'>Category</span>
             <span>{data?.data.category.categoryName}</span>

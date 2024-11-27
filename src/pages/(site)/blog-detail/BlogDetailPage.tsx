@@ -3,8 +3,10 @@ import JoinNewsletter from './components/JoinNewsletter'
 import RelatedPosts from './components/RelatedPosts'
 import { Link, useParams } from 'react-router-dom'
 import { useBlogDetailQuery } from '@/hooks/queries/useBlogQuery'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const BlogDetailPage = () => {
+  const { t } = useTranslate('blog')
   const { id } = useParams<{ id: string }>()
   const { data: blogData, isLoading, error } = useBlogDetailQuery(id || '')
 
@@ -21,17 +23,17 @@ const BlogDetailPage = () => {
           <div className='container mx-auto px-4 py-8'>
             <nav className='text-sm text-gray-500 mb-16'>
               <Link to='/' className='hover:underline'>
-                Home
+                {t('home')}
               </Link>
               <span className='mx-2'>&gt;</span>
               <Link to='/blog' className='hover:underline'>
-                Blog
+                {t('blog')}
               </Link>
               <span className='mx-2'>&gt;</span>
               <span>{blog.title}</span>
             </nav>
             <article>
-              <h1 className='text-xs font-bold text-gray-500 mb-2'>ARTICLE</h1>
+              <h1 className='text-xs font-bold text-gray-500 mb-2'>{t('ARTICLE')}</h1>
               <h2 className='text-4xl font-bold mb-4'>{blog.title}</h2>
               <div className='flex items-center text-sm text-gray-500'>
                 <User className='mr-2' />

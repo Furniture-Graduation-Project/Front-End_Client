@@ -2,9 +2,11 @@ import { Grid, GripHorizontal, List, Menu, Search } from 'lucide-react'
 import { useBlogQuery } from '@/hooks/queries/useBlogQuery'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const Post = () => {
   // const [sortOrder, setSortOrder] = useState('asc')
+  const { t } = useTranslate('blog')
   const [view, setView] = useState<'grid' | 'list' | 'bars' | 'menu'>('grid')
   const [searchTerm, setSearchTerm] = useState('')
   const { blogs, isLoading, error, page, limit, handlePageChange, handleLimitChange } = useBlogQuery()
@@ -34,8 +36,8 @@ const Post = () => {
     <section className='container mx-auto px-4 py-8'>
       <div className='flex justify-between items-center mb-6'>
         <div className='flex gap-4'>
-          <div className='text-gray-600 font-bold'>All Blog</div>
-          <div className='text-gray-600 font-bold'>Featured</div>
+          <div className='text-gray-600 font-bold'>{t('All Blog')}</div>
+          <div className='text-gray-600 font-bold'>{t('Featured')}</div>
         </div>
         <div className='flex items-center space-x-4'>
           <div className='relative'>
@@ -97,7 +99,7 @@ const Post = () => {
 
       <div className='text-center mt-8'>
         <button onClick={() => handleLimitChange(limit + 5)} className='px-8 py-2 rounded-full border border-solid'>
-          Show more
+          {t('Show more')}
         </button>
       </div>
 
@@ -107,15 +109,17 @@ const Post = () => {
           disabled={page === 1}
           className='px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300'
         >
-          Previous
+          {t('Previous')}
         </button>
-        <span className='px-4 py-2'>Page {page}</span>
+        <span className='px-4 py-2'>
+          {t('Page')} {page}
+        </span>
         <button
           onClick={() => handlePageChange(page + 1)}
           disabled={blogs.length < limit}
           className='px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300'
         >
-          Next
+          {t('Next')}
         </button>
       </div>
     </section>

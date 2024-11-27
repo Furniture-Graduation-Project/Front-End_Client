@@ -1,10 +1,12 @@
+import { useTranslate } from '@/hooks/useTranslate'
 import { ArrowRight } from 'lucide-react'
 
 const RelatedPosts = () => {
+  const { t } = useTranslate('blog')
   return (
     <section className='mb-8'>
       <div className='flex justify-between items-center mb-6'>
-        <h2 className='text-2xl font-semibold'>You might also like</h2>
+        <h2 className='text-2xl font-semibold'>{t('You might also like')} </h2>
         <a className='text-gray-600 hover:text-gray-900 flex items-center' href='#'>
           More Articles
           <ArrowRight className='ml-2' />

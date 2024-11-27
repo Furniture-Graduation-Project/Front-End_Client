@@ -1,33 +1,36 @@
-import { axiosInstance } from '@/config/axios'
-import { IApiResponse } from '@/interface/apiRespose'
-import { IReview } from '@/interface/review'
-import { AxiosResponse } from 'axios'
+import { axiosInstance } from '../config/axios'
+import { IReview } from '../interface/review'
 
-const API = 'review'
+const API_URL = '/reviews'
 
 export const ReviewService = {
-  create: async (data: IReview): Promise<AxiosResponse<IApiResponse<IReview>>> => {
-    try {
-      const response: AxiosResponse<IApiResponse<IReview>> = await axiosInstance.post(API, data)
-      return response
-    } catch (error) {
-      console.error('Lỗi khi tạo review mới:', error)
-      throw error
-    }
+  getAllReviews: async (): Promise<IReview[]> => {
+    const response = await axiosInstance.get(API_URL)
+    return response.data.data
   },
 
-  getAll: async (pagination: {
-    pageIndex: number
-    pageSize: number
-  }): Promise<AxiosResponse<IApiResponse<IReview[]>>> => {
-    try {
-      const response: AxiosResponse<IApiResponse<IReview[]>> = await axiosInstance.get(
-        `${API}?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
-      )
-      return response
-    } catch (error) {
-      console.error('Lỗi khi lấy danh sách review:', error)
-      throw error
-    }
+  getReviewById: async (id: string): Promise<IReview> => {
+    const response = await axiosInstance.get(`${API_URL}/${id}`)
+    return response.data
+  },
+
+  createReview: async (review: IReview): Promise<IReview> => {
+    const response = await axiosInstance.post(API_URL, review)
+    return response.data
+  },
+
+  updateReviewById: async (id: string, updatedReview: IReview): Promise<IReview> => {
+    const response = await axiosInstance.put(`${API_URL}/${id}`, updatedReview)
+    return response.data
+  },
+
+  deleteReviewById: async (id: string): Promise<IReview> => {
+    const response = await axiosInstance.delete(`${API_URL}/${id}`)
+    return response.data
+  },
+
+  getReviewsByProductId: async (productId: string): Promise<IReview[]> => {
+    const response = await axiosInstance.get(`${API_URL}/product/${productId}`)
+    return response.data.data
   }
 }
