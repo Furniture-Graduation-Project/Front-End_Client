@@ -29,17 +29,6 @@ const getStatusText = (status: string) => {
 
 export const columns: ColumnDef<IOrder>[] = [
   {
-    accessorKey: '_id',
-    header: 'Mã đơn hàng',
-    cell: ({ row }) => {
-      return (
-        <div>
-          <h3 className='uppercase line-clamp-1'>{row.original._id}</h3>
-        </div>
-      )
-    }
-  },
-  {
     accessorKey: 'createdAt',
     header: 'Ngày mua',
     cell: ({ getValue }) => {
@@ -73,7 +62,7 @@ export const columns: ColumnDef<IOrder>[] = [
     cell: ({ row }) => {
       const status = row.getValue<string>('status')
       const statusText = getStatusText(status)
-      return <h3 className='line-clamp-1'>{statusText}</h3>
+      return <h3 className='whitespace-nowrap'>{statusText}</h3>
     }
   },
   {
