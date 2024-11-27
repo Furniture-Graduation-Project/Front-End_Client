@@ -3,29 +3,9 @@ import { IOrder } from '@/interface/order'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { formatDate } from '@/utils/formatDate'
 import { useLanguage } from '@/context/LanguageContext'
-
-const getStatusText = (status: string) => {
-  switch (status) {
-    case 'pending':
-      return 'Chờ xử lý'
-    case 'confirmed':
-      return 'Đã xác nhận'
-    case 'processing':
-      return 'Đang xử lý'
-    case 'shipped':
-      return 'Đã gửi hàng'
-    case 'delivered':
-      return 'Đã giao hàng'
-    case 'cancelled':
-      return 'Đã hủy'
-    case 'returned':
-      return 'Đã hoàn trả'
-    case 'refunded':
-      return 'Đã hoàn tiền'
-    default:
-      return ''
-  }
-}
+import { getOrderStatus } from '@/utils/getOrderStatus'
+import useOrderMutation from '@/hooks/mutations/useOrderMutation'
+import { Button } from '@/components/ui/button'
 
 export const columns: ColumnDef<IOrder>[] = [
   {
@@ -34,16 +14,7 @@ export const columns: ColumnDef<IOrder>[] = [
     cell: ({ getValue }) => {
       const { language } = useLanguage()
       const dateValue = getValue()
-      const parsedDate =
-        dateValue instanceof Date
-          ? dateValue
-          : typeof dateValue === 'string' || typeof dateValue === 'number'
-            ? new Date(dateValue)
-            : null
-
-      const formattedDate = parsedDate && !isNaN(parsedDate.getTime()) ? formatDate(parsedDate, language) : '#Trống'
-
-      return <h3 className='line-clamp-1'>{formattedDate}</h3>
+      return <h3 className='line-clamp-1'>{formatDate(dateValue, language)}</h3>
     }
   },
 
@@ -60,9 +31,30 @@ export const columns: ColumnDef<IOrder>[] = [
     accessorKey: 'status',
     header: 'Trạng Thái',
     cell: ({ row }) => {
+      const { mutate } = useOrderMutation({ action: 'UPDATE' })
+      const { language } = useLanguage()
       const status = row.getValue<string>('status')
-      const statusText = getStatusText(status)
-      return <h3 className='whitespace-nowrap'>{statusText}</h3>
+      const statusText = getOrderStatus(status, language)
+      return (
+        <>
+          {row.original.status == 'shipped' ? (
+            <Button
+              onClick={() =>
+                mutate({
+                  _id: row.original._id,
+                  status: 'delivered'
+                })
+              }
+              className={`rounded-none`}
+              variant={'outline'}
+            >
+              {statusText}
+            </Button>
+          ) : (
+            <h3 className='whitespace-nowrap'> {statusText}</h3>
+          )}
+        </>
+      )
     }
   },
   {

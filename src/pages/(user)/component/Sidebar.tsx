@@ -9,6 +9,7 @@ const SidebarAccount = () => {
   const { t } = useTranslate('account.sidebar')
   const navigate = useNavigate()
   const location = useLocation()
+
   return (
     <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit md:h-[498px]'>
       <div className='relative'>
@@ -84,7 +85,14 @@ const SidebarAccount = () => {
             </NavLink>
           </li>
         </ul>
-        <Select defaultValue={location.pathname} onValueChange={(value) => navigate(value)}>
+        <Select
+          defaultValue={
+            location.pathname.split('/').length >= 3
+              ? location.pathname.split('/').slice(0, 3).join('/')
+              : location.pathname
+          }
+          onValueChange={(value) => navigate(value)}
+        >
           <SelectTrigger className='w-full flex md:hidden'>
             <SelectValue />
           </SelectTrigger>
