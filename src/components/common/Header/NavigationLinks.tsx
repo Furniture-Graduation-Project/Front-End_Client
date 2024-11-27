@@ -8,8 +8,10 @@ import {
 import NavigationLink from './NavigationLink'
 import { Link } from 'react-router-dom'
 import { useMultipleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const NavigationLinks = () => {
+  const { t } = useTranslate('header.menuHeader')
   const { data: response, isLoading, error } = useMultipleCategoryQuery()
 
   if (isLoading) {
@@ -25,10 +27,10 @@ const NavigationLinks = () => {
   return (
     <NavigationMenuList className='gap-x-6 text-neutral-4 text-base z-50 relative'>
       <NavigationMenuItem>
-        <NavigationLink title='Home' to='/' />
+        <NavigationLink title={t('home')} to='/' />
       </NavigationMenuItem>
       <NavigationMenuItem>
-        <NavigationMenuTrigger className='bg-opacity-0'>Product</NavigationMenuTrigger>
+        <NavigationMenuTrigger className='bg-opacity-0'> {t('product')}</NavigationMenuTrigger>
         <NavigationMenuContent>
           <ul className='grid gap-3 p-4 w-[400px] md:w-[500px] lg:w-[600px] xl:w-[700px] 2xl:w-[800px] md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
             {categories?.map((category) => (
@@ -49,10 +51,10 @@ const NavigationLinks = () => {
       </NavigationMenuItem>
 
       <NavigationMenuItem>
-        <NavigationLink title='About' to='/about' />
+        <NavigationLink title={t('blog')} to='/blog' />
       </NavigationMenuItem>
       <NavigationMenuItem>
-        <NavigationLink title='Contact' to='/contact' />
+        <NavigationLink title={t('contact')} to='/contact' />
       </NavigationMenuItem>
     </NavigationMenuList>
   )
