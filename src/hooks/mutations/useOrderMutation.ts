@@ -1,7 +1,7 @@
 import { IApiResponse } from '@/interface/apiRespose'
 import { IOrder, IOrderItem } from '@/interface/order'
 import { OrderService } from '@/services/order'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,6 +10,7 @@ type MutationQueryProps = {
 }
 
 const useOrderMutation = ({ action }: MutationQueryProps) => {
+  const query = useQueryClient()
   const navigate = useNavigate()
   const mutationFn = async (
     data: any
@@ -45,6 +46,7 @@ const useOrderMutation = ({ action }: MutationQueryProps) => {
     mutationKey: ['ORDER'],
     mutationFn,
     onSuccess: (response) => {
+      query.invalidateQueries({ queryKey: ['ORDER'] })
       if (action === 'CREATE') {
         const orderData = response.data.data as IOrder
         if (orderData && orderData._id) {

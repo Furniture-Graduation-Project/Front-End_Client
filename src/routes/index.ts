@@ -3,7 +3,6 @@ import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
 import SignIn from '@/pages/(auth)/SignIn'
 import SignUp from '@/pages/(auth)/SignUp'
-import AboutPage from '@/pages/(site)/about/AboutPage'
 import BlogDetailPage from '@/pages/(site)/blog-detail/BlogDetailPage'
 import BlogPage from '@/pages/(site)/blog/BlogPage'
 import CartPage from '@/pages/(site)/cart/CartPage'
@@ -14,6 +13,8 @@ import OrderPage from '@/pages/(site)/order/OrderComplete'
 import ProductDetail from '@/pages/(site)/product-detail/ProductDetail'
 import ProductList from '@/pages/(site)/product-list/ProductList'
 import ShopPage from '@/pages/(site)/shop/ShopPage'
+import AccountOrderDetail from '@/pages/(user)/AccountOrder.tsx/_component/AccountOrderDetail'
+import AccountOrderList from '@/pages/(user)/AccountOrder.tsx/_component/AccountOrderList'
 import AccountOrder from '@/pages/(user)/AccountOrder.tsx/AccountOrder'
 import AccountPage from '@/pages/(user)/AccountPage'
 import AccountSetting from '@/pages/(user)/AccountSetting/AccountSetting'
@@ -37,7 +38,6 @@ const routes: IRoute[] = [
   { path: '/checkout', component: CheckoutPage, layout: MainLayout },
   { path: '/blog', component: BlogPage, layout: MainLayout },
   { path: '/blog/:id', component: BlogDetailPage, layout: MainLayout },
-  { path: '/about', component: AboutPage, layout: MainLayout },
   { path: '/contact', component: ContactPage, layout: MainLayout },
   {
     path: '/account',
@@ -45,7 +45,20 @@ const routes: IRoute[] = [
     layout: MainLayout,
     children: [
       { path: '', component: AccountSetting },
-      { path: 'order', component: AccountOrder },
+      {
+        path: 'order',
+        component: AccountOrder,
+        children: [
+          {
+            path: '',
+            component: AccountOrderList
+          },
+          {
+            path: ':id',
+            component: AccountOrderDetail
+          }
+        ]
+      },
       { path: 'wishlist', component: AccountWishlist },
       {
         path: 'address',

@@ -24,7 +24,7 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
   const [productNumber, setProductNumber] = useState(0)
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 4 })
   const [searchQuery, setSearchQuery] = useState('')
-  const [showAllProducts, setShowAllProducts] = useState(false)
+  // const [showAllProducts, setShowAllProducts] = useState(false)
 
   const {
     data: products,
@@ -46,8 +46,8 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
     setSearchQuery(e.target.value)
   }
 
-  const visibleProducts = showAllProducts ? filteredProducts : filteredProducts.slice(0, 4)
-
+  // const visibleProducts = showAllProducts ? filteredProducts : filteredProducts.slice(0, 4)
+  const visibleProducts = filteredProducts
   useEffect(() => {
     refetch()
   }, [pagination, refetch])

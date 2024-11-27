@@ -8,13 +8,15 @@
     "menuHeader": {
       "home": "Home",
       "product": "Product",
-      "about": "About",
+      "blog": "Blog",
       "contact": "Contact",
       "wishlist": "Wishlist",
       "cart": "Cart",
       "sign-in": "Sign In",
       "search": "Search",
-      "language": "Language"
+      "language": "Language",
+      "result": "No results found.",
+      "type": "Enter word to search..."
     },
     "cartHeader": {
       "cart": "Cart",

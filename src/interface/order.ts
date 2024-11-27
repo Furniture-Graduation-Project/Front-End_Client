@@ -9,6 +9,8 @@ export interface IOrder {
   payment?: IPayment
   shipments?: IShipment
   status?: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'returned' | 'refunded'
+  updatedAt?: Date
+  createdAt?: Date
 }
 export interface IPayment {
   paymentMethod: 'credit_card' | 'cash_on_delivery'

@@ -8,13 +8,15 @@
     "menuHeader": {
       "home": "Trang chủ",
       "product": "Sản phẩm",
-      "about": "Về chúng tôi",
+      "blog": "Bài viết",
       "contact": "Liên hệ",
       "wishlist": "Danh sách yêu thích",
       "cart": "Giỏ hàng",
       "sign-in": "Đăng nhập",
       "search": "Tìm kiếm",
-      "language": "Ngôn Ngữ"
+      "language": "Ngôn Ngữ",
+      "result": " Không tìm thấy kết quả nào.",
+      "type": "Nhập từ để tìm kiếm..."
     },
     "cartHeader": {
       "cart": "Giỏ hàng",
