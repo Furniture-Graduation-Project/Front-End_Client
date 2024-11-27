@@ -3,7 +3,6 @@ import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
 import SignIn from '@/pages/(auth)/SignIn'
 import SignUp from '@/pages/(auth)/SignUp'
-import AboutPage from '@/pages/(site)/about/AboutPage'
 import BlogDetailPage from '@/pages/(site)/blog-detail/BlogDetailPage'
 import BlogPage from '@/pages/(site)/blog/BlogPage'
 import CartPage from '@/pages/(site)/cart/CartPage'
@@ -39,7 +38,6 @@ const routes: IRoute[] = [
   { path: '/checkout', component: CheckoutPage, layout: MainLayout },
   { path: '/blog', component: BlogPage, layout: MainLayout },
   { path: '/blog/:id', component: BlogDetailPage, layout: MainLayout },
-  { path: '/about', component: AboutPage, layout: MainLayout },
   { path: '/contact', component: ContactPage, layout: MainLayout },
   {
     path: '/account',

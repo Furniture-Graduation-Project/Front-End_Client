@@ -61,7 +61,7 @@ const MenuHeader = () => {
                       placeholder={t('search')}
                     />
                   </div>
-                  <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
+                  <Link to='/' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
                     {t('home')}
                   </Link>
                   <div className='border-b border-neutral-3'></div>
@@ -69,7 +69,6 @@ const MenuHeader = () => {
                     <AccordionItem value='item-1'>
                       <AccordionTrigger className='hover:no-underline '>{t('product')}</AccordionTrigger>
                       <AccordionContent className='pl-3 pt-5 button-xs border-b border-neutral-3'>
-                        {/* Displaying categories dynamically */}
                         {categories?.map((category) => (
                           <Link
                             to={`/products?category=${category._id}`}
@@ -82,11 +81,11 @@ const MenuHeader = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
-                    {t('about')}
+                  <Link to='/blog' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
+                    {t('blog')}
                   </Link>
                   <div className='border-b border-neutral-3'></div>
-                  <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
+                  <Link to='/contact' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
                     {t('contact')}
                   </Link>
                   <div className='border-b border-neutral-3'></div>
