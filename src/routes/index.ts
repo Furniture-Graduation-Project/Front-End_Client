@@ -14,6 +14,8 @@ import OrderPage from '@/pages/(site)/order/OrderComplete'
 import ProductDetail from '@/pages/(site)/product-detail/ProductDetail'
 import ProductList from '@/pages/(site)/product-list/ProductList'
 import ShopPage from '@/pages/(site)/shop/ShopPage'
+import AccountOrderDetail from '@/pages/(user)/AccountOrder.tsx/_component/AccountOrderDetail'
+import AccountOrderList from '@/pages/(user)/AccountOrder.tsx/_component/AccountOrderList'
 import AccountOrder from '@/pages/(user)/AccountOrder.tsx/AccountOrder'
 import AccountPage from '@/pages/(user)/AccountPage'
 import AccountSetting from '@/pages/(user)/AccountSetting/AccountSetting'
@@ -45,7 +47,20 @@ const routes: IRoute[] = [
     layout: MainLayout,
     children: [
       { path: '', component: AccountSetting },
-      { path: 'order', component: AccountOrder },
+      {
+        path: 'order',
+        component: AccountOrder,
+        children: [
+          {
+            path: '',
+            component: AccountOrderList
+          },
+          {
+            path: ':id',
+            component: AccountOrderDetail
+          }
+        ]
+      },
       { path: 'wishlist', component: AccountWishlist },
       {
         path: 'address',
