@@ -22,6 +22,7 @@ const AccountOrderDetail = () => {
   useEffect(() => {
     if (
       data &&
+      data.data.status == 'unpaid' &&
       data.data.payment?.paymentStatus == 'unpaid' &&
       data.data.payment?.paymentMethod == 'credit_card' &&
       isFisrtLoad

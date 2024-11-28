@@ -18,7 +18,6 @@ import { IOrder, IQRCodeData } from '@/interface/order'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { QrCode } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import PaymentSuccess from './_component/PaymentSuccess'
 import { useTranslate } from '@/hooks/useTranslate'
 
@@ -86,9 +85,13 @@ const PaymentPopup = ({
   useEffect(() => {
     if (isSuccessPayment && orderState) {
       setSuccess(true)
-      setOpen(false)
     }
     if (isErrorPayment) {
+      setQrCode(null)
+      setTimeLeft({
+        minutes: 0,
+        seconds: 0
+      })
       toast({
         title: t('errors.paymentFail'),
         description: t('errors.paymentFail'),
@@ -121,27 +124,27 @@ const PaymentPopup = ({
             <DialogDescription className='py-2'>
               <div
                 className={
-                  qrCode && timeLeft.minutes == 0 && timeLeft.seconds == 0
-                    ? 'hidden'
-                    : 'block' + ' flex justify-center relative'
+                  !qrCode && timeLeft.minutes == 0 && timeLeft.seconds == 0
+                    ? 'flex justify-center relative'
+                    : 'hidden' + ' '
                 }
               >
-                <QrCode className='w-2/4 max-w-[20rem] h-auto' />
+                <QrCode className='w-2/4 max-w-[20rem] h-auto mx-auto' />
                 <Button className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' onClick={hanleCreateQR}>
                   {t('paymentSuccess.retryQrCode')}
                 </Button>
               </div>
-              <div className={qrCode ? 'block' : 'hidden' + ' relative'}>
+              <div className={qrCode ? 'block relative' : 'hidden'}>
                 <img
-                  className={timeLeft.minutes == 0 && timeLeft.seconds == 0 ? 'opacity-25' : ''}
+                  className={timeLeft.minutes == 0 && timeLeft.seconds == 0 ? 'opacity-25' : ' max-w-[20rem] mx-auto'}
                   src={qrCode || ''}
                   alt='QRCODE'
                 />
                 <Button
                   className={
                     timeLeft.minutes == 0 && timeLeft.seconds == 0
-                      ? ''
-                      : 'hidden' + ' absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+                      ? 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+                      : 'hidden'
                   }
                   onClick={hanleCreateQR}
                 >

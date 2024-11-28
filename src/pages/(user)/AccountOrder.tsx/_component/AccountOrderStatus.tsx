@@ -153,7 +153,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
           </Button>
           <Button
             onClick={() => setOpenQR(true)}
-            className={`${order?.data.status == 'unpaid' && order.data.payment.paymentMethod == 'credit_card' ? '' : 'hidden'} rounded-sm`}
+            className={`${order?.data.status == 'unpaid' && order?.data.payment.paymentStatus == 'unpaid' && order?.data.payment.paymentMethod == 'credit_card' ? '' : 'hidden'} rounded-sm`}
             variant={'outline'}
           >
             {t('payment')}
