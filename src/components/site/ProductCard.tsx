@@ -13,6 +13,8 @@ interface ProductCardProps {
 const ProductCard = ({ width, height, product }: ProductCardProps) => {
   const { t } = useTranslate('productCard')
 
+  const isNew = product?.createdAt && new Date(product.createdAt).getTime() >= Date.now() - 7 * 24 * 60 * 60 * 1000
+
   const minPrice = product?.prices ? Math.min(...product.prices) : null
   const maxPrice = product?.prices ? Math.max(...product.prices) : null
 
@@ -32,10 +34,17 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
             />
           </div>
         </Link>
-        <div className='absolute top-6 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-white'>{t('new')}</div>
+
+        {isNew && (
+          <div className='absolute top-6 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-white'>
+            {t('new')}
+          </div>
+        )}
+
         <div className='absolute top-14 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-green text-white'>
           -50%
         </div>
+
         <IconButton
           className='absolute top-5 right-5 p-[6px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 hover:bg-red hover:text-white'
           onClick={() => {}}
@@ -54,6 +63,7 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
           />
         </div>
       </div>
+
       <div className='my-3'>
         <div className='star-rating relative'>
           <div className='stars flex *:h-5 *:w-5'>

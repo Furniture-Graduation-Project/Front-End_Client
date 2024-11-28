@@ -1,0 +1,14 @@
+{
+  "blogDetail": {
+    "loading": "Đang tải...",
+    "error": "Lỗi khi tải blog: {{error}}",
+    "blogNotFound": "Blog không tồn tại",
+    "home": "Trang chủ",
+    "blog": "Blog",
+    "article": "BÀI VIẾT",
+    "unknownAuthor": "Tác giả không xác định",
+    "joinNewsletter": "Tham gia bản tin của chúng tôi",
+    "relatedPosts": "Bài viết có thể bạn thích",
+    "moreArticles": "Xem thêm bài viết"
+  }
+}

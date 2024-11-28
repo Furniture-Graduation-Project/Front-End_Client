@@ -1,0 +1,14 @@
+{
+  "blogDetail": {
+    "loading": "Loading...",
+    "error": "Error loading blog: {{error}}",
+    "blogNotFound": "Blog not found",
+    "home": "Home",
+    "blog": "Blog",
+    "article": "ARTICLE",
+    "unknownAuthor": "Unknown Author",
+    "joinNewsletter": "Join our Newsletter",
+    "relatedPosts": "You might also like",
+    "moreArticles": "More Articles"
+  }
+}

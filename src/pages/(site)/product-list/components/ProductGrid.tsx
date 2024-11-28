@@ -32,13 +32,16 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
     isError,
     refetch
   } = useMultipleProductQuery(pagination, searchQuery, categoryId, materialId)
-  console.log(products)
 
   const noProducts = products?.data?.length === 0
+
   const filteredProducts =
-    products?.data?.filter((product) => product.name.toLowerCase().includes(searchQuery.toLowerCase())) || []
+    products?.data
+      ?.filter((product) => product.name.toLowerCase().includes(searchQuery.toLowerCase()))
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || []
 
   const noSearchResults = filteredProducts.length === 0 && searchQuery.length > 0
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
   }
