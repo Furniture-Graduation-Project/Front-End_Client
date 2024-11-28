@@ -1,3 +1,6 @@
+import { LucideProps } from "lucide-react"
+import { ForwardRefExoticComponent, RefAttributes } from "react"
+
 export interface IOrder {
   _id?: string
   userId: string
@@ -8,7 +11,16 @@ export interface IOrder {
   items?: IOrderItem[]
   payment?: IPayment
   shipments?: IShipment
-  status?: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'returned' | 'refunded'
+  status?:
+    | 'pending'
+    | 'confirmed'
+    | 'processing'
+    | 'shipped'
+    | 'delivered'
+    | 'cancelled'
+    | 'returned'
+    | 'refunded'
+    | 'unpaid'
   updatedAt?: Date
   createdAt?: Date
 }
@@ -34,5 +46,10 @@ export interface IOrderItem {
 }
 export interface IQRCodeData {
   qrCode: string
-  qrDataURL : string
+  qrDataURL: string
+}
+
+export interface IListStatusOrder {
+  id: string
+  icon: ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>>
 }

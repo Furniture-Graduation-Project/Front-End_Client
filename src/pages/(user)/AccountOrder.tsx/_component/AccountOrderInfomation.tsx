@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast'
 import { useTranslate } from '@/hooks/useTranslate'
 
 const AccountOrderInfomation = ({ order }: any) => {
-  const { t } = useTranslate('account.order.infomation') // Fetch translations
+  const { t } = useTranslate('account.order.infomation')
   const { toast } = useToast()
   const { language } = useLanguage()
 

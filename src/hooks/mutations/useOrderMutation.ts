@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 
 type MutationQueryProps = {
-  action: 'CREATE' | 'UPDATE' | 'DELETE' | 'CHECK' | 'CREATE_QR'
+  action: 'CREATE' | 'UPDATE' | 'DELETE' | 'CHECK' | 'CREATE_QR' | 'PAYMENT'
 }
 
 const useOrderMutation = ({ action }: MutationQueryProps) => {
@@ -25,6 +25,12 @@ const useOrderMutation = ({ action }: MutationQueryProps) => {
           return await OrderService.createQR(data)
         case 'CHECK':
           return await OrderService.checkProducts(data)
+        case 'PAYMENT':
+          if (data._id) {
+            return await OrderService.payment(data._id, data)
+          }
+          throw new Error('Order ID is required for update')
+
         case 'UPDATE':
           if (data._id) {
             return await OrderService.update(data._id, data)

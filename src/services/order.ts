@@ -77,5 +77,14 @@ export const OrderService = {
       console.error(`Lỗi khi tạo qr code:`, error)
       throw error
     }
+  },
+  payment: async (id: string, data: any): Promise<AxiosResponse<IApiResponse<any>>> => {
+    try {
+      const response: AxiosResponse<IApiResponse<any>> = await axiosInstance.put(`${API}/payment/` + id, data)
+      return response
+    } catch (error) {
+      console.error(`Lỗi khi tạo qr code:`, error)
+      throw error
+    }
   }
 }

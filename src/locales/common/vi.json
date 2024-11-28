@@ -56,5 +56,26 @@
     "copyright": "Bản quyền © 2023 3legant. Bảo lưu mọi quyền",
     "privacyPolicy": "Chính sách",
     "termsOfUse": "Điều khoản"
+  },
+  "payment": {
+    "paymentSuccess": {
+      "title": "Mã QR Chuyển khoản ngân hàng",
+      "description": "Vui lòng chuyển khoản đúng nội dung để chúng tôi xác nhận thanh toán!",
+      "accountName": "Tên tài khoản",
+      "accountNumber": "Số tài khoản",
+      "bank": "Ngân hàng",
+      "amount": "Số tiền",
+      "note": "Ghi chú",
+      "retryQrCode": "Lấy lại mã QR",
+      "minutes": "Phút",
+      "seconds": "Giây",
+      "successMessage": "Thanh toán thành công!",
+      "thankYouMessage": "Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đã được xác nhận.",
+      "backToHome": "Quay lại trang chủ"
+    },
+    "errors": {
+      "createQrFail": "Tạo mã QR thất bại! Vui lòng thử lại hoặc liên hệ với chúng tôi để được hỗ trợ.",
+      "paymentFail": "Thanh toán thất bại! Vui lòng thử lại hoặc liên hệ với chúng tôi để được hỗ trợ."
+    }
   }
 }

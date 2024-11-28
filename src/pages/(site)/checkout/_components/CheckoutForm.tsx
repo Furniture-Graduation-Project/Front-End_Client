@@ -18,7 +18,7 @@ import { useAuthContext } from '@/context/AuthContext'
 import { useToast } from '@/hooks/use-toast'
 import { ToastAction } from '@/components/ui/toast'
 import { useNavigate } from 'react-router-dom'
-import CheckoutQR from './CheckoutQR'
+import PaymentPopup from '@/components/site/PaymentPopup/PaymentPopup'
 
 const formSchema = z.object({
   firstName: z.string().min(1, 'Họ không được để trống.'),
@@ -39,7 +39,8 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   const { toast } = useToast()
   const { t } = useTranslate('checkout.form')
   const navigate = useNavigate()
-  const [openQR, setOpenQR] = useState(true)
+  const [openQR, setOpenQR] = useState<boolean>(true)
+  const [success, setSuccess] = useState<boolean>(false)
   const [orderState, setOrderState] = useState<IOrder>({} as IOrder)
   const [currentDistrict, setCurrentDistrict] = useState<IDistrict[]>([])
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
@@ -89,7 +90,8 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
         payment: {
           paymentMethod: data.payment,
           amount: amount
-        }
+        },
+        status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
       }
       mutate(order)
     }
@@ -108,16 +110,25 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
     if (isSuccess && dataOrder?.data?.data) {
       const order = dataOrder.data.data as IOrder
       if (order) {
-        setOrderState(order) 
         if (order._id && order.payment?.paymentMethod === 'cash_on_delivery') {
           navigate('/order/' + order._id)
         } else if (order._id && order.payment?.paymentMethod === 'credit_card') {
+          setOrderState(order)
           setOpenQR(true)
         }
       }
     }
   }, [isSuccess, dataOrder, navigate])
-
+  useEffect(() => {
+    if (success) {
+      toast({
+        title: 'Thanh toan thanh cong !',
+        description: 'Thanh cong ban se duoc di chuyen den trang order sau 3s',
+        variant: 'default'
+      })
+      setTimeout(() => navigate('/order/' + orderState._id), 3000)
+    }
+  }, [success])
   return (
     <>
       {' '}
@@ -315,7 +326,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
                         >
                           <div className='flex items-center space-x-3 space-y-0'>
                             <FormControl>
-                              <RadioGroupItem disabled value='credit_card' />
+                              <RadioGroupItem value='credit_card' />
                             </FormControl>
                             <FormLabel className='font-normal cursor-pointer'>{t('paymentMethod1')}</FormLabel>
                           </div>
@@ -356,7 +367,13 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
           </div>
         </form>
       </Form>
-      <CheckoutQR open={openQR} setOpen={setOpenQR} orderState={orderState} />
+      <PaymentPopup
+        open={openQR}
+        setOpen={setOpenQR}
+        orderState={orderState}
+        setSuccess={setSuccess}
+        success={success}
+      />
     </>
   )
 }
