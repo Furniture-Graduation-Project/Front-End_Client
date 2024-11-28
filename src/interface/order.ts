@@ -32,3 +32,7 @@ export interface IOrderItem {
   unitPrice: number
   quantity: number
 }
+export interface IQRCodeData {
+  qrCode: string
+  qrDataURL : string
+}

@@ -135,7 +135,7 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
                   <div className='flex flex-col gap-y-2 justify-center'>
                     <h1 className='font-semibold text-[14px]'>{item.productId.name}</h1>
                     <p className='text-[12px] text-[#6C7275]'>
-                      {item.productOptionId.variants.map((variant: any, id: number) => (
+                      {item.productOptionId?.variants.map((variant: any, id: number) => (
                         <span key={id}>
                           {variant.variant}: {variant.value}
                         </span>
