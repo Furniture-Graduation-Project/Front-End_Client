@@ -1,12 +1,72 @@
 {
-    "account": {
-        "sidebar": {
-            "account": "Account",
-            "address": "Address",
-            "orders": "Orders",
-            "wishlist": "Wishlist",
-            "logout": "Log Out",
-            "selectMenu": "Select Menu"
+  "account": {
+    "sidebar": {
+      "account": "Account",
+      "address": "Address",
+      "orders": "Orders",
+      "wishlist": "Wishlist",
+      "logout": "Log Out",
+      "selectMenu": "Select Menu"
+    },
+    "order": {
+      "status": {
+        "order_status": "Order Status",
+        "cancel_order": "Cancel Order",
+        "received_order": "Received Order",
+        "repurchaseProduct": "Repurchase Product",
+        "title": "Are you absolutely sure?",
+        "description": "This will stop the processing of your order.",
+        "cancel": "Cancel",
+        "continue": "Continue",
+        "payment": "Payment",
+        "unpaid": "Unpaid",
+        "paymentDescription": "The order needs to be paid before it can be processed."
+      },
+      "address": {
+        "addressTitle": "Shipping Address",
+        "editAddressTitle": "Edit Shipping Address",
+        "editAddressDescription": "You can update your shipping details before the order is shipped.",
+        "orderNameLabel": "Recipient Name",
+        "orderPhoneLabel": "Phone Number",
+        "orderAddressLabel": "Address",
+        "orderNamePlaceholder": "Recipient's Name",
+        "orderPhonePlaceholder": "Phone Number",
+        "orderAddressPlaceholder": "Shipping Address",
+        "saveButton": "Save",
+        "cancelButton": "Cancel",
+        "successTitle": "Success!",
+        "successDescription": "You have successfully updated the shipping address.",
+        "validation": {
+          "orderNameRequired": "Recipient name is required.",
+          "orderPhoneInvalid": "Phone number must have 10-11 digits.",
+          "orderPhoneRequired": "Phone number is required.",
+          "orderAddressRequired": "Address is required."
         }
+      },
+      "infomation": {
+        "orderDetails": "Order Details",
+        "quantity": "Quantity",
+        "emptyOrder": "No items in the order",
+        "totalAmount": "Total Amount",
+        "orderIdLabel": "Order ID",
+        "copyButton": "Copy",
+        "copySuccess": "Copied successfully"
+      },
+      "payment": {
+        "paymentMethod": "Payment Method",
+        "cashOnDelivery": "Cash on Delivery",
+        "prePayment": "Prepaid",
+        "orderTime": "Order Time",
+        "paymentTime": "Payment Time",
+        "deliveryTime": "Delivery Time",
+        "completionTime": "Completion Time",
+        "selectMethod": "Select a payment method",
+        "changeMethod": "Change",
+        "unpaid": "Unpaid",
+        "paid": "Paid",
+        "successTitle": "Change Successful",
+        "successDescription": "The payment method has been updated successfully"
+      }
     }
+  }
 }

@@ -2,12 +2,14 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
+import { useLanguage } from '@/context/LanguageContext'
 import { useToast } from '@/hooks/use-toast'
 import useSessionStorage from '@/hooks/useSessionStorage'
 import { useTranslate } from '@/hooks/useTranslate'
 import { IApiResponse } from '@/interface/apiRespose'
 import { ICart } from '@/interface/cart'
 import { cn } from '@/utils/classUtils'
+import { formatCurrency } from '@/utils/formatCurrency'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TicketPercent } from 'lucide-react'
 import { useState } from 'react'
@@ -22,8 +24,9 @@ const FormSchema = z.object({
 })
 
 const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse<ICart> }) => {
-  const [state, setState, removeState] = useSessionStorage('stateOrder', null)
+  const [state, setState] = useSessionStorage('stateOrder', null)
   const { toast } = useToast()
+  const { language } = useLanguage()
   const navigate = useNavigate()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -35,13 +38,27 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
   const { t } = useTranslate('cart.cartForm')
   function onSubmit() {
     if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
-      setState(JSON.stringify(cartData.data.carts))
+      const stateOrder = cartData.data.carts
+        .filter((item: any) => item.productId.status == 'available')
+        .map((item: any) => ({
+          ...item,
+          unitPrice: item.productOptionId.price
+        }))
+      if (!stateOrder || stateOrder.length <= 0) {
+        toast({
+          title: t('pleaseAddProduct'),
+          description: t('cartMustHaveProduct'),
+          variant: 'default'
+        })
+        return
+      }
+      setState(JSON.stringify(stateOrder))
+      console.log(state);
       navigate('/checkout')
     } else {
       toast({
-        
-        title: "Vui lòng nhập thêm sản phẩm",
-        description: "Số sản phẩm phải lớn hơn 1",
+        title: t('pleaseAddProduct'),
+        description: t('cartMustHaveProduct'),
         variant: 'default'
       })
     }
@@ -88,18 +105,18 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
                             </FormControl>
                             <FormLabel className='font-normal cursor-pointer'>{t('select1')}</FormLabel>
                           </div>
-                          <p className='text-right'>0.00 Vnd</p>
+                          <p className='text-right'>{formatCurrency(0, language)}</p>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
                     <div className='flex justify-between items-center mt-4 py-3'>
                       <h1>{t('subtotal')}</h1>
-                      <h1 className='font-semibold'>{amount.toFixed(3)} Vnd</h1>
+                      <h1 className='font-semibold'>{formatCurrency(amount, language)}</h1>
                     </div>
                     <Separator />
                     <div className='flex justify-between items-center py-3'>
                       <h1 className='text-xl font-semibold'>{t('total')}</h1>
-                      <h1 className='text-xl font-semibold'>{amount.toFixed(3)} Vnd</h1>
+                      <h1 className='text-xl font-semibold'>{formatCurrency(amount, language)}</h1>
                     </div>
                   </FormItem>
                 )}

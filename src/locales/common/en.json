@@ -8,13 +8,15 @@
     "menuHeader": {
       "home": "Home",
       "product": "Product",
-      "about": "About",
+      "blog": "Blog",
       "contact": "Contact",
       "wishlist": "Wishlist",
       "cart": "Cart",
       "sign-in": "Sign In",
       "search": "Search",
-      "language": "Language"
+      "language": "Language",
+      "result": "No results found.",
+      "type": "Enter word to search..."
     },
     "cartHeader": {
       "cart": "Cart",
@@ -26,9 +28,18 @@
       "subtotal": "Subtotal",
       "total": "Total",
       "checkout": "Checkout",
-      "viewCart": "Xem giỏ hàng",
+      "viewCart": "View Cart",
       "or": "or",
-      "continue": "Continue Shopping"
+      "continue": "Continue Shopping",
+      "stockLimit": "Quantity cannot exceed stock availability!",
+      "deleteError": "Unable to delete product, please try again.",
+      "cartError": "Error loading cart.",
+      "loading": "Loading...",
+      "pleaseAddProduct": "Please add products to your cart.",
+      "cartMustHaveProduct": "The cart must contain more than one product.",
+      "noProductInCart": "No products in the cart.",
+      "out_of_stock": "Out of stock",
+      "stock_quantity": "Stock quantity: "
     },
     "userMenu": {
       "signIn": "Sign In",
@@ -45,5 +56,26 @@
     "copyright": "Copyright © 2023 3legant. All rights reserved",
     "privacyPolicy": "Privacy Policy",
     "termsOfUse": "Terms of Use"
+  },
+  "payment": {
+    "paymentSuccess": {
+      "title": "Bank Transfer QR Code",
+      "description": "Please transfer the exact amount for us to confirm your payment.",
+      "accountName": "Account Name",
+      "accountNumber": "Account Number",
+      "bank": "Bank",
+      "amount": "Amount",
+      "note": "Note",
+      "retryQrCode": "Retry QR Code",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+      "successMessage": "Payment successful!",
+      "thankYouMessage": "Thank you for your purchase. Your order has been confirmed.",
+      "backToHome": "Back to homepage"
+    },
+    "errors": {
+      "createQrFail": "Failed to generate QR code! Please try again or contact us for assistance.",
+      "paymentFail": "Payment failed! Please try again or contact us for assistance."
+    }
   }
 }

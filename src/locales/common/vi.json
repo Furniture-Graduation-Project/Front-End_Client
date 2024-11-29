@@ -8,13 +8,15 @@
     "menuHeader": {
       "home": "Trang chủ",
       "product": "Sản phẩm",
-      "about": "Về chúng tôi",
+      "blog": "Bài viết",
       "contact": "Liên hệ",
       "wishlist": "Danh sách yêu thích",
       "cart": "Giỏ hàng",
       "sign-in": "Đăng nhập",
       "search": "Tìm kiếm",
-      "language": "Ngôn Ngữ"
+      "language": "Ngôn Ngữ",
+      "result": " Không tìm thấy kết quả nào.",
+      "type": "Nhập từ để tìm kiếm..."
     },
     "cartHeader": {
       "cart": "Giỏ hàng",
@@ -28,7 +30,16 @@
       "checkout": "Thanh toán",
       "viewCart": "Xem giỏ hàng",
       "or": "Hoặc",
-      "continue": "Tiếp tục mua hàng"
+      "continue": "Tiếp tục mua hàng",
+      "stockLimit": "Số lượng hàng không thể lớn hơn hàng tồn kho!",
+      "deleteError": "Không thể xóa sản phẩm, vui lòng thử lại.",
+      "cartError": "Lỗi khi tải giỏ hàng.",
+      "loading": "Đang tải...",
+      "pleaseAddProduct": "Vui lòng thêm sản phẩm vào giỏ hàng.",
+      "cartMustHaveProduct": "Số lượng sản phẩm phải lớn hơn 1.",
+      "noProductInCart": "Không có sản phẩm trong giỏ hàng",
+      "out_of_stock": "Hết hàng",
+      "stock_quantity": "Số lượng hàng tồn kho: "
     },
     "userMenu": {
       "signIn": "Đăng nhập",
@@ -45,5 +56,26 @@
     "copyright": "Bản quyền © 2023 3legant. Bảo lưu mọi quyền",
     "privacyPolicy": "Chính sách",
     "termsOfUse": "Điều khoản"
+  },
+  "payment": {
+    "paymentSuccess": {
+      "title": "Mã QR Chuyển khoản ngân hàng",
+      "description": "Vui lòng chuyển khoản đúng nội dung để chúng tôi xác nhận thanh toán!",
+      "accountName": "Tên tài khoản",
+      "accountNumber": "Số tài khoản",
+      "bank": "Ngân hàng",
+      "amount": "Số tiền",
+      "note": "Ghi chú",
+      "retryQrCode": "Lấy lại mã QR",
+      "minutes": "Phút",
+      "seconds": "Giây",
+      "successMessage": "Thanh toán thành công!",
+      "thankYouMessage": "Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đã được xác nhận.",
+      "backToHome": "Quay lại trang chủ"
+    },
+    "errors": {
+      "createQrFail": "Tạo mã QR thất bại! Vui lòng thử lại hoặc liên hệ với chúng tôi để được hỗ trợ.",
+      "paymentFail": "Thanh toán thất bại! Vui lòng thử lại hoặc liên hệ với chúng tôi để được hỗ trợ."
+    }
   }
 }

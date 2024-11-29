@@ -1,12 +1,72 @@
 {
-    "account": {
-        "sidebar": {
-            "account": "Tài khoản",
-            "address": "Địa chỉ",
-            "orders": "Đơn hàng",
-            "wishlist": "Yêu thích",
-            "logout": "Đăng xuất",
-            "selectMenu" : "Chọn menu"
+  "account": {
+    "sidebar": {
+      "account": "Tài khoản",
+      "address": "Địa chỉ",
+      "orders": "Đơn hàng",
+      "wishlist": "Yêu thích",
+      "logout": "Đăng xuất",
+      "selectMenu": "Chọn menu"
+    },
+    "order": {
+      "status": {
+        "order_status": "Trạng thái đơn hàng",
+        "cancel_order": "Hủy đơn hàng",
+        "received_order": "Đã nhận hàng",
+        "repurchaseProduct": "Mua lại sản phẩm",
+        "title": "Bạn có chắc chắn không?",
+        "description": "Việc này sẽ ngừng tiến độ xử lý đơn hàng của bạn.",
+        "cancel": "Hủy",
+        "continue": "Tiếp tục",
+        "payment": "Thanh toán",
+        "unpaid": "Chưa thanh toán",
+        "paymentDescription": "Đơn hàng cần được thanh toán để có thể xử lý."
+      },
+      "address": {
+        "addressTitle": "Địa chỉ nhận hàng",
+        "editAddressTitle": "Chỉnh sửa địa chỉ nhận hàng",
+        "editAddressDescription": "Bạn có thể thay đổi thông tin nhận hàng trước khi đơn hàng được gửi.",
+        "orderNameLabel": "Tên người nhận",
+        "orderPhoneLabel": "Số điện thoại",
+        "orderAddressLabel": "Địa chỉ",
+        "orderNamePlaceholder": "Tên người nhận",
+        "orderPhonePlaceholder": "Số điện thoại",
+        "orderAddressPlaceholder": "Địa chỉ nhận hàng",
+        "saveButton": "Lưu lại",
+        "cancelButton": "Hủy",
+        "successTitle": "Thành công!",
+        "successDescription": "Bạn đã thay đổi thành công địa chỉ nhận hàng.",
+        "validation": {
+          "orderNameRequired": "Tên người nhận không được để trống.",
+          "orderPhoneInvalid": "Số điện thoại phải có 10-11 chữ số.",
+          "orderPhoneRequired": "Số điện thoại không được để trống.",
+          "orderAddressRequired": "Địa chỉ không được để trống."
         }
+      },
+      "infomation": {
+        "orderDetails": "Chi tiết đơn hàng",
+        "quantity": "Số lượng",
+        "emptyOrder": "Đơn hàng trống",
+        "totalAmount": "Thanh tiền",
+        "orderIdLabel": "Mã đơn hàng",
+        "copyButton": "Sao chép",
+        "copySuccess": "Sao chép thành công"
+      },
+      "payment": {
+        "paymentMethod": "Phương thức thanh toán",
+        "cashOnDelivery": "Thanh toán khi nhận hàng",
+        "prePayment": "Thanh toán trước",
+        "selectMethod": "Chọn phương thức thanh toán",
+        "changeMethod": "Thay đổi",
+        "unpaid": "Chưa thanh toán",
+        "paid": "Đã thanh toán",
+        "orderTime": "Thời gian đặt hàng",
+        "paymentTime": "Thời gian thanh toán",
+        "deliveryTime": "Thời gian giao hàng",
+        "completionTime": "Thời gian hoàn tất",
+        "successTitle": "Thay đổi thành công",
+        "successDescription": "Phương thức thanh toán đã được thay đổi"
+      }
     }
+  }
 }

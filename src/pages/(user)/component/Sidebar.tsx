@@ -41,6 +41,8 @@ const SidebarAccount = () => {
     form.setValue('image', urls[0])
   }
 
+  const isLoading = form.formState.isSubmitting
+
   const onSubmit = async (data: FieldValues) => {
     try {
       console.log(data)
@@ -56,7 +58,7 @@ const SidebarAccount = () => {
         <div className='bg-black border-[2px] border-white rounded-full w-[30px] h-[30px] flex justify-center items-center absolute top-14 right-20 hover:opacity-80 transition transform duration-200'>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button size={'icon'} variant={'none'}>
+              <Button size={'icon'} variant={'null'}>
                 <Camera className='text-white h-4 w-4' />
               </Button>
             </AlertDialogTrigger>
@@ -68,7 +70,13 @@ const SidebarAccount = () => {
                 <div className='flex justify-center items-center gap-x-6'>
                   <AvatarAccount src={preview || avatar} className='h-20 w-20' />
                   <div>
-                    <input id='avatarUpload' type='file' className='hidden' onChange={onChangeImage} />
+                    <input
+                      disabled={isLoading}
+                      id='avatarUpload'
+                      type='file'
+                      className='hidden'
+                      onChange={onChangeImage}
+                    />
                     <label
                       htmlFor='avatarUpload'
                       className='cursor-pointer text-sm border p-3 rounded-md border-zinc-400'
@@ -152,7 +160,14 @@ const SidebarAccount = () => {
             </NavLink>
           </li>
         </ul>
-        <Select defaultValue={location.pathname} onValueChange={(value) => navigate(value)}>
+        <Select
+          defaultValue={
+            location.pathname.split('/').length >= 3
+              ? location.pathname.split('/').slice(0, 3).join('/')
+              : location.pathname
+          }
+          onValueChange={(value) => navigate(value)}
+        >
           <SelectTrigger className='w-full flex md:hidden'>
             <SelectValue />
           </SelectTrigger>

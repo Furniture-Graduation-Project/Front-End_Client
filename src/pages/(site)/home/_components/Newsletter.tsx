@@ -4,7 +4,7 @@ import { Mail } from 'lucide-react'
 
 const Newsletter = () => {
   const { t } = useTranslate('home.newsletter')
-  console.log(NewsletterBanner)
+  // console.log(NewsletterBanner)
 
   return (
     <div className='relative mt-[74px] h-[300px]  lg:h-auto'>

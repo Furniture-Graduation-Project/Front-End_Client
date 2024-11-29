@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/config/axios'
 import { IApiResponse } from '@/interface/apiRespose'
-import { IOrder } from '@/interface/order'
+import { IOrder, IOrderItem } from '@/interface/order'
 import { AxiosResponse } from 'axios'
 
 const API = 'order'
@@ -57,6 +57,33 @@ export const OrderService = {
       return response
     } catch (error) {
       console.error(`Lỗi khi xóa đơn hàng với ID ${id}:`, error)
+      throw error
+    }
+  },
+  checkProducts: async (data: IOrderItem[]): Promise<AxiosResponse<IApiResponse<IOrderItem[]>>> => {
+    try {
+      const response: AxiosResponse<IApiResponse<IOrderItem[]>> = await axiosInstance.post(`${API}/check`, data)
+      return response
+    } catch (error) {
+      console.error(`Lỗi khi kiểm tra đơn hàng:`, error)
+      throw error
+    }
+  },
+  createQR: async (data: IOrder): Promise<AxiosResponse<IApiResponse<any>>> => {
+    try {
+      const response: AxiosResponse<IApiResponse<any>> = await axiosInstance.post(`${API}/create-qr`, data)
+      return response
+    } catch (error) {
+      console.error(`Lỗi khi tạo qr code:`, error)
+      throw error
+    }
+  },
+  payment: async (id: string, data: any): Promise<AxiosResponse<IApiResponse<any>>> => {
+    try {
+      const response: AxiosResponse<IApiResponse<any>> = await axiosInstance.put(`${API}/payment/` + id, data)
+      return response
+    } catch (error) {
+      console.error(`Lỗi khi tạo qr code:`, error)
       throw error
     }
   }

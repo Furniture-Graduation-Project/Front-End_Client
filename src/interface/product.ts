@@ -10,4 +10,6 @@ export interface IProduct {
   images: string[]
   material?: string
   status: 'available' | 'out of stock' | 'discontinued'
+  createdAt: string
 }
+;``

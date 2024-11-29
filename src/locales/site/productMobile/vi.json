@@ -1,0 +1,13 @@
+{
+  "comboboxDropdownMenu": {
+    "loading": "Đang tải...",
+    "error": "Lỗi khi tải dữ liệu.",
+    "actions": "Hành động",
+    "categories": "Danh mục",
+    "filterLabel": "Lọc nhãn...",
+    "noCategoryFound": "Không tìm thấy danh mục.",
+    "materials": "Vật liệu",
+    "noMaterialFound": "Không tìm thấy vật liệu.",
+    "clearAll": "Xóa tất cả"
+  }
+}

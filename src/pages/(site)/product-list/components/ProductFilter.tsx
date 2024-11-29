@@ -1,32 +1,47 @@
-import { Checkbox } from '@/components/ui/checkbox.tsx'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Columns2, SlidersHorizontal } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
-import { ComboboxDropdownMenu } from './ProductFilterMobile'
 
-const categories = [
-  'All Rooms',
-  'Living Room',
-  'Bedroom',
-  'Kitchen',
-  'Bathroom',
-  'Dinning',
-  'Outdoor',
-  'Office',
-  'Kids',
-  'Accessories'
-]
-
-const priceFilter = ['All Price', 'Under $100', '$100 - $199', '$200 - $299', '$300 - $399', '$400 - $499', '$500+']
+import { useMultipleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
+import { useState } from 'react'
+import { useMultipleMaterialQuery } from '@/hooks/queries/useMaterialQuery'
+import { useTranslate } from '@/hooks/useTranslate'
+import ComboboxDropdownMenu from './ProductFilterMobile'
 
 const ProductFilter = () => {
+  const { t } = useTranslate('productFilter')
+
+  const {
+    data: categoriesResponse,
+    isLoading: isLoadingCategories,
+    error: categoriesError
+  } = useMultipleCategoryQuery()
+
+  const { data: materialsResponse, isLoading: isLoadingMaterials, error: materialsError } = useMultipleMaterialQuery()
+
+  const [showAllCategories, setShowAllCategories] = useState(false)
+  const [showAllMaterials, setShowAllMaterials] = useState(false)
+
+  if (isLoadingCategories || isLoadingMaterials) {
+    return <p>{t('loading')}</p>
+  }
+
+  if (categoriesError || materialsError) {
+    return <p>{t('error')}</p>
+  }
+
+  const categories = categoriesResponse?.data || []
+  const materials = materialsResponse?.data || []
+
+  const visibleCategories = showAllCategories ? categories : categories.slice(0, 5)
+  const visibleMaterials = showAllMaterials ? materials : materials.slice(0, 5)
+
   return (
     <div className='flex flex-col w-full md:w-[262px] my-2 md:my-0'>
       <div className='sticky top-32'>
         <div className='flex justify-between items-center md:mb-8'>
           <div className='flex items-center'>
             <SlidersHorizontal className='w-6 h-6 mr-2' />
-            <p className='font-semibold text-xl'>Filter</p>
+            <p className='font-semibold text-xl'>{t('filter')}</p>
             <div className='md:hidden flex items-center'>
               <ComboboxDropdownMenu />
             </div>
@@ -41,34 +56,60 @@ const ProductFilter = () => {
           </div>
         </div>
         <div className='md:flex flex-col space-y-3 mb-8 hidden'>
-          <p className='font-semibold uppercase'>Categories</p>
-          <ScrollArea className='h-36'>
-            <ul className='flex flex-col space-y-2'>
-              {categories.map((category, index) => (
-                <NavLink
-                  to={''}
-                  key={index}
-                  className='text-sm font-semibold text-[#807E7E] hover:text-black hover:underline transform duration-200'
-                >
-                  {category}
-                </NavLink>
-              ))}
-            </ul>
-          </ScrollArea>
+          <p className='font-semibold uppercase'>{t('categories')}</p>
+          <ul className={`flex flex-col space-y-2 ${!showAllCategories ? 'h-36 overflow-y-auto' : ''}`}>
+            <NavLink
+              to={`/products`}
+              className='text-sm font-semibold text-[#807E7E] hover:text-black hover:underline transform duration-200'
+            >
+              Tất cả
+            </NavLink>
+            {visibleCategories.map((category) => (
+              <NavLink
+                to={`/products?category=${category._id}`}
+                key={category._id}
+                className='text-sm font-semibold text-[#807E7E] hover:text-black hover:underline transform duration-200'
+              >
+                {category.categoryName}
+              </NavLink>
+            ))}
+          </ul>
+          {categories.length > 5 && (
+            <button
+              onClick={() => setShowAllCategories((prev) => !prev)}
+              className='mt-2 text-sm font-semibold text-blue-600 hover:underline'
+            >
+              {showAllCategories ? t('showLess') : t('showMore')}
+            </button>
+          )}
         </div>
         <div className='md:flex hidden flex-col space-y-4'>
-          <p className='text-base font-semibold uppercase'>Price</p>
-          {priceFilter.map((price, index) => (
-            <div key={index} className='flex'>
-              <label
-                htmlFor={`checkbox-${index}`}
-                className='text-sm font-semibold text-[#6C7275] hover:text-black transform duration-200 hover:cursor-pointer'
+          <p className='text-base font-semibold uppercase'>{t('materials')}</p>
+          <ul className={`flex flex-col space-y-2 ${!showAllMaterials ? 'h-36 overflow-y-auto' : ''}`}>
+            <NavLink
+              to={`/products`}
+              className='text-sm font-semibold text-[#807E7E] hover:text-black hover:underline transform duration-200'
+            >
+              Tất cả
+            </NavLink>
+            {visibleMaterials.map((material) => (
+              <NavLink
+                to={`/products?material=${material._id}`}
+                key={material._id}
+                className='text-sm font-semibold text-[#807E7E] hover:text-black hover:underline transform duration-200'
               >
-                {price}
-              </label>
-              <Checkbox id={`checkbox-${index}`} className='ml-auto w-4 h-4 rounded mr-2' />
-            </div>
-          ))}
+                {material.materialName || t('noMaterialName')}
+              </NavLink>
+            ))}
+          </ul>
+          {materials.length > 5 && (
+            <button
+              onClick={() => setShowAllMaterials((prev) => !prev)}
+              className='mt-2 text-sm font-semibold text-blue-600 hover:underline'
+            >
+              {showAllMaterials ? t('showLess') : t('showMore')}
+            </button>
+          )}
         </div>
       </div>
     </div>
