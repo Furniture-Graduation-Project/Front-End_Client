@@ -9,12 +9,14 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { cn } from '@/utils/classUtils'
 import { useTranslate } from '@/hooks/useTranslate'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IDistrict, ILocation, IWard } from '@/interface/location'
 import useOrderMutation from '@/hooks/mutations/useOrderMutation'
 import { IOrder } from '@/interface/order'
 import { useAllAddressQuery } from '@/hooks/queries/useAddressQuery'
 import { useAuthContext } from '@/context/AuthContext'
+import { useToast } from '@/hooks/use-toast'
+import { ToastAction } from '@/components/ui/toast'
 
 const formSchema = z.object({
   firstName: z.string().min(1, 'Họ không được để trống.'),
@@ -30,13 +32,14 @@ const formSchema = z.object({
   })
 })
 
-const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart }: any) => {
+const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrder, stateErrorOrder }: any) => {
   const { user } = useAuthContext()
+  const { toast } = useToast()
   const { t } = useTranslate('checkout.form')
   const [currentDistrict, setCurrentDistrict] = useState<IDistrict[]>([])
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
   const { data, isLoading, isError } = useAllAddressQuery()
-  const { mutate } = useOrderMutation({ action: 'CREATE' })
+  const { mutate, isError: isErrorOrder, error } = useOrderMutation({ action: 'CREATE' })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,10 +67,10 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart }: any) => {
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     const items = JSON.parse(dataCart).map((item: any) => {
       return {
-        productId: item.productID._id,
-        productOptionId: item.productItemID._id,
+        productId: item.productId._id,
+        productOptionId: item.productOptionId._id,
         quantity: item.quantity,
-        unitPrice: item.price
+        unitPrice: item.productOptionId.price
       }
     })
     if (user && user._id) {
@@ -86,6 +89,16 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart }: any) => {
       mutate(order)
     }
   }
+  useEffect(() => {
+    if (isErrorOrder) {
+      setErrorOrder((error as any).response.data.data)
+      toast({
+        title: (error as any).response.data.message,
+        description: t('errorOrder'),
+        action: <ToastAction altText='Try again'>{t('tryAgain')}</ToastAction>
+      })
+    }
+  }, [isErrorOrder])
   return (
     <Form {...form}>
       <form action='' onSubmit={form.handleSubmit(onSubmit)}>
@@ -310,7 +323,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart }: any) => {
             />
           </div>
           <Button
-            disabled={isLoading || isError || isLoadingCart || !user}
+            disabled={isLoading || isError || isLoadingCart || !user || stateErrorOrder || JSON.parse(dataCart).length === 0}
             variant={'default'}
             className={`bg-black py-6`}
             type='submit'

@@ -6,18 +6,31 @@ import { Link } from 'react-router-dom'
 import BrandLink from '../BrandLink'
 import { useTranslate } from '@/hooks/useTranslate'
 import React from 'react'
+import { useMultipleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
 
 type Checked = DropdownMenuCheckboxItemProps['checked']
 
 const MenuHeader = () => {
   const { t, i18n, setLocale } = useTranslate('header.menuHeader')
+  const { data: response, isLoading, error } = useMultipleCategoryQuery()
 
   const [language, setLanguage] = React.useState<Checked>(() => (i18n.language === 'en' ? true : false))
   const handleLanguage = async (change: boolean) => {
     setLanguage(change)
     await setLocale(language ? 'vi' : 'en')
   }
+
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
+
+  if (error) {
+    return <p>Failed to load categories</p>
+  }
+
+  const categories = response?.data
+
   return (
     <header className='z-30 flex h-14 items-center bg-background sm:h-auto sm:border-0'>
       <Sheet>
@@ -48,7 +61,7 @@ const MenuHeader = () => {
                       placeholder={t('search')}
                     />
                   </div>
-                  <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
+                  <Link to='/' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
                     {t('home')}
                   </Link>
                   <div className='border-b border-neutral-3'></div>
@@ -56,18 +69,23 @@ const MenuHeader = () => {
                     <AccordionItem value='item-1'>
                       <AccordionTrigger className='hover:no-underline '>{t('product')}</AccordionTrigger>
                       <AccordionContent className='pl-3 pt-5 button-xs border-b border-neutral-3'>
-                        <Link to=''>All Products</Link>
-                      </AccordionContent>
-                      <AccordionContent className='pl-3 pt-5 button-xs'>
-                        <Link to=''>Product 1</Link>
+                        {categories?.map((category) => (
+                          <Link
+                            to={`/products?category=${category._id}`}
+                            key={category._id}
+                            className='block py-2 text-sm text-neutral-7 hover:bg-neutral-2'
+                          >
+                            {category.categoryName}
+                          </Link>
+                        ))}
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
-                    {t('about')}
+                  <Link to='/blog' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
+                    {t('blog')}
                   </Link>
                   <div className='border-b border-neutral-3'></div>
-                  <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
+                  <Link to='/contact' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
                     {t('contact')}
                   </Link>
                   <div className='border-b border-neutral-3'></div>
@@ -123,9 +141,7 @@ const MenuHeader = () => {
                   </Link>
                   <div className='flex items-center'>
                     <Heart className='mr-[6px] w-[18px]' />
-                    <div className='rounded-full bg-black text-white w-[20px] h-[20px] text-center leading-[20px]'>
-                      2
-                    </div>
+                    <div className='rounded-full bg-black text-white w-[20px] h-[20px]'>{2}</div>
                   </div>
                 </div>
               </div>

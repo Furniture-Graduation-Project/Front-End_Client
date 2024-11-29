@@ -10,8 +10,10 @@ import MenuHeader from './MenuHeader'
 import NavigationLinks from './NavigationLinks'
 import NotificationBar from './NotificationBar'
 import UserMenu from './UserMenu'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const Header = () => {
+  const { t } = useTranslate('header.menuHeader')
   const [search, setSearch] = useState(false)
   const [showNotification, setShowNotification] = useState(true)
   const [isSticky, setIsSticky] = useState(false)
@@ -46,9 +48,9 @@ const Header = () => {
             <div className='hidden lg:flex lg:flex-1 lg:justify-end lg:items-center space-x-5'>
               <Search className='hover:cursor-pointer' onClick={() => setSearch(true)} />
               <CommandDialog open={search} onOpenChange={setSearch}>
-                <CommandInput placeholder='Type a command or search...' />
+                <CommandInput placeholder={t('type')} />
                 <CommandList>
-                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandEmpty>{t('result')}</CommandEmpty>
                 </CommandList>
               </CommandDialog>
               <LanguageMenu />

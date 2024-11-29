@@ -1,0 +1,13 @@
+{
+  "productGrid": {
+    "searchPlaceholder": "Tìm kiếm......",
+    "noProductsAvailable": "Không có sản phẩm nào có sẵn trong danh mục này.",
+    "noSearchResults": "Không có sản phẩm nào bạn tìm kiếm.",
+    "page": "Trang",
+    "previous": "Trước",
+    "next": "Tiếp",
+    "sortBy": "Sắp xếp theo",
+    "loading": "Đang tải...",
+    "errorLoadingProducts": "Lỗi tải sản phẩm"
+  }
+}

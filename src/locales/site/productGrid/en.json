@@ -1,0 +1,13 @@
+{
+  "productGrid": {
+    "searchPlaceholder": "Search...",
+    "noProductsAvailable": "No products are available in this category.",
+    "noSearchResults": "No products match your search.",
+    "page": "Page",
+    "previous": "Previous",
+    "next": "Next",
+    "sortBy": "Sort By",
+    "loading": "Loading...",
+    "errorLoadingProducts": "Error loading products"
+  }
+}

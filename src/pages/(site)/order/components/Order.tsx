@@ -1,9 +1,8 @@
 import { Separator } from '@/components/ui/separator'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
-import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSingleOrderQuery } from '@/hooks/queries/useOrderQuery'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useTranslate } from '@/hooks/useTranslate'
 import { IOrderItem } from '@/interface/order'
 
@@ -139,7 +138,7 @@ const Order = () => {
             </p>
           </div>
         </div>
-        <Button className='px-11 h-[52px] font-medium text-base rounded-full'>{t('purchaseHistory')}</Button>
+        <Link to={'/account/order'} className='px-11 h-[52px] font-medium text-base rounded-full'>{t('purchaseHistory')}</Link>
       </div>
     </div>
   )

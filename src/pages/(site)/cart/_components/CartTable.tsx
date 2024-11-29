@@ -7,6 +7,9 @@ import { useEffect } from 'react'
 import { IApiResponse } from '@/interface/apiRespose'
 import { ICart } from '@/interface/cart'
 import { useAuthContext } from '@/context/AuthContext'
+import { formatCurrency } from '@/utils/formatCurrency'
+import { useToast } from '@/hooks/use-toast'
+import { useLanguage } from '@/context/LanguageContext'
 
 type CartTableProps = {
   cartData: IApiResponse<ICart>
@@ -18,6 +21,8 @@ type CartTableProps = {
 const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) => {
   const { user } = useAuthContext()
   const { t } = useTranslate('cart.cartTable')
+  const { language } = useLanguage()
+  const { toast } = useToast()
   const queryClient = useQueryClient()
   const { mutate: deleteItem } = useCartMutation('REMOVE')
   const { mutate: increaseQuantity } = useCartMutation('INCREASE')
@@ -27,8 +32,8 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
     if (cartData && cartData.data && cartData.data.carts) {
       setAmount(
         cartData.data.carts.reduce((acc: any, item: any) => {
-          if (item.productItemID.stock > 0) {
-            return acc + item.price * item.quantity
+          if (item.productOptionId.stock > 0) {
+            return acc + item.productOptionId.price * item.quantity
           }
           return acc.toFixed(3)
         }, 0)
@@ -37,13 +42,16 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
   }, [cartData, setAmount])
 
   const handleIncreaseQuantity = (item: any) => {
-    if (item.quantity >= item.productItemID.stock) {
-      alert('Số lượng hàng không thể lớn hơn hàng tồn kho!')
+    if (item.quantity >= item.productOptionId.stock - item.productOptionId.outStock) {
+      toast({
+        title: t('stockLimit'),
+        variant: 'default'
+      })
       return
     }
     if (user) {
       increaseQuantity(
-        { productId: item.productID._id, productItemId: item.productItemID._id },
+        { productId: item.productId._id, productOptionId: item.productOptionId._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
@@ -56,7 +64,7 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
   const handleDecreaseQuantity = (item: any) => {
     if (item.quantity > 1 && user) {
       decreaseQuantity(
-        { productId: item.productID._id, productItemId: item.productItemID._id },
+        { productId: item.productId._id, productOptionId: item.productOptionId._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
@@ -69,14 +77,17 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
   const handleDeleteItem = (item: any) => {
     if (user) {
       deleteItem(
-        { productId: item.productID._id, productItemId: item.productItemID._id },
+        { productId: item.productId._id, productOptionId: item.productOptionId._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
           },
           onError: (error) => {
-            console.error('Lỗi khi xóa sản phẩm:', error)
-            alert('Không thể xóa sản phẩm, vui lòng thử lại.')
+            toast({
+              title: t('deleteError'),
+              description: error.message,
+              variant: 'default'
+            })
           }
         }
       )
@@ -97,53 +108,57 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
         {isLoading ? (
           <TableRow>
             <TableCell colSpan={5} style={{ textAlign: 'center' }}>
-              Đang tải...
+              {t('loading')}
             </TableCell>
           </TableRow>
         ) : isError ? (
           <TableRow>
             <TableCell colSpan={5} style={{ textAlign: 'center' }}>
-              L...
+              {t('error')}
             </TableCell>
           </TableRow>
         ) : cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0 ? (
           cartData.data.carts.map((item: any, index: number) => (
-            <TableRow key={index} className={item.productItemID.stock === 0 ? 'opacity-50' : ''}>
+            <TableRow
+              key={index}
+              className={
+                item.productOptionId.stock === 0 || item.productId.status !== 'available' ? 'opacity-50 pointer-events-none' : ''
+              }
+            >
               <TableCell className='lg:p-4 px-0'>
                 <div className='flex gap-4'>
                   <img
                     src='https://assets.weimgs.com/weimgs/rk/images/wcm/products/202420/0120/meyer-wooden-drink-tables-18-21-5-o.jpg'
-                    alt={item.productID._id}
+                    alt={item.productId._id}
                     className='w-24 h-28'
                   />
                   <div className='flex flex-col gap-y-2 justify-center'>
-                    <h1 className='font-semibold text-[14px]'>{item.productID.name}</h1>
+                    <h1 className='font-semibold text-[14px]'>{item.productId.name}</h1>
                     <p className='text-[12px] text-[#6C7275]'>
-                      {item.productItemID.variants.map((variant: any, id: number) => (
+                      {item.productOptionId.variants.map((variant: any, id: number) => (
                         <span key={id}>
                           {variant.variant}: {variant.value}
                         </span>
                       ))}
                     </p>
                     <p className='text-[12px] text-[#6C7275]'>
-                      {item.productItemID.stock === 0
-                        ? 'Hết hàng'
-                        : `Số lượng hàng tồn kho: ${item.productItemID.stock}`}
+                      {item.productOptionId.stock === 0
+                        ? t('out_of_stock')
+                        : t('stock_quantity') + (item.productOptionId.stock - item.productOptionId.outStock)}
                     </p>
                     <button
                       className='hidden sm:flex items-center gap-1 *:text-[#605F5F]'
                       onClick={() => handleDeleteItem(item)}
-                      disabled={item.productItemID.stock === 0}
                     >
                       <X size={24} />
                       <p className='font-semibold text-[14px]'>{t('action')}</p>
                     </button>
                     <div className='w-20 justify-center flex items-center border sm:hidden border-black rounded-lg'>
-                      <button onClick={() => handleDecreaseQuantity(item)} disabled={item.productItemID.stock === 0}>
+                      <button onClick={() => handleDecreaseQuantity(item)} disabled={item.productOptionId.stock === 0}>
                         <Minus className='h-4 w-4' strokeWidth={1} />
                       </button>
                       <span className='mx-3'>{item.quantity}</span>
-                      <button onClick={() => handleIncreaseQuantity(item)} disabled={item.productItemID.stock === 0}>
+                      <button onClick={() => handleIncreaseQuantity(item)} disabled={item.productOptionId.stock === 0}>
                         <Plus className='h-4 w-4' />
                       </button>
                     </div>
@@ -152,7 +167,10 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
               </TableCell>
               <TableCell className='sm:hidden sm:p-4 px-0'>
                 <div className='flex flex-col items-end justify-start -mt-10 gap-2'>
-                  <p className='font-semibold whitespace-nowrap'>{item.price.toFixed(3)} Vnd</p>
+                  <p className='font-semibold whitespace-nowrap'>
+                    {formatCurrency(item.productOptionId.price, language)}
+                    {formatCurrency(item.productOptionId.price, language)}
+                  </p>
                   <button className='flex items-center gap-1 *:text-[#605F5F]' onClick={() => handleDeleteItem(item)}>
                     <X size={24} />
                     <p className='font-semibold text-[14px]'>{t('action')}</p>
@@ -161,21 +179,23 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
               </TableCell>
               <TableCell className='hidden sm:table-cell sm:p-4 px-0 w-[260px]'>
                 <div className='justify-center flex items-center border sm:flex border-black rounded-lg py-1.5'>
-                  <button onClick={() => handleDecreaseQuantity(item)} disabled={item.productItemID.stock === 0}>
+                  <button onClick={() => handleDecreaseQuantity(item)} disabled={item.productOptionId.stock === 0}>
                     <Minus className='h-4 w-4' strokeWidth={1} />
                   </button>
                   <span className='mx-3'>{item.quantity}</span>
-                  <button onClick={() => handleIncreaseQuantity(item)} disabled={item.productItemID.stock === 0}>
+                  <button onClick={() => handleIncreaseQuantity(item)} disabled={item.productOptionId.stock === 0}>
                     <Plus className='h-4 w-4' />
                   </button>
                 </div>
               </TableCell>
               <TableCell className='hidden sm:table-cell sm:p-4 px-0'>
-                <p className='font-semibold text-center whitespace-nowrap'>{item.price.toFixed(3)} Vnd</p>
+                <p className='font-semibold text-center whitespace-nowrap'>
+                  {formatCurrency(item.productOptionId.price, language)}
+                </p>
               </TableCell>
               <TableCell className='hidden sm:table-cell sm:p-4 px-0'>
                 <p className='font-semibold text-center whitespace-nowrap'>
-                  {(item.quantity * item.price).toFixed(3)} Vnd
+                  {formatCurrency(item.quantity * item.productOptionId.price, language)}
                 </p>
               </TableCell>
             </TableRow>
@@ -183,7 +203,7 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
         ) : (
           <TableRow>
             <TableCell colSpan={5} style={{ textAlign: 'center' }}>
-              Không có sản phẩm trong giỏ hàng
+              {t('cartEmpty')}
             </TableCell>
           </TableRow>
         )}

@@ -10,17 +10,16 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '@/context/AuthContext'
 import useSessionStorage from '@/hooks/useSessionStorage'
 import { useToast } from '@/hooks/use-toast'
+import { formatCurrency } from '@/utils/formatCurrency'
+import { useLanguage } from '@/context/LanguageContext'
 
-type CartHeaderProps = {
-  mobile: boolean
-}
-
-const CartHeader = ({ mobile }: CartHeaderProps) => {
+const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { user } = useAuthContext()
   const { t } = useTranslate('header.cartHeader')
+  const { language } = useLanguage()
   const queryClient = useQueryClient()
   const [amount, setAmount] = useState(0)
-  const [state, setState, removeState] = useSessionStorage('stateOrder', null)
+  const [state, setState] = useSessionStorage('stateOrder', null)
   const { data: cartData, isLoading, isError } = useCartQuery(user?._id as string)
   const { mutate: deleteItem } = useCartMutation('REMOVE')
   const { mutate: increaseQuantity } = useCartMutation('INCREASE')
@@ -31,25 +30,26 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
     if (cartData && cartData.data && cartData.data.carts) {
       setAmount(
         cartData.data.carts.reduce((acc: any, item: any) => {
-          if (item.productItemID.stock > 0) {
-            return acc + item.price * item.quantity
+          if (item.productOptionId.stock > 0) {
+            return acc + item.productOptionId.price * item.quantity
           }
           return acc
         }, 0)
       )
     }
-  }, [cartData])
-
-  console.log(cartData)
+  }, [cartData, state])
 
   const handleIncreaseQuantity = (item: any) => {
-    if (item.quantity >= item.productItemID.stock) {
-      alert('Số lượng hàng không thể lớn hơn hàng tồn kho!')
+    if (item.quantity >= item.productOptionId.stock - item.productOptionId.outStock) {
+      toast({
+        title: t('stockLimit'),
+        variant: 'default'
+      })
       return
     }
     if (user) {
       increaseQuantity(
-        { productId: item.productID._id, productItemId: item.productItemID._id },
+        { productId: item.productId._id, productOptionId: item.productOptionId._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
@@ -62,7 +62,7 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
   const handleDecreaseQuantity = (item: any) => {
     if (item.quantity > 1 && user) {
       decreaseQuantity(
-        { productId: item.productID._id, productItemId: item.productItemID._id },
+        { productId: item.productId._id, productOptionId: item.productOptionId._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
@@ -75,31 +75,44 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
   const handleDeleteItem = (item: any) => {
     if (user) {
       deleteItem(
-        { productId: item.productID._id, productItemId: item.productItemID._id },
+        { productId: item.productId._id, productOptionId: item.productOptionId._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
           },
           onError: (error) => {
-            console.error('Lỗi khi xóa sản phẩm:', error)
-            alert('Không thể xóa sản phẩm, vui lòng thử lại.')
+            toast({
+              title: t('deleteError'),
+              description: error.message,
+              variant: 'default'
+            })
           }
         }
       )
     }
   }
-
-  const calculateTotal = () => {
-    return amount.toFixed(3)
-  }
   function onSubmit() {
     if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
-      setState(JSON.stringify(cartData.data.carts))
+      const stateOrder = cartData.data.carts
+        .filter((item: any) => item.productId.status == 'available')
+        .map((item: any) => ({
+          ...item,
+          unitPrice: item.productOptionId.price
+        }))
+      if (!stateOrder || stateOrder.length <= 0) {
+        toast({
+          title: t('pleaseAddProduct'),
+          description: t('cartMustHaveProduct'),
+          variant: 'default'
+        })
+        return
+      }
+      setState(JSON.stringify(stateOrder))
       navigate('/checkout')
     } else {
       toast({
-        title: 'Vui lòng nhập thêm sản phẩm',
-        description: 'Số sản phẩm phải lớn hơn 1',
+        title: t('pleaseAddProduct'),
+        description: t('cartMustHaveProduct'),
         variant: 'default'
       })
     }
@@ -129,19 +142,19 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
                 <div className='flow-root'>
                   <ul role='list' className=' -my-6 divide-y divide-neuborder-neutral-3'>
                     {isLoading ? (
-                      <div>Loading...</div>
+                      <div>{t('loading')}</div>
                     ) : isError ? (
-                      <div>Error loading cart</div>
+                      <div>{t('cartError')}</div>
                     ) : cartData?.data?.carts?.length > 0 ? (
                       cartData.data.carts.map((item: any) => (
-                        <li
-                          key={item.productItemID._id}
-                          className={`flex py-6 ${item.productItemID.stock === 0 ? 'opacity-50' : ''}`}
-                        >
+                        <li key={item.productOptionId._id} className={`flex py-6 relative `}>
+                          <div
+                            className={`absolute w-full h-full items-center justify-center ${item.productOptionId.stock === 0 || item.productId.status !== 'available' ? 'bg-slate-50/50 flex' : 'hidden'}`}
+                          ></div>
                           <div className='h-24 w-24 flex-shrink-0 rounded-md border border-neutral-3'>
                             <img
                               src='https://assets.weimgs.com/weimgs/rk/images/wcm/products/202420/0120/meyer-wooden-drink-tables-18-21-5-o.jpg'
-                              alt={item.productID._id}
+                              alt={item.productId._id}
                               className='h-full w-full object-cover object-center'
                             />
                           </div>
@@ -150,13 +163,15 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
                             <div>
                               <div className='flex justify-between caption-1-semi text-neutral-7'>
                                 <h3>
-                                  <a href={item.productID.href}>{item.productID.name}</a>
+                                  <a href={item.productId.href}>{item.productId.name}</a>
                                 </h3>
-                                <p className='ml-4 text-[#121212]'>${item.price.toFixed(3)}</p>
+                                <p className='ml-4 text-[#121212]'>
+                                  {formatCurrency(item.productOptionId.price, language)}
+                                </p>
                               </div>
                               <div className='flex flex-1 justify-between items-center mt-1'>
                                 <p className='text-[12px] text-[#6C7275]'>
-                                  {item.productItemID.variants.map((variant: any, id: number) => (
+                                  {item.productOptionId.variants.map((variant: any, id: number) => (
                                     <span key={id}>
                                       {variant.variant}: {variant.value}
                                     </span>
@@ -165,24 +180,32 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
                                 <button
                                   type='button'
                                   onClick={() => handleDeleteItem(item)}
-                                  disabled={item.productItemID.stock === 0}
+                                  disabled={item.productOptionId.stock === 0}
                                 >
                                   <X className='text-neutral-4 w-[14px] h-[14px]' strokeWidth={2} />
                                 </button>
+                              </div>
+                              <div>
+                                <p className='text-[12px] text-[#6C7275]'>
+                                  {item.productOptionId.stock === 0
+                                    ? t('out_of_stock')
+                                    : t('stock_quantity') +
+                                      (item.productOptionId.stock - item.productOptionId.outStock)}
+                                </p>
                               </div>
                             </div>
                             <div className='flex flex-1 items-end justify-between text-[12px]'>
                               <div className='flex items-center border border-black rounded-lg py-1.5 px-2 mt-2'>
                                 <button
                                   onClick={() => handleDecreaseQuantity(item)}
-                                  disabled={item.productItemID.stock === 0}
+                                  disabled={item.productOptionId.stock === 0}
                                 >
                                   <Minus className='h-4 w-4' strokeWidth={1} />
                                 </button>
                                 <span className='mx-3'>{item.quantity}</span>
                                 <button
                                   onClick={() => handleIncreaseQuantity(item)}
-                                  disabled={item.productItemID.stock === 0}
+                                  disabled={item.productOptionId.stock === 0}
                                 >
                                   <Plus className='h-4 w-4' />
                                 </button>
@@ -192,7 +215,7 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
                         </li>
                       ))
                     ) : (
-                      <div>Không có sản phẩm trong giỏ hàng</div>
+                      <div>{t('noProductInCart')}</div>
                     )}
                   </ul>
                 </div>
@@ -202,14 +225,14 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
             <div className='border-b border-neutral-3 p-4'>
               <div className='flex justify-between text-neutral-7'>
                 <p className='body-2'>{t('subtotal')}</p>
-                <p className='body-2-semi'>${calculateTotal()}</p>
+                <p className='body-2-semi'>{formatCurrency(amount, language)}</p>
               </div>
             </div>
 
             <div className='p-4 border-neutral-3'>
               <div className='flex justify-between headline-7 text-neutral-7'>
                 <p>{t('total')}</p>
-                <p>${calculateTotal()}</p>
+                <p>{formatCurrency(amount, language)}</p>
               </div>
 
               <div className='mt-6'>
@@ -224,7 +247,7 @@ const CartHeader = ({ mobile }: CartHeaderProps) => {
                 </Link>
                 <span>{t('or')}</span>
                 <Link to='/' className='text-black hover:text-neutral-7 underline'>
-                  {t('continueShopping')}
+                  {t('continue')}
                 </Link>
               </div>
             </div>

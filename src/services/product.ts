@@ -6,9 +6,10 @@ import { AxiosResponse } from 'axios'
 const API_URL = '/product'
 
 export const ProductService = {
-  getAll: async (): Promise<AxiosResponse<IApiResponse<IProduct[]>>> => {
+  getAll: async (categoryId?: string): Promise<AxiosResponse<IApiResponse<IProduct[]>>> => {
     try {
-      const response: AxiosResponse<IApiResponse<IProduct[]>> = await axiosInstance.get(API_URL)
+      const query = categoryId ? `?categoryId=${categoryId}` : ''
+      const response: AxiosResponse<IApiResponse<IProduct[]>> = await axiosInstance.get(`${API_URL}${query}`)
       console.log('Dữ liệu sản phẩm từ API:', response.data)
       return response
     } catch (error) {
@@ -40,17 +41,28 @@ export const ProductService = {
   getLimited: async (pagination: {
     pageIndex: number
     pageSize: number
+    categoryId?: string
+    materialId?: string
   }): Promise<AxiosResponse<IApiResponse<IProduct[]>>> => {
     try {
-      const response: AxiosResponse<IApiResponse<IProduct[]>> = await axiosInstance.get(
-        `${API_URL}/limited?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
-      )
+      let query = `?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
+
+      if (pagination.categoryId) {
+        query += `&categoryId=${pagination.categoryId}`
+      }
+
+      if (pagination.materialId) {
+        query += `&materialId=${pagination.materialId}`
+      }
+
+      const response: AxiosResponse<IApiResponse<IProduct[]>> = await axiosInstance.get(`${API_URL}/limited${query}`)
       return response
     } catch (error) {
       console.error(`Lỗi khi lấy sản phẩm giới hạn:`, error)
       throw error
     }
   },
+
   getByName: async (name: string): Promise<AxiosResponse<IApiResponse<IProduct[]>>> => {
     try {
       const response: AxiosResponse<IApiResponse<IProduct[]>> = await axiosInstance.get(`${API_URL}/search`, {

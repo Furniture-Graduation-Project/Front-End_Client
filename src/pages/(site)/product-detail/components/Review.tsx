@@ -16,7 +16,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Flame, Headphones, Heart, Smile, ThumbsUp } from 'lucide-react'
 import { useState } from 'react'
 import AdditionalInfo from './AdditionalInfo'
-import Questions from './Questions'
+import { useTranslate } from '@/hooks/useTranslate'
 
 interface Review {
   id: number
@@ -26,50 +26,10 @@ interface Review {
   content: string
 }
 
-const reviews: Review[] = [
-  {
-    id: 1,
-    author: 'Sofia Harvetz',
-    avatar: '/placeholder.svg',
-    rating: 5,
-    content:
-      'I bought it 3 weeks ago and now come back just to say "Awesome Product". I really enjoy it. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 2,
-    author: 'Nicolas Jensen',
-    avatar: '/placeholder.svg',
-    rating: 5,
-    content:
-      'I bought it 3 weeks ago and now come back just to say "Awesome Product". I really enjoy it. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 3,
-    author: 'Emily Clark',
-    avatar: '/placeholder.svg',
-    rating: 4,
-    content:
-      'The product is good, but the delivery was late. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 4,
-    author: 'John Doe',
-    avatar: '/placeholder.svg',
-    rating: 3,
-    content:
-      'It works as expected, but I had some issues with the setup. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 5,
-    author: 'Jane Smith',
-    avatar: '/placeholder.svg',
-    rating: 5,
-    content:
-      'Excellent product! Highly recommend. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  }
-]
+const reviews: Review[] = []
 
 export default function Review() {
+  const { t } = useTranslate('productDetail')
   const [reviewList, setReviewList] = useState(reviews)
   const [newReview, setNewReview] = useState({
     author: '',
@@ -98,19 +58,13 @@ export default function Review() {
             value='info'
             className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent'
           >
-            Additional Info
-          </TabsTrigger>
-          <TabsTrigger
-            value='questions'
-            className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent'
-          >
-            Questions
+            {t('Additional Info')}
           </TabsTrigger>
           <TabsTrigger
             value='reviews'
             className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent'
           >
-            Reviews
+            {t('Reviews')}
           </TabsTrigger>
         </TabsList>
 
@@ -118,14 +72,10 @@ export default function Review() {
           <AdditionalInfo />
         </TabsContent>
 
-        <TabsContent value='questions' className='mt-6'>
-          <Questions />
-        </TabsContent>
-
         <TabsContent value='reviews' className='mt-6'>
           <div className='space-y-8'>
             <div>
-              <h2 className='text-2xl font-semibold mb-2'>Customer Reviews</h2>
+              <h2 className='text-2xl font-semibold mb-2'> {t('Customer Reviews')}</h2>
               <div className='flex items-center gap-2 mb-4'>
                 <div className='flex'>
                   {[1, 2, 3, 4].map((star) => (
@@ -161,11 +111,11 @@ export default function Review() {
               </div>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button>Write Review</Button>
+                  <Button>{t('Write Review')}</Button>
                 </DialogTrigger>
                 <DialogContent className='sm:max-w-[425px]'>
                   <DialogHeader>
-                    <DialogTitle>Write a Review</DialogTitle>
+                    <DialogTitle>{t('Write a Review')}</DialogTitle>
                     <DialogDescription>
                       Share your thoughts about the product. Your review will be visible to other customers.
                     </DialogDescription>
@@ -255,21 +205,13 @@ export default function Review() {
                     </div>
                   </div>
                   <p className='text-muted-foreground'>{review.content}</p>
-                  <div className='flex gap-4'>
-                    <Button variant='ghost' size='sm'>
-                      Like
-                    </Button>
-                    <Button variant='ghost' size='sm'>
-                      Reply
-                    </Button>
-                  </div>
                 </div>
               ))}
             </div>
 
             <div className='flex justify-center'>
               <Button variant='outline' className='border-black rounded-full px-10'>
-                Load more
+                {t('Load more')}
               </Button>
             </div>
           </div>

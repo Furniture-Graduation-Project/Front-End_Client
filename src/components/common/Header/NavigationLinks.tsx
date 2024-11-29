@@ -6,68 +6,42 @@ import {
   NavigationMenuLink
 } from '@/components/ui/navigation-menu'
 import NavigationLink from './NavigationLink'
-import { useTranslate } from '@/hooks/useTranslate'
 import { Link } from 'react-router-dom'
-import { cn } from '@/utils/classUtils'
-
-const components = [
-  {
-    title: 'Alert Dialog',
-    to: '/products',
-    description: 'A modal dialog that interrupts the user with important content and expects a response.'
-  },
-  {
-    title: 'Hover Card',
-    to: '/products',
-    description: 'For sighted users to preview content available behind a link.'
-  },
-  {
-    title: 'Progress',
-    to: '/products',
-    description:
-      'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.'
-  },
-  {
-    title: 'Scroll-area',
-    to: '/products',
-    description: 'Visually or semantically separates content.'
-  },
-  {
-    title: 'Tabs',
-    to: '/products',
-    description: 'A set of layered sections of content—known as tab panels—that are displayed one at a time.'
-  },
-  {
-    title: 'Tooltip',
-    to: '/products',
-    description:
-      'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.'
-  }
-]
+import { useMultipleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const NavigationLinks = () => {
   const { t } = useTranslate('header.menuHeader')
+  const { data: response, isLoading, error } = useMultipleCategoryQuery()
+
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
+
+  if (error) {
+    return <p>Failed to load categories</p>
+  }
+
+  const categories = response?.data
 
   return (
-    <NavigationMenuList className='gap-x-6 text-neutral-4 text-base z-50 relative '>
+    <NavigationMenuList className='gap-x-6 text-neutral-4 text-base z-50 relative'>
       <NavigationMenuItem>
-        <NavigationLink title={t('home')} to='/'></NavigationLink>
+        <NavigationLink title={t('home')} to='/' />
       </NavigationMenuItem>
       <NavigationMenuItem>
-        <NavigationMenuTrigger className='bg-opacity-0'>{t('product')}</NavigationMenuTrigger>
+        <NavigationMenuTrigger className='bg-opacity-0'> {t('product')}</NavigationMenuTrigger>
         <NavigationMenuContent>
-          <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]'>
-            {components.map((component, index) => (
-              <li key={index}>
-                <NavigationMenuLink className='hover:bg-neutral-100' asChild>
+          <ul className='grid gap-3 p-4 w-[400px] md:w-[500px] lg:w-[600px] xl:w-[700px] 2xl:w-[800px] md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
+            {categories?.map((category) => (
+              <li key={category._id}>
+                <NavigationMenuLink asChild>
                   <Link
-                    to={component.to}
-                    className={cn(
-                      'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors  hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground'
-                    )}
+                    to={`/products?category=${category._id}`}
+                    className='block p-3 rounded-md transition-colors select-none space-y-1 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground outline-none no-underline'
                   >
-                    <div className='text-sm font-medium leading-none'>{component.title}</div>
-                    <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>{component.description}</p>
+                    <h3 className='text-md font-semibold'>{category.categoryName}</h3>
+                    <p className='text-sm leading-snug text-muted-foreground line-clamp-2'>{category.description}</p>
                   </Link>
                 </NavigationMenuLink>
               </li>
@@ -75,11 +49,12 @@ const NavigationLinks = () => {
           </ul>
         </NavigationMenuContent>
       </NavigationMenuItem>
+
       <NavigationMenuItem>
-        <NavigationLink title={t('about')} to='/about'></NavigationLink>
+        <NavigationLink title={t('blog')} to='/blog' />
       </NavigationMenuItem>
       <NavigationMenuItem>
-        <NavigationLink title={t('contact')} to='/contact'></NavigationLink>
+        <NavigationLink title={t('contact')} to='/contact' />
       </NavigationMenuItem>
     </NavigationMenuList>
   )

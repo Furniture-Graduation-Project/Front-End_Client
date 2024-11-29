@@ -6,8 +6,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { IProductItem, IVariant } from '@/interface/productItem'
 import { useProductItemsByProductId } from '@/hooks/queries/useProductItemQuery'
 import { useCartMutation } from '@/hooks/mutations/useCartMutation'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
+  const { t } = useTranslate('productDetail')
   const { data: productItem, isLoading: productItemLoading } = useProductItemsByProductId(data?.data?._id)
   const { mutate } = useCartMutation('ADD')
   const [selectedVariant, setSelectedVariant] = useState<IProductItem | undefined>()
@@ -48,10 +50,10 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
   const handleAddToCart = () => {
     mutate({
       data: {
-        productID: data.data._id,
-        productItemID: selectedVariant?._id,
+        productId: data.data._id,
+        productOptionId: selectedVariant?._id,
         quantity: quantity,
-        price: price
+        unitPrice: price
       }
     })
   }
@@ -97,7 +99,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className={`h-5 w-5 ${i < 3 ? 'fill-primary' : 'fill-muted stroke-muted-foreground'}`} />
               ))}
-              <span className='text-sm text-muted-foreground'>(11 Reviews)</span>
+              <span className='text-sm text-muted-foreground'>(11 {t('Reviews')})</span>
             </div>
             <h1 className='text-3xl font-bold'>{data?.data.name}</h1>
             <p className='text-muted-foreground'>{data?.data.description}</p>
@@ -114,8 +116,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
         ) : (
           <>
             <span className='text-3xl font-bold'>${price.toFixed(3)} Vnd</span>
-            <span className='text-xl text-muted-foreground line-through'>400.000 Vnd</span>
-            <p className='text-sm text-muted-foreground'>Số lượng hàng tồn kho: {stock}</p>{' '}
+            <span className='text-xl text-muted-foreground line-through'>400.000 Vnd</span>{' '}
           </>
         )}
       </div>
@@ -123,7 +124,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
       {/* <div className='space-y-2'>
         {isLoading ? (
           <div className='flex space-x-4'>
-            {Object.entries(timeLeft).map(([key, value]) => (
+            {Object.entries(timeLeft).map(([key]) => (
               <div key={key} className='text-center'>
                 <Skeleton className='h-10 w-20' />
                 <Skeleton className='h-3 w-16' />
@@ -145,15 +146,6 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
       </div> */}
 
       <div className='space-y-4'>
-        {isLoading ? (
-          <Skeleton className='h-6 w-1/2' />
-        ) : (
-          <div>
-            <h3 className='font-medium mb-2'>Measurements</h3>
-            <p>17 1/2×20 5/8"</p>
-          </div>
-        )}
-
         {isLoading || productItemLoading ? (
           <Skeleton className='h-6 w-1/2' />
         ) : (
@@ -162,7 +154,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
             return (
               <div key={variant._id}>
                 <h3 className='font-medium mb-2 flex items-center'>
-                  Choose {variant.variant} <ArrowRight className='w-3 h-3 ml-1' />
+                  Chọn {variant.variant} <ArrowRight className='w-3 h-3 ml-1' />
                 </h3>
                 <div className='flex flex-wrap gap-4'>
                   {getUniqueVariants(variant.variant).map((variantOption: IVariant) => {
@@ -189,7 +181,15 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
             )
           })
         )}
-
+        {isLoading ? (
+          <Skeleton className='h-6 w-1/2' />
+        ) : (
+          <div>
+            <p className='text-sm text-muted-foreground'>
+              {t('Inventory quantity')}: {stock}
+            </p>
+          </div>
+        )}
         <div className='flex items-center space-x-4'>
           {isLoading ? (
             <>
@@ -209,7 +209,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
               </div>
               <Button className='w-full border-black' variant='outline' size='lg'>
                 <Heart className='mr-2 h-4 w-4' />
-                Add to Wishlist
+                {t('Add to Wishlist')}
               </Button>
             </>
           )}
@@ -220,7 +220,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
             <Skeleton className='h-12 w-full' />
           ) : (
             <Button onClick={handleAddToCart} className='flex-1 bg-black' size='lg'>
-              Add to Cart
+              {t('Add to Cart')}
             </Button>
           )}
         </div>
@@ -239,11 +239,11 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
             <span className='text-[#6C7275]'>SKU</span>
             <span>{sku}</span>
 
-            <span className='text-[#6C7275]'>Category</span>
-            <span>{data?.data.category.categoryName}</span>
+            <span className='text-[#6C7275]'>{t('Category')}</span>
+            <span>{data?.data.category}</span>
 
-            <span className='text-[#6C7275]'>Material</span>
-            <span>{data?.data.material.materialName}</span>
+            <span className='text-[#6C7275]'>{t('Material')}</span>
+            <span>{data?.data.material}</span>
           </div>
         )}
       </div>

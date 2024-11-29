@@ -32,8 +32,20 @@ import orderVI from '../locales/site/order/vi.json'
 import accountEN from '../locales/site/account/en.json'
 import acconntVI from '../locales/site/account/vi.json'
 
+import productEN from '../locales/site/product/en.json'
+import productVI from '../locales/site/product/vi.json'
+
+import productMobileEN from '../locales/site/productMobile/en.json'
+import productMobileVI from '../locales/site/productMobile/vi.json'
+
+import productGridEN from '../locales/site/productGrid/en.json'
+import productGridVI from '../locales/site/productGrid/vi.json'
+
 import blogEN from '../locales/site/blog/en.json'
 import blogVI from '../locales/site/blog/vi.json'
+
+import productDetailEN from '../locales/site/productDetail/en.json'
+import productDetailVI from '../locales/site/productDetail/vi.json'
 
 export const currentLocales: LocaleCodeName[] = [
   { code: 'vi', name: 'Tiếng Việt' },
@@ -52,7 +64,11 @@ export const localizationResources = {
     checkout: checkoutEN,
     order: orderEN,
     account: accountEN,
-    blog: blogEN
+    product: productEN,
+    productMobile: productMobileEN,
+    productGrid: productGridEN,
+    blog: blogEN,
+    productDetail: productDetailEN
   },
   vi: {
     common: commonVI,
@@ -65,7 +81,11 @@ export const localizationResources = {
     checkout: checkoutVI,
     order: orderVI,
     account: acconntVI,
-    blog: blogVI
+    product: productVI,
+    productMobile: productMobileVI,
+    productGrid: productGridVI,
+    blog: blogVI,
+    productDetail: productDetailVI
   }
 } as const
 

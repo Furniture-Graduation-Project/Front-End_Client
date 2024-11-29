@@ -1,18 +1,19 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { CartService } from '@/services/cart'
 
 type CartMutation = 'ADD' | 'UPDATE' | 'REMOVE' | 'INCREASE' | 'DECREASE'
 
 export const useCartMutation = (key: CartMutation) => {
+  const query = useQueryClient()
   const { mutate } = useMutation({
     mutationKey: ['cart'],
     mutationFn: async ({
       productId,
-      productItemId,
+      productOptionId,
       data
     }: {
       productId?: string
-      productItemId?: string
+      productOptionId?: string
       data?: any
     }) => {
       try {
@@ -20,17 +21,17 @@ export const useCartMutation = (key: CartMutation) => {
           case 'ADD':
             return await CartService.addToCart(data)
           case 'UPDATE':
-            if (!productItemId) throw new Error('ProductItemId is required')
-            return await CartService.updateCartItem(productItemId, data)
+            if (!productOptionId) throw new Error('productOptionId is required')
+            return await CartService.updateCartItem(productOptionId, data)
           case 'REMOVE':
-            if (!productItemId || !productId) throw new Error('Id is required')
-            return await CartService.removeCartItem(productId, productItemId)
+            if (!productOptionId || !productId) throw new Error('Id is required')
+            return await CartService.removeCartItem(productId, productOptionId)
           case 'INCREASE':
-            if (!productItemId || !productId) throw new Error('Id is required')
-            return await CartService.increaseQuantity(productId, productItemId)
+            if (!productOptionId || !productId) throw new Error('Id is required')
+            return await CartService.increaseQuantity(productId, productOptionId)
           case 'DECREASE':
-            if (!productItemId || !productId) throw new Error('Id is required')
-            return await CartService.decreaseQuantity(productId, productItemId)
+            if (!productOptionId || !productId) throw new Error('Id is required')
+            return await CartService.decreaseQuantity(productId, productOptionId)
           default:
             throw new Error('Khóa không hợp lệ')
         }
@@ -41,6 +42,7 @@ export const useCartMutation = (key: CartMutation) => {
     },
     onSuccess: () => {
       console.log('Thao tác thành công')
+      query.invalidateQueries({ queryKey: ['cart'] })
     },
     onError: (error) => {
       console.error('Lỗi trong quá trình thực hiện thao tác:', error)
