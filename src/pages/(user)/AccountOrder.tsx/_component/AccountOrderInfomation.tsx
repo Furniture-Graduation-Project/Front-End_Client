@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { useLanguage } from '@/context/LanguageContext'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/hooks/use-toast'
@@ -9,7 +8,6 @@ import { useTranslate } from '@/hooks/useTranslate'
 const AccountOrderInfomation = ({ order }: any) => {
   const { t } = useTranslate('account.order.infomation')
   const { toast } = useToast()
-  const { language } = useLanguage()
 
   return (
     <Card>
@@ -44,7 +42,7 @@ const AccountOrderInfomation = ({ order }: any) => {
                         </h4>
                       </div>
                     </div>
-                    <h3 className='text-xl font-bold'>{formatCurrency(item.quantity * item.unitPrice, language)}</h3>
+                    <h3 className='text-xl font-bold'>{formatCurrency(item.quantity * item.unitPrice)}</h3>
                   </div>
                   <Separator />
                 </div>
@@ -57,7 +55,7 @@ const AccountOrderInfomation = ({ order }: any) => {
 
         <div className='flex flex-col gap-4'>
           <h2 className='text-lg font-bold'>
-            {t('totalAmount')}: {order?.data.totalPrice && formatCurrency(order?.data.totalPrice, language)}
+            {t('totalAmount')}: {order?.data.totalPrice && formatCurrency(order?.data.totalPrice)}
           </h2>
           <div className='grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] items-center'>
             <h3 className='text-lg font-bold'>{t('orderIdLabel')}:</h3>

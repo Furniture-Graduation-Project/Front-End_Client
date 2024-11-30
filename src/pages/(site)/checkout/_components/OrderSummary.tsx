@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { useLanguage } from '@/context/LanguageContext'
 import { useTranslate } from '@/hooks/useTranslate'
 import { IOrderItem } from '@/interface/order'
 import { formatCurrency } from '@/utils/formatCurrency'
@@ -34,7 +33,6 @@ const OrderSummary = ({
   setStateErrorOrder: (value: boolean) => void
 }) => {
   const { t } = useTranslate('checkout.order')
-  const { language } = useLanguage()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -166,7 +164,7 @@ const OrderSummary = ({
                           </div>
                         </div>
                       </div>
-                      <p className='text-sm font-semibold mt-2'>{formatCurrency(item.unitPrice, language)}</p>
+                      <p className='text-sm font-semibold mt-2'>{formatCurrency(item.unitPrice)}</p>
                     </div>
                     <Separator />
                   </div>
@@ -212,14 +210,14 @@ const OrderSummary = ({
             <div className='flex items-center gap-x-2'>
               <p>{t('subtotal')}</p>
             </div>
-            <p className='font-semibold'>{formatCurrency(amount, language)}</p>
+            <p className='font-semibold'>{formatCurrency(amount)}</p>
           </div>
           <Separator />
           <div className='flex justify-between items-center'>
             <div className='flex items-center gap-x-2'>
               <p className='font-medium text-xl'>{t('total')}</p>
             </div>
-            <p className='text-xl font-medium'>{formatCurrency(amount, language)}</p>
+            <p className='text-xl font-medium'>{formatCurrency(amount)}</p>
           </div>
         </div>
       </div>

@@ -11,14 +11,12 @@ import { useAuthContext } from '@/context/AuthContext'
 import useSessionStorage from '@/hooks/useSessionStorage'
 import { useToast } from '@/hooks/use-toast'
 import { formatCurrency } from '@/utils/formatCurrency'
-import { useLanguage } from '@/context/LanguageContext'
 
 const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { user } = useAuthContext()
   console.log(user);
   
   const { t } = useTranslate('header.cartHeader')
-  const { language } = useLanguage()
   const queryClient = useQueryClient()
   const [amount, setAmount] = useState(0)
   const [state, setState] = useSessionStorage('stateOrder', null)
@@ -166,7 +164,7 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                                   <a href={item.productId.href}>{item.productId.name}</a>
                                 </h3>
                                 <p className='ml-4 text-[#121212]'>
-                                  {formatCurrency(item.productOptionId.price, language)}
+                                  {formatCurrency(item.productOptionId.price)}
                                 </p>
                               </div>
                               <div className='flex flex-1 justify-between items-center mt-1'>
@@ -225,14 +223,14 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
             <div className='border-b border-neutral-3 p-4'>
               <div className='flex justify-between text-neutral-7'>
                 <p className='body-2'>{t('subtotal')}</p>
-                <p className='body-2-semi'>{formatCurrency(amount, language)}</p>
+                <p className='body-2-semi'>{formatCurrency(amount)}</p>
               </div>
             </div>
 
             <div className='p-4 border-neutral-3'>
               <div className='flex justify-between headline-7 text-neutral-7'>
                 <p>{t('total')}</p>
-                <p>{formatCurrency(amount, language)}</p>
+                <p>{formatCurrency(amount)}</p>
               </div>
 
               <div className='mt-6'>

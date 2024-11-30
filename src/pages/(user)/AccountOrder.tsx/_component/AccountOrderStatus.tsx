@@ -10,8 +10,6 @@ import {
   PackageCheck,
   Truck,
   XCircle,
-  RotateCcw,
-  RefreshCcw,
   PackageSearch,
   FilePen
 } from 'lucide-react'

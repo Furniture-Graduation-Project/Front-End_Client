@@ -44,7 +44,7 @@ const Banner = ({ text }: { text: boolean }) => {
             </div>
             <div className='text-neutral-4 lg:m-auto tracking-wider my-5 text-[12px] sm:body-2 sm:w-[424px]'>
               <p>
-                <b className='text-neutral-5 mr-1'>3legant</b>
+                <b className='text-neutral-5 mr-1'>Nội Thất River</b>
                 {t('description', ' is an interior design and decoration company based in Hanoi, ')}
                 {t('location', ' Vietnam. Est since 2019.')}
               </p>
