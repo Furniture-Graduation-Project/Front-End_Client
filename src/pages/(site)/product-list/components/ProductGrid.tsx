@@ -9,23 +9,23 @@ import { Check, ChevronsUpDown, Grid3X3, LayoutGrid, Columns2 } from 'lucide-rea
 import { Input } from '@/components/ui/input'
 import { useTranslate } from '@/hooks/useTranslate'
 
-const sortBy = [
-  { value: 'price', label: 'Price' },
-  { value: 'name', label: 'Name' },
-  { value: 'rating', label: 'Rating' },
-  { value: 'popularity', label: 'Popularity' }
-]
-
 const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; materialId?: string }) => {
   const { t } = useTranslate('productGrid')
 
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
   const [productNumber, setProductNumber] = useState(0)
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 4 })
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 12 })
   const [searchQuery, setSearchQuery] = useState('')
   // const [showAllProducts, setShowAllProducts] = useState(false)
 
+  const sortBy = [
+    { value: 'price', label: 'Giá' },
+    { value: 'a-z', label: 'A-Z' },
+    { value: 'z-a', label: 'Z-A' },
+    { value: 'newest', label: t('newest') },
+    { value: 'oldest', label: t('oldest') }
+  ]
   const {
     data: products,
     isLoading,
@@ -38,7 +38,24 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
   const filteredProducts =
     products?.data
       ?.filter((product) => product.name.toLowerCase().includes(searchQuery.toLowerCase()))
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || []
+      .sort((a, b) => {
+        if (value === 'a-z') {
+          return a.name.localeCompare(b.name)
+        }
+        if (value === 'z-a') {
+          return b.name.localeCompare(a.name)
+        }
+        if (value === 'oldest') {
+          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        }
+        if (value === 'newest') {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        }
+        if (value === 'price') {
+          return b.price - a.price
+        }
+        return 0
+      }) || []
 
   const noSearchResults = filteredProducts.length === 0 && searchQuery.length > 0
 
@@ -78,7 +95,7 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button variant='ghost' role='combobox' aria-expanded={open}>
-                {value ? sortBy.find((sort) => sort.value === value)?.label : t('sortBy')}
+                {value ? t(`${value}`) : t('sortBy')}
                 <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
               </Button>
             </PopoverTrigger>

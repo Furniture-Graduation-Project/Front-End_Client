@@ -1,0 +1,15 @@
+{
+  "post": {
+    "loading": "Loading...",
+    "errorLoadingBlogs": "Error loading blogs",
+    "noBlogsFound": "No blogs found",
+    "allBlog": "All Blog",
+    "featured": "Featured",
+    "searchBlogs": "Search blogs...",
+    "noBlogsMatchingSearch": "No blogs found matching your search",
+    "showMore": "Show more",
+    "previous": "Previous",
+    "page": "Page",
+    "next": "Next"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "post": {
+    "loading": "Đang tải...",
+    "errorLoadingBlogs": "Lỗi khi tải bài viết",
+    "noBlogsFound": "Không tìm thấy bài viết",
+    "allBlog": "Tất cả bài viết",
+    "featured": "Nổi bật",
+    "searchBlogs": "Tìm kiếm bài viết...",
+    "noBlogsMatchingSearch": "Không có bài viết phù hợp với tìm kiếm của bạn",
+    "showMore": "Xem thêm",
+    "previous": "Trước",
+    "page": "Trang",
+    "next": "Tiếp"
+  }
+}
