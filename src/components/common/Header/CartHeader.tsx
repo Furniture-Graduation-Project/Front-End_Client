@@ -15,6 +15,8 @@ import { useLanguage } from '@/context/LanguageContext'
 
 const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { user } = useAuthContext()
+  console.log(user);
+  
   const { t } = useTranslate('header.cartHeader')
   const { language } = useLanguage()
   const queryClient = useQueryClient()

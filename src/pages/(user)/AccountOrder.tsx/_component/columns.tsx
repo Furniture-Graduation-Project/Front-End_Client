@@ -48,7 +48,7 @@ export const columns: ColumnDef<IOrder>[] = [
               className={`rounded-none`}
               variant={'outline'}
             >
-              {statusText}
+              Đã nhận hàng
             </Button>
           ) : (
             <h3 className='whitespace-nowrap'> {statusText}</h3>
