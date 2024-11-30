@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (data) {
-      setUser(data)
+      setUser(data.data)
       setIsLoading(false)
     }
     if (isError) {
