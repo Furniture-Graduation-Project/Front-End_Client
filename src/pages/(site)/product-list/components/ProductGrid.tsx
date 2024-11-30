@@ -22,19 +22,15 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
   const [productNumber, setProductNumber] = useState(0)
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 4 })
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 12 })
   const [searchQuery, setSearchQuery] = useState('')
-  // const [showAllProducts, setShowAllProducts] = useState(false)
-
   const {
     data: products,
     isLoading,
     isError,
     refetch
   } = useMultipleProductQuery(pagination, searchQuery, categoryId, materialId)
-
   const noProducts = products?.data?.length === 0
-
   const filteredProducts =
     products?.data
       ?.filter((product) => product.name.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -45,8 +41,6 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
   }
-
-  // const visibleProducts = showAllProducts ? filteredProducts : filteredProducts.slice(0, 4)
   const visibleProducts = filteredProducts
   useEffect(() => {
     refetch()
@@ -61,7 +55,9 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
   }
 
   const isLastPage = filteredProducts.length < pagination.pageSize
-
+  useEffect(() => {
+    window.scrollTo({ top: 250, behavior: 'smooth' })
+  }, [pagination.pageIndex])
   return (
     <div className='md:pl-6 flex-col w-full flex-grow'>
       <div className='flex justify-between h-10'>
