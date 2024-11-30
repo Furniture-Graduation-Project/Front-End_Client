@@ -8,6 +8,8 @@
     "next": "Tiếp",
     "sortBy": "Sắp xếp theo",
     "loading": "Đang tải...",
-    "errorLoadingProducts": "Lỗi tải sản phẩm"
+    "errorLoadingProducts": "Lỗi tải sản phẩm",
+    "newest": "Mới nhất",
+    "oldest": "Cũ nhất"
   }
 }
