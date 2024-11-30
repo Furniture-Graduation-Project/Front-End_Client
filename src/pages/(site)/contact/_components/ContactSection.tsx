@@ -15,12 +15,12 @@ const ContactSection = () => {
         <div className='py-4 px-12 bg-[#F3F5F7] flex flex-col items-center'>
           <Phone className='h-8 w-8' />
           <h2 className='text-[#6C7275] uppercase font-bold mt-4 mb-2'>{t('elementTitle2')}</h2>
-          <p className='text-neutral-900 text-xl font-medium text-center'>{t('elementContent2')}</p>
+          <p className='text-neutral-900 text-xl font-medium text-center'>{import.meta.env.VITE_ACCOUNT_NO}</p>
         </div>
         <div className='py-4 px-12 bg-[#F3F5F7] flex flex-col items-center'>
           <Mail className='h-8 w-8' />
           <h2 className='text-[#6C7275] uppercase font-bold mt-4 mb-2'>{t('elementTitle3')}</h2>
-          <p className='text-neutral-900 text-xl font-medium text-center'>{t('elementContent3')}</p>
+          <p className='text-neutral-900 text-xl font-medium text-center'>{import.meta.env.VITE_EMAIL_NAME}</p>
         </div>
       </div>
     </div>

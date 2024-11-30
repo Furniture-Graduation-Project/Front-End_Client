@@ -5,8 +5,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
@@ -192,7 +191,7 @@ const PaymentPopup = ({
                   <TableRow>
                     <TableCell className='p-3'>{t('paymentSuccess.amount')}</TableCell>
                     <TableCell className='p-3'>
-                      {orderState?.totalPrice ? formatCurrency(orderState?.totalPrice, language) : '######'}
+                      {orderState?.totalPrice ? formatCurrency(orderState?.totalPrice) : '######'}
                     </TableCell>
                   </TableRow>
                   <TableRow>

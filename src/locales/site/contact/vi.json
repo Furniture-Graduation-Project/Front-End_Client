@@ -10,7 +10,7 @@
     },
     "featureSection": {
       "title": "Về chúng tôi",
-      "text1": "3legant là cửa hàng quà tặng và trang trí có trụ sở tại TP.HCM,",
+      "text1": "Nội thất River là cửa hàng quà tặng và trang trí có trụ sở tại Thành phố Hà Nội,",
       "text2": "Việt Nam. Thành lập từ năm 2019.",
       "text3": "Dịch vụ khách hàng của chúng tôi luôn sẵn sàng",
       "text4": "hỗ trợ bạn 24/7.",
@@ -19,11 +19,9 @@
     "contactSection": {
       "title": "Liên hệ với chúng tôi",
       "elementTitle1": "Địa chỉ",
-      "elementContent1": "234 Hai Trieu, Thành phố Hồ Chí Minh, Việt Nam",
+      "elementContent1": "Tòa nhà FPT Polytechnic, 13 phố Trịnh Văn Bô, phường Phương Canh, quận Nam Từ Liêm, TP Hà Nội",
       "elementTitle2": "Liên hệ",
-      "elementContent2": "+84 234 567 890",
-      "elementTitle3": "Email",
-      "elementContent3": "hello@3legant.com"
+      "elementTitle3": "Email"
     },
     "formContact": {
       "name": "Họ tên",
@@ -32,7 +30,11 @@
       "namePlaceholder": "Họ tên...",
       "emailPlaceholder": "Email...",
       "messagePlaceholder": "Tin nhắn...",
-      "button": "Gửi"
+      "button": "Gửi",
+      "success": "Thành công",
+      "successDescription": "Tin nhắn của bạn đã được gửi thành công.",
+      "error": "Lỗi",
+      "errorDescription": "Có lỗi xảy ra khi gửi tin nhắn của bạn. Vui lòng thử lại sau."
     }
   }
 }
