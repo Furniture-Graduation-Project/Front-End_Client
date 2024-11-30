@@ -44,9 +44,14 @@ import productGridVI from '../locales/site/productGrid/vi.json'
 import blogEN from '../locales/site/blog/en.json'
 import blogVI from '../locales/site/blog/vi.json'
 
+import blogDetailEN from '../locales/site/blogDetail/en.json'
+import blogDetailVI from '../locales/site/blogDetail/vi.json'
+
+import blogBannerEN from '../locales/site/blogBanner/en.json'
+import blogBannerVI from '../locales/site/blogBanner/vi.json'
+
 import productDetailEN from '../locales/site/productDetail/en.json'
 import productDetailVI from '../locales/site/productDetail/vi.json'
-
 export const currentLocales: LocaleCodeName[] = [
   { code: 'vi', name: 'Tiếng Việt' },
   { code: 'en', name: 'English' }
@@ -68,6 +73,8 @@ export const localizationResources = {
     productMobile: productMobileEN,
     productGrid: productGridEN,
     blog: blogEN,
+    blogDetail: blogDetailEN,
+    blogBanner: blogBannerEN,
     productDetail: productDetailEN
   },
   vi: {
@@ -85,6 +92,8 @@ export const localizationResources = {
     productMobile: productMobileVI,
     productGrid: productGridVI,
     blog: blogVI,
+    blogDetail: blogDetailVI,
+    blogBanner: blogBannerVI,
     productDetail: productDetailVI
   }
 } as const

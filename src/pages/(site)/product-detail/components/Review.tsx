@@ -14,40 +14,41 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
 import { Flame, Headphones, Heart, Smile, ThumbsUp } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AdditionalInfo from './AdditionalInfo'
+import { ICreateReview, IReview } from '@/interface/review'
+import { useReviewQuery } from '@/hooks/queries/useReviewQuery'
+import { useReviewMutation } from '@/hooks/mutations/useReviewMutation'
 import { useTranslate } from '@/hooks/useTranslate'
 
-interface Review {
-  id: number
-  author: string
-  avatar: string
-  rating: number
-  content: string
-}
-
-const reviews: Review[] = []
-
-export default function Review() {
+export default function Review({ data }: { data: any }) {
   const { t } = useTranslate('productDetail')
-  const [reviewList, setReviewList] = useState(reviews)
-  const [newReview, setNewReview] = useState({
-    author: '',
+  const { data: reviewList = [], isLoading } = useReviewQuery()
+  const { mutate: addReview } = useReviewMutation('CREATE')
+  const [newReview, setNewReview] = useState<ICreateReview>({
+    userId: '',
     rating: 5,
-    content: ''
+    reviewText: ''
   })
+
+  // Hàm tính trung bình rating
+  const calculateAverageRating = (reviews: IReview[]) => {
+    if (reviews.length === 0) return 0
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0)
+    return (totalRating / reviews.length).toFixed(1) // Làm tròn đến 1 chữ số thập phân
+  }
+
+  // Tính toán trung bình rating khi nhận được danh sách đánh giá
+  const averageRating = calculateAverageRating(reviewList)
 
   const handleSubmitReview = (e: React.FormEvent) => {
     e.preventDefault()
-    setReviewList([
-      {
-        id: reviews.length + 1,
-        ...newReview,
-        avatar: '/placeholder.svg'
-      },
-      ...reviews
-    ])
-    setNewReview({ author: '', rating: 5, content: '' })
+    addReview({
+      data: { ...newReview, productId: data?.data?._id },
+      onSuccess: () => {
+        setNewReview({ userId: '', rating: 5, reviewText: '' })
+      }
+    } as { data: ICreateReview; onSuccess?: () => void })
   }
 
   return (
@@ -78,16 +79,21 @@ export default function Review() {
               <h2 className='text-2xl font-semibold mb-2'> {t('Customer Reviews')}</h2>
               <div className='flex items-center gap-2 mb-4'>
                 <div className='flex'>
-                  {[1, 2, 3, 4].map((star) => (
-                    <svg key={star} className='w-5 h-5 fill-primary' viewBox='0 0 20 20' fill='currentColor'>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <svg
+                      key={star}
+                      className={`w-5 h-5 ${star <= averageRating ? 'fill-primary' : 'text-muted-foreground'}`}
+                      viewBox='0 0 20 20'
+                      fill='currentColor'
+                    >
                       <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
                     </svg>
                   ))}
-                  <svg className='w-5 h-5 text-muted-foreground' viewBox='0 0 20 20' fill='currentColor'>
-                    <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                  </svg>
                 </div>
-                <span className='text-sm text-muted-foreground'>{reviewList.length} Reviews</span>
+                <span className='text-sm text-muted-foreground'>
+                  {' '}
+                  {t('Average Rating')} {averageRating}/5
+                </span>
               </div>
             </div>
 
@@ -111,11 +117,11 @@ export default function Review() {
               </div>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button>{t('Write Review')}</Button>
+                  <Button> {t('Write Review')}</Button>
                 </DialogTrigger>
                 <DialogContent className='sm:max-w-[425px]'>
                   <DialogHeader>
-                    <DialogTitle>{t('Write a Review')}</DialogTitle>
+                    <DialogTitle> {t('Write a Review')}</DialogTitle>
                     <DialogDescription>
                       Share your thoughts about the product. Your review will be visible to other customers.
                     </DialogDescription>
@@ -123,12 +129,12 @@ export default function Review() {
                   <form onSubmit={handleSubmitReview} className='grid gap-4 py-4'>
                     <div className='grid grid-cols-4 items-center gap-4'>
                       <Label htmlFor='name' className='text-right'>
-                        Name
+                        User ID
                       </Label>
                       <Input
                         id='name'
-                        value={newReview.author}
-                        onChange={(e) => setNewReview({ ...newReview, author: e.target.value })}
+                        value={newReview.userId}
+                        onChange={(e) => setNewReview({ ...newReview, userId: e.target.value })}
                         className='col-span-3'
                       />
                     </div>
@@ -158,8 +164,8 @@ export default function Review() {
                       </Label>
                       <Textarea
                         id='review'
-                        value={newReview.content}
-                        onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
+                        value={newReview.reviewText}
+                        onChange={(e) => setNewReview({ ...newReview, reviewText: e.target.value })}
                         className='col-span-3'
                       />
                     </div>
@@ -186,27 +192,32 @@ export default function Review() {
             </div>
 
             <div className='space-y-8'>
-              {reviewList.map((review) => (
-                <div key={review.id} className='space-y-4'>
-                  <div className='flex items-center gap-4'>
-                    <Avatar>
-                      <AvatarImage src={review.avatar} alt={review.author} />
-                      <AvatarFallback>{review.author[0]}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className='font-semibold'>{review.author}</h3>
-                      <div className='flex'>
-                        {Array.from({ length: review.rating }).map((_, i) => (
-                          <svg key={i} className='w-4 h-4 fill-primary' viewBox='0 0 20 20' fill='currentColor'>
-                            <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                          </svg>
-                        ))}
+              {isLoading ? (
+                <p>Loading reviews...</p>
+              ) : (
+                Array.isArray(reviewList) &&
+                reviewList.map((review: IReview) => (
+                  <div key={review.id} className='space-y-4'>
+                    <div className='flex items-center gap-4'>
+                      <Avatar>
+                        <AvatarImage src={review.userId.avatar} />
+                        <AvatarFallback>{review.userId.avatar}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h3 className='font-semibold'>{review.userId.name}</h3>
+                        <div className='flex'>
+                          {Array.from({ length: review.rating }).map((_, i) => (
+                            <svg key={i} className='w-4 h-4 fill-primary' viewBox='0 0 20 20' fill='currentColor'>
+                              <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
+                            </svg>
+                          ))}
+                        </div>
                       </div>
                     </div>
+                    <p className='text-muted-foreground'>{review.reviewText}</p>
                   </div>
-                  <p className='text-muted-foreground'>{review.content}</p>
-                </div>
-              ))}
+                ))
+              )}
             </div>
 
             <div className='flex justify-center'>

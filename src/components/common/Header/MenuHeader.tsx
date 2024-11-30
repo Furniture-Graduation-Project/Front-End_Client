@@ -8,13 +8,16 @@ import { useTranslate } from '@/hooks/useTranslate'
 import React from 'react'
 import { useMultipleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
+import { useCartQuery } from '@/hooks/queries/useCartQuery'
+import { useAuthContext } from '@/context/AuthContext'
 
 type Checked = DropdownMenuCheckboxItemProps['checked']
 
 const MenuHeader = () => {
+  const { user } = useAuthContext()
   const { t, i18n, setLocale } = useTranslate('header.menuHeader')
   const { data: response, isLoading, error } = useMultipleCategoryQuery()
-
+  const { data: cartData } = useCartQuery(user?._id as string)
   const [language, setLanguage] = React.useState<Checked>(() => (i18n.language === 'en' ? true : false))
   const handleLanguage = async (change: boolean) => {
     setLanguage(change)
@@ -81,11 +84,17 @@ const MenuHeader = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <Link to='/blog' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
+                  <Link
+                    to='/blog'
+                    className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'
+                  >
                     {t('blog')}
                   </Link>
                   <div className='border-b border-neutral-3'></div>
-                  <Link to='/contact' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'>
+                  <Link
+                    to='/contact'
+                    className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-7 hover:bg-neutral-2'
+                  >
                     {t('contact')}
                   </Link>
                   <div className='border-b border-neutral-3'></div>
@@ -103,7 +112,7 @@ const MenuHeader = () => {
                     <Button
                       onClick={() => handleLanguage(false)}
                       className={language ? '' : 'text-red'}
-                      variant={'none'}
+                      variant={'default'}
                     >
                       Tiếng Việt
                     </Button>
@@ -112,7 +121,7 @@ const MenuHeader = () => {
                     <Button
                       onClick={() => handleLanguage(true)}
                       className={language ? 'text-red' : ''}
-                      variant={'none'}
+                      variant={'default'}
                     >
                       English
                     </Button>
@@ -121,13 +130,16 @@ const MenuHeader = () => {
               </Accordion>
               <div className='-my-6'>
                 <div className='py-6 flex justify-between items-center'>
-                  <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-4 hover:bg-neutral-2'>
+                  <Link
+                    to='/cart'
+                    className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-4 hover:bg-neutral-2'
+                  >
                     {t('cart')}
                   </Link>
                   <div className='flex items-center'>
                     <ShoppingBag className='mr-[6px] w-[18px]' />
                     <div className='rounded-full bg-black text-white w-[20px] h-[20px] text-center leading-[20px]'>
-                      2
+                      {cartData?.data ? cartData?.data.carts.length : 0}
                     </div>
                   </div>
                 </div>
@@ -136,7 +148,10 @@ const MenuHeader = () => {
               <div className='border-b border-neutral-3 mt-1'></div>
               <div className='-my-6 '>
                 <div className='mt-1 py-6 flex justify-between items-center'>
-                  <Link to='#' className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-4 hover:bg-neutral-2'>
+                  <Link
+                    to='/account/wishlist'
+                    className='-mx-3 block px-3 py-2 text-base button-xs text-neutral-4 hover:bg-neutral-2'
+                  >
                     {t('wishlist')}
                   </Link>
                   <div className='flex items-center'>

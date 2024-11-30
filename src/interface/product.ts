@@ -1,4 +1,5 @@
 import { ICategory } from './category'
+import { IMaterial } from './material'
 
 export interface IProduct {
   _id?: string
@@ -8,7 +9,7 @@ export interface IProduct {
   price: number
   SKU: string
   images: string[]
-  material?: string
+  material?: IMaterial
   status: 'available' | 'out of stock' | 'discontinued'
+  createdAt: string
 }
-;``

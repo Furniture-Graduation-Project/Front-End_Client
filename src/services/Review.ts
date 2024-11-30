@@ -1,7 +1,7 @@
 import { axiosInstance } from '../config/axios'
-import { IReview } from '../interface/review'
+import { ICreateReview, IReview } from '../interface/review'
 
-const API_URL = '/reviews'
+const API_URL = '/review'
 
 export const ReviewService = {
   getAllReviews: async (): Promise<IReview[]> => {
@@ -14,12 +14,12 @@ export const ReviewService = {
     return response.data
   },
 
-  createReview: async (review: IReview): Promise<IReview> => {
+  createReview: async (review: ICreateReview): Promise<IReview> => {
     const response = await axiosInstance.post(API_URL, review)
     return response.data
   },
 
-  updateReviewById: async (id: string, updatedReview: IReview): Promise<IReview> => {
+  updateReviewById: async (id: string, updatedReview: ICreateReview): Promise<IReview> => {
     const response = await axiosInstance.put(`${API_URL}/${id}`, updatedReview)
     return response.data
   },

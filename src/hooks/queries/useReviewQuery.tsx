@@ -1,4 +1,4 @@
-import { ReviewService } from '@/services/Review'
+import { ReviewService } from '@/services/review'
 import { useQuery } from '@tanstack/react-query'
 
 export const useReviewQuery = (id?: string, productId?: string) => {

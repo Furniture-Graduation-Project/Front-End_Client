@@ -16,10 +16,10 @@ const ProductDetail = () => {
         <LinkGroup />
         <div className='grid md:grid-cols-2 gap-16'>
           <Carousel data={data} isLoading={isLoading} />
-          <Product data={data} isLoading={isLoading}  />
+          <Product data={data} isLoading={isLoading} />
         </div>
       </div>
-      <Review />
+      <Review data={data} />
     </Container>
   )
 }

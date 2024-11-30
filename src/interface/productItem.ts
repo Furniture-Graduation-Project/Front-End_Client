@@ -1,6 +1,8 @@
+import { IProduct } from './product'
+
 export interface IProductItem {
   _id: string
-  productId: string
+  productId: IProduct
   variants: IVariant[]
   stock: number
   price: number
