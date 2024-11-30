@@ -4,6 +4,7 @@ import RelatedPosts from './components/RelatedPosts'
 import { Link, useParams } from 'react-router-dom'
 import { useBlogDetailQuery, useBlogQuery } from '@/hooks/queries/useBlogQuery'
 import { useTranslate } from '@/hooks/useTranslate'
+import { formatDate } from '@/utils/formatDate'
 
 const BlogDetailPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -37,9 +38,10 @@ const BlogDetailPage = () => {
               <h2 className='text-4xl font-bold mb-4'>{blog.title}</h2>
               <div className='flex items-center text-sm text-gray-500'>
                 <User className='mr-2' />
-                <span className='mr-4'>{blog.employeeId?.fullName || t('unknownAuthor')}</span>
+                {/* <span className='mr-4'>{blog.employeeId?.fullName || t('unknownAuthor')}</span> */}
+                <span className='mr-4'>Nội thất River</span>
                 <Calendar className='mr-2' />
-                <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
+                <span>{formatDate(blog.createdAt, 'vi-VN')}</span>
               </div>
             </article>
           </div>

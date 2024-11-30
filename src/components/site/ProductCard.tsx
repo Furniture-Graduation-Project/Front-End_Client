@@ -1,6 +1,7 @@
 import IconButton from '@/components/ui/icon-button'
 import { useTranslate } from '@/hooks/useTranslate'
 import { cn } from '@/utils/classUtils'
+import { formatCurrency } from '@/utils/formatCurrency'
 import { Eye, Heart, ShoppingCart, Star, StarHalf } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
@@ -80,8 +81,10 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
         <h1 className='body-2-semi'>{product.name}</h1>
         {minPrice !== null && maxPrice !== null ? (
           <div className='flex'>
-            <p className='mr-3 caption-1-semi'>{minPrice}</p>
-            {minPrice !== maxPrice && <p className='line-through caption-1 text-[#6C7275]'>{maxPrice}</p>}
+            <p className='mr-3 caption-1-semi'>{formatCurrency(minPrice)}</p>
+            {minPrice !== maxPrice && (
+              <p className='line-through caption-1 text-[#6C7275]'>{formatCurrency(maxPrice)}</p>
+            )}
           </div>
         ) : (
           <p>Chưa có biến thể, vui lòng tạo mới</p>

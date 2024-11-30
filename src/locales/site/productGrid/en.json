@@ -8,6 +8,8 @@
     "next": "Next",
     "sortBy": "Sort By",
     "loading": "Loading...",
-    "errorLoadingProducts": "Error loading products"
+    "errorLoadingProducts": "Error loading products",
+    "newest": "Newest",
+    "oldest": "Oldest"
   }
 }
