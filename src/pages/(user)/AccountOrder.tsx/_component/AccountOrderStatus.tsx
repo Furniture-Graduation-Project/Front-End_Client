@@ -75,8 +75,8 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'unpaid', icon: FileText },
         { id: 'delivered', icon: PackageCheck },
         { id: 'cancelled', icon: XCircle },
-        { id: 'returned', icon: RotateCcw },
-        { id: 'refunded', icon: RefreshCcw }
+        // { id: 'returned', icon: RotateCcw },
+        // { id: 'refunded', icon: RefreshCcw }
       ])
     }
     if (order?.data?.payment?.paymentMethod == 'credit_card') {
@@ -88,8 +88,8 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'shipped', icon: Truck },
         { id: 'delivered', icon: PackageCheck },
         { id: 'cancelled', icon: XCircle },
-        { id: 'returned', icon: RotateCcw },
-        { id: 'refunded', icon: RefreshCcw }
+        // { id: 'returned', icon: RotateCcw },
+        // { id: 'refunded', icon: RefreshCcw }
       ])
     }
   }, [order])
