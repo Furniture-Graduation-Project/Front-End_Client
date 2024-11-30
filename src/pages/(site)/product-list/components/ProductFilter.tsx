@@ -38,7 +38,6 @@ const ProductFilter = () => {
   return (
     <div className='flex flex-col w-full md:w-[262px] my-2 md:my-0'>
       <div className='sticky top-32'>
-        {/* Header */}
         <div className='flex justify-between items-center md:mb-8'>
           <div className='flex items-center'>
             <SlidersHorizontal className='w-6 h-6 mr-2' />
@@ -56,11 +55,15 @@ const ProductFilter = () => {
             </button>
           </div>
         </div>
-
-        {/* Categories */}
         <div className='md:flex flex-col space-y-3 mb-8 hidden'>
           <p className='font-semibold uppercase'>{t('categories')}</p>
           <ul className={`flex flex-col space-y-2 ${!showAllCategories ? 'h-36 overflow-y-auto' : ''}`}>
+            <NavLink
+              to={`/products`}
+              className='text-sm font-semibold text-[#807E7E] hover:text-black hover:underline transform duration-200'
+            >
+              Tất cả
+            </NavLink>
             {visibleCategories.map((category) => (
               <NavLink
                 to={`/products?category=${category._id}`}
@@ -80,11 +83,15 @@ const ProductFilter = () => {
             </button>
           )}
         </div>
-
-        {/* Materials */}
         <div className='md:flex hidden flex-col space-y-4'>
           <p className='text-base font-semibold uppercase'>{t('materials')}</p>
           <ul className={`flex flex-col space-y-2 ${!showAllMaterials ? 'h-36 overflow-y-auto' : ''}`}>
+            <NavLink
+              to={`/products`}
+              className='text-sm font-semibold text-[#807E7E] hover:text-black hover:underline transform duration-200'
+            >
+              Tất cả
+            </NavLink>
             {visibleMaterials.map((material) => (
               <NavLink
                 to={`/products?material=${material._id}`}

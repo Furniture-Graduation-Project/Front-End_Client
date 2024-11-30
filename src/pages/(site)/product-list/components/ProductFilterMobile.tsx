@@ -68,6 +68,15 @@ const ComboboxDropdownMenu = () => {
                 <CommandList>
                   <CommandEmpty>{t('noCategoryFound')}</CommandEmpty>
                   <CommandGroup>
+                    <CommandItem
+                      value={''}
+                      onSelect={(value) => {
+                        setCategory(value)
+                        setOpen(false)
+                      }}
+                    >
+                      Tất cả
+                    </CommandItem>
                     {categories.map((categoryItem) => (
                       <CommandItem
                         key={categoryItem._id}
@@ -93,6 +102,15 @@ const ComboboxDropdownMenu = () => {
                 <CommandList>
                   <CommandEmpty>{t('noMaterialFound')}</CommandEmpty>
                   <CommandGroup>
+                    <CommandItem
+                      value={''}
+                      onSelect={(value) => {
+                        setCategory(value)
+                        setOpen(false)
+                      }}
+                    >
+                      Tất cả
+                    </CommandItem>
                     {materials.map((materialItem) => (
                       <CommandItem
                         key={materialItem._id}

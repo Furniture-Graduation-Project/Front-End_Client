@@ -12,7 +12,7 @@ import { useTranslate } from '@/hooks/useTranslate'
 
 const NavigationLinks = () => {
   const { t } = useTranslate('header.menuHeader')
-  const { data: response, isLoading, error } = useMultipleCategoryQuery()
+  const { data, isLoading, error } = useMultipleCategoryQuery()
 
   if (isLoading) {
     return <p>Loading...</p>
@@ -21,19 +21,18 @@ const NavigationLinks = () => {
   if (error) {
     return <p>Failed to load categories</p>
   }
-
-  const categories = response?.data
-
   return (
     <NavigationMenuList className='gap-x-6 text-neutral-4 text-base z-50 relative'>
       <NavigationMenuItem>
         <NavigationLink title={t('home')} to='/' />
       </NavigationMenuItem>
       <NavigationMenuItem>
-        <NavigationMenuTrigger className='bg-opacity-0'> {t('product')}</NavigationMenuTrigger>
+        <NavigationMenuTrigger className='bg-opacity-0'>
+          <Link to={'/products'}>{t('product')}</Link>
+        </NavigationMenuTrigger>
         <NavigationMenuContent>
           <ul className='grid gap-3 p-4 w-[400px] md:w-[500px] lg:w-[600px] xl:w-[700px] 2xl:w-[800px] md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
-            {categories?.map((category) => (
+            {data?.data?.map((category) => (
               <li key={category._id}>
                 <NavigationMenuLink asChild>
                   <Link

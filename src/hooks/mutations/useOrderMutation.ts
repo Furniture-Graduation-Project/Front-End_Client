@@ -1,28 +1,36 @@
 import { IApiResponse } from '@/interface/apiRespose'
-import { IOrder, IOrderItem } from '@/interface/order'
+import { IOrder, IOrderItem, IQRCodeData } from '@/interface/order'
 import { OrderService } from '@/services/order'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
-import { useNavigate } from 'react-router-dom'
 
 type MutationQueryProps = {
-  action: 'CREATE' | 'UPDATE' | 'DELETE' | 'CHECK'
+  action: 'CREATE' | 'UPDATE' | 'DELETE' | 'CHECK' | 'CREATE_QR' | 'PAYMENT'
 }
 
 const useOrderMutation = ({ action }: MutationQueryProps) => {
   const query = useQueryClient()
-  const navigate = useNavigate()
   const mutationFn = async (
     data: any
   ): Promise<
-    AxiosResponse<IApiResponse<IOrder>> | AxiosResponse<IApiResponse<void>> | AxiosResponse<IApiResponse<IOrderItem[]>>
+    | AxiosResponse<IApiResponse<IOrder>>
+    | AxiosResponse<IApiResponse<void>>
+    | AxiosResponse<IApiResponse<IOrderItem[]> | AxiosResponse<IApiResponse<IQRCodeData>>>
   > => {
     try {
       switch (action) {
         case 'CREATE':
           return await OrderService.create(data)
+        case 'CREATE_QR':
+          return await OrderService.createQR(data)
         case 'CHECK':
           return await OrderService.checkProducts(data)
+        case 'PAYMENT':
+          if (data._id) {
+            return await OrderService.payment(data._id, data)
+          }
+          throw new Error('Order ID is required for update')
+
         case 'UPDATE':
           if (data._id) {
             return await OrderService.update(data._id, data)
@@ -45,14 +53,8 @@ const useOrderMutation = ({ action }: MutationQueryProps) => {
   const { mutate, ...rest } = useMutation({
     mutationKey: ['ORDER'],
     mutationFn,
-    onSuccess: (response) => {
+    onSuccess: () => {
       query.invalidateQueries({ queryKey: ['ORDER'] })
-      if (action === 'CREATE') {
-        const orderData = response.data.data as IOrder
-        if (orderData && orderData._id) {
-          navigate('/order/' + orderData._id)
-        }
-      }
     }
   })
   return { mutate, ...rest }

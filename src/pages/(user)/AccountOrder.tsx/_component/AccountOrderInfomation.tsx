@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast'
 import { useTranslate } from '@/hooks/useTranslate'
 
 const AccountOrderInfomation = ({ order }: any) => {
-  const { t } = useTranslate('account.order.infomation') // Fetch translations
+  const { t } = useTranslate('account.order.infomation')
   const { toast } = useToast()
   const { language } = useLanguage()
 
@@ -33,7 +33,7 @@ const AccountOrderInfomation = ({ order }: any) => {
                       <div className='flex flex-col justify-between'>
                         <h3 className='text-lg font-semibold whitespace-nowrap'>{item.productId?.name}</h3>
                         <div className='text-[12px] text-[#6C7275]'>
-                          {item.productOptionId.variants.map((variant: any, id: number) => (
+                          {item.productOptionId?.variants && item.productOptionId.variants.map((variant: any, id: number) => (
                             <h4 className='whitespace-nowrap' key={id}>
                               {variant.variant}: {variant.value}
                             </h4>

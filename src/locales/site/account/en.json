@@ -17,7 +17,10 @@
         "title": "Are you absolutely sure?",
         "description": "This will stop the processing of your order.",
         "cancel": "Cancel",
-        "continue": "Continue"
+        "continue": "Continue",
+        "payment": "Payment",
+        "unpaid": "Unpaid",
+        "paymentDescription": "The order needs to be paid before it can be processed."
       },
       "address": {
         "addressTitle": "Shipping Address",
@@ -56,7 +59,13 @@
         "orderTime": "Order Time",
         "paymentTime": "Payment Time",
         "deliveryTime": "Delivery Time",
-        "completionTime": "Completion Time"
+        "completionTime": "Completion Time",
+        "selectMethod": "Select a payment method",
+        "changeMethod": "Change",
+        "unpaid": "Unpaid",
+        "paid": "Paid",
+        "successTitle": "Change Successful",
+        "successDescription": "The payment method has been updated successfully"
       }
     }
   }
