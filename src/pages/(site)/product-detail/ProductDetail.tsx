@@ -4,10 +4,8 @@ import Review from './components/Review'
 import LinkGroup from './components/LinkGroup'
 import Product from './components/Product'
 import { useSingleProductQuery } from '@/hooks/queries/useProductQuery'
-// import { useParams } from 'react-router-dom'
 
 const ProductDetail = () => {
-  // const { id } = useParams()
   const { data, isLoading } = useSingleProductQuery('673e9753fb100ab842262e4f')
 
   return (
@@ -16,10 +14,10 @@ const ProductDetail = () => {
         <LinkGroup />
         <div className='grid md:grid-cols-2 gap-16'>
           <Carousel data={data} isLoading={isLoading} />
-          <Product data={data} isLoading={isLoading}  />
+          <Product data={data} isLoading={isLoading} />
         </div>
       </div>
-      <Review />
+      <Review data={data} />
     </Container>
   )
 }
