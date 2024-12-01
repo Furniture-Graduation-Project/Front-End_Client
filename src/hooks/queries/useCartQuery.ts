@@ -6,7 +6,8 @@ export const useCartQuery = (userId: string) => {
     queryKey: ['cart'],
     queryFn: async () => {
       return await CartService.getCartByUserId(userId)
-    }
+    },
+    enabled: !!userId
   })
 
   return {

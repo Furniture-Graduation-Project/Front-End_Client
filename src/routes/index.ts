@@ -3,6 +3,7 @@ import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
 import SignIn from '@/pages/(auth)/SignIn'
 import SignUp from '@/pages/(auth)/SignUp'
+import NotFoundPage from '@/pages/(site)/404/404'
 import BlogDetailPage from '@/pages/(site)/blog-detail/BlogDetailPage'
 import BlogPage from '@/pages/(site)/blog/BlogPage'
 import CartPage from '@/pages/(site)/cart/CartPage'
@@ -71,7 +72,8 @@ const routes: IRoute[] = [
     ]
   },
 
-  { path: '/order/:id', component: OrderPage, layout: MainLayout }
+  { path: '/order/:id', component: OrderPage, layout: MainLayout },
+  { path: '*', component: NotFoundPage, layout: MainLayout }
 ]
 
 export default routes

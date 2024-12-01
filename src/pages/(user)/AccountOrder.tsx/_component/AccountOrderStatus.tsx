@@ -26,52 +26,73 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
-const AccountOrderStatus = ({ order }: any) => {
+import { useEffect, useState } from 'react'
+import { IListStatusOrder } from '@/interface/order'
+const AccountOrderStatus = ({ order, setOpenQR }: any) => {
   const { mutate } = useOrderMutation({ action: 'UPDATE' })
   const { t } = useTranslate('account.order.status')
   const { language } = useLanguage()
-  const steps = [
-    { id: 'pending', icon: FileText },
-    { id: 'confirmed', icon: FilePen },
-    { id: 'processing', icon: PackageSearch },
-    { id: 'shipped', icon: Truck },
-    { id: 'delivered', icon: PackageCheck },
-    { id: 'cancelled', icon: XCircle },
-    { id: 'returned', icon: RotateCcw },
-    { id: 'refunded', icon: RefreshCcw }
-  ]
+  const [steps, setSteps] = useState<IListStatusOrder[]>([])
 
   const getStepStyle = (stepId: string, currentStatus: string) => {
-    const completedSteps = [
-      'pending',
-      'confirmed',
-      'processing',
-      'shipped',
-      'delivered',
-      'cancelled',
-      'returned',
-      'refunded'
-    ]
     if (currentStatus === 'cancelled' || currentStatus === 'returned' || currentStatus === 'refunded') {
       if (currentStatus == stepId) {
         return 'border-red bg-red text-white'
       }
       return 'border-yellow bg-gray-50'
     }
-
-    if (stepId === currentStatus) return 'border-green'
-    if (completedSteps.indexOf(stepId) < completedSteps.indexOf(currentStatus)) {
-      return 'bg-green text-white'
-    }
+    const currentIndex = steps.findIndex((step) => step.id === currentStatus)
+    const stepIndex = steps.findIndex((step) => step.id === stepId)
+    if (stepIndex === currentIndex) return 'border-green'
+    if (stepIndex < currentIndex) return 'bg-green text-white'
   }
 
-  const hanleChangeStatus = (status: 'cancelled' | 'delivered' | 'pending') => {
+  const hanleChangeStatus = (status: 'cancelled' | 'delivered' | 'repurchase') => {
+    console.log(order.data.paymentMethod)
+
     const newStatus = {
       _id: order.data._id,
-      status
+      status:
+        status != 'repurchase'
+          ? status
+          : order.data?.payment?.paymentMethod == 'cash_on_delivery'
+            ? 'pending'
+            : 'unpaid',
+      payment: {
+        ...order.data.payment,
+        paymentStatus: 'unpaid'
+      }
     }
     mutate(newStatus)
   }
+  useEffect(() => {
+    if (order?.data?.payment?.paymentMethod == 'cash_on_delivery') {
+      setSteps([
+        { id: 'pending', icon: FileText },
+        { id: 'confirmed', icon: FilePen },
+        { id: 'processing', icon: PackageSearch },
+        { id: 'shipped', icon: Truck },
+        { id: 'unpaid', icon: FileText },
+        { id: 'delivered', icon: PackageCheck },
+        { id: 'cancelled', icon: XCircle },
+        // { id: 'returned', icon: RotateCcw },
+        // { id: 'refunded', icon: RefreshCcw }
+      ])
+    }
+    if (order?.data?.payment?.paymentMethod == 'credit_card') {
+      setSteps([
+        { id: 'unpaid', icon: FileText },
+        { id: 'pending', icon: FileText },
+        { id: 'confirmed', icon: FilePen },
+        { id: 'processing', icon: PackageSearch },
+        { id: 'shipped', icon: Truck },
+        { id: 'delivered', icon: PackageCheck },
+        { id: 'cancelled', icon: XCircle },
+        // { id: 'returned', icon: RotateCcw },
+        // { id: 'refunded', icon: RefreshCcw }
+      ])
+    }
+  }, [order])
 
   return (
     <Card>
@@ -94,11 +115,11 @@ const AccountOrderStatus = ({ order }: any) => {
             )
           })}
         </div>
-        <div className='flex justify-end p-3 bg-yellow/5'>
+        <div className='flex flex-col gap-3 items-end p-3 bg-yellow/5'>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
-                className={`${order?.data.status == 'confirmed' || order?.data.status == 'pending' ? '' : 'hidden'} rounded-none`}
+                className={`${order?.data.status == 'confirmed' || order?.data.status == 'pending' || order?.data.status == 'unpaid' ? '' : 'hidden'} rounded-sm`}
                 variant={'outline'}
               >
                 {t('cancel_order')}
@@ -118,17 +139,24 @@ const AccountOrderStatus = ({ order }: any) => {
           <Button
             onClick={() => hanleChangeStatus('delivered')}
             disabled={['delivered', 'returned', 'refunded', 'processing'].includes(order?.data.status)}
-            className={`${order?.data.status == 'confirmed' || order?.data.status == 'pending' || order?.data.status == 'cancelled' ? 'hidden' : ''} rounded-none`}
+            className={`${order?.data.status == 'confirmed' || order?.data.status == 'pending' || order?.data.status == 'cancelled' || order?.data.status == 'unpaid' ? 'hidden' : ''} rounded-sm`}
             variant={'outline'}
           >
             {t('received_order')}
           </Button>
           <Button
-            onClick={() => hanleChangeStatus('pending')}
-            className={`${order?.data.status != 'cancelled' ? 'hidden' : ''} rounded-none`}
+            onClick={() => hanleChangeStatus('repurchase')}
+            className={`${order?.data.status != 'cancelled' ? 'hidden' : ''} rounded-sm`}
             variant={'outline'}
           >
             {t('repurchaseProduct')}
+          </Button>
+          <Button
+            onClick={() => setOpenQR(true)}
+            className={`${order?.data.status == 'unpaid' && order?.data.payment.paymentStatus == 'unpaid' && order?.data.payment.paymentMethod == 'credit_card' ? '' : 'hidden'} rounded-sm`}
+            variant={'outline'}
+          >
+            {t('payment')}
           </Button>
         </div>
       </CardContent>

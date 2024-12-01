@@ -15,6 +15,8 @@ import { useLanguage } from '@/context/LanguageContext'
 
 const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { user } = useAuthContext()
+  console.log(user);
+  
   const { t } = useTranslate('header.cartHeader')
   const { language } = useLanguage()
   const queryClient = useQueryClient()
@@ -123,15 +125,13 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
       <div className='z-30 flex h-14 items-center bg-background sm:h-auto sm:border-0'>
         <Sheet>
           <SheetTrigger asChild>
-            <Button size='icon' variant='ghost' className='hover:bg-inherit w-auto'>
+            <div className='relative cursor-pointer'>
               <ShoppingBag />
-              <span className='sr-only'>Toggle Menu</span>
-            </Button>
+              <div className='absolute -top-[50%] right-[-50%] rounded-full bg-black text-white w-[20px] h-[20px] text-center leading-[20px] ml-1'>
+                {cartData?.data ? cartData?.data.carts.length : 0}
+              </div>
+            </div>
           </SheetTrigger>
-          <div className='rounded-full bg-black text-white w-[20px] h-[20px] text-center leading-[20px] ml-1'>
-            {cartData?.data ? cartData?.data.carts.length : 0}
-          </div>
-
           <SheetContent
             side='right'
             className='w-screen max-w-md fixed flex flex-col justify-between bg-white rounded-lg'
