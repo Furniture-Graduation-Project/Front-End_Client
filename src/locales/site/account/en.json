@@ -6,7 +6,25 @@
       "orders": "Orders",
       "wishlist": "Wishlist",
       "logout": "Log Out",
-      "selectMenu": "Select Menu"
+      "selectMenu": "Select Menu",
+      "image": "Do you want to change avatar",
+      "upload": "Upload Image",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "detail": {
+      "title": "My Account",
+      "account": "Account Detail",
+      "pass": "Password",
+      "changePass": "Change Password",
+
+      "name": "Name",
+      "email": "Email",
+      "password": "Old Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "change": "Change",
+      "submit": "Submit"
     },
     "order": {
       "status": {

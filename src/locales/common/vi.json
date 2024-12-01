@@ -43,7 +43,11 @@
     },
     "userMenu": {
       "signIn": "Đăng nhập",
-      "signUp": "Đăng ký"
+      "signUp": "Đăng ký",
+      "profile": "Hồ sơ",
+      "wishlist": "Danh sách yêu thích",
+      "changePassword": "Đổi mật khẩu",
+      "signOut": "Đăng xuất"
     }
   },
   "footer": {

@@ -16,16 +16,17 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Separator } from '@/components/ui/separator'
 import { FieldValues, useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { uploadFileCloudinary } from '@/utils/upload-cloudinary'
 import { useAuthContext } from '@/context/AuthContext'
+import { AuthService } from '@/services/account'
 const SidebarAccount = () => {
   const { user } = useAuthContext()
   const { t } = useTranslate('account.sidebar')
   const navigate = useNavigate()
   const location = useLocation()
-  const [avatar, setAvatar] = useState<string>(user?.data?.avatar || '/images/avatar.png')
-  const [preview, setPreview] = useState<string | null>(null)
+  const [avatar, setAvatar] = useState<string>(user?.avatar || '/images/avatar.png')
+  const [preview, setPreview] = useState<string | null>(user?.avatar || null)
   const form = useForm<FieldValues>({
     defaultValues: {
       image: ''
@@ -45,16 +46,23 @@ const SidebarAccount = () => {
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      console.log(data)
+      await AuthService.update(user?._id || '', {
+        avatar: data.image
+      })
+      navigate('/account')
     } catch (error) {
       console.error(error)
     }
   }
 
+  useEffect(() => {
+    form.reset({ image: user?.avatar })
+  }, [user])
+
   return (
-    <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit md:h-[498px]'>
+    <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit md:h-[498px] mb-24'>
       <div className='relative'>
-        <AvatarAccount src='/images/avatar.png' className='h-20 w-20 mx-auto' />
+        <AvatarAccount src={user?.avatar || '/images/avatar.png'} className='h-20 w-20 mx-auto' />
         <div className='bg-black border-[2px] border-white rounded-full w-[30px] h-[30px] flex justify-center items-center absolute top-14 right-20 hover:opacity-80 transition transform duration-200'>
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -64,11 +72,11 @@ const SidebarAccount = () => {
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Do you want to change avatar</AlertDialogTitle>
+                <AlertDialogTitle>{t('image')}</AlertDialogTitle>
               </AlertDialogHeader>
               <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
                 <div className='flex justify-center items-center gap-x-6'>
-                  <AvatarAccount src={preview || avatar} className='h-20 w-20' />
+                  <AvatarAccount src={preview || ''} className='h-20 w-20' />
                   <div>
                     <input
                       disabled={isLoading}
@@ -81,20 +89,20 @@ const SidebarAccount = () => {
                       htmlFor='avatarUpload'
                       className='cursor-pointer text-sm border p-3 rounded-md border-zinc-400'
                     >
-                      Upload Image
+                      {t('upload')}
                     </label>
                   </div>
                 </div>
                 <Separator />
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction type='submit'>Confirm</AlertDialogAction>
+                  <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
+                  <AlertDialogAction type='submit'>{t('save')}</AlertDialogAction>
                 </AlertDialogFooter>
               </form>
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <p className='text-xl font-semibold text-center mt-2'>Sofia Havertz</p>
+        <p className='text-xl font-semibold text-center mt-2'>{user?.name}</p>
       </div>
       <div className='mt-10'>
         <ul className='*:text-base *:font-semibold *:py-2 *:my-[6px] hidden md:flex flex-col'>
