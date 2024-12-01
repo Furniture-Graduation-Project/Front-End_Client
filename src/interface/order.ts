@@ -1,5 +1,5 @@
-import { LucideProps } from "lucide-react"
-import { ForwardRefExoticComponent, RefAttributes } from "react"
+import { LucideProps } from 'lucide-react'
+import { ForwardRefExoticComponent, RefAttributes } from 'react'
 
 export interface IOrder {
   _id?: string
@@ -17,10 +17,26 @@ export interface IOrder {
     | 'processing'
     | 'shipped'
     | 'delivered'
+    | 'received'
     | 'cancelled'
     | 'returned'
     | 'refunded'
     | 'unpaid'
+
+  statusHistory?: {
+    status:
+      | 'unpaid'
+      | 'pending'
+      | 'confirmed'
+      | 'processing'
+      | 'shipped'
+      | 'delivered'
+      | 'received'
+      | 'cancelled'
+      | 'returned'
+      | 'refunded'
+    date?: Date
+  }[]
   updatedAt?: Date
   createdAt?: Date
 }
