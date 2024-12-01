@@ -21,14 +21,14 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
 
   return (
     <div>
-      <div className='bg-neutral-2 rounded-xl relative group transition duration-500 ease-in-out hover:shadow-lg'>
+      <div className='bg-neutral-2 rounded-lg relative group transition duration-500 ease-in-out hover:shadow-lg '>
         <Link to={`/products/${product._id}`} className='cursor-pointer'>
-          <div className='w-full h-[300px]'>
+          <div className='w-full h-[300px] box-border'>
             <img
               src={product.images[0]}
               alt='product-image'
               className={cn(
-                'object-cover w-full h-full mx-auto transition-transform duration-500 ease-in-out transform scale-100 group-hover:scale-105',
+                'object-cover w-full h-full mx-auto transition-transform duration-500 ease-in-out transform scale-100 group-hover:scale-105 rounded-lg',
                 width && `w-[${width}]`,
                 height && `h-[${height}]`
               )}
