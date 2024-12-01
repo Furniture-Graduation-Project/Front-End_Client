@@ -1,6 +1,7 @@
 import { IRoute } from '@/interface/route'
 import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
+import AuthCallback from '@/pages/(auth)/AuthCallBack'
 import SignIn from '@/pages/(auth)/SignIn'
 import SignUp from '@/pages/(auth)/SignUp'
 import NotFoundPage from '@/pages/(site)/404/404'
@@ -73,6 +74,7 @@ const routes: IRoute[] = [
   },
 
   { path: '/order/:id', component: OrderPage, layout: MainLayout },
+  { path: '/auth/callback', component: AuthCallback, layout: MainLayout },
   { path: '*', component: NotFoundPage, layout: MainLayout }
 ]
 
