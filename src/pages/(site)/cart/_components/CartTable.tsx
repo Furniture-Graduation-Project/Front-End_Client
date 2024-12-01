@@ -9,7 +9,6 @@ import { ICart } from '@/interface/cart'
 import { useAuthContext } from '@/context/AuthContext'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { useToast } from '@/hooks/use-toast'
-import { useLanguage } from '@/context/LanguageContext'
 
 type CartTableProps = {
   cartData: IApiResponse<ICart>
@@ -21,7 +20,6 @@ type CartTableProps = {
 const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) => {
   const { user } = useAuthContext()
   const { t } = useTranslate('cart.cartTable')
-  const { language } = useLanguage()
   const { toast } = useToast()
   const queryClient = useQueryClient()
   const { mutate: deleteItem } = useCartMutation('REMOVE')
@@ -168,8 +166,8 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
               <TableCell className='sm:hidden sm:p-4 px-0'>
                 <div className='flex flex-col items-end justify-start -mt-10 gap-2'>
                   <p className='font-semibold whitespace-nowrap'>
-                    {formatCurrency(item.productOptionId.price, language)}
-                    {formatCurrency(item.productOptionId.price, language)}
+                    {formatCurrency(item.productOptionId.price)}
+                    {formatCurrency(item.productOptionId.price)}
                   </p>
                   <button className='flex items-center gap-1 *:text-[#605F5F]' onClick={() => handleDeleteItem(item)}>
                     <X size={24} />
@@ -190,12 +188,12 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
               </TableCell>
               <TableCell className='hidden sm:table-cell sm:p-4 px-0'>
                 <p className='font-semibold text-center whitespace-nowrap'>
-                  {formatCurrency(item.productOptionId.price, language)}
+                  {formatCurrency(item.productOptionId.price)}
                 </p>
               </TableCell>
               <TableCell className='hidden sm:table-cell sm:p-4 px-0'>
                 <p className='font-semibold text-center whitespace-nowrap'>
-                  {formatCurrency(item.quantity * item.productOptionId.price, language)}
+                  {formatCurrency(item.quantity * item.productOptionId.price)}
                 </p>
               </TableCell>
             </TableRow>

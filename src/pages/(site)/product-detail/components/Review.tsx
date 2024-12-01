@@ -26,19 +26,17 @@ export default function Review({ data }: { data: any }) {
   const { data: reviewList = [], isLoading } = useReviewQuery()
   const { mutate: addReview } = useReviewMutation('CREATE')
   const [newReview, setNewReview] = useState<ICreateReview>({
-    userId: '',
+    userId: '674ab0f3d27bc99cdedaebb1',
     rating: 5,
     reviewText: ''
   })
 
-  // Hàm tính trung bình rating
   const calculateAverageRating = (reviews: IReview[]) => {
     if (reviews.length === 0) return 0
     const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0)
-    return (totalRating / reviews.length).toFixed(1) // Làm tròn đến 1 chữ số thập phân
+    return (totalRating / reviews.length).toFixed(1)
   }
 
-  // Tính toán trung bình rating khi nhận được danh sách đánh giá
   const averageRating = calculateAverageRating(reviewList)
 
   const handleSubmitReview = (e: React.FormEvent) => {
@@ -46,7 +44,7 @@ export default function Review({ data }: { data: any }) {
     addReview({
       data: { ...newReview, productId: data?.data?._id },
       onSuccess: () => {
-        setNewReview({ userId: '', rating: 5, reviewText: '' })
+        setNewReview({ userId: '674ab0f3d27bc99cdedaebb1', rating: 5, reviewText: '' })
       }
     } as { data: ICreateReview; onSuccess?: () => void })
   }
@@ -123,13 +121,13 @@ export default function Review({ data }: { data: any }) {
                   <DialogHeader>
                     <DialogTitle> {t('Write a Review')}</DialogTitle>
                     <DialogDescription>
-                      Share your thoughts about the product. Your review will be visible to other customers.
+                      {t('Share your thoughts about the product. Your review will be visible to other customers.')}
                     </DialogDescription>
                   </DialogHeader>
                   <form onSubmit={handleSubmitReview} className='grid gap-4 py-4'>
-                    <div className='grid grid-cols-4 items-center gap-4'>
+                    {/* <div className='grid grid-cols-4 items-center gap-4'>
                       <Label htmlFor='name' className='text-right'>
-                        User ID
+                        {t('User ID')}
                       </Label>
                       <Input
                         id='name'
@@ -137,10 +135,10 @@ export default function Review({ data }: { data: any }) {
                         onChange={(e) => setNewReview({ ...newReview, userId: e.target.value })}
                         className='col-span-3'
                       />
-                    </div>
+                    </div> */}
                     <div className='grid grid-cols-4 items-center gap-4'>
                       <Label htmlFor='rating' className='text-right'>
-                        Rating
+                        {t('Rating')}
                       </Label>
                       <Select
                         value={newReview.rating.toString()}
@@ -160,7 +158,7 @@ export default function Review({ data }: { data: any }) {
                     </div>
                     <div className='grid grid-cols-4 items-center gap-4'>
                       <Label htmlFor='review' className='text-right'>
-                        Review
+                        {t('Review')}
                       </Label>
                       <Textarea
                         id='review'
@@ -170,7 +168,7 @@ export default function Review({ data }: { data: any }) {
                       />
                     </div>
                     <Button type='submit' className='ml-auto'>
-                      Submit Review
+                      {t('Submit Review')}
                     </Button>
                   </form>
                 </DialogContent>

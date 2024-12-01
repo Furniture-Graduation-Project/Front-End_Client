@@ -103,21 +103,26 @@ export default function SignIn() {
               {t('forgotPassword', 'Forgot password?')}
             </a>
           </div>
-          <Button disabled={isPending} typeof='submit' variant='auth' size='auth' type='submit'>
+          <Button
+            disabled={isPending}
+            typeof='submit'
+            type='submit'
+            className='w-full'
+          >
             {t('signinButton', 'Sign In')}
           </Button>
         </form>
       </Form>
 
-      <div className='space-y-4'>
+      <div className='flex flex-col space-y-4'>
         <Link to={`${import.meta.env.VITE_API_URL}/auth/google`}>
-          <Button variant='outline' size='auth' className='w-full flex items-center justify-center space-x-2'>
+          <Button variant='outline' className='w-full flex items-center justify-center space-x-2'>
             <img src='/public/google-logo.webp' alt='logo-auth' className='w-5 h-5' />
             <span>{t('googleSignIn', 'Sign in with Google')}</span>
           </Button>
         </Link>
         <Link to={`${import.meta.env.VITE_API_URL}/auth/facebook`}>
-          <Button variant='outline' size='auth' className='w-full flex items-center justify-center space-x-2'>
+          <Button variant='outline' className='w-full flex items-center justify-center space-x-2'>
             <img src='/public/logo-fb.svg' alt='logo-auth' className='w-5 h-5' />
             <span>{t('facebookSignIn', 'Sign in with Facebook')}</span>
           </Button>

@@ -41,14 +41,17 @@ import productMobileVI from '../locales/site/productMobile/vi.json'
 import productGridEN from '../locales/site/productGrid/en.json'
 import productGridVI from '../locales/site/productGrid/vi.json'
 
-import blogEN from '../locales/site/blog/en.json'
-import blogVI from '../locales/site/blog/vi.json'
-
 import blogDetailEN from '../locales/site/blogDetail/en.json'
 import blogDetailVI from '../locales/site/blogDetail/vi.json'
 
 import blogBannerEN from '../locales/site/blogBanner/en.json'
 import blogBannerVI from '../locales/site/blogBanner/vi.json'
+
+import postEN from '../locales/site/blogPost/en.json'
+import postVI from '../locales/site/blogPost/vi.json'
+
+import blogBannerPageEN from '../locales/site/blogBannerPage/en.json'
+import blogBannerPageVI from '../locales/site/blogBannerPage/vi.json'
 
 import productDetailEN from '../locales/site/productDetail/en.json'
 import productDetailVI from '../locales/site/productDetail/vi.json'
@@ -72,9 +75,10 @@ export const localizationResources = {
     product: productEN,
     productMobile: productMobileEN,
     productGrid: productGridEN,
-    blog: blogEN,
     blogDetail: blogDetailEN,
     blogBanner: blogBannerEN,
+    blogPost: postEN,
+    blogBannerPage: blogBannerPageEN,
     productDetail: productDetailEN
   },
   vi: {
@@ -91,10 +95,11 @@ export const localizationResources = {
     product: productVI,
     productMobile: productMobileVI,
     productGrid: productGridVI,
-    blog: blogVI,
     blogDetail: blogDetailVI,
     blogBanner: blogBannerVI,
-    productDetail: productDetailVI
+    blogPost: postVI,
+    blogBannerPage: blogBannerPageVI,
+    productDetailVI: productDetailVI
   }
 } as const
 

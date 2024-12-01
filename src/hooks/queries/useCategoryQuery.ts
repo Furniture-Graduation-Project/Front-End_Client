@@ -4,7 +4,6 @@ import { CategoryService } from '@/services/category'
 import { useQuery } from '@tanstack/react-query'
 
 export const useSingleCategoryQuery = (id: string) => {
-  console.log('Category', id)
   const { data, ...rest } = useQuery({
     queryKey: ['CATEGORY', id],
     queryFn: async (): Promise<ICategoryDataResponse> => {
