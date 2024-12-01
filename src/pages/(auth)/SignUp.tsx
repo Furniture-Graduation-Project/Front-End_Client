@@ -174,7 +174,7 @@ const SignUp = () => {
             )}
           />
 
-          <Button typeof='submit' disabled={isPending} variant='auth' size='auth' type='submit'>
+          <Button typeof='submit' disabled={isPending} className='w-full' type='submit'>
             {t('signupButton', 'Sign Up')}
           </Button>
         </form>

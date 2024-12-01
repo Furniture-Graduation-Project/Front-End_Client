@@ -3,10 +3,13 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { useTranslate } from '@/hooks/useTranslate'
+import useContactMutation from '@/hooks/mutations/useContactMutation'
+import { IContact } from '@/interface/contact'
+import { useToast } from '@/hooks/use-toast'
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -17,8 +20,9 @@ const formSchema = z.object({
 type ContactFormValue = z.infer<typeof formSchema>
 
 const FormContact = () => {
+  const { mutate, isSuccess, isError } = useContactMutation()
   const { t } = useTranslate('contact.formContact')
-  const [loading, setLoading] = useState(false)
+  const { toast } = useToast()
 
   const form = useForm<ContactFormValue>({
     resolver: zodResolver(formSchema),
@@ -30,16 +34,29 @@ const FormContact = () => {
   })
 
   const onSubmit = async (data: ContactFormValue) => {
-    try {
-      setLoading(true)
-      console.log(data)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setLoading(false)
+    const newContact: IContact = {
+      email: import.meta.env.VITE_EMAIL_NAME,
+      subject: 'Yêu cầu liên hệ từ khách hàng : ' + data.name,
+      text: 'Email khách hàng : ' + data.email + '\n' + 'Nội dung : ' + data.message
     }
+    mutate(newContact)
   }
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast({
+        title: t('success'),
+        description: t('successDescription')
+      })
+      form.reset()
+    }
+    if (isError) {
+      toast({
+        title: t('error'),
+        description: t('errorDescription')
+      })
+    }
+  }, [isSuccess, isError])
   return (
     <div className='mt-10 mb-20'>
       <div className='lg:grid lg:grid-cols-2 gap-y-8 gap-x-8 flex flex-col-reverse'>
@@ -81,7 +98,7 @@ const FormContact = () => {
                 </FormItem>
               )}
             ></FormField>
-            <Button type='submit' className='mt-4 px-8' disabled={loading}>
+            <Button type='submit' className='mt-4 px-8'>
               {t('button')}
             </Button>
           </form>

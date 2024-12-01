@@ -5,12 +5,10 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
-import { useLanguage } from '@/context/LanguageContext'
 import useOrderMutation from '@/hooks/mutations/useOrderMutation'
 import { useToast } from '@/hooks/use-toast'
 import { IApiResponse } from '@/interface/apiRespose'
@@ -34,7 +32,6 @@ const PaymentPopup = ({
   setOpen: (open: boolean) => void
   setSuccess: (success: any) => void
 }) => {
-  const { language } = useLanguage()
   const { toast } = useToast()
   const { t } = useTranslate('payment')
 
@@ -192,7 +189,7 @@ const PaymentPopup = ({
                   <TableRow>
                     <TableCell className='p-3'>{t('paymentSuccess.amount')}</TableCell>
                     <TableCell className='p-3'>
-                      {orderState?.totalPrice ? formatCurrency(orderState?.totalPrice, language) : '######'}
+                      {orderState?.totalPrice ? formatCurrency(orderState?.totalPrice) : '######'}
                     </TableCell>
                   </TableRow>
                   <TableRow>
