@@ -1,13 +1,13 @@
 {
-    "order": {
-        "title": "Hoàn thành !",
-        "thankYou": "Cảm ơn bạn! 🎉",
-        "orderReceived": "Đơn hàng của bạn sẽ được chuẩn bị.",
-        "orderCode": "Mã đơn hàng:",
-        "date": "Ngày:",
-        "total": "Tổng cộng:",
-        "paymentMethod": "Phương thức thanh toán:",
-        "purchaseHistory": "Lịch sử mua hàng",
-        "failedToLoad": "Không thể tải thông tin đơn hàng. Vui lòng thử lại sau."
-    }
+  "order": {
+    "title": "Hoàn thành !",
+    "thankYou": "Cảm ơn bạn! 🎉",
+    "orderReceived": "Đơn hàng của bạn sẽ được chuẩn bị.",
+    "orderCode": "Mã đơn hàng:",
+    "date": "Ngày:",
+    "total": "Tổng cộng:",
+    "paymentMethod": "Phương thức thanh toán:",
+    "purchaseHistory": "Lịch sử mua hàng",
+    "failedToLoad": "Không thể tải thông tin đơn hàng. Vui lòng thử lại sau."
+  }
 }
