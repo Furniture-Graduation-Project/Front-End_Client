@@ -44,5 +44,13 @@ export const AuthService = {
     } catch (error) {
       console.log(error)
     }
+  },
+  update: async (id: string, data: IUser) => {
+    try {
+      const response = await axiosInstance.put(`/users/${id}`, data)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
