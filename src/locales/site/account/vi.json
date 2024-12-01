@@ -6,7 +6,24 @@
       "orders": "Đơn hàng",
       "wishlist": "Yêu thích",
       "logout": "Đăng xuất",
-      "selectMenu": "Chọn menu"
+      "selectMenu": "Chọn menu",
+      "image": "Bạn có muốn thay đổi ảnh đại diện",
+      "upload": "Tải ảnh lên",
+      "cancel": "Hủy",
+      "save": "Lưu lại"
+    },
+    "detail": {
+      "title": "Tài khoản của tôi",
+      "account": "Chi tiết tài khoản",
+      "pass": "Mật khẩu",
+      "changePass": "Thay đổi mật khẩu",
+      "name": "Tên",
+      "email": "Email",
+      "password": "Mật khẩu cũ",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "change": "Thay đổi",
+      "submit": "Lưu lại"
     },
     "order": {
       "status": {

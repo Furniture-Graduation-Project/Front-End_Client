@@ -7,7 +7,7 @@ import { SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 type MutationQueryProps = {
-  action: 'SIGNIN' | 'SIGNUP' | 'DELETE'
+  action: 'SIGNIN' | 'SIGNUP' | 'DELETE' | 'UPDATE'
 }
 
 const useAccountMutation = ({ action }: MutationQueryProps) => {
@@ -66,6 +66,8 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
           return await AuthService.signIn(data)
         case 'DELETE':
           return await AuthService.delete(data?._id || '')
+        case 'UPDATE':
+          return await AuthService.update(data?._id || '', data)
         default:
           return null
       }
