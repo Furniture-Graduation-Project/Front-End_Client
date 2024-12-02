@@ -1,10 +1,14 @@
 import { DEFAULT_PAGE_SIZE } from '@/constants/pagination'
 import { ProductService } from '@/services/product'
 import { useQuery } from '@tanstack/react-query'
-export const useProductListQuery = (categoryId?: string) => {
+export const useProductListQuery = (categoryId?: string, isNewProduct?: boolean) => {
   const { data, ...rest } = useQuery({
-    queryKey: ['PRODUCTS', categoryId],
+    queryKey: ['PRODUCTS', categoryId, isNewProduct],
     queryFn: async () => {
+      if (isNewProduct) {
+        const response = await ProductService.getProductNew(categoryId)
+        return response.data
+      }
       const response = await ProductService.getAll(categoryId)
       return response.data
     }
