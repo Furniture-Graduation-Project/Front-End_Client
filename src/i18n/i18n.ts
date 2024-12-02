@@ -41,6 +41,9 @@ import productMobileVI from '../locales/site/productMobile/vi.json'
 import productGridEN from '../locales/site/productGrid/en.json'
 import productGridVI from '../locales/site/productGrid/vi.json'
 
+import blogEN from '../locales/site/blog/en.json'
+import blogVI from '../locales/site/blog/vi.json'
+
 import blogDetailEN from '../locales/site/blogDetail/en.json'
 import blogDetailVI from '../locales/site/blogDetail/vi.json'
 
@@ -75,6 +78,7 @@ export const localizationResources = {
     product: productEN,
     productMobile: productMobileEN,
     productGrid: productGridEN,
+    blog: blogEN,
     blogDetail: blogDetailEN,
     blogBanner: blogBannerEN,
     blogPost: postEN,
@@ -95,6 +99,7 @@ export const localizationResources = {
     product: productVI,
     productMobile: productMobileVI,
     productGrid: productGridVI,
+    blog: blogVI,
     blogDetail: blogDetailVI,
     blogBanner: blogBannerVI,
     blogPost: postVI,
