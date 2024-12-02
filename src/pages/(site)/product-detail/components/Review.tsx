@@ -30,6 +30,10 @@ export default function Review({ data }: { data: any }) {
     rating: 5,
     reviewText: ''
   })
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const reviewsPerPage = 5
 
   const calculateAverageRating = (reviews: IReview[]) => {
     if (reviews.length === 0) return 0
@@ -47,7 +51,15 @@ export default function Review({ data }: { data: any }) {
         setNewReview({ userId: '674ab0f3d27bc99cdedaebb1', rating: 5, reviewText: '' })
       }
     } as { data: ICreateReview; onSuccess?: () => void })
+    setIsDialogOpen(false)
+    window.location.reload()
   }
+
+  const indexOfLastReview = currentPage * reviewsPerPage
+  const indexOfFirstReview = indexOfLastReview - reviewsPerPage
+  const currentReviews = reviewList.slice(indexOfFirstReview, indexOfLastReview)
+
+  const totalPages = Math.ceil(reviewList.length / reviewsPerPage)
 
   return (
     <>
@@ -81,7 +93,8 @@ export default function Review({ data }: { data: any }) {
                     <svg
                       key={star}
                       className={`w-5 h-5 ${star <= averageRating ? 'fill-primary' : 'text-muted-foreground'}`}
-                      viewBox='0 0 20 20'
+                      view
+                      Box='0 0 20 20'
                       fill='currentColor'
                     >
                       <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
@@ -113,9 +126,15 @@ export default function Review({ data }: { data: any }) {
                   <Flame className='w-4 h-4' />
                 </Button>
               </div>
-              <Dialog>
+              <Dialog open={isDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button> {t('Write Review')}</Button>
+                  <Button
+                    onClick={() => {
+                      setIsDialogOpen(true)
+                    }}
+                  >
+                    {t('Write Review')}
+                  </Button>
                 </DialogTrigger>
                 <DialogContent className='sm:max-w-[425px]'>
                   <DialogHeader>
@@ -125,17 +144,6 @@ export default function Review({ data }: { data: any }) {
                     </DialogDescription>
                   </DialogHeader>
                   <form onSubmit={handleSubmitReview} className='grid gap-4 py-4'>
-                    {/* <div className='grid grid-cols-4 items-center gap-4'>
-                      <Label htmlFor='name' className='text-right'>
-                        {t('User ID')}
-                      </Label>
-                      <Input
-                        id='name'
-                        value={newReview.userId}
-                        onChange={(e) => setNewReview({ ...newReview, userId: e.target.value })}
-                        className='col-span-3'
-                      />
-                    </div> */}
                     <div className='grid grid-cols-4 items-center gap-4'>
                       <Label htmlFor='rating' className='text-right'>
                         {t('Rating')}
@@ -193,8 +201,8 @@ export default function Review({ data }: { data: any }) {
               {isLoading ? (
                 <p>Loading reviews...</p>
               ) : (
-                Array.isArray(reviewList) &&
-                reviewList.map((review: IReview) => (
+                Array.isArray(currentReviews) &&
+                currentReviews.map((review: IReview) => (
                   <div key={review.id} className='space-y-4'>
                     <div className='flex items-center gap-4'>
                       <Avatar>
@@ -218,11 +226,29 @@ export default function Review({ data }: { data: any }) {
               )}
             </div>
 
-            <div className='flex justify-center'>
+            <div className='flex justify-between mt-4'>
+              <Button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+                {t('Previous')}
+              </Button>
+              <Button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+              >
+                {t('Next')}
+              </Button>
+            </div>
+
+            <div className='flex justify-center mt-4'>
+              <p>
+                {t('Page')} {currentPage} {t('of')} {totalPages}
+              </p>
+            </div>
+
+            {/* <div className='flex justify-center'>
               <Button variant='outline' className='border-black rounded-full px-10'>
                 {t('Load more')}
               </Button>
-            </div>
+            </div> */}
           </div>
         </TabsContent>
       </Tabs>

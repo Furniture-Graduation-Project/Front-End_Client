@@ -9,6 +9,7 @@ import { useCartMutation } from '@/hooks/mutations/useCartMutation'
 import { useTranslate } from '@/hooks/useTranslate'
 import { useSingleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
 import { useSingleMaterialQuery } from '@/hooks/queries/useMaterialQuery'
+import { formatCurrency } from '@/utils/formatCurrency'
 
 const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
   const { t } = useTranslate('productDetail')
@@ -91,7 +92,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
           </>
         ) : (
           <>
-            <span className='text-3xl font-bold'>${price.toFixed(3)} Vnd</span>
+            <span className='text-3xl font-bold'>{formatCurrency(price.toFixed(3))}</span>
             <span className='text-xl text-muted-foreground line-through'>400.000 Vnd</span>{' '}
           </>
         )}
