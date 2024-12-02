@@ -9,7 +9,8 @@ import { useProductListQuery } from '@/hooks/queries/useProductQuery'
 
 export function CarouselSize() {
   const { t } = useTranslate('home.carousel')
-  const { data: products, isLoading, isError } = useProductListQuery()
+
+  const { data: products, isLoading, isError } = useProductListQuery(undefined, true)
 
   if (isLoading) {
     return <div>Đang tải...</div>
