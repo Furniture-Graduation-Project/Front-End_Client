@@ -30,7 +30,6 @@ export default function Review({ data }: { data: any }) {
     rating: 5,
     reviewText: ''
   })
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const [currentPage, setCurrentPage] = useState(1)
   const reviewsPerPage = 5
@@ -51,7 +50,7 @@ export default function Review({ data }: { data: any }) {
         setNewReview({ userId: '674ab0f3d27bc99cdedaebb1', rating: 5, reviewText: '' })
       }
     } as { data: ICreateReview; onSuccess?: () => void })
-    setIsDialogOpen(false)
+
     window.location.reload()
   }
 
@@ -126,15 +125,9 @@ export default function Review({ data }: { data: any }) {
                   <Flame className='w-4 h-4' />
                 </Button>
               </div>
-              <Dialog open={isDialogOpen}>
+              <Dialog>
                 <DialogTrigger asChild>
-                  <Button
-                    onClick={() => {
-                      setIsDialogOpen(true)
-                    }}
-                  >
-                    {t('Write Review')}
-                  </Button>
+                  <Button>{t('Write Review')}</Button>
                 </DialogTrigger>
                 <DialogContent className='sm:max-w-[425px]'>
                   <DialogHeader>
