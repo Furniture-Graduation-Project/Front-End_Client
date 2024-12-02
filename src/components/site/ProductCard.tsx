@@ -66,7 +66,7 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
       </div>
 
       <div className='my-3'>
-        <div className='star-rating relative'>
+        {/* <div className='star-rating relative'>
           <div className='stars flex *:h-5 *:w-5'>
             {Array.from({ length: 5 }, (_, i) => (
               <Star key={i} />
@@ -77,7 +77,7 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
             <Star fill='black' strokeWidth={0} />
             <StarHalf fill='black' strokeWidth={0} />
           </div>
-        </div>
+        </div> */}
         <h1 className='body-2-semi'>{product.name}</h1>
         {minPrice !== null && maxPrice !== null ? (
           <div className='flex'>

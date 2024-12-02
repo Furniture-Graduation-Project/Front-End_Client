@@ -1,19 +1,19 @@
-import { Calendar, User } from 'lucide-react'
+import { ArrowRight, Calendar, User } from 'lucide-react'
 import JoinNewsletter from './components/JoinNewsletter'
 import RelatedPosts from './components/RelatedPosts'
 import { Link, useParams } from 'react-router-dom'
-import { useBlogDetailQuery } from '@/hooks/queries/useBlogQuery'
+import { useBlogDetailQuery, useBlogQuery } from '@/hooks/queries/useBlogQuery'
 import { useTranslate } from '@/hooks/useTranslate'
 import { formatDate } from '@/utils/formatDate'
 
 const BlogDetailPage = () => {
-  const { t } = useTranslate('blog')
   const { id } = useParams<{ id: string }>()
   const { data: blogData, isLoading, error } = useBlogDetailQuery(id || '')
-
-  if (isLoading) return <div>Loading...</div>
+  const { t } = useTranslate('blogDetail')
+  const { blogs } = useBlogQuery()
+  if (isLoading) return <div>{t('loading')}</div>
   if (error) return <div>Error loading blog: {(error as Error).message}</div>
-  if (!blogData || !blogData.data) return <div>Blog not found</div>
+  if (!blogData || !blogData.data) return <div>{t('blogNotFound')}</div>
 
   const blog = blogData.data
 
@@ -34,7 +34,7 @@ const BlogDetailPage = () => {
               <span>{blog.title}</span>
             </nav>
             <article>
-              <h1 className='text-xs font-bold text-gray-500 mb-2'>{t('ARTICLE')}</h1>
+              <h1 className='text-xs font-bold text-gray-500 mb-2'>{t('article')}</h1>
               <h2 className='text-4xl font-bold mb-4'>{blog.title}</h2>
               <div className='flex items-center text-sm text-gray-500'>
                 <User className='mr-2' />
@@ -53,7 +53,19 @@ const BlogDetailPage = () => {
           <section className='mb-8'>
             <div dangerouslySetInnerHTML={{ __html: blog.content }} />
           </section>
-          <RelatedPosts />
+
+          <section className='mb-8'>
+            <div className='flex justify-between items-center mb-6'>
+              <h2 className='text-2xl font-semibold'>{t('relatedPosts')}</h2>
+              <Link to='/blog' className='text-gray-600 hover:text-gray-900 flex items-center'>
+                {t('moreArticles')}
+                <ArrowRight className='ml-2' />
+              </Link>
+            </div>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+              {blogs?.map((relatedBlog) => <RelatedPosts key={relatedBlog._id} blog={relatedBlog} />)}
+            </div>
+          </section>
         </main>
       </div>
       <JoinNewsletter />
