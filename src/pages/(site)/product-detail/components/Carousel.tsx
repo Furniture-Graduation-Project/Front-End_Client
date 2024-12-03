@@ -1,10 +1,12 @@
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useTranslate } from '@/hooks/useTranslate'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import * as React from 'react'
 
 export default function Component({ data, isLoading }: { data: any; isLoading: boolean }) {
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0)
+  const { t } = useTranslate('productDetail')
   return (
     <div className='relative'>
       {isLoading ? (
@@ -26,7 +28,7 @@ export default function Component({ data, isLoading }: { data: any; isLoading: b
         <>
           <div className='absolute top-4 left-4 z-10 space-y-2'>
             <div className='flex flex-col gap-y-2'>
-              <Badge className='bg-white text-black hover:cursor-pointer text-center hover:bg-white'>NEW</Badge>
+              <Badge className='bg-white text-black hover:cursor-pointer text-center hover:bg-white'>{t('NEW')}</Badge>
               <Badge className='bg-[#38CB89] text-white hover:cursor-pointer text-center hover:bg-[#38CB89]'>
                 -50%
               </Badge>

@@ -18,6 +18,21 @@ export const ProductService = {
     }
   },
 
+  getProductNew: async (categoryId?: string): Promise<AxiosResponse<IApiResponse<IProduct[]>>> => {
+    try {
+      let query = `/new`
+      if (categoryId) {
+        query += `?categoryId=${categoryId}`
+      }
+      const response: AxiosResponse<IApiResponse<IProduct[]>> = await axiosInstance.get(`${API_URL}${query}`)
+      console.log('Dữ liệu sản phẩm mới từ API:', response.data)
+      return response
+    } catch (error) {
+      console.error('Lỗi khi lấy sản phẩm mới:', error)
+      throw error
+    }
+  },
+
   getById: async (id: string): Promise<AxiosResponse<IApiResponse<IProduct>>> => {
     try {
       const response: AxiosResponse<IApiResponse<IProduct>> = await axiosInstance.get(`${API_URL}/${id}`)
