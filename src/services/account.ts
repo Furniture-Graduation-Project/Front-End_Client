@@ -14,7 +14,6 @@ export const AuthService = {
   signUp: async (data: IUser) => {
     try {
       const response = await axiosInstance.post('/signup', data)
-
       return response
     } catch (error) {
       console.log(error)
@@ -51,6 +50,25 @@ export const AuthService = {
       return response
     } catch (error) {
       console.log(error)
+    }
+  },
+  refreshToken: async (): Promise<string | null> => {
+    try {
+      const response = await axiosInstance.post('/refreshToken')
+      if (!response) {
+        throw new Error('Không thể làm mới access token')
+      }
+      const data = response.data
+      return data.token
+    } catch (error) {
+      return null
+    }
+  },
+  logout: async () => {
+    try {
+      await axiosInstance.post('/logout')
+    } catch (error) {
+      return error
     }
   }
 }
