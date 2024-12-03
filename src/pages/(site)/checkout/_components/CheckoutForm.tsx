@@ -91,6 +91,11 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
           paymentMethod: data.payment,
           amount: amount
         },
+        statusHistory: [
+          {
+            status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
+          }
+        ],
         status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
       }
       mutate(order)
