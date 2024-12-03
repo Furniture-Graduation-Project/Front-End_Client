@@ -15,9 +15,9 @@ export const AddressServices = {
       throw error
     }
   },
-  create: async (data: IAddress) => {
+  create: async (userId: string, data: IAddress) => {
     try {
-      const response = await axiosInstance.post('/locations', data)
+      const response = await axiosInstance.post(`/locations/${userId}`, data)
       return response
     } catch (error) {
       console.log(error)
@@ -37,17 +37,30 @@ export const AddressServices = {
       console.log(error)
     }
   },
-  update: async (data: IAddress) => {
+  getOne: async (id: string, query: string) => {
     try {
-      const response = await axiosInstance.put(`/locations/${data._id}`, data)
+      const response = await axiosInstance.get(`/locations/${id}/location?locationId=${query}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${Cookies.get('accessToken')}`
+        }
+      })
       return response
     } catch (error) {
       console.log(error)
     }
   },
-  delete: async (data: IAddress) => {
+  update: async (id: string, query: string, data: IAddress) => {
     try {
-      const response = await axiosInstance.delete(`/locations/${data._id}`)
+      const response = await axiosInstance.put(`/locations/${id}/location?locationId=${query}`, data)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  delete: async (id: string, query: string) => {
+    try {
+      const response = await axiosInstance.delete(`/locations/${id}/location?locationId=${query}`)
       return response
     } catch (error) {
       console.log(error)

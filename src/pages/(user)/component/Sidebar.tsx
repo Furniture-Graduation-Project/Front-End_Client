@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react'
 import { uploadFileCloudinary } from '@/utils/upload-cloudinary'
 import { useAuthContext } from '@/context/AuthContext'
 import { AuthService } from '@/services/account'
+import { Skeleton } from '@/components/ui/skeleton'
 const SidebarAccount = () => {
   const { user } = useAuthContext()
   const { t } = useTranslate('account.sidebar')
@@ -27,6 +28,7 @@ const SidebarAccount = () => {
   const location = useLocation()
   const [avatar, setAvatar] = useState<string>(user?.avatar || '/images/avatar.png')
   const [preview, setPreview] = useState<string | null>(user?.avatar || null)
+  const [loading, setLoading] = useState(false)
   const form = useForm<FieldValues>({
     defaultValues: {
       image: ''
@@ -36,10 +38,12 @@ const SidebarAccount = () => {
   const onChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files) return
+    setLoading(true)
     const urls = await Promise.all(Array.from(files).map(uploadFileCloudinary))
     setAvatar(urls[0])
     setPreview(URL.createObjectURL(files[0]))
     form.setValue('image', urls[0])
+    setLoading(false)
   }
 
   const isLoading = form.formState.isSubmitting
@@ -76,7 +80,11 @@ const SidebarAccount = () => {
               </AlertDialogHeader>
               <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
                 <div className='flex justify-center items-center gap-x-6'>
-                  <AvatarAccount src={preview || ''} className='h-20 w-20' />
+                  {loading ? (
+                    <Skeleton className='h-20 w-20 rounded-full' />
+                  ) : (
+                    <AvatarAccount src={preview || ''} className='h-20 w-20' />
+                  )}
                   <div>
                     <input
                       disabled={isLoading}

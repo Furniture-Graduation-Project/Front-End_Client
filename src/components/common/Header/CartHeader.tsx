@@ -14,8 +14,7 @@ import { formatCurrency } from '@/utils/formatCurrency'
 
 const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { user } = useAuthContext()
-  console.log(user);
-  
+
   const { t } = useTranslate('header.cartHeader')
   const queryClient = useQueryClient()
   const [amount, setAmount] = useState(0)
@@ -163,9 +162,7 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                                 <h3>
                                   <a href={item.productId.href}>{item.productId.name}</a>
                                 </h3>
-                                <p className='ml-4 text-[#121212]'>
-                                  {formatCurrency(item.productOptionId.price)}
-                                </p>
+                                <p className='ml-4 text-[#121212]'>{formatCurrency(item.productOptionId.price)}</p>
                               </div>
                               <div className='flex flex-1 justify-between items-center mt-1'>
                                 <p className='text-[12px] text-[#6C7275]'>
