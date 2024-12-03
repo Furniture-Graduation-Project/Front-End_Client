@@ -3,7 +3,6 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import { IUser } from '@/interface/user'
 import { jwtDecode } from 'jwt-decode'
 import useUserQuery from '@/hooks/queries/useUserQuery'
-import { useNavigate } from 'react-router-dom'
 
 interface AuthContextType {
   user: IUser | null
@@ -35,8 +34,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const { data, isError } = useUserQuery(id ?? '')
 
-  const navigate = useNavigate()
-
   const login = (newToken: string) => {
     setToken(newToken)
     setId(getUserIdFromToken(newToken))
@@ -46,7 +43,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     removeToken()
     setUser(null)
     setId(null)
-    navigate('/')
   }
 
   const updateUser = (updatedUserData: Partial<IUser>) => {
