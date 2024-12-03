@@ -58,6 +58,10 @@ import blogBannerPageVI from '../locales/site/blogBannerPage/vi.json'
 
 import productDetailEN from '../locales/site/productDetail/en.json'
 import productDetailVI from '../locales/site/productDetail/vi.json'
+
+import notFoundEN from '../locales/site/error/en.json'
+import notFoundVI from '../locales/site/error/vi.json'
+
 export const currentLocales: LocaleCodeName[] = [
   { code: 'vi', name: 'Tiếng Việt' },
   { code: 'en', name: 'English' }
@@ -83,7 +87,8 @@ export const localizationResources = {
     blogBanner: blogBannerEN,
     blogPost: postEN,
     blogBannerPage: blogBannerPageEN,
-    productDetail: productDetailEN
+    productDetail: productDetailEN,
+    notFound: notFoundEN
   },
   vi: {
     common: commonVI,
@@ -104,7 +109,8 @@ export const localizationResources = {
     blogBanner: blogBannerVI,
     blogPost: postVI,
     blogBannerPage: blogBannerPageVI,
-    productDetailVI: productDetailVI
+    productDetail: productDetailVI,
+    notFound: notFoundVI
   }
 } as const
 

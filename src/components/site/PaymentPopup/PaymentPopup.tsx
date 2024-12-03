@@ -18,7 +18,6 @@ import { QrCode } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import PaymentSuccess from './_component/PaymentSuccess'
 import { useTranslate } from '@/hooks/useTranslate'
-import { useNavigate } from 'react-router-dom'
 
 const PaymentPopup = ({
   orderState,
@@ -35,11 +34,10 @@ const PaymentPopup = ({
 }) => {
   const { toast } = useToast()
   const { t } = useTranslate('payment')
-  const navigate = useNavigate()
 
   const [description, setDescription] = useState<string>('')
   const [qrCode, setQrCode] = useState<string | null>(null)
-  const [isFinished, setIsFinished] = useState<boolean>(true)
+
   const { mutate, isSuccess, isError, data } = useOrderMutation({ action: 'CREATE_QR' })
   const [timeLeft, setTimeLeft] = useState({
     minutes: 0,
@@ -99,7 +97,6 @@ const PaymentPopup = ({
       })
     }
   }, [isSuccessPayment, isErrorPayment])
-
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -111,19 +108,8 @@ const PaymentPopup = ({
         return prev
       })
     }, 1000)
-
     return () => clearInterval(timer)
   }, [])
-
-  useEffect(() => {
-    if (open == isFinished && isFinished == true) {
-      setIsFinished(false)
-    }
-    if (open == isFinished && isFinished == false) {
-      navigate('/account/order')
-    }
-  }, [open])
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className='sm:max-w-[610px]'>

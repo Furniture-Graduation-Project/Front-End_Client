@@ -45,6 +45,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   const [currentDistrict, setCurrentDistrict] = useState<IDistrict[]>([])
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
   const { data, isLoading, isError } = useAllAddressQuery()
+  const [isFinished, setIsFinished] = useState<boolean>(true)
   const { mutate, isSuccess, isError: isErrorOrder, error, data: dataOrder } = useOrderMutation({ action: 'CREATE' })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -134,6 +135,15 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
       setTimeout(() => navigate('/order/' + orderState._id), 3000)
     }
   }, [success])
+  useEffect(() => {
+    if (openQR == isFinished && isFinished == true) {
+      setIsFinished(false)
+    }
+    if (openQR == isFinished && isFinished == false) {
+      navigate('/account/order')
+    }
+  }, [openQR])
+
   return (
     <>
       {' '}
