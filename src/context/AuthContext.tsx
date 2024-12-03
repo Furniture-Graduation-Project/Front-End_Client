@@ -3,6 +3,7 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import { IUser } from '@/interface/user'
 import { jwtDecode } from 'jwt-decode'
 import useUserQuery from '@/hooks/queries/useUserQuery'
+import { useNavigate } from 'react-router-dom'
 
 interface AuthContextType {
   user: IUser | null
@@ -10,6 +11,8 @@ interface AuthContextType {
   logout: () => void
   updateUser: (updatedUserData: Partial<IUser>) => void
   isLoading: boolean
+  token: string
+  setToken: (token: string) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -32,16 +35,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const { data, isError } = useUserQuery(id ?? '')
 
+  const navigate = useNavigate()
+
   const login = (newToken: string) => {
     setToken(newToken)
     setId(getUserIdFromToken(newToken))
   }
 
   const logout = () => {
-    setToken(null)
     removeToken()
     setUser(null)
     setId(null)
+    navigate('/')
   }
 
   const updateUser = (updatedUserData: Partial<IUser>) => {
@@ -65,7 +70,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [data, isError])
 
-  return <AuthContext.Provider value={{ user, isLoading, login, logout, updateUser }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ user, isLoading, token, setToken, login, logout, updateUser }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
 export const useAuthContext = () => {
