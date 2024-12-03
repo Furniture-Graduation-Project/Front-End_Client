@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { useTranslate } from '@/hooks/useTranslate'
 import { IAddress } from '@/interface/address'
-import { MapPinPlus, PencilLine } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import AddressForm from './AddressForm'
+import { AddressPopover } from './AddressPopover'
 
 interface IAddressCard {
   data: {
@@ -11,39 +11,32 @@ interface IAddressCard {
 }
 
 const AddressCard = ({ data }: IAddressCard) => {
-  console.log(data)
+  const { t } = useTranslate('account.order.address')
 
   return (
     <main className='w-full'>
       <div className='flex justify-between'>
-        <h2 className='text-xl font-semibold'>Address</h2>
-        <Link to={'add'}>
-          <Button size={'sm'} variant={'default'}>
-            <MapPinPlus className='mr-2 w-4 h-4' />
-            Add Address
-          </Button>
-        </Link>
+        <h2 className='text-xl font-semibold'>{t('orderAddressLabel')}</h2>
+        <AddressPopover>
+          <AddressForm />
+        </AddressPopover>
       </div>
-      <div className='grid grid-cols-3 mt-5 gap-x-6'>
+      <div className='grid grid-cols-3 mt-5 gap-6 mb-14'>
         {data?.locations?.map((item) => (
-          <Card className='border-neutral-400'>
-            <CardHeader className='-mb-4'>
-              <CardTitle className='flex justify-between text-base'>
-                <p>Billing Address</p>
-                <Button
-                  variant={'none'}
-                  size={'none'}
-                  className='text-neutral-400 hover:text-neutral-600 transition transform'
-                >
-                  <PencilLine className='w-4 h-4 mr-2' />
-                  Edit
-                </Button>
-              </CardTitle>
+          <Card key={item._id} className='w-full max-w-md mx-auto shadow-lg hover:shadow-xl transition-shadow'>
+            <CardHeader className='flex flex-row items-center  space-y-0 pb-2'>
+              <h2 className='text-2xl font-bold tracking-tight'>{item.addressName}</h2>
+              <div className='ml-auto'>
+                <AddressPopover update>
+                  <AddressForm update locationId={item._id} />
+                </AddressPopover>
+                <AddressPopover onDelete locationId={item._id} />
+              </div>
             </CardHeader>
-            <CardContent className='text-sm text-black *:mt'>
-              <p>{item.recipientName}</p>
-              <p>{item.phoneNumber}</p>
-              <p>{item.street}</p>
+
+            <CardContent className='space-y-4'>
+              <p className='text-sm'>{item.firstName + ' ' + item.lastName + ' - ' + item.phone}</p>
+              <p className='text-muted-foreground text-sm'>{`${item.street}, ${item.ward}, ${item.district}, ${item.city}`}</p>
             </CardContent>
           </Card>
         ))}

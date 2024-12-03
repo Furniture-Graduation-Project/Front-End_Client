@@ -6,6 +6,7 @@ const AddressPage = () => {
   const { user } = useAuthContext()
   console.log(user)
   const { data } = useAddressQuery(user?._id as string)
+
   return <AddressCard data={data} />
 }
 

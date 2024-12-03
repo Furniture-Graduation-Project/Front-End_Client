@@ -7,7 +7,7 @@ import { SubmitHandler } from 'react-hook-form'
 type MutationQueryProps = {
   action: 'CREATE' | 'UPDATE' | 'DELETE'
 }
-const useEmployeeMutation = ({ action }: MutationQueryProps) => {
+const useAddressMutation = ({ action }: MutationQueryProps) => {
   const { toast } = useToast()
   const queryClient = useQueryClient()
 
@@ -48,14 +48,14 @@ const useEmployeeMutation = ({ action }: MutationQueryProps) => {
   }
 
   const { mutate, ...rest } = useMutation({
-    mutationFn: async (data: IAddress) => {
+    mutationFn: async ({ userId, query, data }: { userId: string; query: string; data: IAddress }) => {
       switch (action) {
         case 'CREATE':
-          return await AddressServices.create(data)
+          return await AddressServices.create(userId, data)
         case 'UPDATE':
-          return await AddressServices.update(data)
+          return await AddressServices.update(userId, query, data)
         case 'DELETE':
-          return await AddressServices.delete(data)
+          return await AddressServices.delete(userId, query)
         default:
           return null
       }
@@ -64,11 +64,11 @@ const useEmployeeMutation = ({ action }: MutationQueryProps) => {
     onError: handleError
   })
 
-  const onSubmit: SubmitHandler<IAddress> = (data) => {
-    mutate(data)
+  const onSubmit: SubmitHandler<{ userId: string; query: string; data: IAddress }> = ({ userId, query, data }) => {
+    mutate({ userId, query, data })
   }
 
   return { mutate, onSubmit, ...rest }
 }
 
-export default useEmployeeMutation
+export default useAddressMutation

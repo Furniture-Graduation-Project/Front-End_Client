@@ -17,7 +17,6 @@
       "account": "Account Detail",
       "pass": "Password",
       "changePass": "Change Password",
-
       "name": "Name",
       "email": "Email",
       "password": "Old Password",
@@ -41,6 +40,8 @@
         "paymentDescription": "The order needs to be paid before it can be processed."
       },
       "address": {
+        "addAddress": "Add Address",
+        "des": "Add a new address to receive your order",
         "addressTitle": "Shipping Address",
         "editAddressTitle": "Edit Shipping Address",
         "editAddressDescription": "You can update your shipping details before the order is shipped.",
@@ -50,6 +51,7 @@
         "orderNamePlaceholder": "Recipient's Name",
         "orderPhonePlaceholder": "Phone Number",
         "orderAddressPlaceholder": "Shipping Address",
+        "updateButton": "Update",
         "saveButton": "Save",
         "cancelButton": "Cancel",
         "successTitle": "Success!",

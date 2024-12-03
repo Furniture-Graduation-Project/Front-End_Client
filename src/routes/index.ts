@@ -23,7 +23,7 @@ import AccountSetting from '@/pages/(user)/AccountSetting/AccountSetting'
 import AccountWishlist from '@/pages/(user)/AccountWishlist/AccountWishlist'
 import AddressForm from '@/pages/(user)/Address/_components/AddressForm'
 import AddressDetailPage from '@/pages/(user)/Address/AddressDetail/page'
-import AddressPage from '@/pages/(user)/Address/page'
+import AddressPage from '@/pages/(user)/Address/AddressPage'
 
 const routes: IRoute[] = [
   { path: '/signin', component: SignIn, layout: AuthLayout },
