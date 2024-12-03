@@ -41,6 +41,7 @@
       },
       "address": {
         "addAddress": "Add Address",
+        "noAddress": "No address added",
         "des": "Add a new address to receive your order",
         "addressTitle": "Shipping Address",
         "editAddressTitle": "Edit Shipping Address",

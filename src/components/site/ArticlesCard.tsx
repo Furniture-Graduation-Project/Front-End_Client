@@ -15,7 +15,7 @@ const ArticlesCard = ({ blog }: ArticlesCardProps) => {
       <img
         src={blog.image}
         alt={blog.title}
-        className='rounded-lg hover:scale-105 transform ease-in-out duration-500'
+        className='rounded-lg w-full h-72 object-cover hover:scale-105 transform ease-in-out duration-500'
       />
       <h1 className='headline-7'>{blog.title}</h1>
       <div className='flex items-center transition duration-500 ease-in-out transform hover:translate-x-1 hover:opacity-70'>

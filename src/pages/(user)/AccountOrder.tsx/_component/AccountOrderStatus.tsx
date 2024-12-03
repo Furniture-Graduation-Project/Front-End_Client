@@ -4,15 +4,7 @@ import { useLanguage } from '@/context/LanguageContext'
 import useOrderMutation from '@/hooks/mutations/useOrderMutation'
 import { useTranslate } from '@/hooks/useTranslate'
 import { getOrderStatus } from '@/utils/getOrderStatus'
-import {
-  FileText,
-  MoveRight,
-  PackageCheck,
-  Truck,
-  XCircle,
-  PackageSearch,
-  FilePen
-} from 'lucide-react'
+import { FileText, MoveRight, PackageCheck, Truck, XCircle, PackageSearch, FilePen, Boxes } from 'lucide-react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,7 +37,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
     if (stepIndex < currentIndex) return 'bg-green text-white'
   }
 
-  const hanleChangeStatus = (status: 'cancelled' | 'delivered' | 'repurchase') => {
+  const hanleChangeStatus = (status: 'cancelled' | 'received' | 'repurchase') => {
     console.log(order.data.paymentMethod)
 
     const newStatus = {
@@ -56,10 +48,16 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
           : order.data?.payment?.paymentMethod == 'cash_on_delivery'
             ? 'pending'
             : 'unpaid',
-      payment: {
-        ...order.data.payment,
-        paymentStatus: 'unpaid'
-      }
+      statusHistory: [
+        {
+          status:
+            status != 'repurchase'
+              ? status
+              : order.data?.payment?.paymentMethod == 'cash_on_delivery'
+                ? 'pending'
+                : 'unpaid'
+        }
+      ]
     }
     mutate(newStatus)
   }
@@ -69,10 +67,10 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'pending', icon: FileText },
         { id: 'confirmed', icon: FilePen },
         { id: 'processing', icon: PackageSearch },
-        { id: 'shipped', icon: Truck },
-        { id: 'unpaid', icon: FileText },
-        { id: 'delivered', icon: PackageCheck },
-        { id: 'cancelled', icon: XCircle },
+        { id: 'shipped', icon: Boxes },
+        { id: 'delivered', icon: Truck },
+        { id: 'received', icon: PackageCheck },
+        { id: 'cancelled', icon: XCircle }
         // { id: 'returned', icon: RotateCcw },
         // { id: 'refunded', icon: RefreshCcw }
       ])
@@ -83,9 +81,10 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'pending', icon: FileText },
         { id: 'confirmed', icon: FilePen },
         { id: 'processing', icon: PackageSearch },
-        { id: 'shipped', icon: Truck },
-        { id: 'delivered', icon: PackageCheck },
-        { id: 'cancelled', icon: XCircle },
+        { id: 'shipped', icon: Boxes },
+        { id: 'delivered', icon: Truck },
+        { id: 'received', icon: PackageCheck },
+        { id: 'cancelled', icon: XCircle }
         // { id: 'returned', icon: RotateCcw },
         // { id: 'refunded', icon: RefreshCcw }
       ])
@@ -135,8 +134,11 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
             </AlertDialogContent>
           </AlertDialog>
           <Button
-            onClick={() => hanleChangeStatus('delivered')}
-            disabled={['delivered', 'returned', 'refunded', 'processing'].includes(order?.data.status)}
+            onClick={() => hanleChangeStatus('received')}
+            disabled={
+              ['received', 'returned', 'refunded', 'processing', 'shipped'].includes(order?.data.status) ||
+              order?.data.payment?.paymentStatus == 'unpaid'
+            }
             className={`${order?.data.status == 'confirmed' || order?.data.status == 'pending' || order?.data.status == 'cancelled' || order?.data.status == 'unpaid' ? 'hidden' : ''} rounded-sm`}
             variant={'outline'}
           >

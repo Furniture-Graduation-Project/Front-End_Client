@@ -22,6 +22,11 @@ const AddressCard = ({ data }: IAddressCard) => {
         </AddressPopover>
       </div>
       <div className='grid grid-cols-3 mt-5 gap-6 mb-14'>
+        {data?.locations?.length === 0 && (
+          <div className='col-span-3 text-center'>
+            <p className='text-lg text-neutral-400'>{t('noAddress')}</p>
+          </div>
+        )}
         {data?.locations?.map((item) => (
           <Card key={item._id} className='w-full max-w-md mx-auto shadow-lg hover:shadow-xl transition-shadow'>
             <CardHeader className='flex flex-row items-center  space-y-0 pb-2'>

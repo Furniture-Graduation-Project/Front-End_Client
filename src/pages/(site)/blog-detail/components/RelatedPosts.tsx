@@ -12,7 +12,7 @@ const RelatedPosts = ({ blog }: ArticlesCardProps) => {
       <img
         src={blog.image}
         alt={blog.title}
-        className='w-full mb-4 rounded-lg hover:scale-105 transform ease-in-out duration-500'
+        className='w-full h-72 mb-4 rounded-lg hover:scale-105 transform ease-in-out duration-500'
       />
       <Link to={`/blog/${blog._id}`} className='text-blue-500 hover:underline'>
         <h3 className='text-xl font-bold mb-2'>{blog.title}</h3>

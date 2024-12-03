@@ -10,6 +10,8 @@ interface AuthContextType {
   logout: () => void
   updateUser: (updatedUserData: Partial<IUser>) => void
   isLoading: boolean
+  token: string
+  setToken: (token: string) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -38,7 +40,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const logout = () => {
-    setToken(null)
     removeToken()
     setUser(null)
     setId(null)
@@ -65,7 +66,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [data, isError])
 
-  return <AuthContext.Provider value={{ user, isLoading, login, logout, updateUser }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ user, isLoading, token, setToken, login, logout, updateUser }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
 export const useAuthContext = () => {

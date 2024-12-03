@@ -37,6 +37,7 @@ const PaymentPopup = ({
 
   const [description, setDescription] = useState<string>('')
   const [qrCode, setQrCode] = useState<string | null>(null)
+
   const { mutate, isSuccess, isError, data } = useOrderMutation({ action: 'CREATE_QR' })
   const [timeLeft, setTimeLeft] = useState({
     minutes: 0,
@@ -96,7 +97,6 @@ const PaymentPopup = ({
       })
     }
   }, [isSuccessPayment, isErrorPayment])
-
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -108,10 +108,8 @@ const PaymentPopup = ({
         return prev
       })
     }, 1000)
-
     return () => clearInterval(timer)
   }, [])
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className='sm:max-w-[610px]'>
@@ -177,7 +175,7 @@ const PaymentPopup = ({
                   <TableRow>
                     <TableCell className='p-3'>{t('paymentSuccess.accountNumber')}</TableCell>
                     <TableCell className='p-3'>
-                      {import.meta.env.VITE_BANK_NUMBER ? import.meta.env.VITE_BANK_NUMBER : '######'}
+                      {import.meta.env.VITE_ACCOUNT_NO ? import.meta.env.VITE_ACCOUNT_NO : '######'}
                     </TableCell>
                   </TableRow>
                   <TableRow>

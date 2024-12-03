@@ -1,0 +1,29 @@
+{
+  "productDetail": {
+    "Home": "Trang chủ",
+    "Shop": "Cửa hàng",
+    "Living Room": "Phòng khách",
+    "Product": "Sản phẩm",
+    "NEW": "MỚI",
+    "Review": "Đánh giá",
+    "Add to Wishlist": "Thêm vào danh sách yêu thích",
+    "Add to Cart": "Thêm vào giỏ hàng",
+    "Category": "Danh mục",
+    "Material": "Chất liệu",
+    "Additional Info": "Thông tin bổ sung",
+    "Reviews": "Đánh giá",
+    "Customer Reviews": "Đánh giá của khách hàng",
+    "Write Review": "Viết đánh giá",
+    "Write a Review": "Viết đánh giá",
+    "Load more": "Xem thêm",
+    "Inventory quantity": "Số lượng hàng tồn kho",
+    "Average Rating": "Đánh giá",
+    "User ID": "Mã người dùng",
+    "Rating": "Đánh giá",
+    "Review": "Nhận xét",
+    "Submit Review": "Gửi nhận xét",
+    "Share your thoughts about the product. Your review will be visible to other customers.": "Chia sẻ ý kiến của bạn về sản phẩm. Nhận xét của bạn sẽ hiển thị với những khách hàng khác.",
+    "Newest": "Mới nhất đến cũ nhất",
+    "Oldest": "Cũ nhất đến mới nhất"
+  }
+}

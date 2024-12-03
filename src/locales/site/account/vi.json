@@ -41,6 +41,7 @@
       },
       "address": {
         "addAddress": "Thêm địa chỉ nhận hàng",
+        "noAddress": "Chưa có địa chỉ nào được thêm",
         "des": "Thêm địa chỉ mới để nhận đơn hàng của bạn",
         "addressTitle": "Địa chỉ nhận hàng",
         "editAddressTitle": "Chỉnh sửa địa chỉ nhận hàng",

@@ -14,80 +14,39 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
 import { Flame, Headphones, Heart, Smile, ThumbsUp } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AdditionalInfo from './AdditionalInfo'
-import Questions from './Questions'
+import { ICreateReview, IReview } from '@/interface/review'
+import { useReviewQuery } from '@/hooks/queries/useReviewQuery'
+import { useReviewMutation } from '@/hooks/mutations/useReviewMutation'
+import { useTranslate } from '@/hooks/useTranslate'
 
-interface Review {
-  id: number
-  author: string
-  avatar: string
-  rating: number
-  content: string
-}
-
-const reviews: Review[] = [
-  {
-    id: 1,
-    author: 'Sofia Harvetz',
-    avatar: '/placeholder.svg',
+export default function Review({ data }: { data: any }) {
+  const { t } = useTranslate('productDetail')
+  const { data: reviewList = [], isLoading } = useReviewQuery()
+  const { mutate: addReview } = useReviewMutation('CREATE')
+  const [newReview, setNewReview] = useState<ICreateReview>({
+    userId: '674ab0f3d27bc99cdedaebb1',
     rating: 5,
-    content:
-      'I bought it 3 weeks ago and now come back just to say "Awesome Product". I really enjoy it. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 2,
-    author: 'Nicolas Jensen',
-    avatar: '/placeholder.svg',
-    rating: 5,
-    content:
-      'I bought it 3 weeks ago and now come back just to say "Awesome Product". I really enjoy it. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 3,
-    author: 'Emily Clark',
-    avatar: '/placeholder.svg',
-    rating: 4,
-    content:
-      'The product is good, but the delivery was late. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 4,
-    author: 'John Doe',
-    avatar: '/placeholder.svg',
-    rating: 3,
-    content:
-      'It works as expected, but I had some issues with the setup. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 5,
-    author: 'Jane Smith',
-    avatar: '/placeholder.svg',
-    rating: 5,
-    content:
-      'Excellent product! Highly recommend. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  }
-]
-
-export default function Review() {
-  const [reviewList, setReviewList] = useState(reviews)
-  const [newReview, setNewReview] = useState({
-    author: '',
-    rating: 5,
-    content: ''
+    reviewText: ''
   })
+
+  const calculateAverageRating = (reviews: IReview[]) => {
+    if (reviews.length === 0) return 0
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0)
+    return (totalRating / reviews.length).toFixed(1)
+  }
+
+  const averageRating = calculateAverageRating(reviewList)
 
   const handleSubmitReview = (e: React.FormEvent) => {
     e.preventDefault()
-    setReviewList([
-      {
-        id: reviews.length + 1,
-        ...newReview,
-        avatar: '/placeholder.svg'
-      },
-      ...reviews
-    ])
-    setNewReview({ author: '', rating: 5, content: '' })
+    addReview({
+      data: { ...newReview, productId: data?.data?._id },
+      onSuccess: () => {
+        setNewReview({ userId: '674ab0f3d27bc99cdedaebb1', rating: 5, reviewText: '' })
+      }
+    } as { data: ICreateReview; onSuccess?: () => void })
   }
 
   return (
@@ -98,19 +57,13 @@ export default function Review() {
             value='info'
             className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent'
           >
-            Additional Info
-          </TabsTrigger>
-          <TabsTrigger
-            value='questions'
-            className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent'
-          >
-            Questions
+            {t('Additional Info')}
           </TabsTrigger>
           <TabsTrigger
             value='reviews'
             className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent'
           >
-            Reviews
+            {t('Reviews')}
           </TabsTrigger>
         </TabsList>
 
@@ -118,26 +71,27 @@ export default function Review() {
           <AdditionalInfo />
         </TabsContent>
 
-        <TabsContent value='questions' className='mt-6'>
-          <Questions />
-        </TabsContent>
-
         <TabsContent value='reviews' className='mt-6'>
           <div className='space-y-8'>
             <div>
-              <h2 className='text-2xl font-semibold mb-2'>Customer Reviews</h2>
+              <h2 className='text-2xl font-semibold mb-2'> {t('Customer Reviews')}</h2>
               <div className='flex items-center gap-2 mb-4'>
                 <div className='flex'>
-                  {[1, 2, 3, 4].map((star) => (
-                    <svg key={star} className='w-5 h-5 fill-primary' viewBox='0 0 20 20' fill='currentColor'>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <svg
+                      key={star}
+                      className={`w-5 h-5 ${star <= averageRating ? 'fill-primary' : 'text-muted-foreground'}`}
+                      viewBox='0 0 20 20'
+                      fill='currentColor'
+                    >
                       <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
                     </svg>
                   ))}
-                  <svg className='w-5 h-5 text-muted-foreground' viewBox='0 0 20 20' fill='currentColor'>
-                    <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                  </svg>
                 </div>
-                <span className='text-sm text-muted-foreground'>{reviewList.length} Reviews</span>
+                <span className='text-sm text-muted-foreground'>
+                  {' '}
+                  {t('Average Rating')} {averageRating}/5
+                </span>
               </div>
             </div>
 
@@ -161,30 +115,30 @@ export default function Review() {
               </div>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button>Write Review</Button>
+                  <Button> {t('Write Review')}</Button>
                 </DialogTrigger>
                 <DialogContent className='sm:max-w-[425px]'>
                   <DialogHeader>
-                    <DialogTitle>Write a Review</DialogTitle>
+                    <DialogTitle> {t('Write a Review')}</DialogTitle>
                     <DialogDescription>
-                      Share your thoughts about the product. Your review will be visible to other customers.
+                      {t('Share your thoughts about the product. Your review will be visible to other customers.')}
                     </DialogDescription>
                   </DialogHeader>
                   <form onSubmit={handleSubmitReview} className='grid gap-4 py-4'>
-                    <div className='grid grid-cols-4 items-center gap-4'>
+                    {/* <div className='grid grid-cols-4 items-center gap-4'>
                       <Label htmlFor='name' className='text-right'>
-                        Name
+                        {t('User ID')}
                       </Label>
                       <Input
                         id='name'
-                        value={newReview.author}
-                        onChange={(e) => setNewReview({ ...newReview, author: e.target.value })}
+                        value={newReview.userId}
+                        onChange={(e) => setNewReview({ ...newReview, userId: e.target.value })}
                         className='col-span-3'
                       />
-                    </div>
+                    </div> */}
                     <div className='grid grid-cols-4 items-center gap-4'>
                       <Label htmlFor='rating' className='text-right'>
-                        Rating
+                        {t('Rating')}
                       </Label>
                       <Select
                         value={newReview.rating.toString()}
@@ -204,17 +158,17 @@ export default function Review() {
                     </div>
                     <div className='grid grid-cols-4 items-center gap-4'>
                       <Label htmlFor='review' className='text-right'>
-                        Review
+                        {t('Review')}
                       </Label>
                       <Textarea
                         id='review'
-                        value={newReview.content}
-                        onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
+                        value={newReview.reviewText}
+                        onChange={(e) => setNewReview({ ...newReview, reviewText: e.target.value })}
                         className='col-span-3'
                       />
                     </div>
                     <Button type='submit' className='ml-auto'>
-                      Submit Review
+                      {t('Submit Review')}
                     </Button>
                   </form>
                 </DialogContent>
@@ -236,40 +190,37 @@ export default function Review() {
             </div>
 
             <div className='space-y-8'>
-              {reviewList.map((review) => (
-                <div key={review.id} className='space-y-4'>
-                  <div className='flex items-center gap-4'>
-                    <Avatar>
-                      <AvatarImage src={review.avatar} alt={review.author} />
-                      <AvatarFallback>{review.author[0]}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className='font-semibold'>{review.author}</h3>
-                      <div className='flex'>
-                        {Array.from({ length: review.rating }).map((_, i) => (
-                          <svg key={i} className='w-4 h-4 fill-primary' viewBox='0 0 20 20' fill='currentColor'>
-                            <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                          </svg>
-                        ))}
+              {isLoading ? (
+                <p>Loading reviews...</p>
+              ) : (
+                Array.isArray(reviewList) &&
+                reviewList.map((review: IReview) => (
+                  <div key={review.id} className='space-y-4'>
+                    <div className='flex items-center gap-4'>
+                      <Avatar>
+                        <AvatarImage src={review.userId.avatar} />
+                        <AvatarFallback>{review.userId.avatar}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h3 className='font-semibold'>{review.userId.name}</h3>
+                        <div className='flex'>
+                          {Array.from({ length: review.rating }).map((_, i) => (
+                            <svg key={i} className='w-4 h-4 fill-primary' viewBox='0 0 20 20' fill='currentColor'>
+                              <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
+                            </svg>
+                          ))}
+                        </div>
                       </div>
                     </div>
+                    <p className='text-muted-foreground'>{review.reviewText}</p>
                   </div>
-                  <p className='text-muted-foreground'>{review.content}</p>
-                  <div className='flex gap-4'>
-                    <Button variant='ghost' size='sm'>
-                      Like
-                    </Button>
-                    <Button variant='ghost' size='sm'>
-                      Reply
-                    </Button>
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
 
             <div className='flex justify-center'>
               <Button variant='outline' className='border-black rounded-full px-10'>
-                Load more
+                {t('Load more')}
               </Button>
             </div>
           </div>

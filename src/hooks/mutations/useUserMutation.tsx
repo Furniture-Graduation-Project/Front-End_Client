@@ -7,12 +7,12 @@ import { SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 type MutationQueryProps = {
-  action: 'SIGNIN' | 'SIGNUP' | 'DELETE' | 'UPDATE'
+  action: 'SIGNIN' | 'SIGNUP' | 'DELETE' | 'UPDATE' | 'LOGOUT'
 }
 
 const useAccountMutation = ({ action }: MutationQueryProps) => {
   const { toast } = useToast()
-  const { login } = useAuthContext()
+  const { login, logout } = useAuthContext()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -38,6 +38,15 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
         login(data.data.accessToken)
         navigate('/')
         break
+      case 'LOGOUT':
+        toast({
+          title: 'Đăng xuất thành công!',
+          description: 'Chuyển đến trang chính...',
+          variant: 'success'
+        })
+        logout()
+        navigate('/')
+        break
       case 'DELETE':
         toast({
           title: 'Xóa thành công!',
@@ -58,16 +67,23 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
   }
 
   const { mutate, ...rest } = useMutation({
-    mutationFn: async (data: IUser) => {
+    mutationFn: async (data?: IUser) => {
       switch (action) {
         case 'SIGNUP':
+          if (!data) throw new Error('Thiếu ID cho hành động')
           return await AuthService.signUp(data)
         case 'SIGNIN':
+          if (!data) throw new Error('Thiếu ID cho hành động')
           return await AuthService.signIn(data)
         case 'DELETE':
           return await AuthService.delete(data?._id || '')
         case 'UPDATE':
+          if (!data) throw new Error('Thiếu ID cho hành động')
           return await AuthService.update(data?._id || '', data)
+        case 'LOGOUT':
+          return await AuthService.logout()
+        case 'LOGOUT':
+          return await AuthService.logout()
         default:
           return null
       }
