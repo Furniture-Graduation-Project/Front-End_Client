@@ -37,8 +37,19 @@ export interface IOrder {
       | 'refunded'
     date?: Date
   }[]
+  returnInfo?: {
+    reason: string
+    items: IItemReturnOrder[]
+    dateRequested: Date
+    dateResolved: Date
+  }
   updatedAt?: Date
   createdAt?: Date
+}
+export interface IItemReturnOrder {
+  productOptionId: string
+  quantity: number
+  status: string
 }
 export interface IPayment {
   paymentMethod: 'credit_card' | 'cash_on_delivery'

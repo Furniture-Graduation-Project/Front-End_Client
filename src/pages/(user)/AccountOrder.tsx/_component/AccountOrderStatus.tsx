@@ -4,7 +4,18 @@ import { useLanguage } from '@/context/LanguageContext'
 import useOrderMutation from '@/hooks/mutations/useOrderMutation'
 import { useTranslate } from '@/hooks/useTranslate'
 import { getOrderStatus } from '@/utils/getOrderStatus'
-import { FileText, MoveRight, PackageCheck, Truck, XCircle, PackageSearch, FilePen, Boxes } from 'lucide-react'
+import {
+  FileText,
+  MoveRight,
+  PackageCheck,
+  Truck,
+  XCircle,
+  PackageSearch,
+  FilePen,
+  Boxes,
+  RotateCcw,
+  RefreshCcw
+} from 'lucide-react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -83,9 +94,9 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'shipped', icon: Boxes },
         { id: 'delivered', icon: Truck },
         { id: 'received', icon: PackageCheck },
-        { id: 'cancelled', icon: XCircle }
-        // { id: 'returned', icon: RotateCcw },
-        // { id: 'refunded', icon: RefreshCcw }
+        { id: 'cancelled', icon: XCircle },
+        { id: 'returned', icon: RotateCcw },
+        { id: 'refunded', icon: RefreshCcw }
       ])
     }
     if (order?.data?.payment?.paymentMethod == 'credit_card') {
@@ -97,9 +108,9 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'shipped', icon: Boxes },
         { id: 'delivered', icon: Truck },
         { id: 'received', icon: PackageCheck },
-        { id: 'cancelled', icon: XCircle }
-        // { id: 'returned', icon: RotateCcw },
-        // { id: 'refunded', icon: RefreshCcw }
+        { id: 'cancelled', icon: XCircle },
+        { id: 'returned', icon: RotateCcw },
+        { id: 'refunded', icon: RefreshCcw }
       ])
     }
   }, [order])
@@ -152,10 +163,17 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
               ['received', 'returned', 'refunded', 'processing', 'shipped'].includes(order?.data.status) ||
               order?.data.payment?.paymentStatus == 'unpaid'
             }
-            className={`${order?.data.status == 'confirmed' || order?.data.status == 'pending' || order?.data.status == 'cancelled' || order?.data.status == 'unpaid' ? 'hidden' : ''} rounded-sm`}
+            className={`${order?.data.status == 'delivered' && order?.data.status == 'unpaid' ? '' : 'hidden'} rounded-sm`}
             variant={'outline'}
           >
             {t('received_order')}
+          </Button>
+          <Button
+            onClick={() => navigate('/account/order/request/'+order.data._id)}
+            className={`${order?.data.status == 'delivered' || order?.data.status == 'received' ? '' : 'hidden'} rounded-sm`}
+            variant={'outline'}
+          >
+            Trả hàng / Hoàn tiền
           </Button>
           <Button
             onClick={hanleRepurchase}
