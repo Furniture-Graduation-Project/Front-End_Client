@@ -18,7 +18,13 @@ import {
 } from '@/components/ui/alert-dialog'
 import { useEffect, useState } from 'react'
 import { IListStatusOrder } from '@/interface/order'
+import useSessionStorage from '@/hooks/useSessionStorage'
+import { useToast } from '@/hooks/use-toast'
+import { useNavigate } from 'react-router-dom'
 const AccountOrderStatus = ({ order, setOpenQR }: any) => {
+  const [state, setState] = useSessionStorage('stateOrder', null)
+  const { toast } = useToast()
+  const navigate = useNavigate()
   const { mutate } = useOrderMutation({ action: 'UPDATE' })
   const { t } = useTranslate('account.order.status')
   const { language } = useLanguage()
@@ -37,29 +43,36 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
     if (stepIndex < currentIndex) return 'bg-green text-white'
   }
 
-  const hanleChangeStatus = (status: 'cancelled' | 'received' | 'repurchase') => {
-    console.log(order.data.paymentMethod)
-
+  const hanleChangeStatus = (status: 'cancelled' | 'received') => {
     const newStatus = {
       _id: order.data._id,
-      status:
-        status != 'repurchase'
-          ? status
-          : order.data?.payment?.paymentMethod == 'cash_on_delivery'
-            ? 'pending'
-            : 'unpaid',
+      status,
       statusHistory: [
+        ...order.statusHistory,
         {
-          status:
-            status != 'repurchase'
-              ? status
-              : order.data?.payment?.paymentMethod == 'cash_on_delivery'
-                ? 'pending'
-                : 'unpaid'
+          status
         }
       ]
     }
     mutate(newStatus)
+  }
+  const hanleRepurchase = () => {
+    const stateOrder = order.data.items
+      .filter((item: any) => item.productId.status == 'available')
+      .map((item: any) => ({
+        ...item,
+        unitPrice: item.productOptionId.price
+      }))
+    if (!stateOrder || stateOrder.length <= 0) {
+      toast({
+        title: t('pleaseAddProduct'),
+        description: t('orderMustHaveProduct'),
+        variant: 'default'
+      })
+      return
+    }
+    setState(JSON.stringify(stateOrder))
+    navigate('/checkout')
   }
   useEffect(() => {
     if (order?.data?.payment?.paymentMethod == 'cash_on_delivery') {
@@ -145,7 +158,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
             {t('received_order')}
           </Button>
           <Button
-            onClick={() => hanleChangeStatus('repurchase')}
+            onClick={hanleRepurchase}
             className={`${order?.data.status != 'cancelled' ? 'hidden' : ''} rounded-sm`}
             variant={'outline'}
           >

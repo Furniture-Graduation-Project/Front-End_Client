@@ -37,7 +37,9 @@
         "continue": "Tiếp tục",
         "payment": "Thanh toán",
         "unpaid": "Chưa thanh toán",
-        "paymentDescription": "Đơn hàng cần được thanh toán để có thể xử lý."
+        "paymentDescription": "Đơn hàng cần được thanh toán để có thể xử lý.",
+        "pleaseAddProduct": "Vui lòng thêm sản phẩm vào giỏ hàng.",
+        "orderMustHaveProduct": "Số lượng sản phẩm phải lớn hơn 1."
       },
       "address": {
         "addAddress": "Thêm địa chỉ nhận hàng",

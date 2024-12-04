@@ -128,10 +128,11 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   useEffect(() => {
     if (success) {
       toast({
-        title: 'Thanh toan thanh cong !',
-        description: 'Thanh cong ban se duoc di chuyen den trang order sau 3s',
+        title: t('paymentSuccessTitle'),
+        description: t('paymentSuccessDescription'),
         variant: 'default'
       })
+
       setTimeout(() => navigate('/order/' + orderState._id), 3000)
     }
   }, [success])
@@ -271,7 +272,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
                             ))
                           ) : (
                             <SelectItem key='-1' value='-1'>
-                              Trống
+                              #####
                             </SelectItem>
                           )}
                         </SelectContent>

@@ -21,7 +21,9 @@
       "paymentMethod2": "Thanh Toán Khi Nhận Hàng",
       "submit": "Đặt Hàng",
       "errorOrder": "Quay lại trang giỏ hàng !",
-      "tryAgain": "Quay lại"
+      "tryAgain": "Quay lại",
+      "paymentSuccessTitle": "Thanh toán thành công!",
+      "paymentSuccessDescription": "Thành công! Bạn sẽ được chuyển đến trang đơn hàng sau 3 giây."
     },
     "order": {
       "title": "Tóm Tắt Đơn Hàng",
