@@ -20,13 +20,18 @@ import { ICreateReview, IReview } from '@/interface/review'
 import { useReviewQuery } from '@/hooks/queries/useReviewQuery'
 import { useReviewMutation } from '@/hooks/mutations/useReviewMutation'
 import { useTranslate } from '@/hooks/useTranslate'
+import { useAuthContext } from '../../../../context/AuthContext'
 
 export default function Review({ data }: { data: any }) {
+  const { user } = useAuthContext()
   const { t } = useTranslate('productDetail')
-  const { data: reviewList = [], isLoading } = useReviewQuery()
+  const productId = data?.data?._id
+  console.log(productId)
+
+  const { data: reviewList = [], isLoading } = useReviewQuery(undefined, productId)
   const { mutate: addReview } = useReviewMutation('CREATE')
   const [newReview, setNewReview] = useState<ICreateReview>({
-    userId: '674ab0f3d27bc99cdedaebb1',
+    userId: user?._id,
     rating: 5,
     reviewText: ''
   })
@@ -47,11 +52,12 @@ export default function Review({ data }: { data: any }) {
     addReview({
       data: { ...newReview, productId: data?.data?._id },
       onSuccess: () => {
-        setNewReview({ userId: '674ab0f3d27bc99cdedaebb1', rating: 5, reviewText: '' })
+        setNewReview({ userId: user?._id, rating: 5, reviewText: '' })
       }
     } as { data: ICreateReview; onSuccess?: () => void })
 
     window.location.reload()
+    alert('Bạn đã gửi đánh giá thành công!')
   }
 
   const indexOfLastReview = currentPage * reviewsPerPage

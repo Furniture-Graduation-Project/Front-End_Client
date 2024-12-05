@@ -7,14 +7,10 @@ import { IProductItem, IVariant } from '@/interface/productItem'
 import { useProductItemsByProductId } from '@/hooks/queries/useProductItemQuery'
 import { useCartMutation } from '@/hooks/mutations/useCartMutation'
 import { useTranslate } from '@/hooks/useTranslate'
-import { useSingleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
-import { useSingleMaterialQuery } from '@/hooks/queries/useMaterialQuery'
 import { formatCurrency } from '@/utils/formatCurrency'
 
 const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
   const { t } = useTranslate('productDetail')
-  const { data: categoryData } = useSingleCategoryQuery(data?.data?.category)
-  const { data: materialData } = useSingleMaterialQuery(data?.data?.material)
   const { data: productItem, isLoading: productItemLoading } = useProductItemsByProductId(data?.data?._id)
   const { mutate } = useCartMutation('ADD')
   const [selectedVariant, setSelectedVariant] = useState<IProductItem | undefined>()
@@ -93,7 +89,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
         ) : (
           <>
             <span className='text-3xl font-bold'>{formatCurrency(price.toFixed(3))}</span>
-            <span className='text-xl text-muted-foreground line-through'>400.000 Vnd</span>{' '}
+            {/* <span className='text-xl text-muted-foreground line-through'>400.000 Vnd</span>{' '} */}
           </>
         )}
       </div>
@@ -192,9 +188,9 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
             <span className='text-[#6C7275]'>SKU</span>
             <span>{sku}</span>
             <span className='text-[#6C7275]'>{t('Category')}</span>
-            <span>{categoryData?.data?.data?.categoryName}</span>
+            <span>{data?.data?.category?.categoryName}</span>
             <span className='text-[#6C7275]'>{t('Material')}</span>
-            <span>{materialData?.data?.materialName}</span>
+            <span>{data?.data?.material?.materialName}</span>
           </div>
         )}
       </div>
