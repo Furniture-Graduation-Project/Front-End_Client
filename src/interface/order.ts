@@ -47,8 +47,10 @@ export interface IOrder {
   createdAt?: Date
 }
 export interface IItemReturnOrder {
+  productId: string
   productOptionId: string
   quantity: number
+  unitPrice: number
   status: string
 }
 export interface IPayment {
