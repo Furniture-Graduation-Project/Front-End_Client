@@ -37,3 +37,10 @@ export const useBlogDetailQuery = (id: string) => {
     enabled: !!id
   })
 }
+
+export const useBlogNewQuery = () => {
+  return useQuery<{ data: IBlog[] }>({
+    queryKey: ['blogs', 'new'],
+    queryFn: BlogService.getBlogNew
+  })
+}

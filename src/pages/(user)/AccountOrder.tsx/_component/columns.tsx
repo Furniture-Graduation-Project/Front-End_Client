@@ -22,9 +22,8 @@ export const columns: ColumnDef<IOrder>[] = [
     accessorKey: 'totalPrice',
     header: 'Tổng Giá Trị',
     cell: ({ row }) => {
-      const { language } = useLanguage()
       const price = row.getValue<number>('totalPrice')
-      return <h3>{formatCurrency(price, language)}</h3>
+      return <h3>{formatCurrency(price)}</h3>
     }
   },
   {

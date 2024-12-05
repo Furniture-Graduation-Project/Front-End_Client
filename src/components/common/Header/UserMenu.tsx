@@ -1,4 +1,5 @@
-import { CircleUserRound, Heart, KeyRound, LogIn, LogOut, ScanFace, User } from 'lucide-react'
+import AvatarAccount from '@/components/auth/AvatarAccount'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,9 +8,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { Link } from 'react-router-dom'
-import { useTranslate } from '@/hooks/useTranslate'
 import { useAuthContext } from '@/context/AuthContext'
+import { useTranslate } from '@/hooks/useTranslate'
+import { CircleUserRound, Heart, KeyRound, LogIn, LogOut, ScanFace, User } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const UserMenu = () => {
   const { t } = useTranslate()
@@ -17,9 +19,22 @@ const UserMenu = () => {
 
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger asChild>
-        <CircleUserRound className='hover:cursor-pointer' />
-      </DropdownMenuTrigger>
+      {user?.avatar && (
+        <>
+          <DropdownMenuTrigger asChild>
+            <Button variant={'null'} size={'icon'}>
+              <AvatarAccount src={user?.avatar || ''} className='w-7 h-7' />
+            </Button>
+          </DropdownMenuTrigger>
+        </>
+      )}
+      {!user?.avatar && (
+        <>
+          <DropdownMenuTrigger asChild>
+            <CircleUserRound className='w-7 h-7 cursor-pointer' />
+          </DropdownMenuTrigger>
+        </>
+      )}
       <DropdownMenuContent className='w-56'>
         {!user && (
           <DropdownMenuGroup>

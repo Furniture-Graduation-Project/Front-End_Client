@@ -9,6 +9,7 @@
       "title3": "Payment Method",
       "firstName": "First Name",
       "lastName": "Last Name",
+      "addressName": "Address Name",
       "phone": "Phone Number",
       "emailPlaceholder": "Your Email",
       "street": "Street Address",
@@ -20,7 +21,9 @@
       "paymentMethod2": "Pay on Delivery",
       "submit": "Place Order",
       "errorOrder": "Go back to cart",
-      "tryAgain": "Try again"
+      "tryAgain": "Try again",
+      "paymentSuccessTitle": "Payment successful!",
+      "paymentSuccessDescription": "Success! You will be redirected to the order page in 3 seconds."
     },
     "order": {
       "title": "Order Summary",

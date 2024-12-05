@@ -6,7 +6,7 @@ import BannerGrid from './_components/BannerGrid'
 import Newsletter from './_components/Newsletter'
 import Sale from './_components/Sale'
 import Values from './_components/Values'
-import AnimatedSection from '@/components/ui/AnimatedSection'
+import AnimatedSection from '@/components/site/AnimatedSection'
 import Collection from './_components/Collection'
 
 const fadeInUp = {
