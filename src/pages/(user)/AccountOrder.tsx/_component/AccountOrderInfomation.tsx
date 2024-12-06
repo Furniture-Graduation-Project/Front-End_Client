@@ -22,7 +22,7 @@ const AccountOrderInfomation = ({ order }: any) => {
               order.data.items.map((item: any, index: number) => (
                 <div key={index}>
                   <div className='flex justify-between w-full py-2'>
-                    <div className='flex'>
+                    <div className='flex gap-5'>
                       <img
                         src={item.productId?.images && item.productId.images.length > 0 ? item.productId.images[0] : ''}
                         alt={item.productId?.name}
