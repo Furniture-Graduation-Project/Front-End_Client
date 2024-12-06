@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 
 type ReviewMutation = 'CREATE' | 'UPDATE' | 'DELETE'
 
-export const useReviewMutation = (key: ReviewMutation) => {
+export const useReviewMutation = (key: ReviewMutation, refetch: () => void) => {
   const { mutate } = useMutation({
     mutationKey: ['Review'],
     mutationFn: async (params: { id?: string; data?: ICreateReview }) => {
@@ -22,6 +22,9 @@ export const useReviewMutation = (key: ReviewMutation) => {
         default:
           throw new Error('Invalid mutation key')
       }
+    },
+    onSuccess: () => {
+      refetch()
     }
   })
 

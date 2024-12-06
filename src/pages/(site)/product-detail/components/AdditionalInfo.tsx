@@ -3,12 +3,12 @@ import { IProductItem } from '@/interface/productItem'
 import { useEffect, useState } from 'react'
 
 const AdditionalInfo = ({ productId }: { productId: IProductItem }) => {
-  const { data, isLoading, isError, error } = useProductItemQueryById(productId._id) // Sử dụng productId._id
+  const { data, isLoading, isError, error } = useProductItemQueryById(productId)
   const [description, setDescription] = useState<string>('')
 
   useEffect(() => {
     if (data?.data) {
-      setDescription(data?.data.description || 'No description available') // Cập nhật để lấy description đúng
+      setDescription(data.data.productId.description || 'No description available')
     }
   }, [data])
 

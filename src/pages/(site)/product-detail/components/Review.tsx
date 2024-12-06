@@ -27,8 +27,8 @@ export default function Review({ data }: { data: any }) {
   const { t } = useTranslate('productDetail')
   const productId = data?.data?._id
   const [notification, setNotification] = useState<string | null>(null)
-  const { data: reviewList = [], isLoading } = useReviewQuery(undefined, productId)
-  const { mutate: addReview } = useReviewMutation('CREATE')
+  const { data: reviewList = [], isLoading, refetch } = useReviewQuery(undefined, productId)
+  const { mutate: addReview } = useReviewMutation('CREATE', refetch)
   const [newReview, setNewReview] = useState<ICreateReview>({
     userId: user?._id,
     rating: 5,
@@ -46,17 +46,18 @@ export default function Review({ data }: { data: any }) {
 
   const averageRating = calculateAverageRating(reviewList)
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
   const handleSubmitReview = (e: React.FormEvent) => {
     e.preventDefault()
     addReview({
       data: { ...newReview, productId: data?.data?._id },
       onSuccess: () => {
         setNewReview({ userId: user?._id, rating: 5, reviewText: '' })
-        setNotification('Bạn đã gửi đánh giá thành công!') // Cập nhật thông báo
+        setNotification('Bạn đã gửi đánh giá thành công!')
+        setIsDialogOpen(false) 
       }
     } as { data: ICreateReview; onSuccess?: () => void })
-
-    window.location.reload() // Có thể xem xét loại bỏ dòng này nếu không cần thiết
   }
 
   const sortedReviews = Array.isArray(reviewList)
@@ -148,9 +149,9 @@ export default function Review({ data }: { data: any }) {
                 </div>
 
                 {user ? (
-                  <Dialog>
+                  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogTrigger asChild>
-                      <Button>{t('Write Review')}</Button>
+                      <Button onClick={() => setIsDialogOpen(true)}>{t('Write Review')}</Button>
                     </DialogTrigger>
                     <DialogContent className='sm:max-w-[425px]'>
                       <DialogHeader>
@@ -191,7 +192,7 @@ export default function Review({ data }: { data: any }) {
                             className='col-span-3'
                           />
                         </div>
-                        <Button type='submit' className='ml-auto'>
+                        <Button onClick={() => setIsDialogOpen(false)} type='submit' className='ml-auto'>
                           {t('Submit Review')}
                         </Button>
                       </form>
@@ -224,7 +225,9 @@ export default function Review({ data }: { data: any }) {
                             ))}
                           </div>
                           <p className='text-sm text-muted-foreground'>
-                            {review.createdAt ? new Date(review.createdAt).toLocaleDateString() : 'Ngày không xác định'}
+                            {review.createdAt
+                              ? `${new Date(review.createdAt).toLocaleDateString('vi-VN', { weekday: 'long' })}, ${new Date(review.createdAt).getDate()} tháng ${new Date(review.createdAt).getMonth() + 1}, ${new Date(review.createdAt).getFullYear()}`
+                              : 'Ngày không xác định'}
                           </p>
                         </div>
                       </div>
