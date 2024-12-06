@@ -1,10 +1,22 @@
 import { Button } from '@/components/ui/button'
+import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { useLanguage } from '@/context/LanguageContext'
 import useOrderMutation from '@/hooks/mutations/useOrderMutation'
 import { useTranslate } from '@/hooks/useTranslate'
 import { getOrderStatus } from '@/utils/getOrderStatus'
-import { FileText, MoveRight, PackageCheck, Truck, XCircle, PackageSearch, FilePen, Boxes } from 'lucide-react'
+import {
+  FileText,
+  MoveRight,
+  PackageCheck,
+  Truck,
+  XCircle,
+  PackageSearch,
+  FilePen,
+  Boxes,
+  RotateCcw,
+  RefreshCcw
+} from 'lucide-react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +28,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IListStatusOrder } from '@/interface/order'
 import useSessionStorage from '@/hooks/useSessionStorage'
 import { useToast } from '@/hooks/use-toast'
@@ -29,7 +41,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
   const { t } = useTranslate('account.order.status')
   const { language } = useLanguage()
   const [steps, setSteps] = useState<IListStatusOrder[]>([])
-
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([])
   const getStepStyle = (stepId: string, currentStatus: string) => {
     if (currentStatus === 'cancelled' || currentStatus === 'returned' || currentStatus === 'refunded') {
       if (currentStatus == stepId) {
@@ -48,7 +60,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
       _id: order.data._id,
       status,
       statusHistory: [
-        ...order.statusHistory,
+        ...order.data.statusHistory,
         {
           status
         }
@@ -83,9 +95,9 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'shipped', icon: Boxes },
         { id: 'delivered', icon: Truck },
         { id: 'received', icon: PackageCheck },
-        { id: 'cancelled', icon: XCircle }
-        // { id: 'returned', icon: RotateCcw },
-        // { id: 'refunded', icon: RefreshCcw }
+        { id: 'cancelled', icon: XCircle },
+        { id: 'returned', icon: RotateCcw },
+        { id: 'refunded', icon: RefreshCcw }
       ])
     }
     if (order?.data?.payment?.paymentMethod == 'credit_card') {
@@ -97,10 +109,18 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'shipped', icon: Boxes },
         { id: 'delivered', icon: Truck },
         { id: 'received', icon: PackageCheck },
-        { id: 'cancelled', icon: XCircle }
-        // { id: 'returned', icon: RotateCcw },
-        // { id: 'refunded', icon: RefreshCcw }
+        { id: 'cancelled', icon: XCircle },
+        { id: 'returned', icon: RotateCcw },
+        { id: 'refunded', icon: RefreshCcw }
       ])
+    }
+    const currentStatus = order?.data?.status
+    const targetStepIndex = steps.findIndex((step) => step.id === currentStatus)
+
+    if (targetStepIndex !== -1 && stepRefs.current[targetStepIndex]) {
+      setTimeout(() => {
+        stepRefs.current[targetStepIndex]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 100)
     }
   }, [order])
 
@@ -110,13 +130,21 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         <h2 className='text-xl font-bold'>{t('order_status')}</h2>
       </CardHeader>
       <CardContent>
-        <div className='flex items-center gap-2 justify-between overflow-x-scroll max-w-full border-b pb-2'>
+        <motion.div
+          className='flex items-center gap-2 justify-between overflow-x-scroll max-w-full border-b pb-2'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           {steps.map((step, index) => {
             const Icon = step.icon
             const style = getStepStyle(step.id, order?.data.status)
             return (
               <div key={step.id} className='flex items-center gap-1'>
-                <div className={`flex items-center gap-4 border-2 rounded-md p-2 max-w-[250px] ${style}`}>
+                <div
+                  ref={(el) => (stepRefs.current[index] = el)}
+                  className={`flex items-center gap-4 border-2 rounded-md p-2 max-w-[250px] ${style}`}
+                >
                   <Icon />
                   <h2 className='text-md font-bold whitespace-nowrap'>{getOrderStatus(step.id, language)}</h2>
                 </div>
@@ -124,7 +152,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
               </div>
             )
           })}
-        </div>
+        </motion.div>
         <div className='flex flex-col gap-3 items-end p-3 bg-yellow/5'>
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -152,10 +180,19 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
               ['received', 'returned', 'refunded', 'processing', 'shipped'].includes(order?.data.status) ||
               order?.data.payment?.paymentStatus == 'unpaid'
             }
-            className={`${order?.data.status == 'confirmed' || order?.data.status == 'pending' || order?.data.status == 'cancelled' || order?.data.status == 'unpaid' ? 'hidden' : ''} rounded-sm`}
+            className={`${order?.data.status == 'delivered' && order?.data.payment?.paymentStatus == 'paid' ? '' : 'hidden'} rounded-sm`}
             variant={'outline'}
           >
             {t('received_order')}
+          </Button>
+          <Button
+            onClick={() => navigate('/account/order/request/' + order.data._id)}
+            className={`${order?.data.status == 'delivered' || order?.data.status == 'received' ? '' : 'hidden'} rounded-sm`}
+            variant={'outline'}
+          >
+            {order?.data.returnInfo && order?.data.returnInfo?.items.length
+              ? 'Xem yêu cầu hoàn trả'
+              : 'Trả hàng / Hoàn tiền'}
           </Button>
           <Button
             onClick={hanleRepurchase}

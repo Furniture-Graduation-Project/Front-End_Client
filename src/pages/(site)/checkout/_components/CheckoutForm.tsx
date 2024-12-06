@@ -147,7 +147,6 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
 
   return (
     <>
-      {' '}
       <Form {...form}>
         <form action='' onSubmit={form.handleSubmit(onSubmit)}>
           <div className='gap-y-6 flex flex-col'>

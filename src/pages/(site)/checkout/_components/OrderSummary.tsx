@@ -144,19 +144,19 @@ const OrderSummary = ({
                     <div className='flex justify-between py-6 px-3'>
                       <div className='flex gap-4'>
                         <img
-                          src='https://assets.weimgs.com/weimgs/rk/images/wcm/products/202420/0120/meyer-wooden-drink-tables-18-21-5-o.jpg'
-                          alt=''
+                          src={item.productOptionId.image}
+                          alt={item.productOptionId.sku}
                           className='w-24 h-28'
                         />
                         <div className='flex flex-col gap-y-2 justify-center'>
                           <h1 className='font-semibold text-[14px]'>{item.productId.name}</h1>
-                          <p className='text-[12px] text-[#6C7275]'>
+                          <div className='text-[12px] text-[#6C7275] flex flex-col gap-1'>
                             {item.productOptionId.variants.map((variant: any, id: number) => (
                               <span key={id}>
                                 {variant.variant}: {variant.value}
                               </span>
                             ))}
-                          </p>
+                          </div>
                           <div className='inline-flex'>
                             <p className='text-[12px]'>
                               {t('quantity')} :<span className='mx-3'>{item.quantity}</span>
