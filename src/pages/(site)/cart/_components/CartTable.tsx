@@ -31,10 +31,10 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
     if (cartData && cartData.data && cartData.data.carts) {
       setAmount(
         cartData.data.carts.reduce((acc: any, item: any) => {
-          if (item.productOptionId.stock - item.productOptionId.outStock > 0) {
+          if (item.productOptionId.stock - item.productOptionId.outStock > 0 && item.productId.status == 'available') {
             return acc + item.productOptionId.price * item.quantity
           }
-          return acc.toFixed(3)
+          return acc
         }, 0)
       )
     }
