@@ -3,12 +3,14 @@ import { IOrder, IOrderItem, IQRCodeData } from '@/interface/order'
 import { OrderService } from '@/services/order'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
+import { useToast } from '../use-toast'
 
 type MutationQueryProps = {
   action: 'CREATE' | 'UPDATE' | 'DELETE' | 'CHECK' | 'CREATE_QR' | 'PAYMENT'
 }
 
 const useOrderMutation = ({ action }: MutationQueryProps) => {
+  const { toast } = useToast()
   const query = useQueryClient()
   const mutationFn = async (
     data: any
@@ -54,6 +56,15 @@ const useOrderMutation = ({ action }: MutationQueryProps) => {
     mutationKey: ['ORDER'],
     mutationFn,
     onSuccess: () => {
+      query.invalidateQueries({ queryKey: ['ORDER'] })
+    },
+    onError: (error: any) => {
+      const message = error?.response?.data?.message || 'Có lỗi xảy ra khi cập nhật đơn hàng !'
+      toast({
+        title: 'Có lỗi xảy ra!',
+        description: message,
+        variant: 'destructive'
+      })
       query.invalidateQueries({ queryKey: ['ORDER'] })
     }
   })
