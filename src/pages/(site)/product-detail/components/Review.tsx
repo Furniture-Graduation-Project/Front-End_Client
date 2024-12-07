@@ -23,6 +23,7 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PaginationState } from '@tanstack/react-table'
 import { AvatarNull } from '@/assets'
+import { Link } from 'react-router-dom'
 
 const reviewSchema = z.object({
   reviewText: z.string().min(5, 'Nhận xết phải nhất 5 ký tự'),
@@ -114,6 +115,7 @@ const Review = ({ data }: any) => {
           </div>
           <div className='relative'>
             <Controller
+              disabled={!user}
               control={control}
               name='reviewText'
               render={({ field }) => (
@@ -125,12 +127,21 @@ const Review = ({ data }: any) => {
                 />
               )}
             />
-            <Button
-              className='absolute right-5 top-1/2 transform -translate-y-1/2 rounded-full button-s'
-              onClick={() => setOpen(true)}
-            >
-              {t('Write Review')}
-            </Button>
+
+            {user ? (
+              <Button
+                className='absolute right-5 top-1/2 transform -translate-y-1/2 rounded-full button-s'
+                onClick={() => setOpen(true)}
+              >
+                {t('Write Review')}
+              </Button>
+            ) : (
+              <Link to='/signin' className='absolute right-5 top-1/2 transform -translate-y-1/2 '>
+                <Button variant={'outline'} className='rounded-full button-s'>
+                  Đăng nhập để đánh giá
+                </Button>
+              </Link>
+            )}
           </div>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className='sm:max-w-[425px]'>
