@@ -1,18 +1,14 @@
 import { ReviewService } from '@/services/review'
 import { useQuery } from '@tanstack/react-query'
-
-export const useReviewQuery = (id?: string, productId?: string) => {
+import { PaginationState } from '@tanstack/react-table'
+export const useReviewQuery = (productId: string, pagination: PaginationState) => {
   const { data, isLoading, isError, error, ...rest } = useQuery({
-    queryKey: id ? ['Review', id] : productId ? ['Review', 'Product', productId] : ['Review'],
+    queryKey: ['Review'],
     queryFn: async () => {
-      if (id) {
-        return await ReviewService.getReviewById(id)
-      } else if (productId) {
-        return await ReviewService.getReviewsByProductId(productId)
-      } else {
-        return await ReviewService.getAllReviews()
-      }
-    }
+      const response = await ReviewService.getAll(productId, pagination)
+      return response.data
+    },
+    enabled: !!productId
   })
 
   return {

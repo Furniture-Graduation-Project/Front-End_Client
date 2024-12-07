@@ -13,8 +13,8 @@
     "Additional Info": "Thông tin bổ sung",
     "Reviews": "Đánh giá",
     "Customer Reviews": "Đánh giá của khách hàng",
-    "Write Review": "Viết đánh giá",
-    "Write a Review": "Viết đánh giá",
+    "Write Review": "Gửi đánh giá",
+    "Write a Review": "Gửi đánh giá",
     "Load more": "Xem thêm",
     "Inventory quantity": "Số lượng hàng tồn kho",
     "Average Rating": "Đánh giá",
@@ -24,6 +24,9 @@
     "Submit Review": "Gửi nhận xét",
     "Share your thoughts about the product. Your review will be visible to other customers.": "Chia sẻ ý kiến của bạn về sản phẩm. Nhận xét của bạn sẽ hiển thị với những khách hàng khác.",
     "Newest": "Mới nhất đến cũ nhất",
-    "Oldest": "Cũ nhất đến mới nhất"
+    "Oldest": "Cũ nhất đến mới nhất",
+    "buyNow": "Mua ngay",
+    "product_not_available": "Lỗi khi lấy sản phẩm",
+    "product_not_available_description": "Sản phẩm đã ngừng bán hoặc hết hàng."
   }
 }

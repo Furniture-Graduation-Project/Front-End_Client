@@ -12,6 +12,7 @@ import Auth from '@/assets/images/auth/auth.png'
 import ProductImage from '@/assets/images/3.png'
 import ArticlesImage from '@/assets/images/5.png'
 import NewsletterBanner from '@/assets/images/footer.png'
+import AvatarNull from '@/assets/images/auth/blank-profile-picture.png'
 export {
   LogoWhite,
   LogoBlack,
@@ -26,5 +27,6 @@ export {
   Auth,
   ProductImage,
   ArticlesImage,
-  NewsletterBanner
+  NewsletterBanner,
+  AvatarNull
 }

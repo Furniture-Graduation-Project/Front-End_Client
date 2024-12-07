@@ -24,6 +24,9 @@
     "Submit Review": "Submit Review",
     "Share your thoughts about the product. Your review will be visible to other customers.": "Share your thoughts about the product. Your review will be visible to other customers.",
     "Newest": "Newest",
-    "Oldest": "Oldest"
+    "Oldest": "Oldest",
+    "buyNow": "Buy Now",
+    "product_not_available": "Error when getting product",
+    "product_not_available_description": "This product is no longer available."
   }
 }
