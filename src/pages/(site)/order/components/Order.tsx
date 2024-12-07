@@ -87,7 +87,7 @@ const Order = () => {
         <div className='sm:hidden flex flex-col w-full px-3 gap-y-4'>
           <div className=''>
             <p className='font-semibold text-[#6C7275] text-[14px]'>{t('orderCode')}</p>
-            <p className='mt-2 font-semibold text-[14px] uppercase'>{data?.data._id}</p>
+            <p className='mt-2 font-semibold text-[14px] uppercase'>{data?.data.code}</p>
             <Separator className='mt-4' />
           </div>
           <div className=''>
@@ -124,7 +124,7 @@ const Order = () => {
             <p>{t('paymentMethod')}</p>
           </div>
           <div className='flex flex-col items-start gap-y-5 *:text-sm *:font-semibold'>
-            <p className='uppercase'>{data?.data._id}</p>
+            <p className='uppercase'>{data?.data.code}</p>
             <p>{data?.data.payment?.paymentDate && new Date(data.data.payment.paymentDate).toLocaleDateString()}</p>
             <p>
               {data?.data.totalPrice} <span>VND</span>

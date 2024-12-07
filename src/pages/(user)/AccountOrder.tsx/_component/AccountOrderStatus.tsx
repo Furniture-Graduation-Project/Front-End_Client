@@ -95,9 +95,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'shipped', icon: Boxes },
         { id: 'delivered', icon: Truck },
         { id: 'received', icon: PackageCheck },
-        { id: 'cancelled', icon: XCircle },
-        { id: 'returned', icon: RotateCcw },
-        { id: 'refunded', icon: RefreshCcw }
+        { id: 'cancelled', icon: XCircle }
       ])
     }
     if (order?.data?.payment?.paymentMethod == 'credit_card') {
@@ -109,21 +107,19 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'shipped', icon: Boxes },
         { id: 'delivered', icon: Truck },
         { id: 'received', icon: PackageCheck },
-        { id: 'cancelled', icon: XCircle },
-        { id: 'returned', icon: RotateCcw },
-        { id: 'refunded', icon: RefreshCcw }
+        { id: 'cancelled', icon: XCircle }
       ])
     }
+  }, [order])
+  useEffect(() => {
     const currentStatus = order?.data?.status
     const targetStepIndex = steps.findIndex((step) => step.id === currentStatus)
-
     if (targetStepIndex !== -1 && stepRefs.current[targetStepIndex]) {
       setTimeout(() => {
-        stepRefs.current[targetStepIndex]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        stepRefs.current[targetStepIndex]?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' })
       }, 100)
     }
-  }, [order])
-
+  }, [steps])
   return (
     <Card>
       <CardHeader>
@@ -177,7 +173,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
           <Button
             onClick={() => hanleChangeStatus('received')}
             disabled={
-              ['received', 'returned', 'refunded', 'processing', 'shipped'].includes(order?.data.status) ||
+              ['received', 'processing', 'shipped'].includes(order?.data.status) ||
               order?.data.payment?.paymentStatus == 'unpaid'
             }
             className={`${order?.data.status == 'delivered' && order?.data.payment?.paymentStatus == 'paid' ? '' : 'hidden'} rounded-sm`}

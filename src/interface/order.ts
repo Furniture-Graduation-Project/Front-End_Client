@@ -3,6 +3,7 @@ import { ForwardRefExoticComponent, RefAttributes } from 'react'
 
 export interface IOrder {
   _id?: string
+  code?: string
   userId: string
   orderName: string
   orderPhone: string
