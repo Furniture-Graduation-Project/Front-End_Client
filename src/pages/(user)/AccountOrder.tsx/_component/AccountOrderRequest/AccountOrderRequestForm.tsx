@@ -1,0 +1,189 @@
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { useLanguage } from '@/context/LanguageContext'
+import { useEffect, useState } from 'react'
+import { formatDate } from '@/utils/formatDate'
+import { useTranslate } from '@/hooks/useTranslate'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import useContactMutation from '@/hooks/mutations/useContactMutation'
+import useOrderMutation from '@/hooks/mutations/useOrderMutation'
+import { useToast } from '@/hooks/use-toast'
+import { z } from 'zod'
+import { IContact } from '@/interface/contact'
+import { useAuthContext } from '@/context/AuthContext'
+
+const returnRequestSchema = z.object({
+  selectedProducts: z
+    .array(
+      z.object({
+        productId: z.string(),
+        productOptionId: z.string(),
+        quantity: z.number().min(0, 'Quantity must be at least 0.'),
+        unitPrice: z.number().min(0, 'UnitPrice must be at least 0.')
+      })
+    )
+    .min(1, 'Select at least one product to return.'),
+  reason: z.string().min(10, 'Reason must be at least 10 characters long.')
+})
+
+type ReturnRequestForm = z.infer<typeof returnRequestSchema>
+const AccountOrderRequestForm = ({ data }: any) => {
+  const { user } = useAuthContext()
+  const { t } = useTranslate('account.order.request')
+  const { language } = useLanguage()
+  const [dayDelivery, setDayDelivery] = useState<number>(0)
+  const [date, setDate] = useState<Date | null>()
+  const { mutate: sendMail } = useContactMutation()
+  const { mutate } = useOrderMutation({ action: 'UPDATE' })
+  const { toast } = useToast()
+  const form = useForm<ReturnRequestForm>({
+    resolver: zodResolver(returnRequestSchema),
+    defaultValues: {
+      selectedProducts: [],
+      reason: ''
+    }
+  })
+
+  useEffect(() => {
+    if (data) {
+      if (data?.data?.items) {
+        form.reset({
+          selectedProducts: data.data.items.map((item: any) => ({
+            productId: item.productId?._id || '',
+            productOptionId: item.productOptionId?._id || '',
+            quantity: 0,
+            unitPrice: item.unitPrice
+          })),
+          reason: ''
+        })
+      }
+      const deliveredDateRaw = data?.data?.statusHistory?.find((item: any) => item.status === 'delivered')?.date
+      if (deliveredDateRaw) {
+        setDate(deliveredDateRaw)
+        const deliveredDate = new Date(deliveredDateRaw)
+        if (!isNaN(deliveredDate.getTime())) {
+          const today = new Date()
+          const timeDiff = today.getTime() - deliveredDate.getTime()
+          const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
+          setDayDelivery(dayDiff)
+        }
+      }
+    }
+  }, [data, form])
+
+  const onSubmit = (dataForm: ReturnRequestForm) => {
+    if (data?.data._id) {
+      const returnData = dataForm.selectedProducts.filter((item) => item.quantity > 0 && item.productOptionId)
+      mutate({
+        _id: data?.data._id,
+        returnInfo: {
+          reason: dataForm.reason,
+          items: returnData
+        }
+      })
+      const newContact: IContact = {
+        email: import.meta.env.VITE_EMAIL_NAME,
+        subject: 'Yêu cầu hoàn đơn hàng từ khách hàng : ' + user?.name,
+        text:
+          'Email khách hàng : ' +
+          user?.email +
+          '\n' +
+          'Số điên thoại khách hàng : ' +
+          user?.phone +
+          '\n' +
+          'Lý do hoàn đơn : ' +
+          dataForm.reason +
+          'Mã đơn hàng : ' +
+          data.data.code
+      }
+      sendMail(newContact)
+      toast({
+        title: 'Success',
+        description: 'Yêu cầu hoàn đơn hàng thành công'
+      })
+    }
+  }
+  return (
+    <>
+      <h1 className='text-2xl font-bold mb-6'>Tạo yêu cầu hoàn trả </h1>
+      <p className='mb-4'>Yêu cầu hoàn trả sẽ chỉ được thực hiện tối đa sau 7 ngày kể từ ngày giao hàng</p>
+      <p className='mb-4'>Ngày giao hàng: {date && formatDate(date, language)}</p>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className='space-y-4'>
+            {data?.data.items && data.data.items.length > 0 ? (
+              data.data.items.map((item: any, index: number) => (
+                <div key={index} className='flex items-center'>
+                  <img
+                    src={item.productOptionId?.image || ''}
+                    alt={item.productId?.name}
+                    className='w-24 h-24 object-cover'
+                  />
+                  <div className='ml-4'>
+                    <h3>Tên sản phẩm: {item.productId?.name}</h3>
+                    <div className='text-[12px] text-[#6C7275]'>
+                      {item.productOptionId?.variants &&
+                        item.productOptionId.variants.map((variant: any, id: number) => (
+                          <h4 className='whitespace-nowrap' key={id}>
+                            {variant.variant}: {variant.value}
+                          </h4>
+                        ))}
+                    </div>
+                    <p>Số lượng mua: {item.quantity}</p>
+                    <FormField
+                      name={`selectedProducts.${index}.quantity`}
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              min={0}
+                              max={item.quantity}
+                              type='number'
+                              {...field}
+                              value={field.value || 0}
+                              onChange={(e) => {
+                                field.onChange(Number(e.target.value))
+                              }}
+                              placeholder={t('Số lượng')}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>{t('emptyOrder')}</p>
+            )}
+          </div>
+
+          <FormField
+            name='reason'
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className='mt-4'>
+                <FormLabel>Reason for Return</FormLabel>
+                <FormControl>
+                  <Textarea placeholder='Enter your reason for returning these products...' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type='submit' className='mt-6 w-full' disabled={dayDelivery > 7}>
+            Submit Return Request
+          </Button>
+        </form>
+      </Form>
+    </>
+  )
+}
+
+export default AccountOrderRequestForm

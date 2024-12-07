@@ -60,14 +60,14 @@ const AccountOrderInfomation = ({ order }: any) => {
           <div className='grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] items-center'>
             <h3 className='text-lg font-bold'>{t('orderIdLabel')}:</h3>
             <h3 className='text-lg uppercase' id='idOrder'>
-              {order?.data._id}
+              {order?.data.code}
             </h3>
             <Button
               variant='outline'
               size='sm'
               className='w-fit'
               onClick={() => {
-                const orderId = order?.data._id || ''
+                const orderId = order?.data.code || ''
                 navigator.clipboard.writeText(orderId)
                 toast({
                   title: t('copySuccess'),

@@ -7,7 +7,7 @@ export const getOrderStatus = (status: string, language: string) => {
     case 'confirmed':
       return language === 'en' ? 'Confirmed' : 'Đã xác nhận'
     case 'processing':
-      return language === 'en' ? 'Processing' : 'Đang xử lý'
+      return language === 'en' ? 'Processing' : 'Chờ lấy hàng'
     case 'shipped':
       return language === 'en' ? 'Shipped' : 'Đã gửi hàng'
     case 'delivered':
@@ -16,10 +16,6 @@ export const getOrderStatus = (status: string, language: string) => {
       return language === 'en' ? 'Received' : 'Đã nhận hàng'
     case 'cancelled':
       return language === 'en' ? 'Cancelled' : 'Đã hủy'
-    case 'returned':
-      return language === 'en' ? 'Returned' : 'Đã hoàn trả'
-    case 'refunded':
-      return language === 'en' ? 'Refunded' : 'Đã hoàn tiền'
     default:
       return ''
   }

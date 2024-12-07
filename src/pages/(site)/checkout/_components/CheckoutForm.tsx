@@ -46,7 +46,14 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
   const { data, isLoading, isError } = useAllAddressQuery()
   const [isFinished, setIsFinished] = useState<boolean>(true)
-  const { mutate, isSuccess, isError: isErrorOrder, error, data: dataOrder } = useOrderMutation({ action: 'CREATE' })
+  const {
+    mutate,
+    isSuccess,
+    isError: isErrorOrder,
+    error,
+    data: dataOrder,
+    isPending
+  } = useOrderMutation({ action: 'CREATE' })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -371,7 +378,14 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
             </div>
             <Button
               disabled={
-                isLoading || isError || isLoadingCart || !user || stateErrorOrder || JSON.parse(dataCart).length === 0
+                dataOrder ||
+                isPending ||
+                isLoading ||
+                isError ||
+                isLoadingCart ||
+                !user ||
+                stateErrorOrder ||
+                JSON.parse(dataCart).length === 0
               }
               variant={'default'}
               className={`bg-black py-6`}

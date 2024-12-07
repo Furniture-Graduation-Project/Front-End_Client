@@ -14,8 +14,6 @@ import {
   PackageSearch,
   FilePen,
   Boxes,
-  RotateCcw,
-  RefreshCcw
 } from 'lucide-react'
 import {
   AlertDialog,
@@ -95,9 +93,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'shipped', icon: Boxes },
         { id: 'delivered', icon: Truck },
         { id: 'received', icon: PackageCheck },
-        { id: 'cancelled', icon: XCircle },
-        { id: 'returned', icon: RotateCcw },
-        { id: 'refunded', icon: RefreshCcw }
+        { id: 'cancelled', icon: XCircle }
       ])
     }
     if (order?.data?.payment?.paymentMethod == 'credit_card') {
@@ -109,21 +105,19 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
         { id: 'shipped', icon: Boxes },
         { id: 'delivered', icon: Truck },
         { id: 'received', icon: PackageCheck },
-        { id: 'cancelled', icon: XCircle },
-        { id: 'returned', icon: RotateCcw },
-        { id: 'refunded', icon: RefreshCcw }
+        { id: 'cancelled', icon: XCircle }
       ])
     }
+  }, [order])
+  useEffect(() => {
     const currentStatus = order?.data?.status
     const targetStepIndex = steps.findIndex((step) => step.id === currentStatus)
-
     if (targetStepIndex !== -1 && stepRefs.current[targetStepIndex]) {
       setTimeout(() => {
-        stepRefs.current[targetStepIndex]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        stepRefs.current[targetStepIndex]?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' })
       }, 100)
     }
-  }, [order])
-
+  }, [steps])
   return (
     <Card>
       <CardHeader>
@@ -177,10 +171,10 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
           <Button
             onClick={() => hanleChangeStatus('received')}
             disabled={
-              ['received', 'returned', 'refunded', 'processing', 'shipped'].includes(order?.data.status) ||
+              ['received', 'processing', 'shipped'].includes(order?.data.status) ||
               order?.data.payment?.paymentStatus == 'unpaid'
             }
-            className={`${order?.data.status == 'delivered' && order?.data.payment?.paymentStatus == 'paid' ? '' : 'hidden'} rounded-sm`}
+            className={`${order?.data.status == 'delivered' ? '' : 'hidden'} rounded-sm`}
             variant={'outline'}
           >
             {t('received_order')}
@@ -189,6 +183,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
             onClick={() => navigate('/account/order/request/' + order.data._id)}
             className={`${order?.data.status == 'delivered' || order?.data.status == 'received' ? '' : 'hidden'} rounded-sm`}
             variant={'outline'}
+            disabled={order?.data.payment?.paymentStatus == 'unpaid'}
           >
             {order?.data.returnInfo && order?.data.returnInfo?.items.length
               ? 'Xem yêu cầu hoàn trả'
@@ -196,7 +191,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
           </Button>
           <Button
             onClick={hanleRepurchase}
-            className={`${order?.data.status != 'cancelled' ? 'hidden' : ''} rounded-sm`}
+            className={`${order?.data.status != 'cancelled' && order?.data.status != 'received' ? 'hidden' : ''} rounded-sm`}
             variant={'outline'}
           >
             {t('repurchaseProduct')}
