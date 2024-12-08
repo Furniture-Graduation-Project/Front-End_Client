@@ -1,10 +1,11 @@
 import { ICreateReview } from '@/interface/review'
 import { ReviewService } from '@/services/review'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 type ReviewMutation = 'CREATE' | 'UPDATE' | 'DELETE'
 
-export const useReviewMutation = (key: ReviewMutation, refetch: () => void) => {
+export const useReviewMutation = (key: ReviewMutation) => {
+  const queryClient = useQueryClient()
   const { mutate } = useMutation({
     mutationKey: ['Review'],
     mutationFn: async (params: { id?: string; data?: ICreateReview }) => {
@@ -24,7 +25,7 @@ export const useReviewMutation = (key: ReviewMutation, refetch: () => void) => {
       }
     },
     onSuccess: () => {
-      refetch()
+      queryClient.invalidateQueries({ queryKey: ['Review'] })
     }
   })
 

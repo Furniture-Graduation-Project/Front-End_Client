@@ -28,7 +28,7 @@ export default function Review({ data }: { data: any }) {
   const productId = data?.data?._id
   const [notification, setNotification] = useState<string | null>(null)
   const { data: reviewList = [], isLoading, refetch } = useReviewQuery(undefined, productId)
-  const { mutate: addReview } = useReviewMutation('CREATE', refetch)
+  const { mutate: addReview } = useReviewMutation('CREATE')
   const [newReview, setNewReview] = useState<ICreateReview>({
     userId: user?._id,
     rating: 5,
@@ -51,11 +51,11 @@ export default function Review({ data }: { data: any }) {
   const handleSubmitReview = (e: React.FormEvent) => {
     e.preventDefault()
     addReview({
-      data: { ...newReview, productId: data?.data?._id },
+      data: { ...newReview, productId },
       onSuccess: () => {
         setNewReview({ userId: user?._id, rating: 5, reviewText: '' })
         setNotification('Bạn đã gửi đánh giá thành công!')
-        setIsDialogOpen(false) 
+        setIsDialogOpen(false)
       }
     } as { data: ICreateReview; onSuccess?: () => void })
   }
@@ -212,8 +212,8 @@ export default function Review({ data }: { data: any }) {
                     <div key={review.id} className='space-y-4'>
                       <div className='flex items-center gap-4'>
                         <Avatar>
-                          <AvatarImage src={review.userId.avatar} />
-                          <AvatarFallback>{review.userId.avatar}</AvatarFallback>
+                          <AvatarImage src={review.userId?.avatar} alt={review.userId?.name || 'User  Avatar'} />
+                          <AvatarFallback>{review.userId?.name ? review.userId.name.charAt(0) : '?'}</AvatarFallback>
                         </Avatar>
                         <div>
                           <h3 className='font-semibold'>{review.userId.name}</h3>
