@@ -5,7 +5,6 @@
     "Living Room": "Living Room",
     "Product": "Product",
     "NEW": "NEW",
-    "Review": "Review",
     "Add to Wishlist": "Add to Wishlist",
     "Add to Cart": "Add to Cart",
     "Category": "Category",
@@ -26,7 +25,21 @@
     "Newest": "Newest",
     "Oldest": "Oldest",
     "buyNow": "Buy Now",
-    "product_not_available": "Error when getting product",
-    "product_not_available_description": "This product is no longer available."
+    "product_not_available_description": "This product is no longer available.",
+    "please_login": "Please login",
+    "please_login_description": "You must be logged in to perform this action.",
+    "product_not_available": "Product is temporarily unavailable!",
+    "product_out_of_stock": "Product is out of stock!",
+    "fetch_product_error": "Error fetching product",
+    "product_unavailable_or_out_of_stock": "The product has been discontinued or is out of stock.",
+    "inventory_quantity": "Inventory quantity",
+    "add_to_wishlist": "Add to Wishlist",
+    "category": "Category",
+    "material": "Material",
+    "choose": "Choose",
+    "Màu sắc": "color",
+    "Mùi hương": "fragrance",
+    "Kích cỡ": "size",
+    "Phong cách": "style"
   }
 }

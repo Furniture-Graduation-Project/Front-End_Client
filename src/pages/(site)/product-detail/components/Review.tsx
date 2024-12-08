@@ -179,11 +179,23 @@ const Review = ({ data }: any) => {
                 <div key={review.id} className='space-y-4'>
                   <div className='grid grid-cols-[72px_1fr] gap-4'>
                     <Avatar className='h-16 w-16'>
-                      <AvatarImage alt='avatar' src={review.userId.avatar || AvatarNull} />
-                      <AvatarFallback>{review.userId.avatar}</AvatarFallback>
+                      {review.userId ? (
+                        <>
+                          <AvatarImage alt='avatar' src={review.userId.avatar || AvatarNull} />
+                          <AvatarFallback>{review.userId.avatar || 'N/A'}</AvatarFallback>
+                        </>
+                      ) : (
+                        <>
+                          <AvatarImage alt='avatar' src={AvatarNull} />
+                          <AvatarFallback>N/A</AvatarFallback>
+                        </>
+                      )}
                     </Avatar>
+
                     <div>
-                      <h3 className='text-neutral-7 body-1-semi mb-4'>{review.userId.name}</h3>
+                      <h3 className='text-neutral-7 body-1-semi mb-4'>
+                        {review.userId ? review.userId.name : 'Người dùng ấn danh'}
+                      </h3>
                       <div className='flex gap-1'>
                         {Array.from({ length: review.rating }).map((_, i) => (
                           <Star fill='#000000' key={i} size={16} />
