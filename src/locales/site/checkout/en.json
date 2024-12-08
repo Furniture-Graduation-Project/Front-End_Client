@@ -29,7 +29,9 @@
       "successDes": "Create address successfully!",
       "errorDes": "Create address failed!",
       "updateDes": "Update address successfully!",
-      "updateErrorDes": "Update address failed!"
+      "updateErrorDes": "Update address failed!",
+      "paymentSuccessTitle": "Payment successful!",
+      "paymentSuccessDescription": "Success! You will be redirected to the order page in 3 seconds."
     },
     "order": {
       "title": "Order Summary",

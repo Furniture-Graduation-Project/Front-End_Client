@@ -1,21 +1,26 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { ArrowRight, Heart, Minus, Plus, Star } from 'lucide-react'
+import { Heart, Minus, Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { IProductItem, IVariant } from '@/interface/productItem'
 import { useProductItemsByProductId } from '@/hooks/queries/useProductItemQuery'
 import { useCartMutation } from '@/hooks/mutations/useCartMutation'
 import { useTranslate } from '@/hooks/useTranslate'
-import { useSingleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
-import { useSingleMaterialQuery } from '@/hooks/queries/useMaterialQuery'
 import { formatCurrency } from '@/utils/formatCurrency'
+import useSessionStorage from '@/hooks/useSessionStorage'
+import { useToast } from '@/hooks/use-toast'
+import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '@/context/AuthContext'
+import ProductVariant from './ProductVariant'
 
-const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
+const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; refetch: () => void }) => {
   const { t } = useTranslate('productDetail')
-  const { data: categoryData } = useSingleCategoryQuery(data?.data?.category)
-  const { data: materialData } = useSingleMaterialQuery(data?.data?.material)
-  const { data: productItem, isLoading: productItemLoading } = useProductItemsByProductId(data?.data?._id)
+  const { toast } = useToast()
+  const { user } = useAuthContext()
+  const navigate = useNavigate()
+  const [state, setState] = useSessionStorage('stateOrder', null)
+  const { data: productItem, isLoading: productItemLoading } = useProductItemsByProductId(data?.data?._id || '')
   const { mutate } = useCartMutation('ADD')
   const [selectedVariant, setSelectedVariant] = useState<IProductItem | undefined>()
   const [price, setPrice] = useState<number>(0)
@@ -47,14 +52,71 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
   }
 
   const handleAddToCart = () => {
-    mutate({
-      data: {
-        productId: data.data._id,
-        productOptionId: selectedVariant?._id,
-        quantity: quantity,
-        unitPrice: price
+    if (!user) {
+      toast({
+        title: t('please_login'),
+        description: t('please_login_description'),
+        variant: 'default'
+      })
+      return
+    }
+    if (data.data.status == 'available') {
+      mutate({
+        data: {
+          productId: data.data._id,
+          productOptionId: selectedVariant?._id,
+          quantity,
+          unitPrice: price
+        }
+      })
+    } else {
+      toast({
+        title: t('product_not_available'),
+        description: t('product_not_available_description'),
+        variant: 'default'
+      })
+      refetch()
+      return
+    }
+  }
+  const handleBuyNow = () => {
+    if (!user) {
+      toast({
+        title: t('please_login'),
+        description: t('please_login_description'),
+        variant: 'default'
+      })
+      return
+    }
+    if (data.data.status == 'available' || !selectedVariant || data) {
+      const stateOrder = [
+        {
+          productId: data.data,
+          productOptionId: selectedVariant,
+          quantity,
+          unitPrice: price
+        }
+      ]
+      if (!stateOrder || stateOrder.length == 0) {
+        toast({
+          title: t('product_not_available') || 'Lỗi khi lấy sản phẩm',
+          description: t('product_not_available_description') || 'Sản phẩm đã ngừng bán hoặc hết hàng.',
+          variant: 'default'
+        })
+        refetch()
+        return
       }
-    })
+      setState(JSON.stringify(stateOrder))
+      navigate('/checkout')
+    } else {
+      toast({
+        title: t('product_not_available'),
+        description: t('product_not_available_description'),
+        variant: 'default'
+      })
+      refetch()
+      return
+    }
   }
 
   useEffect(() => {
@@ -67,7 +129,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
   }, [productItem])
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-8'>
       {isLoading ? (
         <div className='space-y-4'>
           <Skeleton className='h-5 w-20' />
@@ -79,7 +141,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
         <div className='space-y-2'>
           <div className='flex flex-col gap-y-4'>
             <h1 className='text-3xl font-bold'>{data?.data.name}</h1>
-            <p className='text-muted-foreground'>{data?.data.description}</p>
+            <p className='text-neutral-4'>{data?.data.description}</p>
           </div>
         </div>
       )}
@@ -92,7 +154,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
           </>
         ) : (
           <>
-            <span className='text-3xl font-bold'>{formatCurrency(price.toFixed(3))}</span>
+            <span className='text-3xl font-bold'>{formatCurrency(price)}</span>
           </>
         )}
       </div>
@@ -104,32 +166,15 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
           productItem &&
           productItem.data[0].variants.map((variant: IVariant, index: number) => {
             return (
-              <div key={variant._id}>
-                <h3 className='font-medium mb-2 flex items-center'>
-                  Chọn {variant.variant} <ArrowRight className='w-3 h-3 ml-1' />
-                </h3>
-                <div className='flex flex-wrap gap-4'>
-                  {getUniqueVariants(variant.variant).map((variantOption: IVariant) => {
-                    const item = productItem.data.find((item) =>
-                      item.variants.some((v) => v.variant === variantOption.variant && v.value === variantOption.value)
-                    )
-                    const isOutOfStock = item ? item.stock <= 0 : true
-                    return (
-                      <Button
-                        key={variantOption._id}
-                        variant={'outline'}
-                        onClick={() => !isOutOfStock && handleVariantSelect(variantOption)}
-                        className={`${
-                          variantOption.value === selectedVariant?.variants[index].value ? 'bg-black text-white' : ''
-                        } ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        disabled={isOutOfStock}
-                      >
-                        <span className='text-sm'>{variantOption.value}</span>
-                      </Button>
-                    )
-                  })}
-                </div>
-              </div>
+              <ProductVariant
+                key={variant._id}
+                variant={variant}
+                productItem={productItem}
+                handleVariantSelect={handleVariantSelect}
+                selectedVariant={selectedVariant}
+                getUniqueVariants={getUniqueVariants}
+                index={index}
+              />
             )
           })
         )}
@@ -138,7 +183,7 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
         ) : (
           <div>
             <p className='text-sm text-muted-foreground'>
-              {t('Inventory quantity')}: {stock}
+              {t('Inventory quantity')}: {stock - (selectedVariant?.outStock || 0)}
             </p>
           </div>
         )}
@@ -161,19 +206,29 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
               </div>
               <Button className='w-full border-black' variant='outline' size='lg'>
                 <Heart className='mr-2 h-4 w-4' />
-                {t('Add to Wishlist')}
+                <p className='hidden sm:inline'> {t('Add to Wishlist')}</p>
               </Button>
             </>
           )}
         </div>
-
         <div className='flex flex-col sm:flex-row gap-4'>
           {isLoading ? (
             <Skeleton className='h-12 w-full' />
-          ) : (
-            <Button onClick={handleAddToCart} className='flex-1 bg-black' size='lg'>
-              {t('Add to Cart')}
+          ) : data.data.status !== 'available' ? (
+            <Button disabled className='flex-1 bg-black'>
+              {t('product_not_available')}
             </Button>
+          ) : selectedVariant && selectedVariant.stock - selectedVariant.outStock > 0 ? (
+            <>
+              <Button onClick={handleAddToCart} className='flex-1 bg-black'>
+                {t('Add to Cart')}
+              </Button>
+              <Button onClick={handleBuyNow} className='flex-1 bg-black'>
+                {t('buyNow')}
+              </Button>
+            </>
+          ) : (
+            <Button className='flex-1'>{t('product_out_of_stock')}</Button>
           )}
         </div>
       </div>
@@ -191,9 +246,9 @@ const Product = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
             <span className='text-[#6C7275]'>SKU</span>
             <span>{sku}</span>
             <span className='text-[#6C7275]'>{t('Category')}</span>
-            <span>{categoryData?.data?.data?.categoryName}</span>
+            <span>{data?.data?.category?.categoryName}</span>
             <span className='text-[#6C7275]'>{t('Material')}</span>
-            <span>{materialData?.data?.materialName}</span>
+            <span>{data?.data?.material?.materialName}</span>
           </div>
         )}
       </div>

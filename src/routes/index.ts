@@ -18,6 +18,7 @@ import ProductList from '@/pages/(site)/product-list/ProductList'
 import ShopPage from '@/pages/(site)/shop/ShopPage'
 import AccountOrderDetail from '@/pages/(user)/AccountOrder.tsx/_component/AccountOrderDetail'
 import AccountOrderList from '@/pages/(user)/AccountOrder.tsx/_component/AccountOrderList'
+import AccountOrderRequest from '@/pages/(user)/AccountOrder.tsx/_component/AccountOrderRequest/AccountOrderRequest'
 import AccountOrder from '@/pages/(user)/AccountOrder.tsx/AccountOrder'
 import AccountPage from '@/pages/(user)/AccountPage'
 import AccountSetting from '@/pages/(user)/AccountSetting/AccountSetting'
@@ -59,7 +60,8 @@ const routes: IRoute[] = [
           {
             path: ':id',
             component: AccountOrderDetail
-          }
+          },
+          { path: 'request/:id', component: AccountOrderRequest }
         ]
       },
       { path: 'wishlist', component: AccountWishlist },

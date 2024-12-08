@@ -22,7 +22,7 @@ const AccountOrderInfomation = ({ order }: any) => {
               order.data.items.map((item: any, index: number) => (
                 <div key={index}>
                   <div className='flex justify-between w-full py-2'>
-                    <div className='flex'>
+                    <div className='flex gap-5'>
                       <img
                         src={item.productId?.images && item.productId.images.length > 0 ? item.productId.images[0] : ''}
                         alt={item.productId?.name}
@@ -60,14 +60,14 @@ const AccountOrderInfomation = ({ order }: any) => {
           <div className='grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] items-center'>
             <h3 className='text-lg font-bold'>{t('orderIdLabel')}:</h3>
             <h3 className='text-lg uppercase' id='idOrder'>
-              {order?.data._id}
+              {order?.data.code}
             </h3>
             <Button
               variant='outline'
               size='sm'
               className='w-fit'
               onClick={() => {
-                const orderId = order?.data._id || ''
+                const orderId = order?.data.code || ''
                 navigator.clipboard.writeText(orderId)
                 toast({
                   title: t('copySuccess'),

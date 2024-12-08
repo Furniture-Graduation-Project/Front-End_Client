@@ -3,6 +3,7 @@ import { ForwardRefExoticComponent, RefAttributes } from 'react'
 
 export interface IOrder {
   _id?: string
+  code?: string
   userId: string
   orderName: string
   orderPhone: string
@@ -37,8 +38,21 @@ export interface IOrder {
       | 'refunded'
     date?: Date
   }[]
+  returnInfo?: {
+    reason: string
+    items: IItemReturnOrder[]
+    dateRequested: Date
+    dateResolved: Date
+  }
   updatedAt?: Date
   createdAt?: Date
+}
+export interface IItemReturnOrder {
+  productId: string
+  productOptionId: string
+  quantity: number
+  unitPrice: number
+  status: string
 }
 export interface IPayment {
   paymentMethod: 'credit_card' | 'cash_on_delivery'

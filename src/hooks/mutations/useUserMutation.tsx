@@ -46,7 +46,6 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
           variant: 'success'
         })
         logout()
-        navigate('/')
         break
 
       case 'UPDATE':

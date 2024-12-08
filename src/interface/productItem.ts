@@ -5,6 +5,7 @@ export interface IProductItem {
   productId: IProduct
   variants: IVariant[]
   stock: number
+  outStock: number
   price: number
   SKU: string
   image?: string

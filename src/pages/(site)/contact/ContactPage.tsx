@@ -6,7 +6,7 @@ import FeatureSection from './_components/FeatureSection'
 import ContactSection from './_components/ContactSection'
 import FormContact from './_components/FormContact'
 import Values from '../home/_components/Values'
-import AnimatedSection from '@/components/ui/AnimatedSection'
+import AnimatedSection from '@/components/site/AnimatedSection'
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },

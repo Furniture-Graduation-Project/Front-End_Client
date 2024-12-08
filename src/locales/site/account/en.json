@@ -37,7 +37,9 @@
         "continue": "Continue",
         "payment": "Payment",
         "unpaid": "Unpaid",
-        "paymentDescription": "The order needs to be paid before it can be processed."
+        "paymentDescription": "The order needs to be paid before it can be processed.",
+        "pleaseAddProduct": "Please add products.",
+        "orderMustHaveProduct": "The cart must contain more than one product."
       },
       "address": {
         "addAddress": "Add Address",

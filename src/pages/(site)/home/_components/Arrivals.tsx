@@ -41,7 +41,7 @@ export function CarouselSize() {
       <Carousel opts={{ align: 'start' }} className='w-full'>
         <CarouselContent className='-ml-[30px]'>
           {sortedProducts?.map((product) => (
-            <CarouselItem key={product._id} className='basis-1 md:basis-1/2 lg:basis-1/4 pl-[30px]'>
+            <CarouselItem key={product._id} className='basis-1/1 md:basis-1/2 lg:basis-1/4 pl-[30px]'>
               <ProductCard product={product} />
             </CarouselItem>
           ))}

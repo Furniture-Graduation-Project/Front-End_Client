@@ -8,15 +8,15 @@ import { useParams } from 'react-router-dom'
 
 const ProductDetail = () => {
   const { id } = useParams()
-  const { data, isLoading } = useSingleProductQuery(id || '')
+  const { data, isLoading, refetch } = useSingleProductQuery(id || '')
 
   return (
     <Container className='xl:px-0 px-8 pb-24'>
       <div className='py-8'>
         <LinkGroup />
-        <div className='grid md:grid-cols-2 gap-16'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-16 box-border overflow-hidden'>
           <Carousel data={data} isLoading={isLoading} />
-          <Product data={data} isLoading={isLoading} />
+          <Product data={data} isLoading={isLoading} refetch={refetch} />
         </div>
       </div>
       <Review data={data} />

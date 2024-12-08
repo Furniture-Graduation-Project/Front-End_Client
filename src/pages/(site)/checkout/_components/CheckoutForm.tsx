@@ -49,7 +49,14 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
   const { data, isLoading, isError } = useAllAddressQuery()
   const [isFinished, setIsFinished] = useState<boolean>(true)
-  const { mutate, isSuccess, isError: isErrorOrder, error, data: dataOrder } = useOrderMutation({ action: 'CREATE' })
+  const {
+    mutate,
+    isSuccess,
+    isError: isErrorOrder,
+    error,
+    data: dataOrder,
+    isPending
+  } = useOrderMutation({ action: 'CREATE' })
   const { data: locations } = useAddressQuery(user?._id || '')
 
   const defaultLocation = locations && locations?.locations?.find((location: IAddress) => location.default)
@@ -167,10 +174,11 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   useEffect(() => {
     if (success) {
       toast({
-        title: 'Thanh toan thanh cong !',
-        description: 'Thanh cong ban se duoc di chuyen den trang order sau 3s',
+        title: t('paymentSuccessTitle'),
+        description: t('paymentSuccessDescription'),
         variant: 'default'
       })
+
       setTimeout(() => navigate('/order/' + orderState._id), 3000)
     }
   }, [success])
@@ -185,7 +193,6 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
 
   return (
     <>
-      {' '}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className='gap-y-6 flex flex-col'>
@@ -236,30 +243,43 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
                         <FormControl>
                           <Input type='text' {...field} placeholder={t('phone')} />
                         </FormControl>
+                        <Select>
+                          <SelectContent>
+                            {currentDistrict && currentDistrict.length > 0 ? (
+                              currentDistrict.map((item: IDistrict) => (
+                                <SelectItem key={item.codename} value={item.name}>
+                                  {item.name}
+                                </SelectItem>
+                              ))
+                            ) : (
+                              <SelectItem key='-1' value='-1'>
+                                #####
+                              </SelectItem>
+                            )}
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
                   ></FormField>
-                </div>
-                <div className='px-6 py-10 border border-black rounded-md flex flex-col gap-y-6'>
-                  <h1 className='font-medium text-xl'>{t('title2')}</h1>
-
                   <FormField
                     control={form.control}
-                    name='country'
+                    name='ward'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('country')}</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue className='placeholder-gray-400' placeholder='Country' />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value='Việt Nam'>Việt Nam</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('ward')}</FormLabel>
+                        <FormControl>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue className='placeholder-gray-400' placeholder='Country' />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value='Việt Nam'>Việt Nam</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -424,7 +444,14 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
             </div>
             <Button
               disabled={
-                isLoading || isError || isLoadingCart || !user || stateErrorOrder || JSON.parse(dataCart).length === 0
+                dataOrder ||
+                isPending ||
+                isLoading ||
+                isError ||
+                isLoadingCart ||
+                !user ||
+                stateErrorOrder ||
+                JSON.parse(dataCart).length === 0
               }
               variant={'default'}
               className={`bg-black py-6`}

@@ -26,6 +26,9 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
   const { mutate: removeFromWishlist } = useWishlistMutation({ action: 'REMOVE' })
   const { data: wishlist } = useWishlistQuery(user?._id || '')
 
+  const minPrice = product?.prices ? Math.min(...product.prices) : null
+  const maxPrice = product?.prices ? Math.max(...product.prices) : null
+
   const isProductNew =
     product?.createdAt && new Date(product.createdAt).getTime() >= Date.now() - 7 * 24 * 60 * 60 * 1000
 
@@ -118,8 +121,8 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
 
       {/* Product Info Section */}
       <div className='my-3'>
-        <h1 className='body-2-semi'>{product?.name}</h1>
-        {product?.prices?.length ? (
+        <h1 className='body-2-semi'>{product.name}</h1>
+        {minPrice !== null && maxPrice !== null ? (
           <div className='flex'>
             <p className='mr-3 caption-1-semi'>{formatCurrency(Math.min(...product.prices))}</p>
             {Math.min(...product.prices) !== Math.max(...product.prices) && (
@@ -127,7 +130,7 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
             )}
           </div>
         ) : (
-          <p>Chưa có biến thể, vui lòng tạo mới</p>
+          <p>##########</p>
         )}
       </div>
     </div>

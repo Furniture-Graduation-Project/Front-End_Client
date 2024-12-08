@@ -29,7 +29,9 @@
       "successDes": "Tạo địa chỉ thành công!",
       "errorDes": "Tạo địa chỉ thất bại!",
       "updateDes": "Cập nhật địa chỉ thành công!",
-      "updateErrorDes": "Cập nhật địa chỉ thất bại!"
+      "updateErrorDes": "Cập nhật địa chỉ thất bại!",
+      "paymentSuccessTitle": "Thanh toán thành công!",
+      "paymentSuccessDescription": "Thành công! Bạn sẽ được chuyển đến trang đơn hàng sau 3 giây."
     },
     "order": {
       "title": "Tóm Tắt Đơn Hàng",
