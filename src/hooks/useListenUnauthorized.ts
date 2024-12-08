@@ -29,7 +29,7 @@ const useListenUnauthorized = () => {
     }
   }, [navigate, mutate])
 
-  return { isDialogOpen, setIsDialogOpen, handleDialogClose }
+  return { isDialogOpen, handleDialogClose }
 }
 
 export default useListenUnauthorized
