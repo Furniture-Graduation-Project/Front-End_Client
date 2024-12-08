@@ -39,7 +39,14 @@
     "choose": "Chọn",
     "Màu sắc": "màu sắc",
     "Mùi hương": "mùi hương",
-    "Kích cỡ": "kich thước",
-    "Phong cách": "phong cách"
+    "Kích cỡ": "kích thước",
+    "Phong cách": "phong cách",
+    "reviewMustBeAtLeast5CharactersLong": "Nhận xét phải có ít nhất 5 ký tự",
+    "ratingMustBeBetween1And5": "Đánh giá phải nằm trong khoảng từ 1 đến 5",
+    "productReview": "Đánh giá sản phẩm",
+    "pleaseEnterYourReviewForTheProduct": "Vui lòng nhập đánh giá cho sản phẩm để chúng tôi biết được mức độ hài lòng của bạn",
+    "loginToWriteAReview": "Đăng nhập để đánh giá",
+    "anonymousUser": "Người dùng ẩn danh",
+    "writeYourReview": "Nhập đánh giá của bạn ở đây"
   }
 }

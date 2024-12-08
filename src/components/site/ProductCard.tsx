@@ -2,7 +2,7 @@ import IconButton from '@/components/ui/icon-button'
 import { useTranslate } from '@/hooks/useTranslate'
 import { cn } from '@/utils/classUtils'
 import { formatCurrency } from '@/utils/formatCurrency'
-import { Eye, Heart, ShoppingCart, Star, StarHalf } from 'lucide-react'
+import { Eye, Heart, ShoppingCart } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 interface ProductCardProps {
@@ -41,11 +41,6 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
             {t('new')}
           </div>
         )}
-
-        <div className='absolute top-14 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-green text-white'>
-          -50%
-        </div>
-
         <IconButton
           className='absolute top-5 right-5 p-[6px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 hover:bg-red hover:text-white'
           onClick={() => {}}
@@ -66,18 +61,6 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
       </div>
 
       <div className='my-3'>
-        {/* <div className='star-rating relative'>
-          <div className='stars flex *:h-5 *:w-5'>
-            {Array.from({ length: 5 }, (_, i) => (
-              <Star key={i} />
-            ))}
-          </div>
-          <div className='stars rating absolute top-0 flex *:h-5 *:w-5'>
-            <Star fill='black' strokeWidth={0} />
-            <Star fill='black' strokeWidth={0} />
-            <StarHalf fill='black' strokeWidth={0} />
-          </div>
-        </div> */}
         <h1 className='body-2-semi'>{product.name}</h1>
         {minPrice !== null && maxPrice !== null ? (
           <div className='flex'>
@@ -87,7 +70,7 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
             )}
           </div>
         ) : (
-          <p>Chưa có biến thể, vui lòng tạo mới</p>
+          <p>##########</p>
         )}
       </div>
     </div>

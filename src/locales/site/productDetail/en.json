@@ -40,6 +40,13 @@
     "Màu sắc": "color",
     "Mùi hương": "fragrance",
     "Kích cỡ": "size",
-    "Phong cách": "style"
+    "Phong cách": "style",
+    "reviewMustBeAtLeast5CharactersLong": "Review must be at least 5 characters long",
+    "ratingMustBeBetween1And5": "Rating must be between 1 and 5",
+    "productReview": "Product Review",
+    "pleaseEnterYourReviewForTheProduct": "Please enter your review for the product so we can know your satisfaction level",
+    "loginToWriteAReview": "Login to write a review",
+    "anonymousUser": "Anonymous User",
+    "writeYourReview": "Write your review here"
   }
 }

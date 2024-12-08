@@ -183,7 +183,7 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
         ) : (
           <div>
             <p className='text-sm text-muted-foreground'>
-              {t('Inventory quantity')}: {stock}
+              {t('Inventory quantity')}: {stock - (selectedVariant?.outStock || 0)}
             </p>
           </div>
         )}
@@ -206,7 +206,7 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
               </div>
               <Button className='w-full border-black' variant='outline' size='lg'>
                 <Heart className='mr-2 h-4 w-4' />
-                {t('Add to Wishlist')}
+                <p className='hidden sm:inline'> {t('Add to Wishlist')}</p>
               </Button>
             </>
           )}
