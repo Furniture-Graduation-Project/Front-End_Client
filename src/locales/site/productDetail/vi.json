@@ -5,7 +5,6 @@
     "Living Room": "Phòng khách",
     "Product": "Sản phẩm",
     "NEW": "MỚI",
-    "Review": "Đánh giá",
     "Add to Wishlist": "Thêm vào danh sách yêu thích",
     "Add to Cart": "Thêm vào giỏ hàng",
     "Category": "Danh mục",
@@ -26,7 +25,21 @@
     "Newest": "Mới nhất đến cũ nhất",
     "Oldest": "Cũ nhất đến mới nhất",
     "buyNow": "Mua ngay",
-    "product_not_available": "Lỗi khi lấy sản phẩm",
-    "product_not_available_description": "Sản phẩm đã ngừng bán hoặc hết hàng."
+    "product_not_available_description": "Sản phẩm đã ngừng bán hoặc hết hàng.",
+    "please_login": "Vui lòng đăng nhập",
+    "please_login_description": "Bạn phải đăng nhập để thực hiện hành động này",
+    "product_not_available": "Sản phẩm tạm thời ngừng bán!",
+    "product_out_of_stock": "Sản phẩm đã hết hàng!",
+    "fetch_product_error": "Lỗi khi lấy sản phẩm",
+    "product_unavailable_or_out_of_stock": "Sản phẩm đã ngừng bán hoặc hết hàng.",
+    "inventory_quantity": "Số lượng tồn kho",
+    "add_to_wishlist": "Thêm vào danh sách yêu thích",
+    "category": "Danh mục",
+    "material": "Chất liệu",
+    "choose": "Chọn",
+    "Màu sắc": "màu sắc",
+    "Mùi hương": "mùi hương",
+    "Kích cỡ": "kich thước",
+    "Phong cách": "phong cách"
   }
 }

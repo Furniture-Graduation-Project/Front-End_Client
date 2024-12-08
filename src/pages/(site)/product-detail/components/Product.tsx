@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { ArrowRight, Heart, Minus, Plus } from 'lucide-react'
+import { Heart, Minus, Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { IProductItem, IVariant } from '@/interface/productItem'
@@ -11,13 +11,16 @@ import { formatCurrency } from '@/utils/formatCurrency'
 import useSessionStorage from '@/hooks/useSessionStorage'
 import { useToast } from '@/hooks/use-toast'
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '@/context/AuthContext'
+import ProductVariant from './ProductVariant'
 
 const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; refetch: () => void }) => {
   const { t } = useTranslate('productDetail')
   const { toast } = useToast()
+  const { user } = useAuthContext()
   const navigate = useNavigate()
   const [state, setState] = useSessionStorage('stateOrder', null)
-  const { data: productItem, isLoading: productItemLoading } = useProductItemsByProductId(data?.data?._id)
+  const { data: productItem, isLoading: productItemLoading } = useProductItemsByProductId(data?.data?._id || '')
   const { mutate } = useCartMutation('ADD')
   const [selectedVariant, setSelectedVariant] = useState<IProductItem | undefined>()
   const [price, setPrice] = useState<number>(0)
@@ -49,6 +52,14 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
   }
 
   const handleAddToCart = () => {
+    if (!user) {
+      toast({
+        title: t('please_login'),
+        description: t('please_login_description'),
+        variant: 'default'
+      })
+      return
+    }
     if (data.data.status == 'available') {
       mutate({
         data: {
@@ -69,6 +80,14 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
     }
   }
   const handleBuyNow = () => {
+    if (!user) {
+      toast({
+        title: t('please_login'),
+        description: t('please_login_description'),
+        variant: 'default'
+      })
+      return
+    }
     if (data.data.status == 'available' || !selectedVariant || data) {
       const stateOrder = [
         {
@@ -147,32 +166,15 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
           productItem &&
           productItem.data[0].variants.map((variant: IVariant, index: number) => {
             return (
-              <div key={variant._id}>
-                <h3 className='font-medium mb-2 flex items-center gap-1'>
-                  Chọn <span className='lowercase'> {variant.variant}</span> <ArrowRight className='w-3 h-3 ml-1' />
-                </h3>
-                <div className='flex flex-wrap gap-4'>
-                  {getUniqueVariants(variant.variant).map((variantOption: IVariant) => {
-                    const item = productItem.data.find((item) =>
-                      item.variants.some((v) => v.variant === variantOption.variant && v.value === variantOption.value)
-                    )
-                    const isOutOfStock = item ? item.stock <= 0 : true
-                    return (
-                      <Button
-                        key={variantOption._id}
-                        variant={'outline'}
-                        onClick={() => !isOutOfStock && handleVariantSelect(variantOption)}
-                        className={`${
-                          variantOption.value === selectedVariant?.variants[index].value ? 'bg-black text-white' : ''
-                        } ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        disabled={isOutOfStock}
-                      >
-                        <span className='text-sm'>{variantOption.value}</span>
-                      </Button>
-                    )
-                  })}
-                </div>
-              </div>
+              <ProductVariant
+                key={variant._id}
+                variant={variant}
+                productItem={productItem}
+                handleVariantSelect={handleVariantSelect}
+                selectedVariant={selectedVariant}
+                getUniqueVariants={getUniqueVariants}
+                index={index}
+              />
             )
           })
         )}
@@ -209,11 +211,14 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
             </>
           )}
         </div>
-
         <div className='flex flex-col sm:flex-row gap-4'>
           {isLoading ? (
             <Skeleton className='h-12 w-full' />
-          ) : (
+          ) : data.data.status !== 'available' ? (
+            <Button disabled className='flex-1 bg-black'>
+              {t('product_not_available')}
+            </Button>
+          ) : selectedVariant && selectedVariant.stock - selectedVariant.outStock > 0 ? (
             <>
               <Button onClick={handleAddToCart} className='flex-1 bg-black'>
                 {t('Add to Cart')}
@@ -222,6 +227,8 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
                 {t('buyNow')}
               </Button>
             </>
+          ) : (
+            <Button className='flex-1'>{t('product_out_of_stock')}</Button>
           )}
         </div>
       </div>
