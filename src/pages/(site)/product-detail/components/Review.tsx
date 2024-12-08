@@ -17,20 +17,13 @@ import { useReviewMutation } from '@/hooks/mutations/useReviewMutation'
 import { useTranslate } from '@/hooks/useTranslate'
 import { useAuthContext } from '@/context/AuthContext'
 import { Input } from '@/components/ui/input'
-import { Star } from 'lucide-react'
+import { ArrowRight, Star } from 'lucide-react'
 import { useForm, Controller } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PaginationState } from '@tanstack/react-table'
 import { AvatarNull } from '@/assets'
 import { Link } from 'react-router-dom'
-
-const reviewSchema = z.object({
-  reviewText: z.string().min(5, 'Nhận xết phải nhất 5 ký tự'),
-  rating: z.number().min(1).max(5, 'Nhận xết phải theo mức độ 1-5')
-})
-
-type ReviewFormData = z.infer<typeof reviewSchema>
 
 const Review = ({ data }: any) => {
   const { t } = useTranslate('productDetail')
@@ -41,8 +34,13 @@ const Review = ({ data }: any) => {
   })
   const { data: reviewList, isLoading, isError, refetch } = useReviewQuery(data?.data?._id || '', pagination)
   const { mutate } = useReviewMutation()
-  const [averageRating, setAverageRating] = useState<string>('')
+  const [averageRating, setAverageRating] = useState<string>('5')
+  const reviewSchema = z.object({
+    reviewText: z.string().min(5, t('reviewMustBeAtLeast5CharactersLong')),
+    rating: z.number().min(1).max(5, t('ratingMustBeBetween1And5'))
+  })
 
+  type ReviewFormData = z.infer<typeof reviewSchema>
   const { control, handleSubmit, reset } = useForm<ReviewFormData>({
     resolver: zodResolver(reviewSchema),
     defaultValues: {
@@ -68,6 +66,7 @@ const Review = ({ data }: any) => {
   }
 
   useEffect(() => {
+    setAverageRating('5')
     if (reviewList?.data) {
       const totalRating = reviewList?.data.reduce((sum, review) => sum + review.rating, 0)
       const averageRating = (totalRating / reviewList?.data.length).toFixed(1)
@@ -123,7 +122,7 @@ const Review = ({ data }: any) => {
                   {...field}
                   className='p-9 border border-neutral-7'
                   autoComplete='off'
-                  placeholder={t('Write your review here')}
+                  placeholder={t('writeYourReview')}
                 />
               )}
             />
@@ -133,12 +132,13 @@ const Review = ({ data }: any) => {
                 className='absolute right-5 top-1/2 transform -translate-y-1/2 rounded-full button-s'
                 onClick={() => setOpen(true)}
               >
-                {t('Write Review')}
+                <span className='hidden sm:block'>{t('Write Review')}</span>
+                <ArrowRight className='block sm:hidden' />
               </Button>
             ) : (
               <Link to='/signin' className='absolute right-5 top-1/2 transform -translate-y-1/2 '>
                 <Button variant={'outline'} className='rounded-full button-s'>
-                  Đăng nhập để đánh giá
+                  {t('loginToWriteAReview')}
                 </Button>
               </Link>
             )}
@@ -146,10 +146,8 @@ const Review = ({ data }: any) => {
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className='sm:max-w-[425px]'>
               <DialogHeader>
-                <DialogTitle>Đánh giá sản phẩm</DialogTitle>
-                <DialogDescription>
-                  Vui lòng nhập đánh giá cho sản phẩm để chúng tôi biết được mức độ hài lòng của bạn
-                </DialogDescription>
+                <DialogTitle>{t('productReview')}</DialogTitle>
+                <DialogDescription>{t('pleaseEnterYourReviewForTheProduct')}</DialogDescription>
               </DialogHeader>
               <DialogFooter className='flex justify-between'>
                 <div className='flex items-center gap-2 mr-10'>
@@ -167,6 +165,9 @@ const Review = ({ data }: any) => {
               </DialogFooter>
             </DialogContent>
           </Dialog>
+          <h2 className='headline-6'>
+            {reviewList?.totalData ? reviewList?.totalData : 0} {t('Reviews')}
+          </h2>
           <div className='space-y-8'>
             {isLoading ? (
               <p>{t('Loading reviews...')}</p>
@@ -176,7 +177,7 @@ const Review = ({ data }: any) => {
               reviewList?.data &&
               reviewList?.data.length > 0 &&
               reviewList?.data.map((review: IReview) => (
-                <div key={review.id} className='space-y-4'>
+                <div key={review.id} className='space-y-4 border-b pb-4'>
                   <div className='grid grid-cols-[72px_1fr] gap-4'>
                     <Avatar className='h-16 w-16'>
                       {review.userId ? (
@@ -194,7 +195,7 @@ const Review = ({ data }: any) => {
 
                     <div>
                       <h3 className='text-neutral-7 body-1-semi mb-4'>
-                        {review.userId ? review.userId.name : 'Người dùng ấn danh'}
+                        {review.userId ? review.userId.name : t('anonymousUser')}
                       </h3>
                       <div className='flex gap-1'>
                         {Array.from({ length: review.rating }).map((_, i) => (
@@ -209,7 +210,7 @@ const Review = ({ data }: any) => {
               ))
             )}
             <div
-              className={` justify-center ${reviewList?.totalData && reviewList?.totalData < pagination.pageSize ? 'hidden' : 'flex'}`}
+              className={` justify-center ${reviewList?.totalData && reviewList?.totalData > pagination.pageSize ? 'flex' : 'hidden'}`}
             >
               <Button
                 className='rounded-full px-10'
