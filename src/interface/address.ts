@@ -9,4 +9,5 @@ export interface IAddress {
   city: string
   district: string
   ward: string
+  default: boolean
 }

@@ -1,5 +1,6 @@
 export interface IUser {
   _id: string
+  id?: string
   email: string
   name?: string
   password: string
@@ -7,7 +8,7 @@ export interface IUser {
   role?: string
   avatar?: string
   phone?: string
-  address?: string
+  locations: string[]
   createdAt?: string
   updatedAt?: string
 }

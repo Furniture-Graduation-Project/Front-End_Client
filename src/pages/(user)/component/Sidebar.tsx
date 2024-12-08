@@ -1,9 +1,4 @@
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import AvatarAccount from '@/components/auth/AvatarAccount'
-import { Button } from '@/components/ui/button'
-import { Camera } from 'lucide-react'
-import { useTranslate } from '@/hooks/useTranslate'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,13 +9,22 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { FieldValues, useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react'
-import { uploadFileCloudinary } from '@/utils/upload-cloudinary'
-import { useAuthContext } from '@/context/AuthContext'
-import { AuthService } from '@/services/account'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useAuthContext } from '@/context/AuthContext'
+import useAccountMutation from '@/hooks/mutations/useUserMutation'
+import { toast } from '@/hooks/use-toast'
+import { useTranslate } from '@/hooks/useTranslate'
+import { uploadFileCloudinary } from '@/utils/upload-cloudinary'
+import { Camera } from 'lucide-react'
+import { useState } from 'react'
+import { FieldValues, useForm } from 'react-hook-form'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+
 const SidebarAccount = () => {
   const { user } = useAuthContext()
   const { t } = useTranslate('account.sidebar')
@@ -29,6 +33,7 @@ const SidebarAccount = () => {
   const [avatar, setAvatar] = useState<string>(user?.avatar || '/images/avatar.png')
   const [preview, setPreview] = useState<string | null>(user?.avatar || null)
   const [loading, setLoading] = useState(false)
+  const { mutate } = useAccountMutation({ action: 'UPDATE' })
   const form = useForm<FieldValues>({
     defaultValues: {
       image: ''
@@ -46,25 +51,31 @@ const SidebarAccount = () => {
     setLoading(false)
   }
 
-  const isLoading = form.formState.isSubmitting
-
   const onSubmit = async (data: FieldValues) => {
     try {
-      await AuthService.update(user?._id || '', {
+      mutate({
+        _id: user?._id || '',
+        email: user?.email || '',
+        password: user?.password || '',
+        locations: user?.locations || [],
         avatar: data.image
       })
-      navigate('/account')
+      toast({
+        title: 'Cập nhật avatar thành công!',
+        variant: 'success'
+      })
     } catch (error) {
       console.error(error)
+      toast({
+        title: 'Có lỗi xảy ra!',
+        description: 'Không thể cập nhật',
+        variant: 'destructive'
+      })
     }
   }
 
-  useEffect(() => {
-    form.reset({ image: user?.avatar })
-  }, [user])
-
   return (
-    <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit md:h-[498px] mb-24'>
+    <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit md:h-[498px] mb-24 sticky top-32'>
       <div className='relative'>
         <AvatarAccount src={user?.avatar || '/images/avatar.png'} className='h-20 w-20 mx-auto' />
         <div className='bg-black border-[2px] border-white rounded-full w-[30px] h-[30px] flex justify-center items-center absolute top-14 right-20 hover:opacity-80 transition transform duration-200'>
@@ -86,19 +97,19 @@ const SidebarAccount = () => {
                     <AvatarAccount src={preview || ''} className='h-20 w-20' />
                   )}
                   <div>
-                    <input
-                      disabled={isLoading}
+                    <Input
+                      disabled={loading}
                       id='avatarUpload'
                       type='file'
                       className='hidden'
                       onChange={onChangeImage}
                     />
-                    <label
+                    <Label
                       htmlFor='avatarUpload'
                       className='cursor-pointer text-sm border p-3 rounded-md border-zinc-400'
                     >
                       {t('upload')}
-                    </label>
+                    </Label>
                   </div>
                 </div>
                 <Separator />

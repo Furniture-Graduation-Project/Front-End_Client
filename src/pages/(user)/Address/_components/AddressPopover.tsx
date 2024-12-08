@@ -14,6 +14,7 @@ import { useState } from 'react'
 import { useTranslate } from '@/hooks/useTranslate'
 import { useAuthContext } from '@/context/AuthContext'
 import useAddressMutation from '@/hooks/mutations/useAddressMutation'
+import { toast } from '@/hooks/use-toast'
 
 export function AddressPopover({
   children,
@@ -29,6 +30,8 @@ export function AddressPopover({
   const [isOpen, setIsOpen] = useState(false)
   const { user } = useAuthContext()
   const { mutate } = useAddressMutation({ action: 'DELETE' })
+  const { mutate: setDefault } = useAddressMutation({ action: 'DEFAULT' })
+
   const { t } = useTranslate('account.order.address')
 
   const handleDelete = () => {
@@ -36,6 +39,24 @@ export function AddressPopover({
       mutate({ userId: user?._id, query: locationId }, { onSuccess: () => setIsOpen(false) })
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  const handleSetDefault = () => {
+    try {
+      setDefault({ userId: user?._id, query: locationId }, { onSuccess: () => setIsOpen(false) })
+      toast({
+        title: 'Success',
+        description: 'Set default address successfully',
+        variant: 'success'
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: 'Error',
+        description: 'Set default address failed',
+        variant: 'destructive'
+      })
     }
   }
 
@@ -93,12 +114,14 @@ export function AddressPopover({
           <AlertDialogCancel onClick={() => setIsOpen(false)}>{t('cancelButton')}</AlertDialogCancel>
           {onDelete ? (
             <Button onClick={() => handleDelete()} variant={'destructive'}>
-              {t('saveButton')}
+              {t('deleteButton')}
             </Button>
           ) : (
-            <Button onClick={() => setIsOpen(false)} form='addressFormId' variant={'default'}>
-              {t('saveButton')}
-            </Button>
+            <>
+              <Button onClick={() => setIsOpen(false)} form='addressFormId' variant={'default'}>
+                {t('saveButton')}
+              </Button>
+            </>
           )}
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useToast } from '@/components/ui/use-toast'
 import { useAuthContext } from '@/context/AuthContext'
 import { IUser } from '@/interface/user'
@@ -47,6 +48,14 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
         logout()
         navigate('/')
         break
+
+      case 'UPDATE':
+        toast({
+          title: 'Cập nhật thành công!',
+          variant: 'success'
+        })
+        break
+
       case 'DELETE':
         toast({
           title: 'Xóa thành công!',
@@ -82,8 +91,7 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
           return await AuthService.update(data?._id || '', data)
         case 'LOGOUT':
           return await AuthService.logout()
-        case 'LOGOUT':
-          return await AuthService.logout()
+
         default:
           return null
       }

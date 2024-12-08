@@ -21,7 +21,15 @@
       "paymentMethod2": "Pay on Delivery",
       "submit": "Place Order",
       "errorOrder": "Go back to cart",
-      "tryAgain": "Try again"
+      "tryAgain": "Try again",
+      "setDefault": "Set as default address",
+      "setDefaultDes": "Set this address as default for your shipping needs",
+      "successTitle": "Success!",
+      "errorTitle": "Error!",
+      "successDes": "Create address successfully!",
+      "errorDes": "Create address failed!",
+      "updateDes": "Update address successfully!",
+      "updateErrorDes": "Update address failed!"
     },
     "order": {
       "title": "Order Summary",

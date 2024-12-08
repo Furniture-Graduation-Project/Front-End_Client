@@ -42,6 +42,7 @@
       "address": {
         "addAddress": "Thêm địa chỉ nhận hàng",
         "noAddress": "Chưa có địa chỉ nào được thêm",
+        "defaultAddress": "Mặc định",
         "des": "Thêm địa chỉ mới để nhận đơn hàng của bạn",
         "addressTitle": "Địa chỉ nhận hàng",
         "editAddressTitle": "Chỉnh sửa địa chỉ nhận hàng",
@@ -56,6 +57,8 @@
         "orderAddressPlaceholder": "Địa chỉ nhận hàng",
         "updateButton": "Cập nhật",
         "saveButton": "Lưu lại",
+        "deleteButton": "Xóa",
+        "setDefault": "Đặt làm mặc định",
         "cancelButton": "Hủy",
         "successTitle": "Thành công!",
         "successDescription": "Bạn đã thay đổi thành công địa chỉ nhận hàng.",
@@ -90,6 +93,20 @@
         "successTitle": "Thay đổi thành công",
         "successDescription": "Phương thức thanh toán đã được thay đổi"
       }
+    },
+    "wishlist": {
+      "title": "Danh sách yêu thích",
+      "emptyWishlist": "Không có dữ liệu.",
+      "remove": "Xóa khỏi danh sách yêu thích",
+      "product": "Sản phẩm",
+      "time": "Được thêm vào lúc",
+      "action": "Hành động",
+      "search": "Tìm kiếm...",
+      "previous": "Trước",
+      "next": "Sau",
+      "open": "Mở menu",
+      "delete": "Xóa",
+      "view": "Chuyển đến sản phẩm"
     }
   }
 }
