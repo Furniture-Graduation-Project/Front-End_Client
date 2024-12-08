@@ -11,11 +11,11 @@ const AccountOrderRequestInfo = ({ data }: any) => {
   }
 
   return (
-    <div className='max-w-3xl mx-auto p-6'>
+    <>
       <Card>
         <CardHeader>
           <div className='flex justify-between items-center'>
-            <h2 className='text- font-bold'>Yêu cầu trả hàng hiện tại</h2>
+            <h2 className='text- font-bold'>Yêu cầu trả hàng</h2>
             <Link className='flex items-center gap-2 whitespace-nowrap' to={`/account/order/${data?.data._id}`}>
               <ArrowLeft size={16} /> Quay lại
             </Link>
@@ -81,7 +81,7 @@ const AccountOrderRequestInfo = ({ data }: any) => {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </>
   )
 }
 

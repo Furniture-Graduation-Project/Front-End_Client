@@ -29,7 +29,7 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
     if (cartData && cartData.data && cartData.data.carts) {
       setAmount(
         cartData.data.carts.reduce((acc: any, item: any) => {
-          if (item.productOptionId.stock > 0) {
+          if (item.productOptionId.stock - item.productOptionId.outStock > 0) {
             return acc + item.productOptionId.price * item.quantity
           }
           return acc
@@ -93,7 +93,9 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
   function onSubmit() {
     if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
       const stateOrder = cartData.data.carts
-        .filter((item: any) => item.productId.status == 'available')
+        .filter((item: any) => {
+          return item.productId.status == 'available' && item.productOptionId.stock - item.productOptionId.outStock > 0
+        })
         .map((item: any) => ({
           ...item,
           unitPrice: item.productOptionId.price
@@ -144,14 +146,23 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                       <div>{t('cartError')}</div>
                     ) : cartData?.data?.carts?.length > 0 ? (
                       cartData.data.carts.map((item: any) => (
-                        <li key={item.productOptionId._id} className={`flex py-6 relative `}>
+                        <li key={item.productOptionId._id} className={`flex my-6 py-2 relative `}>
                           <div
-                            className={`absolute w-full h-full items-center justify-center ${item.productOptionId.stock === 0 || item.productId.status !== 'available' ? 'bg-slate-50/50 flex' : 'hidden'}`}
-                          ></div>
+                            className={`absolute w-full h-full items-center justify-center ${item.productOptionId.stock - item.productOptionId.outStock === 0 || item.productId.status !== 'available' ? 'bg-slate-50/70 flex' : 'hidden'}`}
+                          >
+                            <Button
+                              type='button'
+                              onClick={() => handleDeleteItem(item)}
+                              disabled={item.productOptionId.stock === 0}
+                              className='flex items-center gap-3'
+                            >
+                              <X className='text-neutral-4 w-[14px] h-[14px]' strokeWidth={2} /> Loại bỏ
+                            </Button>
+                          </div>
                           <div className='h-24 w-24 flex-shrink-0 rounded-md border border-neutral-3'>
                             <img
-                              src='https://assets.weimgs.com/weimgs/rk/images/wcm/products/202420/0120/meyer-wooden-drink-tables-18-21-5-o.jpg'
-                              alt={item.productId._id}
+                              src={item.productOptionId.image}
+                              alt={item.productId.name}
                               className='h-full w-full object-cover object-center'
                             />
                           </div>

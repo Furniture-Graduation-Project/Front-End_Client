@@ -9,6 +9,7 @@ import { ICart } from '@/interface/cart'
 import { useAuthContext } from '@/context/AuthContext'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { useToast } from '@/hooks/use-toast'
+import { Button } from '@/components/ui/button'
 
 type CartTableProps = {
   cartData: IApiResponse<ICart>
@@ -30,10 +31,10 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
     if (cartData && cartData.data && cartData.data.carts) {
       setAmount(
         cartData.data.carts.reduce((acc: any, item: any) => {
-          if (item.productOptionId.stock > 0) {
+          if (item.productOptionId.stock - item.productOptionId.outStock > 0 && item.productId.status == 'available') {
             return acc + item.productOptionId.price * item.quantity
           }
-          return acc.toFixed(3)
+          return acc
         }, 0)
       )
     }
@@ -120,16 +121,15 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
             <TableRow
               key={index}
               className={
-                item.productOptionId.stock === 0 || item.productId.status !== 'available' ? 'opacity-50 pointer-events-none' : ''
+                item.productOptionId.stock - item.productOptionId.outStock === 0 ||
+                item.productId.status !== 'available'
+                  ? 'relative'
+                  : ''
               }
             >
               <TableCell className='lg:p-4 px-0'>
                 <div className='flex gap-4'>
-                  <img
-                    src='https://assets.weimgs.com/weimgs/rk/images/wcm/products/202420/0120/meyer-wooden-drink-tables-18-21-5-o.jpg'
-                    alt={item.productId._id}
-                    className='w-24 h-28'
-                  />
+                  <img src={item.productOptionId.image} alt={item.productId.name} className='w-24 h-28' />
                   <div className='flex flex-col gap-y-2 justify-center'>
                     <h1 className='font-semibold text-[14px]'>{item.productId.name}</h1>
                     <p className='text-[12px] text-[#6C7275]'>
@@ -161,6 +161,18 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
                       </button>
                     </div>
                   </div>
+                </div>
+                <div
+                  className={`absolute w-full h-full top-0 left-0 items-center justify-center ${item.productOptionId.stock - item.productOptionId.outStock === 0 || item.productId.status !== 'available' ? 'bg-slate-50/70 flex' : 'hidden'}`}
+                >
+                  <Button
+                    type='button'
+                    onClick={() => handleDeleteItem(item)}
+                    disabled={item.productOptionId.stock === 0}
+                    className='flex items-center gap-3'
+                  >
+                    <X className='text-neutral-4 w-[14px] h-[14px]' strokeWidth={2} /> Loại bỏ
+                  </Button>
                 </div>
               </TableCell>
               <TableCell className='sm:hidden sm:p-4 px-0'>

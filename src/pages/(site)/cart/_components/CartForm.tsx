@@ -37,7 +37,10 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
   function onSubmit() {
     if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
       const stateOrder = cartData.data.carts
-        .filter((item: any) => item.productId.status == 'available')
+        .filter(
+          (item: any) =>
+            item.productId.status == 'available' && item.productOptionId.stock - item.productOptionId.outStock > 0
+        )
         .map((item: any) => ({
           ...item,
           unitPrice: item.productOptionId.price
@@ -51,7 +54,7 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
         return
       }
       setState(JSON.stringify(stateOrder))
-      console.log(state);
+      console.log(state)
       navigate('/checkout')
     } else {
       toast({
