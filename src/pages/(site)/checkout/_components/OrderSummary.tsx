@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -94,7 +95,7 @@ const OrderSummary = ({
     setState(JSON.stringify(newStateOrder))
   }
   return (
-    <div className='sticky top-10'>
+    <div className='sticky top-32'>
       <div className='border border-black py-4 px-6 rounded-md'>
         <div className='flex flex-col gap-y-4'>
           <h1 className='text-[28px] font-semibold'>{t('title')}</h1>
@@ -143,11 +144,7 @@ const OrderSummary = ({
                     </div>
                     <div className='flex justify-between py-6 px-3'>
                       <div className='flex gap-4'>
-                        <img
-                          src={item.productOptionId.image}
-                          alt={item.productOptionId.sku}
-                          className='w-24 h-28'
-                        />
+                        <img src={item.productOptionId.image} alt={item.productOptionId.sku} className='w-24 h-28' />
                         <div className='flex flex-col gap-y-2 justify-center'>
                           <h1 className='font-semibold text-[14px]'>{item.productId.name}</h1>
                           <div className='text-[12px] text-[#6C7275] flex flex-col gap-1'>

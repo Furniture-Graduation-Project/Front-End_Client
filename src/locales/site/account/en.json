@@ -44,6 +44,7 @@
       "address": {
         "addAddress": "Add Address",
         "noAddress": "No address added",
+        "defaultAddress": "Default",
         "des": "Add a new address to receive your order",
         "addressTitle": "Shipping Address",
         "editAddressTitle": "Edit Shipping Address",
@@ -56,6 +57,8 @@
         "orderAddressPlaceholder": "Shipping Address",
         "updateButton": "Update",
         "saveButton": "Save",
+        "setDefault": "Set location as default",
+        "deleteButton": "Delete",
         "cancelButton": "Cancel",
         "successTitle": "Success!",
         "successDescription": "You have successfully updated the shipping address.",
@@ -90,6 +93,20 @@
         "successTitle": "Change Successful",
         "successDescription": "The payment method has been updated successfully"
       }
+    },
+    "wishlist": {
+      "title": "Your Wishlist",
+      "emptyWishlist": "No data.",
+      "search": "Search...",
+      "remove": "Remove",
+      "addCart": "Add to Cart",
+      "time": "Added At",
+      "action": "Action",
+      "previous": "Previous",
+      "next": "Next",
+      "open": "Open Menu",
+      "delete": "Delete",
+      "view": "Move to Product"
     }
   }
 }

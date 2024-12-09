@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
 
 type MutationQueryProps = {
-  action: 'CREATE' | 'UPDATE' | 'DELETE'
+  action: 'CREATE' | 'UPDATE' | 'DELETE' | 'DEFAULT'
 }
 const useAddressMutation = ({ action }: MutationQueryProps) => {
   const { toast } = useToast()
@@ -34,6 +34,12 @@ const useAddressMutation = ({ action }: MutationQueryProps) => {
           variant: 'success'
         })
         break
+      case 'DEFAULT':
+        toast({
+          title: 'Thay đổi địa chỉ mặc định thành công!',
+          variant: 'success'
+        })
+        break
     }
   }
 
@@ -56,6 +62,8 @@ const useAddressMutation = ({ action }: MutationQueryProps) => {
           return await AddressServices.update(userId, query, data)
         case 'DELETE':
           return await AddressServices.delete(userId, query)
+        case 'DEFAULT':
+          return await AddressServices.setDefaultLocation(userId, query)
         default:
           return null
       }
