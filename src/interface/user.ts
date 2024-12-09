@@ -8,6 +8,7 @@ export interface IUser {
   avatar?: string
   phone?: string
   address?: string
+  active?: boolean
   createdAt?: string
   updatedAt?: string
 }
