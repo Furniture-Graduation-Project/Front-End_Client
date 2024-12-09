@@ -20,9 +20,9 @@ const NotificationBar: React.FC<NotificationBarProps> = ({ setShow }) => {
 
   return (
     <div
-      className={`h-[40px] bg-neutral-2 flex justify-center items-center w-full m-0 font-semibold sm:px-0 px-[32px] relative z-50 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+      className={`h-[0px] bg-neutral-2 flex justify-center items-center w-full m-0 font-semibold sm:px-0 px-[32px] relative z-50 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
     >
-      <div className='flex justify-center items-center mr-4'>
+      {/* <div className='flex justify-center items-center mr-4'>
         <TicketPercent className='mr-2 h-auto' />
         <span className='text-[12px] sm:caption-1-semi'>{t('notification')}</span>
         <span className='hidden sm:flex text-[12px] sm:caption-1-semi ml-1'>{t('notification2')}</span>
@@ -33,7 +33,7 @@ const NotificationBar: React.FC<NotificationBarProps> = ({ setShow }) => {
         </Link>
         <ArrowRight className='h-[18px]' />
       </div>
-      <X onClick={() => setIsVisible(false)} className='h-[18px] absolute right-4 cursor-pointer' />
+      <X onClick={() => setIsVisible(false)} className='h-[18px] absolute right-4 cursor-pointer' /> */}
     </div>
   )
 }
