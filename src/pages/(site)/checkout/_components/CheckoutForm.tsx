@@ -50,7 +50,8 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
   const { data, isLoading, isError } = useAllAddressQuery()
   const [isFinished, setIsFinished] = useState<boolean>(true)
-
+  const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false)
   const {
     mutate,
     isSuccess,
@@ -195,6 +196,9 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
 
   return (
     <>
+      {user && user?.locations.length === 0 && (
+        <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={() => {}} loading={loading} />
+      )}
       <Form {...form}>
         <form
           id='checkoutForm'
@@ -466,6 +470,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
               form='checkoutForm'
               variant={'default'}
               className={`bg-black py-6`}
+              onClick={() => setOpen(true)}
             >
               {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : t('submit')}
             </Button>
