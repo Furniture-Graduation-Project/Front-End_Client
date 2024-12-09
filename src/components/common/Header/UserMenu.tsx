@@ -57,16 +57,16 @@ const UserMenu = () => {
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Heart className='mr-2 h-4 w-4' />
-              <Link to='/profile/wishlist'>{t('header.userMenu.wishlist')}</Link>
+              <Link to='/account/wishlist'>{t('header.userMenu.wishlist')}</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <KeyRound className='mr-2 h-4 w-4' />
-              <Link to='/profile/change-password'>{t('header.userMenu.changePassword')}</Link>
+              <Link to='/account'>{t('header.userMenu.changePassword')}</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <LogOut className='mr-2 h-4 w-4' />
-              <Link to='/signout'>{t('header.userMenu.signOut')}</Link>
+              <Link to='/logout'>{t('header.userMenu.signOut')}</Link>
             </DropdownMenuItem>
           </DropdownMenuGroup>
         )}

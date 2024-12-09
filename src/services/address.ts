@@ -65,5 +65,13 @@ export const AddressServices = {
     } catch (error) {
       console.log(error)
     }
+  },
+  setDefaultLocation: async (id: string, query: string) => {
+    try {
+      const response = await axiosInstance.put(`/locations/${id}/location/default?locationId=${query}`)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

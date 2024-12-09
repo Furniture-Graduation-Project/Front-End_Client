@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Container from '@/components/Container'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import { useAuthContext } from '@/context/AuthContext'
 import useAddressMutation from '@/hooks/mutations/useAddressMutation'
 import { useAllAddressQuery, useOneAddressQuery } from '@/hooks/queries/useAddressQuery'
@@ -12,7 +13,7 @@ import { useTranslate } from '@/hooks/useTranslate'
 import { IDistrict, ILocation, IWard } from '@/interface/location'
 import { cn } from '@/utils/classUtils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -25,7 +26,8 @@ const formSchema = z.object({
   city: z.string().min(1),
   district: z.string().min(1),
   ward: z.string().min(1),
-  street: z.string().min(1)
+  street: z.string().min(1),
+  default: z.boolean().optional()
 })
 
 const AddressForm = ({ update, locationId }: { update?: boolean; locationId?: string }) => {
@@ -78,15 +80,15 @@ const AddressForm = ({ update, locationId }: { update?: boolean; locationId?: st
       updateAddress({ userId: user?._id as string, query: locationId as string, data })
       try {
         toast({
-          title: 'Success',
-          description: 'Update address successfully',
+          title: t('successTitle'),
+          description: t('updateDes'),
           variant: 'success'
         })
       } catch (error) {
         console.log(error)
         toast({
-          title: 'Error',
-          description: 'Update address failed',
+          title: t('errorTitle'),
+          description: t('updateError'),
           variant: 'destructive'
         })
       }
@@ -95,15 +97,15 @@ const AddressForm = ({ update, locationId }: { update?: boolean; locationId?: st
     try {
       mutate({ userId: user?._id as string, query: '', data })
       toast({
-        title: 'Success',
-        description: 'Create address successfully',
+        title: t('successTitle'),
+        description: t('successDes'),
         variant: 'success'
       })
     } catch (error) {
       console.log(error)
       toast({
-        title: 'Error',
-        description: 'Create address failed',
+        title: t('errorTitle'),
+        description: t('errorDes'),
         variant: 'destructive'
       })
     }
@@ -112,7 +114,15 @@ const AddressForm = ({ update, locationId }: { update?: boolean; locationId?: st
   return (
     <Container>
       <Form {...form}>
-        <form id='addressFormId' onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          id='addressFormId'
+          onSubmit={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            console.log('Other Form Submitted')
+            form.handleSubmit(onSubmit)(e)
+          }}
+        >
           <ScrollArea className='h-[500px]'>
             <div className='gap-y-6 flex flex-col'>
               <div className='px-6 py-10 border rounded-md flex flex-col gap-y-6 border-black'>
@@ -310,7 +320,22 @@ const AddressForm = ({ update, locationId }: { update?: boolean; locationId?: st
                       <FormMessage />
                     </FormItem>
                   )}
-                ></FormField>
+                />
+                <FormField
+                  control={form.control}
+                  name='default'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
+                      <div className='space-y-0.5'>
+                        <FormLabel className='text-base'>{t('setDefault')}</FormLabel>
+                        <FormDescription className='w-80'>{t('setDefaultDes')}</FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
           </ScrollArea>

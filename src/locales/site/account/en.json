@@ -46,6 +46,7 @@
       "address": {
         "addAddress": "Add Address",
         "noAddress": "No address added",
+        "defaultAddress": "Default",
         "des": "Add a new address to receive your order",
         "addressTitle": "Shipping Address",
         "editAddressTitle": "Edit Shipping Address",
@@ -58,6 +59,8 @@
         "orderAddressPlaceholder": "Shipping Address",
         "updateButton": "Update",
         "saveButton": "Save",
+        "setDefault": "Set location as default",
+        "deleteButton": "Delete",
         "cancelButton": "Cancel",
         "successTitle": "Success!",
         "successDescription": "You have successfully updated the shipping address.",
@@ -126,6 +129,20 @@
         "resolution_message": "We are ready to assist you in resolving any questions related to your return request.",
         "working_hours": "Working hours : Monday - Friday, 8:00 AM - 6:00 PM"
       }
+    },
+    "wishlist": {
+      "title": "Your Wishlist",
+      "emptyWishlist": "No data.",
+      "search": "Search...",
+      "remove": "Remove",
+      "addCart": "Add to Cart",
+      "time": "Added At",
+      "action": "Action",
+      "previous": "Previous",
+      "next": "Next",
+      "open": "Open Menu",
+      "delete": "Delete",
+      "view": "Move to Product"
     }
   }
 }
