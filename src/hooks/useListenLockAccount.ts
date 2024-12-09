@@ -11,7 +11,7 @@ const useListenLockAccount = () => {
 
   const handleLockClose = () => {
     setIsLockOpen(false)
-    navigate('/signin', { replace: true })
+    navigate('/', { replace: true })
   }
   const handleLogout = () => {
     setIsLockOpen(true)

@@ -120,7 +120,7 @@ export default function SignIn() {
           <img src='/public/google-logo.webp' alt='logo-auth' className='w-5 h-5' />
           <span>{t('googleSignIn', 'Sign in with Google')}</span>
         </Button>
-
+{/* 
         <Button
           variant='outline'
           className='w-full flex items-center justify-center space-x-2'
@@ -130,7 +130,7 @@ export default function SignIn() {
         >
           <img src='/public/logo-fb.svg' alt='logo-auth' className='w-5 h-5' />
           <span>{t('facebookSignIn', 'Sign in with Facebook')}</span>
-        </Button>
+        </Button> */}
       </div>
     </div>
   )

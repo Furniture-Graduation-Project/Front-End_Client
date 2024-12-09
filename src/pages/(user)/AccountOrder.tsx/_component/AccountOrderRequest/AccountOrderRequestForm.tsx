@@ -175,9 +175,9 @@ const AccountOrderRequestForm = ({ data }: any) => {
             control={form.control}
             render={({ field }) => (
               <FormItem className='mt-4'>
-                <FormLabel>Reason for Return</FormLabel>
+                <FormLabel>Lý do hoàn trả</FormLabel>
                 <FormControl>
-                  <Textarea placeholder='Enter your reason for returning these products...' {...field} />
+                  <Textarea placeholder='Nhập vào lý do bạn muốn trả những sản phẩm này...' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -185,7 +185,7 @@ const AccountOrderRequestForm = ({ data }: any) => {
           />
 
           <Button type='submit' className='mt-6 w-full' disabled={dayDelivery > 7}>
-            Submit Return Request
+            Gửi yêu cầu
           </Button>
         </form>
       </Form>
