@@ -27,24 +27,29 @@ const AddressCard = ({ data }: IAddressCard) => {
             <p className='text-lg text-neutral-400'>{t('noAddress')}</p>
           </div>
         )}
-        {data?.locations?.map((item) => (
-          <Card key={item._id} className='w-full max-w-md mx-auto shadow-lg hover:shadow-xl transition-shadow'>
-            <CardHeader className='flex flex-row items-center  space-y-0 pb-2'>
-              <h2 className='text-2xl font-bold tracking-tight'>{item.addressName}</h2>
-              <div className='ml-auto'>
-                <AddressPopover update>
-                  <AddressForm update locationId={item._id} />
-                </AddressPopover>
-                <AddressPopover onDelete locationId={item._id} />
-              </div>
-            </CardHeader>
+        {data?.locations
+          ?.sort((a, b) => (b.default ? 1 : 0) - (a.default ? 1 : 0))
+          .map((item) => (
+            <Card key={item._id} className='w-full max-w-md mx-auto shadow-lg hover:shadow-xl transition-shadow'>
+              <CardHeader className='flex flex-row items-center space-y-0 pb-2'>
+                <h2 className='text-2xl font-bold tracking-tight'>
+                  {item.addressName}{' '}
+                  {item.default && <span className='text-xs text-zinc-500'>({t('defaultAddress')})</span>}
+                </h2>
+                <div className='ml-auto'>
+                  <AddressPopover update locationId={item._id}>
+                    <AddressForm update locationId={item._id} />
+                  </AddressPopover>
+                  <AddressPopover onDelete locationId={item._id} />
+                </div>
+              </CardHeader>
 
-            <CardContent className='space-y-4'>
-              <p className='text-sm'>{item.firstName + ' ' + item.lastName + ' - ' + item.phone}</p>
-              <p className='text-muted-foreground text-sm'>{`${item.street}, ${item.ward}, ${item.district}, ${item.city}`}</p>
-            </CardContent>
-          </Card>
-        ))}
+              <CardContent className='space-y-4'>
+                <p className='text-sm'>{item.firstName + ' ' + item.lastName + ' - ' + item.phone}</p>
+                <p className='text-muted-foreground text-sm'>{`${item.street}, ${item.ward}, ${item.district}, ${item.city}`}</p>
+              </CardContent>
+            </Card>
+          ))}
       </div>
     </main>
   )

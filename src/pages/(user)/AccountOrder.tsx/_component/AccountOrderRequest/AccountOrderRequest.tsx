@@ -4,11 +4,13 @@ import { Skeleton } from '@/components/ui/skeleton'
 import AccountOrderRequestInfo from './AccountOrderRequestInfo'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import AccountOrderRequestForm from './AccountOrderRequestForm'
-
+import { useTranslate } from '@/hooks/useTranslate'
 
 const AccountOrderRequest = () => {
   const { id } = useParams()
   const { data, isLoading } = useSingleOrderQuery(id || '')
+  const { t } = useTranslate('account.order.request')
+
   if (isLoading) {
     return (
       <div className='max-w-3xl mx-auto p-6'>
@@ -31,37 +33,32 @@ const AccountOrderRequest = () => {
   }
   return (
     <div className='max-w-3xl mx-auto p-6'>
-      {data?.data.returnInfo && data?.data.returnInfo?.items.length > 0 ? (
+      {data?.data.returnInfo && data?.data.returnInfo?.items?.length > 0 ? (
         <AccountOrderRequestInfo data={data} />
       ) : (
         <AccountOrderRequestForm data={data} />
       )}
       <Card className='mt-6'>
         <CardHeader>
-          <h3 className='font-semibold'>Yêu cầu liên lạc</h3>
+          <h3 className='font-semibold'>{t('contact_request')}</h3>
         </CardHeader>
         <CardContent>
-          <p>Nếu bạn cần hỗ trợ thêm hoặc muốn liên hệ với chúng tôi, vui lòng sử dụng thông tin bên dưới:</p>
+          <p>{t('support_message')}</p>
           <ul className='list-disc list-inside mt-2'>
             <li>
-              <strong>Email:</strong>{' '}
-              <a
-                className='underline'
-                href={`mailto:${import.meta.env.VITE_EMAIL_NAME}?subject=Yêu cầu hỗ trợ khách hàng`}
-              >
+              <strong>{t('email')}:</strong>{' '}
+              <a className='underline' href={`mailto:${import.meta.env.VITE_EMAIL_NAME}?subject=${t('email_subject')}`}>
                 {import.meta.env.VITE_EMAIL_NAME}
               </a>
             </li>
             <li>
-              <strong>Hotline:</strong> 088 6024 065
+              <strong>{t('hotline')}:</strong> {import.meta.env.VITE_ACCOUNT_NO}
             </li>
             <li>
-              <strong>Giờ làm việc:</strong> Thứ 2 - Thứ 6, 8:00 - 18:00
+              <strong>{t('working_hours')}</strong>
             </li>
           </ul>
-          <p className='mt-2'>
-            Chúng tôi sẵn sàng hỗ trợ bạn để giải quyết mọi thắc mắc liên quan đến yêu cầu hoàn trả.
-          </p>
+          <p className='mt-2'>{t('resolution_message')}</p>
         </CardContent>
       </Card>
     </div>

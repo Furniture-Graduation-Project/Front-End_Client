@@ -85,20 +85,27 @@ const AccountOrderRequestForm = ({ data }: any) => {
         }
       })
       const newContact: IContact = {
-        email: import.meta.env.VITE_EMAIL_NAME,
-        subject: 'Yêu cầu hoàn đơn hàng từ khách hàng : ' + user?.name,
-        text:
-          'Email khách hàng : ' +
-          user?.email +
-          '\n' +
-          'Số điên thoại khách hàng : ' +
-          user?.phone +
-          '\n' +
-          'Lý do hoàn đơn : ' +
-          dataForm.reason +
-          'Mã đơn hàng : ' +
-          data.data.code
+        email: user?.email || import.meta.env.VITE_EMAIL_NAME,
+        subject: `Yêu cầu hoàn đơn hàng: ${data.data.code}`,
+        text: `
+          Xin chào ${user?.name || 'Quý khách'}, 
+      
+          Chúng tôi đã nhận được yêu cầu hoàn đơn hàng của bạn. Dưới đây là thông tin chi tiết:
+      
+          - Email khách hàng: ${user?.email || 'Không có thông tin'}
+          - Số điện thoại khách hàng: ${user?.phone || 'Không có thông tin'}
+          - Mã đơn hàng: ${data.data.code}
+          - Lý do hoàn đơn: ${dataForm.reason}
+      
+          Chúng tôi sẽ liên hệ và giải quyết yêu cầu của bạn trong thời gian sớm nhất. Nếu cần hỗ trợ thêm, vui lòng phản hồi email này hoặc liên hệ với chúng tôi qua hotline: ${
+            import.meta.env.VITE_SUPPORT_PHONE || 'Không có thông tin hotline'
+          }.
+      
+          Trân trọng, 
+          Đội ngũ hỗ trợ khách hàng - Nội Thất River
+        `
       }
+
       sendMail(newContact)
       toast({
         title: 'Success',

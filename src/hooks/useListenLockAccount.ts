@@ -8,7 +8,6 @@ const useListenLockAccount = () => {
   const { user } = useAuthContext()
   const { mutate } = useAccountMutation({ action: 'LOGOUT' })
   const [isLockOpen, setIsLockOpen] = useState(false)
-  console.log(user?._id + 'lock')
 
   const handleLockClose = () => {
     setIsLockOpen(false)
@@ -19,6 +18,9 @@ const useListenLockAccount = () => {
     mutate(undefined)
   }
   useEffect(() => {
+    if (user && user.active == false) {
+      handleLogout()
+    }
     SocketService.init()
     const socket = SocketService.get()
     if (socket && user) {

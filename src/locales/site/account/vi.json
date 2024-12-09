@@ -39,11 +39,14 @@
         "unpaid": "Chưa thanh toán",
         "paymentDescription": "Đơn hàng cần được thanh toán để có thể xử lý.",
         "pleaseAddProduct": "Vui lòng thêm sản phẩm.",
-        "orderMustHaveProduct": "Số lượng sản phẩm phải lớn hơn 1."
+        "orderMustHaveProduct": "Số lượng sản phẩm phải lớn hơn 1.",
+        "view_return_request": "Xem yêu cầu hoàn trả",
+        "return_refund": "Trả hàng / Hoàn tiền"
       },
       "address": {
         "addAddress": "Thêm địa chỉ nhận hàng",
         "noAddress": "Chưa có địa chỉ nào được thêm",
+        "defaultAddress": "Mặc định",
         "des": "Thêm địa chỉ mới để nhận đơn hàng của bạn",
         "addressTitle": "Địa chỉ nhận hàng",
         "editAddressTitle": "Chỉnh sửa địa chỉ nhận hàng",
@@ -58,6 +61,8 @@
         "orderAddressPlaceholder": "Địa chỉ nhận hàng",
         "updateButton": "Cập nhật",
         "saveButton": "Lưu lại",
+        "deleteButton": "Xóa",
+        "setDefault": "Đặt làm mặc định",
         "cancelButton": "Hủy",
         "successTitle": "Thành công!",
         "successDescription": "Bạn đã thay đổi thành công địa chỉ nhận hàng.",
@@ -90,8 +95,56 @@
         "deliveryTime": "Thời gian giao hàng",
         "completionTime": "Thời gian hoàn tất",
         "successTitle": "Thay đổi thành công",
-        "successDescription": "Phương thức thanh toán đã được thay đổi"
+        "successDescription": "Phương thức thanh toán đã được thay đổi",
+        "statusHistory": "Lịch sử trạng thái"
+      },
+      "request": {
+        "returnRequest": "Yêu cầu trả hàng",
+        "back": "Quay lại",
+        "status": {
+          "pending": "Đang chờ xử lý",
+          "processing": "Đang xử lý",
+          "resolved": "Đã giải quyết",
+          "returned": "Đã trả lại",
+          "refunded": "Đã hoàn tiền",
+          "finished": "Hoàn tất",
+          "unknown": "Trạng thái không xác định"
+        },
+        "requestDate": "Ngày yêu cầu hoàn trả:",
+        "resolvedDate": "Ngày giải quyết:",
+        "reason": "Lý do trả hàng:",
+        "products": {
+          "header": "Sản phẩm trả lại:",
+          "product": "Sản phẩm",
+          "quantity": "Số lượng",
+          "price": "Giá",
+          "status": "Trạng thái"
+        },
+        "pending": "Đang chờ xử lý",
+        "approved": "Đã chấp nhận",
+        "rejected": "Đã từ chối",
+        "contact_request": "Yêu cầu liên lạc",
+        "support_message": "Nếu bạn cần hỗ trợ thêm hoặc muốn liên hệ với chúng tôi, vui lòng sử dụng thông tin bên dưới:",
+        "email": "Email",
+        "email_subject": "Yêu cầu hỗ trợ khách hàng",
+        "hotline": "Hotline",
+        "working_hours": "Giờ làm việc : Thứ 2 - Thứ 6, 8:00 - 18:00",
+        "resolution_message": "Chúng tôi sẵn sàng hỗ trợ bạn để giải quyết mọi thắc mắc liên quan đến yêu cầu hoàn trả."
       }
+    },
+    "wishlist": {
+      "title": "Danh sách yêu thích",
+      "emptyWishlist": "Không có dữ liệu.",
+      "remove": "Xóa khỏi danh sách yêu thích",
+      "product": "Sản phẩm",
+      "time": "Được thêm vào lúc",
+      "action": "Hành động",
+      "search": "Tìm kiếm...",
+      "previous": "Trước",
+      "next": "Sau",
+      "open": "Mở menu",
+      "delete": "Xóa",
+      "view": "Chuyển đến sản phẩm"
     }
   }
 }

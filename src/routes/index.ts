@@ -2,6 +2,7 @@ import { IRoute } from '@/interface/route'
 import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
 import AuthCallback from '@/pages/(auth)/AuthCallBack'
+import Logout from '@/pages/(auth)/Logout'
 import SignIn from '@/pages/(auth)/SignIn'
 import SignUp from '@/pages/(auth)/SignUp'
 import NotFoundPage from '@/pages/(site)/404/404'
@@ -23,13 +24,13 @@ import AccountPage from '@/pages/(user)/AccountPage'
 import AccountSetting from '@/pages/(user)/AccountSetting/AccountSetting'
 import AccountWishlist from '@/pages/(user)/AccountWishlist/AccountWishlist'
 import AddressForm from '@/pages/(user)/Address/_components/AddressForm'
-import AddressDetailPage from '@/pages/(user)/Address/AddressDetail/page'
 import AddressPage from '@/pages/(user)/Address/AddressPage'
 
 const routes: IRoute[] = [
+  { path: '/', component: HomePage, layout: MainLayout },
   { path: '/signin', component: SignIn, layout: AuthLayout },
   { path: '/signup', component: SignUp, layout: AuthLayout },
-  { path: '/', component: HomePage, layout: MainLayout },
+  { path: '/logout', component: Logout, layout: MainLayout },
   { path: '/shop', component: ShopPage, layout: MainLayout },
   {
     path: '/products',
@@ -67,10 +68,7 @@ const routes: IRoute[] = [
       {
         path: 'address',
         component: AddressPage,
-        children: [
-          { path: 'add', component: AddressForm },
-          { path: 'edit/:id', component: AddressDetailPage }
-        ]
+        children: [{ path: 'add', component: AddressForm }]
       }
     ]
   },
