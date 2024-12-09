@@ -6,6 +6,7 @@
     "Product": "Product",
     "NEW": "NEW",
     "Add to Wishlist": "Add to Wishlist",
+    "Remove from Wishlist": "Remove from Wishlist",
     "Add to Cart": "Add to Cart",
     "Category": "Category",
     "Material": "Material",
@@ -22,6 +23,7 @@
     "Review": "Review",
     "Submit Review": "Submit Review",
     "Share your thoughts about the product. Your review will be visible to other customers.": "Share your thoughts about the product. Your review will be visible to other customers.",
+
     "Newest": "Newest",
     "Oldest": "Oldest",
     "buyNow": "Buy Now",
