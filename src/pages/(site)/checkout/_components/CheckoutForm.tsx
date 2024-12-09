@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom'
 import PaymentPopup from '@/components/site/PaymentPopup/PaymentPopup'
 import AddressCheckout from './AddressCheckout'
 import { IAddress } from '@/interface/address'
+import { AlertModal } from '@/components/ui/alert-modal'
 
 const formSchema = z.object({
   firstName: z.string().optional(),
@@ -49,6 +50,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
   const { data, isLoading, isError } = useAllAddressQuery()
   const [isFinished, setIsFinished] = useState<boolean>(true)
+
   const {
     mutate,
     isSuccess,
@@ -85,7 +87,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
     const selectedWard = currentDistrict?.find((ward) => ward.name === value)
     setCurrentWard(selectedWard ? selectedWard.wards : [])
   }
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmitCheckout = (data: z.infer<typeof formSchema>) => {
     const items = JSON.parse(dataCart).map((item: any) => {
       return {
         productId: item.productId._id,
@@ -194,7 +196,15 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          id='checkoutForm'
+          onSubmit={(e) => {
+            e.preventDefault()
+            if ((e.target as HTMLFormElement).id === 'checkoutForm') {
+              form.handleSubmit(onSubmitCheckout)(e)
+            }
+          }}
+        >
           <div className='gap-y-6 flex flex-col'>
             {user && user?.locations && user?.locations.length > 0 ? (
               <AddressCheckout data={locations} />
@@ -267,7 +277,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
                     name='ward'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('ward')}</FormLabel>
+                        <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('country')}</FormLabel>
                         <FormControl>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -453,9 +463,9 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
                 stateErrorOrder ||
                 JSON.parse(dataCart).length === 0
               }
+              form='checkoutForm'
               variant={'default'}
               className={`bg-black py-6`}
-              type='submit'
             >
               {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : t('submit')}
             </Button>

@@ -13,7 +13,7 @@ import { useTranslate } from '@/hooks/useTranslate'
 import { IDistrict, ILocation, IWard } from '@/interface/location'
 import { cn } from '@/utils/classUtils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -114,7 +114,15 @@ const AddressForm = ({ update, locationId }: { update?: boolean; locationId?: st
   return (
     <Container>
       <Form {...form}>
-        <form id='addressFormId' onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          id='addressFormId'
+          onSubmit={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            console.log('Other Form Submitted')
+            form.handleSubmit(onSubmit)(e)
+          }}
+        >
           <ScrollArea className='h-[500px]'>
             <div className='gap-y-6 flex flex-col'>
               <div className='px-6 py-10 border rounded-md flex flex-col gap-y-6 border-black'>
