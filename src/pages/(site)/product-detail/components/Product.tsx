@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Heart, Minus, Plus } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { IProductItem, IVariant } from '@/interface/productItem'
 import { useProductItemsByProductId } from '@/hooks/queries/useProductItemQuery'
@@ -13,6 +13,11 @@ import { useToast } from '@/hooks/use-toast'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '@/context/AuthContext'
 import ProductVariant from './ProductVariant'
+import { useWishlistQuery } from '@/hooks/queries/useWishlistQuery'
+import { WishlistColumn } from '@/pages/(user)/AccountWishlist/components/columns'
+import { IWishlist } from '@/interface/wishlist'
+import useWishlistMutation from '@/hooks/mutations/useWishlistMutation'
+import { cn } from '@/utils/classUtils'
 
 const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; refetch: () => void }) => {
   const { t } = useTranslate('productDetail')
@@ -23,10 +28,16 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
   const { data: productItem, isLoading: productItemLoading } = useProductItemsByProductId(data?.data?._id || '')
   const { mutate } = useCartMutation('ADD')
   const [selectedVariant, setSelectedVariant] = useState<IProductItem | undefined>()
+  const { data: wishlist } = useWishlistQuery(user?._id || '')
+  const { mutate: addToWishlist } = useWishlistMutation({ action: 'ADD' })
+  const { mutate: removeFromWishlist } = useWishlistMutation({ action: 'REMOVE' })
   const [price, setPrice] = useState<number>(0)
   const [stock, setStock] = useState(0)
+
+  const [isInWishlist, setIsInWishlist] = useState(false)
   const [quantity, setQuantity] = useState(1)
   const [sku, setSku] = useState<string | undefined>(undefined)
+
   const getUniqueVariants = (variantName: string) => {
     if (!productItem || !productItem.data) return []
     const variants = productItem.data.reduce<IVariant[]>((acc, item) => {
@@ -40,6 +51,7 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
 
     return variants
   }
+
   const handleVariantSelect = (variant: IVariant) => {
     if (!productItem || !productItem.data) return
     const item: IProductItem | undefined = productItem.data.find((item) => {
@@ -120,6 +132,20 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
   }
 
   useEffect(() => {
+    if (!wishlist?.data) return
+
+    const wishlistItems: WishlistColumn[] = wishlist.data.map((item: IWishlist) => ({
+      _id: item.productId?._id || 'Unknown',
+      name: item.productId?.name || 'Unknown',
+      image: item.productId?.images?.[0] || '',
+      addedAt: item.addedAt
+    }))
+
+    const existsInWishlist = wishlistItems.some((item) => item._id === data?.data?._id)
+    setIsInWishlist(existsInWishlist)
+  }, [wishlist?.data, data?.data?._id])
+
+  useEffect(() => {
     if (productItem) {
       setSelectedVariant(productItem.data[0])
       setPrice(productItem.data[0].price)
@@ -127,6 +153,24 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
       setSku(productItem.data[0].SKU)
     }
   }, [productItem])
+
+  const handleWishlistToggle = useCallback(() => {
+    if (!user) {
+      return toast({ title: 'Vui lòng đăng nhập để thêm vào danh sách yêu thích', variant: 'default' })
+    }
+
+    const toastMsg: { title: string; variant: 'default' | 'success' } = isInWishlist
+      ? { title: 'Đã xóa khỏi danh sách yêu thích!', variant: 'default' }
+      : { title: 'Thêm vào danh sách yêu thích thành công!', variant: 'success' }
+
+    if (isInWishlist) {
+      removeFromWishlist({ userId: user._id, data: data?.data })
+    } else {
+      addToWishlist({ userId: user._id, data: { productId: data?.data._id } })
+    }
+    toast(toastMsg)
+    setIsInWishlist(!isInWishlist)
+  }, [isInWishlist, user, addToWishlist, removeFromWishlist, data?.data._id])
 
   return (
     <div className='space-y-8'>
@@ -204,9 +248,26 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
                   <Plus className='h-4 w-4' />
                 </Button>
               </div>
-              <Button className='w-full border-black' variant='outline' size='lg'>
-                <Heart className='mr-2 h-4 w-4' />
-                <p className='hidden sm:inline'> {t('Add to Wishlist')}</p>
+              <Button
+                onClick={handleWishlistToggle}
+                className={cn(
+                  'w-full',
+                  isInWishlist ? 'bg-rose-500 hover:bg-rose-500 hover:opacity-80' : 'border-black'
+                )}
+                variant='outline'
+                size='lg'
+              >
+                {isInWishlist ? (
+                  <>
+                    <Heart className='mr-2 h-4 w-4 text-white' />
+                    <p className='hidden sm:inline text-white'> {t('Remove from Wishlist')} </p>
+                  </>
+                ) : (
+                  <>
+                    <Heart className='mr-2 h-4 w-4' />
+                    <p className='hidden sm:inline'> {t('Add to Wishlist')}</p>
+                  </>
+                )}
               </Button>
             </>
           )}
