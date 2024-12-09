@@ -8,6 +8,8 @@ export interface IUser {
   role?: string
   avatar?: string
   phone?: string
+  address?: string
+  active?: boolean
   locations: string[]
   createdAt?: string
   updatedAt?: string

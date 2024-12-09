@@ -124,10 +124,15 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
         <h1 className='body-2-semi'>{product.name}</h1>
         {minPrice !== null && maxPrice !== null ? (
           <div className='flex'>
-            <p className='mr-3 caption-1-semi'>{formatCurrency(Math.min(...product.prices))}</p>
-            {Math.min(...product.prices) !== Math.max(...product.prices) && (
-              <p className='line-through caption-1 text-[#6C7275]'>{formatCurrency(Math.max(...product.prices))}</p>
-            )}
+            <p className='caption-1-semi flex gap-1'>
+              {formatCurrency(minPrice)}
+
+              {minPrice !== maxPrice && (
+                <>
+                  <span>~</span> {formatCurrency(maxPrice)}
+                </>
+              )}
+            </p>
           </div>
         ) : (
           <p>##########</p>
