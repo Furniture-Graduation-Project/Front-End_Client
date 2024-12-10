@@ -20,9 +20,8 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
   // const [showAllProducts, setShowAllProducts] = useState(false)
 
   const sortBy = [
-    { value: 'price', label: 'Giá' },
-    { value: 'a-z', label: 'A-Z' },
-    { value: 'z-a', label: 'Z-A' },
+    { value: 'A-Z', label: 'A-Z' },
+    { value: 'Z-A', label: 'Z-A' },
     { value: 'newest', label: t('newest') },
     { value: 'oldest', label: t('oldest') }
   ]
@@ -37,10 +36,10 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
     products?.data
       ?.filter((product) => product.name.toLowerCase().includes(searchQuery.toLowerCase()))
       .sort((a, b) => {
-        if (value === 'a-z') {
+        if (value === 'A-Z') {
           return a.name.localeCompare(b.name)
         }
-        if (value === 'z-a') {
+        if (value === 'Z-A') {
           return b.name.localeCompare(a.name)
         }
         if (value === 'oldest') {
