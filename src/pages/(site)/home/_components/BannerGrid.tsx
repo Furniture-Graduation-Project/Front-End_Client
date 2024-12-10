@@ -15,7 +15,7 @@ const BannerGrid = () => {
             <h1 className='headline-5'>{t('livingRoom', 'Living Room')}</h1>
             <Link
               className='underline flex items-center buton-s transition duration-500 ease-in-out transform hover:translate-x-2 hover:opacity-70 hover:scale-105'
-              to={'/products?category=673e0266bdd20a050fa1fdb0'}
+              to={'/products?category=67572352995835d9927b4924'}
             >
               {t('shopNow', 'Shop now')} <ArrowRight className='h-4' />
             </Link>
@@ -31,7 +31,7 @@ const BannerGrid = () => {
             <h1 className='headline-5'>{t('bedroom', 'Bedroom')}</h1>
             <Link
               className='underline flex items-center buton-s transition duration-500 ease-in-out transform hover:translate-x-2 hover:opacity-70 hover:scale-105'
-              to={'/products?category=6746a58425c49e96bbb8134f'}
+              to={'/products?category=6757235d995835d9927b492b'}
             >
               {t('shopNow', 'Shop now')} <ArrowRight className='h-4' />
             </Link>
@@ -47,7 +47,7 @@ const BannerGrid = () => {
             <h1 className='headline-5'>{t('kitchen', 'Kitchen')}</h1>
             <Link
               className='underline flex items-center buton-s transition duration-500 ease-in-out transform hover:translate-x-2 hover:opacity-70 hover:scale-105'
-              to={'/products?category=6746a5ab25c49e96bbb81365'}
+              to={'/products?category=6757236b995835d9927b4932'}
             >
               {t('shopNow', 'Shop now')} <ArrowRight className='h-4' />
             </Link>
