@@ -54,7 +54,13 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           </p>
           <DialogFooter>
             <DialogClose asChild>
-              <Button onClick={handleLockClose}>Đăng nhập lại</Button>
+              <Link
+                className='bg-slate-900 text-slate-50 hover:bg-slate-900/90 dark:bg-slate-50 dark:text-slate-900 dark:hover:bg-slate-50/90 h-10 px-4 py-2 rounded-sm'
+                to={'/signin'}
+                onClick={handleLockClose}
+              >
+                Đăng nhập lại
+              </Link>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
