@@ -20,7 +20,7 @@ const formSchema = z.object({
 type ContactFormValue = z.infer<typeof formSchema>
 
 const FormContact = () => {
-  const { mutate, isSuccess, isError } = useContactMutation()
+  const { mutate, isSuccess, isError, isPending } = useContactMutation()
   const { t } = useTranslate('contact.formContact')
   const { toast } = useToast()
 
@@ -98,7 +98,7 @@ const FormContact = () => {
                 </FormItem>
               )}
             ></FormField>
-            <Button type='submit' className='mt-4 px-8'>
+            <Button disabled={isPending} type='submit' className='mt-4 px-8'>
               {t('button')}
             </Button>
           </form>

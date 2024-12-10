@@ -24,11 +24,11 @@ const Footer = () => {
             <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/'>
               {t('home')}
             </NavLink>
-            <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/shop'>
+            {/* <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/shop'>
               {t('shop')}
-            </NavLink>
+            </NavLink> */}
             <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/product'>
-              {t('product')}
+              {t('products')}
             </NavLink>
             <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/blog'>
               {t('blog')}

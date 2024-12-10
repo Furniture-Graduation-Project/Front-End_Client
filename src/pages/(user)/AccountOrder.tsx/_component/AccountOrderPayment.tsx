@@ -11,6 +11,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useToast } from '@/hooks/use-toast'
+import { getOrderStatus } from '@/utils/getOrderStatus'
 
 const paymentSchema = z.object({
   paymentMethod: z.enum(['cash_on_delivery', 'credit_card'], {
@@ -112,34 +113,15 @@ const AccountOrderPayment = ({ order }: any) => {
             </span>
           )}
         </p>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-          <div className='space-y-1'>
-            <h3 className='text-lg'>{t('orderTime')}</h3>
-            <p className='text-sm text-gray-600'>{formatDate(order?.data.createdAt, language)}</p>
-          </div>
-          <div className='space-y-1'>
-            <h3 className='text-lg'>{t('paymentTime')}</h3>
-            <p className='text-sm text-gray-600'>
-              {order?.data.payment.paymentDate && order?.data.payment.paymentStatus === 'paid'
-                ? formatDate(order?.data.payment.paymentDate, language)
-                : '##-##-####'}
-            </p>
-          </div>
-          <div className='space-y-1'>
-            <h3 className='text-lg'>{t('deliveryTime')}</h3>
-            <p className='text-sm text-gray-600'>
-              {order?.data.shipments?.item && order?.data.shipments?.item.length > 0
-                ? formatDate(order?.data.shipments?.item[0].shipmentDate, language)
-                : '##-##-####'}
-            </p>
-          </div>
-          <div className='space-y-1'>
-            <h3 className='text-lg'>{t('completionTime')}</h3>
-            <p className='text-sm text-gray-600'>
-              {order?.data.updatedAt && order?.data.payment.paymentStatus === 'delivered'
-                ? formatDate(order?.data.updatedAt, language)
-                : '##-##-####'}
-            </p>
+        <div className='space-y-4'>
+          <h3 className='text-lg font-semibold'>{t('statusHistory')}</h3>
+          <div className='space-y-2'>
+            {order?.data.statusHistory?.map((history: any, index: number) => (
+              <div key={index} className='flex justify-between'>
+                <span>{getOrderStatus(history.status, language)}</span>
+                <span className='text-sm text-gray-600'>{formatDate(history.date, language)}</span>
+              </div>
+            ))}
           </div>
         </div>
       </CardContent>
