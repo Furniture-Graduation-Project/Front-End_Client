@@ -42,7 +42,7 @@ export function CarouselSize() {
         <CarouselContent className='-ml-[30px]'>
           {sortedProducts?.map((product) => (
             <CarouselItem key={product._id} className='basis-1/1 md:basis-1/2 lg:basis-1/4 pl-[30px]'>
-              <ProductCard product={product} />
+              <ProductCard height='300px' product={product} />
             </CarouselItem>
           ))}
         </CarouselContent>
