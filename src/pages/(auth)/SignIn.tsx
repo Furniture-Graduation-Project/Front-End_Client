@@ -11,21 +11,22 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
-const FormSchema = z.object({
-  email: z.string().email({
-    message: 'Invalid email address.'
-  }),
-  password: z.string().min(9, {
-    message: 'Password must be at least 9 characters.'
-  })
-})
-
 export default function SignIn() {
   const { onSubmit: handleSubmit, isPending } = useAccountMutation({
     action: 'SIGNIN'
   })
 
   const { t } = useTranslate('signin')
+
+  const FormSchema = z.object({
+    email: z.string().email({
+      message: t('invalidEmail')
+    }),
+    password: z.string().min(9, {
+      message: t('invalidPassword')
+    })
+  })
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -109,7 +110,16 @@ export default function SignIn() {
         </form>
       </Form>
 
-      <div className='flex flex-col space-y-4'>
+      <div className='relative'>
+        <div className='absolute inset-0 flex items-center'>
+          <span className='w-full border-t' />
+        </div>
+        <div className='relative flex justify-center text-xs uppercase'>
+          <span className='bg-white px-2 text-muted-foreground'>Hoặc</span>
+        </div>
+      </div>
+
+      <div className='grid grid-cols-1 gap-4'>
         <Button
           variant='outline'
           className='w-full flex items-center justify-center space-x-2'
@@ -118,9 +128,8 @@ export default function SignIn() {
           }}
         >
           <img src='/public/google-logo.webp' alt='logo-auth' className='w-5 h-5' />
-          <span>{t('googleSignIn', 'Sign in with Google')}</span>
+          <span>{t('signinGoogle')}</span>
         </Button>
-{/* 
         <Button
           variant='outline'
           className='w-full flex items-center justify-center space-x-2'
@@ -129,8 +138,8 @@ export default function SignIn() {
           }}
         >
           <img src='/public/logo-fb.svg' alt='logo-auth' className='w-5 h-5' />
-          <span>{t('facebookSignIn', 'Sign in with Facebook')}</span>
-        </Button> */}
+          <span>{t('signinFacebook', 'Sign in with Facebook')}</span>
+        </Button>
       </div>
     </div>
   )

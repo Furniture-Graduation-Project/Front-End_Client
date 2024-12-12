@@ -11,6 +11,17 @@
     "privacyPolicyLink": "Privacy Policy",
     "andTermsOfUse": "and",
     "termsOfUseLink": "Terms of Use",
-    "signupButton": "Sign Up"
+    "signupButton": "Sign Up",
+    "nameValidate": "Full name must be at least 3 characters.",
+    "emailValidate": "Invalid email address.",
+    "passwordValidate": "Password must be at least 9 characters.",
+    "check": "Please accept terms and conditions.",
+    "confirmPass": "Passwords don't match.",
+    "success": "Sign up successfully!",
+    "error": "Sign up failed!",
+    "successDescription": "You have successfully signed up.",
+    "errorDescription": "Sign up failed. Please try again.",
+    "signinGoogle": "Sign in with Google",
+    "signinFacebook": "Sign in with Facebook"
   }
 }
