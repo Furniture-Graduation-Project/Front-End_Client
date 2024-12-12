@@ -1,5 +1,5 @@
 import { Columns2, SlidersHorizontal } from 'lucide-react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 import { useMultipleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
 import { useState } from 'react'
@@ -10,6 +10,10 @@ import ComboboxDropdownMenu from './ProductFilterMobile'
 const ProductFilter = () => {
   const { t } = useTranslate('productFilter')
 
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentCategory = queryParams.get('category')
+  const currentMaterial = queryParams.get('material')
   const {
     data: categoriesResponse,
     isLoading: isLoadingCategories,
@@ -59,8 +63,10 @@ const ProductFilter = () => {
           <p className='font-semibold uppercase'>{t('categories')}</p>
           <ul className={`flex flex-col space-y-2 ${!showAllCategories ? 'h-36 overflow-y-auto' : ''}`}>
             <NavLink
-              to={`/products`}
-              className='text-sm font-semibold text-[#807E7E] hover:text-black hover:underline transform duration-200'
+              to='/products'
+              className={`text-sm font-semibold ${
+                !currentCategory ? 'text-black font-bold' : 'text-[#807E7E]'
+              } hover:text-black hover:underline transform duration-200`}
             >
               Tất cả
             </NavLink>
@@ -68,7 +74,9 @@ const ProductFilter = () => {
               <NavLink
                 to={`/products?category=${category._id}`}
                 key={category._id}
-                className='text-sm font-semibold text-[#807E7E] hover:text-black hover:underline transform duration-200'
+                className={`text-sm font-semibold ${
+                  currentCategory === category._id ? 'text-black font-bold' : 'text-[#807E7E]'
+                } hover:text-black hover:underline transform duration-200`}
               >
                 {category.categoryName}
               </NavLink>
@@ -87,8 +95,10 @@ const ProductFilter = () => {
           <p className='text-base font-semibold uppercase'>{t('materials')}</p>
           <ul className={`flex flex-col space-y-2 ${!showAllMaterials ? 'h-36 overflow-y-auto' : ''}`}>
             <NavLink
-              to={`/products`}
-              className='text-sm font-semibold text-[#807E7E] hover:text-black hover:underline transform duration-200'
+              to='/products'
+              className={`text-sm font-semibold ${
+                !currentMaterial ? 'text-black font-bold' : 'text-[#807E7E]'
+              } hover:text-black hover:underline transform duration-200`}
             >
               Tất cả
             </NavLink>
@@ -96,7 +106,9 @@ const ProductFilter = () => {
               <NavLink
                 to={`/products?material=${material._id}`}
                 key={material._id}
-                className='text-sm font-semibold text-[#807E7E] hover:text-black hover:underline transform duration-200'
+                className={`text-sm font-semibold ${
+                  currentMaterial === material._id ? 'text-black font-bold' : 'text-[#807E7E]'
+                } hover:text-black hover:underline transform duration-200`}
               >
                 {material.materialName || t('noMaterialName')}
               </NavLink>
