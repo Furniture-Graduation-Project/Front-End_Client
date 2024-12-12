@@ -1,0 +1,10 @@
+{
+  "mainLayout": {
+    "loginExpired": "Your session has expired",
+    "accountLocked": "Your account has been locked",
+    "loginExpiredMessage": "Your session has expired. Please log in again to continue using the service.",
+    "accountLockedMessage": "If you have any questions about this action, please contact us at",
+    "loginAgain": "Log in again",
+    "contact": "Contact us"
+  }
+}
