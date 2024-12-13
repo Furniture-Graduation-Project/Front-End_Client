@@ -50,6 +50,9 @@ export const generatePDF = (data: any, language: string) => {
     const items = data.data.items.map((item: any, index: number) => [
       { text: index + 1, alignment: 'center' },
       item.productId?.name || 'N/A',
+      item.productOptionId?.variants?.map((variant: any) => `${variant.variant}: ${variant.value}`)?.join(', ') ||
+        'N/A' ||
+        'N/A',
       { text: item.quantity, alignment: 'right' },
       { text: formatCurrency(item.unitPrice), alignment: 'right' },
       { text: formatCurrency(item.quantity * item.unitPrice), alignment: 'right' }
@@ -113,23 +116,22 @@ export const generatePDF = (data: any, language: string) => {
             {
               text: `${translate.orderPhone}: ${data.data.orderPhone}`,
               alignment: 'left',
-
               margin: [0, 10, 0, 10]
             },
             {
               text: `${translate.orderAddress}: ${data.data.orderAddress}`,
               alignment: 'left',
-
               margin: [0, 0, 0, 10]
             },
             {
               table: {
                 headerRows: 1,
-                widths: ['auto', '*', 'auto', 'auto', 'auto'],
+                widths: ['auto', '*', '*', 'auto', 'auto', 'auto'],
                 body: [
                   [
                     { text: 'S.no', style: 'tableHeader', alignment: 'center' },
                     { text: translate.itemName, style: 'tableHeader' },
+                    { text: 'Loại', style: 'tableHeader' },
                     { text: translate.quantity, style: 'tableHeader', alignment: 'right' },
                     { text: translate.amount, style: 'tableHeader', alignment: 'right' },
                     { text: translate.total, style: 'tableHeader', alignment: 'right' }
@@ -161,7 +163,7 @@ export const generatePDF = (data: any, language: string) => {
             header: {
               fontSize: 20,
               bold: true,
-              color: '#4CAF50'
+              color: '#377DFF'
             },
             tableHeader: {
               fontSize: 12,

@@ -78,7 +78,8 @@
         "totalAmount": "Total Amount",
         "orderIdLabel": "Order ID",
         "copyButton": "Copy",
-        "copySuccess": "Copied successfully"
+        "copySuccess": "Copied successfully",
+        "Invoice": "Invoice"
       },
       "payment": {
         "paymentMethod": "Payment Method",
