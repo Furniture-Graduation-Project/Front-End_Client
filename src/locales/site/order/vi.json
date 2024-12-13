@@ -8,6 +8,7 @@
     "total": "Tổng cộng:",
     "paymentMethod": "Phương thức thanh toán:",
     "purchaseHistory": "Lịch sử mua hàng",
-    "failedToLoad": "Không thể tải thông tin đơn hàng. Vui lòng thử lại sau."
+    "failedToLoad": "Không thể tải thông tin đơn hàng. Vui lòng thử lại sau.",
+    "Invoice" : "Xuất hóa đơn"
   }
 }
