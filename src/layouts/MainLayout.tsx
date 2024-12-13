@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Footer from '@/components/common/Footer'
 import Header from '@/components/common/Header/Header'
 import { Button } from '@/components/ui/button'
@@ -7,7 +8,7 @@ import useListenLockAccount from '@/hooks/useListenLockAccount'
 import useListenOrder from '@/hooks/useListenOrder'
 import useListenUnauthorized from '@/hooks/useListenUnauthorized'
 import { useTranslate } from '@/hooks/useTranslate'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
 interface MainLayoutProps {
@@ -16,6 +17,16 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   const { t } = useTranslate('mainLayout')
+  const navigate = useNavigate()
+  const token = useAuthToken()
+  useEffect(() => {
+    if (
+      !token &&
+      (window.location.pathname.startsWith('/account') || window.location.pathname.startsWith('/checkout'))
+    ) {
+      navigate('/')
+    }
+  }, [token, navigate])
 
   useListenOrder()
   useAuthToken()
