@@ -11,6 +11,7 @@ import { formatCurrency } from '@/utils/formatCurrency'
 import { Eye, Heart, ShoppingCart } from 'lucide-react'
 import { useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
+import PopupProduct from './PopupProduct'
 
 interface ProductCardProps {
   width?: string
@@ -65,12 +66,12 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
   }, [isInWishlist, user, addToWishlist, removeFromWishlist, product._id])
 
   return (
-    <div className='relative'>
+    <div className='relative pt-5'>
       {/* Card UI */}
       <div className={cn('bg-neutral-2 rounded-lg relative group transition duration-500 ease-in-out hover:shadow-lg')}>
         {/* Product Image */}
         <Link to={`/products/${product._id}`} className='cursor-pointer'>
-          <div className='w-full h-[300px] box-border'>
+          <div className='w-full h-auto box-border'>
             <img
               src={product?.images[0]}
               alt={product?.name}
@@ -106,16 +107,7 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
 
         {/* Actions */}
         <div className='absolute left-0 right-0 bottom-6 items-center flex justify-center gap-x-6'>
-          <IconButton
-            className='opacity-0 group-hover:translate-y-0 group-hover:opacity-100'
-            onClick={() => {}}
-            icon={<Eye className='h-6 w-6' size={15} />}
-          />
-          <IconButton
-            className='opacity-0 group-hover:translate-y-0 group-hover:opacity-100'
-            onClick={() => {}}
-            icon={<ShoppingCart className='h-6 w-6' size={15} />}
-          />
+          <PopupProduct productId={product._id} />
         </div>
       </div>
 

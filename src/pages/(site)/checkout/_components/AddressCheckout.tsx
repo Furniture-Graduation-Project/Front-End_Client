@@ -26,6 +26,7 @@ const AddressCheckout = ({ data }: AddressCheckoutProps) => {
         <CardContent className='space-y-4'>
           {data?.locations?.map((item: IAddress) => (
             <Fragment key={item._id}>
+              {!item.default && <p>Chưa có địa chỉ mặc định !</p>}
               {item.default && (
                 <>
                   <div className='flex items-center gap-x-4'>

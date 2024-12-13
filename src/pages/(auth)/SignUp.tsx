@@ -3,6 +3,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import useAccountMutation from '@/hooks/mutations/useUserMutation'
+import { toast } from '@/hooks/use-toast'
 import { useTranslate } from '@/hooks/useTranslate'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
@@ -11,35 +12,35 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
-const FormSchema = z
-  .object({
-    name: z.string().min(3, {
-      message: 'Full name must be at least 3 characters.'
-    }),
-    email: z.string().email({
-      message: 'Invalid email address.'
-    }),
-    password: z.string().min(9, {
-      message: 'Password must be at least 9 characters.'
-    }),
-    confirmPassword: z.string().min(9, {
-      message: 'Password must be at least 9 characters long.'
-    }),
-    remember: z.literal(true, {
-      errorMap: () => ({ message: 'Please accept terms and conditions' })
-    })
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: "Passwords don't match"
-  })
-
 const SignUp = () => {
   const { onSubmit: handleSubmit, isPending } = useAccountMutation({
     action: 'SIGNUP'
   })
 
   const { t } = useTranslate('signup')
+
+  const FormSchema = z
+    .object({
+      name: z.string().min(3, {
+        message: t('nameValidate')
+      }),
+      email: z.string().email({
+        message: t('emailValidate')
+      }),
+      password: z.string().min(9, {
+        message: t('passwordValidate')
+      }),
+      confirmPassword: z.string().min(9, {
+        message: t('passwordValidate')
+      }),
+      remember: z.literal(true, {
+        errorMap: () => ({ message: t('check') })
+      })
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      path: ['confirmPassword'],
+      message: t('confirmPass')
+    })
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -60,13 +61,26 @@ const SignUp = () => {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     const { remember, ...rest } = data
-    handleSubmit(rest)
+    try {
+      handleSubmit(rest)
+      toast({
+        title: t('success'),
+        description: t('successDescription'),
+        variant: 'success'
+      })
+    } catch (error) {
+      toast({
+        title: t('error'),
+        description: t('errorDescription'),
+        variant: 'destructive'
+      })
+    }
   }
 
   return (
     <div className='py-4 px-6 sm:px-12 lg:px-24 xl:px-32 sm:h-full flex flex-col justify-center text-neutral-4 space-y-6'>
       <h1 className='headline-7 sm:headline-6 lg:headline-5 xl:headline-4 text-black'>{t('title', 'Sign Up')}</h1>
-      <div className='flex sm:block lg:flex space-x-1 mb-3 sm:mb-6 body-2'>
+      <div className='flex space-x-1 mb-3 sm:mb-6 body-2'>
         <span className='font-normal'>{t('alreadyAccount', 'Already have an account?')}</span>
         <div>
           <Link to='/signin' className='body-2-semi text-green'>
@@ -179,6 +193,38 @@ const SignUp = () => {
           </Button>
         </form>
       </Form>
+
+      <div className='relative'>
+        <div className='absolute inset-0 flex items-center'>
+          <span className='w-full border-t' />
+        </div>
+        <div className='relative flex justify-center text-xs uppercase'>
+          <span className='bg-white px-2 text-muted-foreground'>Hoặc</span>
+        </div>
+      </div>
+
+      <div className='grid grid-cols-1 gap-4'>
+        <Button
+          variant='outline'
+          className='w-full flex items-center justify-center space-x-2'
+          onClick={() => {
+            window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`
+          }}
+        >
+          <img src='/public/google-logo.webp' alt='logo-auth' className='w-5 h-5' />
+          <span>{t('signinGoogle')}</span>
+        </Button>
+        <Button
+          variant='outline'
+          className='w-full flex items-center justify-center space-x-2'
+          onClick={() => {
+            window.location.href = `${import.meta.env.VITE_API_URL}/auth/facebook`
+          }}
+        >
+          <img src='/public/logo-fb.svg' alt='logo-auth' className='w-5 h-5' />
+          <span>{t('signinFacebook', 'Sign in with Facebook')}</span>
+        </Button>
+      </div>
     </div>
   )
 }
