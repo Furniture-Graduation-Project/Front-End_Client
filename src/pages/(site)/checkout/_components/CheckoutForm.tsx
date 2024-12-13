@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CreditCard, DollarSign, Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -175,14 +174,14 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
     }
   }, [isSuccess, dataOrder, navigate])
   useEffect(() => {
-    if (success) {
+    if (success && dataOrder?.data?.data) {
+      const order = dataOrder.data.data as IOrder
       toast({
         title: t('paymentSuccessTitle'),
         description: t('paymentSuccessDescription'),
         variant: 'default'
       })
-
-      setTimeout(() => navigate('/order/' + orderState._id), 3000)
+      setTimeout(() => navigate('/order/' + order._id), 3000)
     }
   }, [success])
   useEffect(() => {

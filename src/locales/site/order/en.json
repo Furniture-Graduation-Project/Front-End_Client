@@ -8,6 +8,7 @@
     "total": "Total:",
     "paymentMethod": "Payment method:",
     "purchaseHistory": "Purchase history",
-    "failedToLoad": "Failed to load order details. Please try again later."
+    "failedToLoad": "Failed to load order details. Please try again later.",
+    "Invoice": "Invoice"
   }
 }
