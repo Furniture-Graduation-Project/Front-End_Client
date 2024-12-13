@@ -2,16 +2,45 @@ import { Separator } from '@/components/ui/separator'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSingleOrderQuery } from '@/hooks/queries/useOrderQuery'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslate } from '@/hooks/useTranslate'
 import { IOrderItem } from '@/interface/order'
+import { Button } from '@/components/ui/button'
+import useSessionStorage from '@/hooks/useSessionStorage'
+import { useEffect } from 'react'
+import { jsPDF } from 'jspdf'
+import autoTable from 'jspdf-autotable'
+import { formatDate } from '@/utils/formatDate'
+import { useLanguage } from '@/context/LanguageContext'
+import { formatCurrency } from '@/utils/formatCurrency'
 
 const Order = () => {
   const { id } = useParams()
   const { t } = useTranslate('order')
-  const { data, isLoading, isError } = useSingleOrderQuery(id)
-  console.log(data)
-
+  const { language } = useLanguage()
+  const navigate = useNavigate()
+  const [state, setState, removeState] = useSessionStorage('order', null)
+  const { data, isLoading, isError } = useSingleOrderQuery(id || '')
+  function handleDownload() {
+    if (data && data.data && data.data.items) {
+      const doc = new jsPDF()
+      let newArray = data.data.items.map((item: IOrderItem | any, index: number) => {
+        return [index + 1, item.productId?.name, item.quantity, item.unitPrice, item.quantity * item.unitPrice]
+      })
+      doc.text('Nội Thất River', 70, 20)
+      let today = formatDate(new Date(), language)
+      doc.text(`Date: ${today}`, 200, 25, null, null, 'right')
+      doc.text(`Customer name: Murugan`, 200, 30, null, null, 'right')
+      autoTable(doc, {
+        head: [['S.no', 'Item name', 'Quantity', 'Amount', 'Total']],
+        body: newArray,
+        startY: 35
+      })
+      let finalY = doc.previousAutoTable.finalY
+      doc.text(`Total amount to be paid: ${formatCurrency(data.data.totalPrice || 0)}`, 12, finalY + 10)
+      doc.save(`Bill-${data.data.code}.pdf`)
+    }
+  }
   if (isLoading) {
     return (
       <div className='my-20 p-4 sm:py-20 sm:px-24 shadow-lg rounded-md md:w-[738px] w-auto mx-auto'>
@@ -52,6 +81,11 @@ const Order = () => {
       </div>
     )
   }
+  useEffect(() => {
+    if (state) {
+      removeState()
+    }
+  }, [data])
   return (
     <div className='relative z-10 my-20 p-4 sm:py-20 sm:px-24 shadow-lg rounded-md md:w-[738px] w-auto mx-auto'>
       <h1 className='text-base sm:text-3xl font-semibold text-[#6C7275] text-center'>{t('thankYou')}</h1>
@@ -138,7 +172,10 @@ const Order = () => {
             </p>
           </div>
         </div>
-        <Link to={'/account/order'} className='px-11 h-[52px] font-medium text-base rounded-full'>{t('purchaseHistory')}</Link>
+        <Link to={'/account/order'}>
+          <Button>{t('purchaseHistory')}</Button>
+        </Link>
+        <Button onClick={handleDownload}>Xuất hóa đơn</Button>
       </div>
     </div>
   )

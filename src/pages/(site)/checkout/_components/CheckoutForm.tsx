@@ -23,6 +23,7 @@ import PaymentPopup from '@/components/site/PaymentPopup/PaymentPopup'
 import AddressCheckout from './AddressCheckout'
 import { IAddress } from '@/interface/address'
 import { AlertModal } from '@/components/ui/alert-modal'
+import useSessionStorage from '@/hooks/useSessionStorage'
 
 const formSchema = z.object({
   firstName: z.string().optional(),
@@ -43,6 +44,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   const { toast } = useToast()
   const { t } = useTranslate('checkout.form')
   const navigate = useNavigate()
+  const [state, setState, removeState] = useSessionStorage('order', null)
   const [openQR, setOpenQR] = useState<boolean>(false)
   const [success, setSuccess] = useState<boolean>(false)
   const [orderState, setOrderState] = useState<IOrder>({} as IOrder)
@@ -166,7 +168,8 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
       const order = dataOrder.data.data as IOrder
       if (order) {
         if (order._id && order.payment?.paymentMethod === 'cash_on_delivery') {
-          navigate('/order/' + order._id)
+          setState(order._id)
+          navigate('/order')
         } else if (order._id && order.payment?.paymentMethod === 'credit_card') {
           setOrderState(order)
           setOpenQR(true)
@@ -182,7 +185,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
         variant: 'default'
       })
 
-      setTimeout(() => navigate('/order/' + orderState._id), 3000)
+      setTimeout(() => navigate('/order'), 3000)
     }
   }, [success])
   useEffect(() => {
