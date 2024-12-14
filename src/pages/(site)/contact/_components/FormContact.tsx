@@ -34,10 +34,21 @@ const FormContact = () => {
   })
 
   const onSubmit = async (data: ContactFormValue) => {
+    console.log('ok')
+
     const newContact: IContact = {
-      email: import.meta.env.VITE_EMAIL_NAME,
+      email: data.email,
       subject: 'Yêu cầu liên hệ từ khách hàng : ' + data.name,
-      text: 'Email khách hàng : ' + data.email + '\n' + 'Nội dung : ' + data.message
+      text: `
+            <h1 style="font-size: 26px; margin: 0; font-weight: bold;">Thông Báo: Yêu Cầu Liên Hệ</h1>
+          <div style="padding: 20px; color: #444444; line-height: 1.8; font-size: 16px;">
+            <h2 style="font-size: 22px; font-weight: bold; color: #333;">Chúng tôi đã nhận được yêu cầu từ quý khách</h2>
+            <p style="font-size: 16px;"><strong>Tên khách hàng:</strong> ${data.name}</p>
+            <p style="font-size: 16px;"><strong>Nội dung yêu cầu:</strong> ${data.message}</p>
+            <p style="font-size: 16px;">Chúng tôi sẽ liên hệ với quý khách trong thời gian sớm nhất. Cảm ơn quý khách đã tin tưởng!</p>
+          </div>
+     
+       `
     }
     mutate(newContact)
   }
