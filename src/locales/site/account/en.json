@@ -112,6 +112,11 @@
         "statusHistory": "Status history"
       },
       "request": {
+        "quantityError": "Quantity must be at least 0.",
+        "unitPriceError": "UnitPrice must be at least 0.",
+        "selectProductError": "Select at least one product to return.",
+        "reasonError": "Reason must be at least 10 characters long.",
+        "orderRequestTitle": "Order Return Request",
         "returnRequest": "Return Request",
         "back": "Back",
         "status": {

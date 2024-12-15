@@ -15,21 +15,6 @@ import { z } from 'zod'
 import { IContact } from '@/interface/contact'
 import { useAuthContext } from '@/context/AuthContext'
 
-const returnRequestSchema = z.object({
-  selectedProducts: z
-    .array(
-      z.object({
-        productId: z.string(),
-        productOptionId: z.string(),
-        quantity: z.number().min(0, 'Quantity must be at least 0.'),
-        unitPrice: z.number().min(0, 'UnitPrice must be at least 0.')
-      })
-    )
-    .min(1, 'Select at least one product to return.'),
-  reason: z.string().min(10, 'Reason must be at least 10 characters long.')
-})
-
-type ReturnRequestForm = z.infer<typeof returnRequestSchema>
 const AccountOrderRequestForm = ({ data }: any) => {
   const { user } = useAuthContext()
   const { t } = useTranslate('account.order.request')
@@ -39,7 +24,20 @@ const AccountOrderRequestForm = ({ data }: any) => {
   const { mutate: sendMail } = useContactMutation()
   const { mutate } = useOrderMutation({ action: 'UPDATE' })
   const { toast } = useToast()
-  const form = useForm<ReturnRequestForm>({
+  const returnRequestSchema = z.object({
+    selectedProducts: z
+      .array(
+        z.object({
+          productId: z.string(),
+          productOptionId: z.string(),
+          quantity: z.number().min(0, t('quantityError')),
+          unitPrice: z.number().min(0, t('unitPriceError'))
+        })
+      )
+      .min(1, t('selectProductError')),
+    reason: z.string().min(10, t('reasonError'))
+  })
+  const form = useForm<z.infer<typeof returnRequestSchema>>({
     resolver: zodResolver(returnRequestSchema),
     defaultValues: {
       selectedProducts: [],
@@ -74,9 +72,9 @@ const AccountOrderRequestForm = ({ data }: any) => {
     }
   }, [data, form])
 
-  const onSubmit = (dataForm: ReturnRequestForm) => {
+  const onSubmit = (dataForm: z.infer<typeof returnRequestSchema>) => {
     if (data?.data._id) {
-      const returnData = dataForm.selectedProducts.filter((item) => item.quantity > 0 && item.productOptionId)
+      const returnData = dataForm.selectedProducts.filter((item: any) => item.quantity > 0 && item.productOptionId)
       mutate({
         _id: data?.data._id,
         returnInfo: {
