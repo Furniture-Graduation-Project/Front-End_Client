@@ -1,3 +1,4 @@
+import { useAuthContext } from '@/context/AuthContext'
 import useAccountMutation from '@/hooks/mutations/useUserMutation'
 import { toast } from '@/hooks/use-toast'
 import { useEffect } from 'react'
@@ -5,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Logout = () => {
   const { mutate } = useAccountMutation({ action: 'LOGOUT' })
+  const { logout } = useAuthContext()
   const navigate = useNavigate()
   useEffect(() => {
     mutate(undefined, {
@@ -14,6 +16,7 @@ const Logout = () => {
           description: 'Chuyển đến trang chính...',
           variant: 'success'
         })
+        logout()
         navigate('/')
       },
       onError: (error) => {
@@ -25,7 +28,7 @@ const Logout = () => {
         console.log('[LOGOUT]', error)
       }
     })
-  }, [mutate, navigate])
+  }, [mutate, navigate, logout])
 
   return null
 }

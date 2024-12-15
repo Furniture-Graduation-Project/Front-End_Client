@@ -30,7 +30,6 @@ const SidebarAccount = () => {
   const { t } = useTranslate('account.sidebar')
   const navigate = useNavigate()
   const location = useLocation()
-  const [avatar, setAvatar] = useState<string>(user?.avatar || '/images/avatar.png')
   const [preview, setPreview] = useState<string | null>(user?.avatar || null)
   const [loading, setLoading] = useState(false)
   const { mutate } = useAccountMutation({ action: 'UPDATE' })
@@ -45,7 +44,6 @@ const SidebarAccount = () => {
     if (!files) return
     setLoading(true)
     const urls = await Promise.all(Array.from(files).map(uploadFileCloudinary))
-    setAvatar(urls[0])
     setPreview(URL.createObjectURL(files[0]))
     form.setValue('image', urls[0])
     setLoading(false)
@@ -75,7 +73,7 @@ const SidebarAccount = () => {
   }
 
   return (
-    <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit md:h-[498px] mb-24 sticky top-32'>
+    <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit  mb-24 sm:sticky sm:top-32'>
       <div className='relative'>
         <AvatarAccount src={user?.avatar || '/images/avatar.png'} className='h-20 w-20 mx-auto' />
         <div className='bg-black border-[2px] border-white rounded-full w-[30px] h-[30px] flex justify-center items-center absolute top-14 right-20 hover:opacity-80 transition transform duration-200'>
@@ -124,7 +122,7 @@ const SidebarAccount = () => {
         <p className='text-xl font-semibold text-center mt-2'>{user?.name}</p>
       </div>
       <div className='mt-10'>
-        <ul className='*:text-base *:font-semibold *:py-2 *:my-[6px] hidden md:flex flex-col'>
+        <ul className='*:text-base *:font-semibold hidden md:flex flex-col gap-y-6'>
           <li className='*:flex'>
             <NavLink
               to='/account'
@@ -136,6 +134,18 @@ const SidebarAccount = () => {
               }
             >
               {t('account')}
+            </NavLink>
+          </li>
+          <li className='*:flex'>
+            <NavLink
+              to='/account/change-password'
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-black font-bold border-b-[1.5px] border-black'
+                  : 'text-neutral-400 hover:text-black transition'
+              }
+            >
+              {t('changePass')}
             </NavLink>
           </li>
           <li className='*:flex'>

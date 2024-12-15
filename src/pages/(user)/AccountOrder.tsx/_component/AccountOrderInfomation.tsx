@@ -26,16 +26,17 @@ const AccountOrderInfomation = ({ order }: any) => {
                       <img
                         src={item.productId?.images && item.productId.images.length > 0 ? item.productId.images[0] : ''}
                         alt={item.productId?.name}
-                        className='w-24 h-24 object-cover sm:w-32 sm:h-32'
+                        className='w-24 h-24 object-cover sm:w-32 sm:h-32 rounded-md'
                       />
                       <div className='flex flex-col justify-between'>
                         <h3 className='text-lg font-semibold whitespace-nowrap'>{item.productId?.name}</h3>
                         <div className='text-[12px] text-[#6C7275]'>
-                          {item.productOptionId?.variants && item.productOptionId.variants.map((variant: any, id: number) => (
-                            <h4 className='whitespace-nowrap' key={id}>
-                              {variant.variant}: {variant.value}
-                            </h4>
-                          ))}
+                          {item.productOptionId?.variants &&
+                            item.productOptionId.variants.map((variant: any, id: number) => (
+                              <h4 className='whitespace-nowrap' key={id}>
+                                {variant.variant}: {variant.value}
+                              </h4>
+                            ))}
                         </div>
                         <h4>
                           {t('quantity')}: {item.quantity}

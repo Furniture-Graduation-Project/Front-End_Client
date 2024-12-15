@@ -10,7 +10,19 @@
       "image": "Bạn có muốn thay đổi ảnh đại diện",
       "upload": "Tải ảnh lên",
       "cancel": "Hủy",
-      "save": "Lưu lại"
+      "save": "Lưu lại",
+      "changePass": "Thay đổi mật khẩu"
+    },
+    "changePassword": {
+      "title": "Thay đổi mật khẩu",
+      "oldPassword": "Mật khẩu cũ",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "change": "Thay đổi",
+      "passValidate": "Mật khẩu phải có ít nhất 6 ký tự.",
+      "newPassValidate": "Mật khẩu mới phải có ít nhất 6 ký tự.",
+      "confirmPasswordValidate": "Xác nhận mật khẩu phải có ít nhất 6 ký tự.",
+      "confirmPasswordNotMatch": "Xác nhận mật khẩu không khớp."
     },
     "detail": {
       "title": "Tài khoản của tôi",

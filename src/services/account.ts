@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { axiosInstance } from '@/config/axios'
 import { IUser } from '@/interface/user'
 
@@ -8,7 +9,7 @@ export const AuthService = {
       return response
     } catch (error) {
       console.error('Login Error:', error)
-      alert('Login failed. Please check your credentials.')
+      throw error
     }
   },
   signUp: async (data: IUser) => {
@@ -26,6 +27,7 @@ export const AuthService = {
       return response
     } catch (error) {
       console.log(error)
+      throw error
     }
   },
   getById: async (id: string) => {
@@ -34,6 +36,7 @@ export const AuthService = {
       return response
     } catch (error) {
       console.log(error)
+      throw error
     }
   },
   delete: async (id: string) => {
@@ -42,14 +45,16 @@ export const AuthService = {
       return response
     } catch (error) {
       console.log(error)
+      throw error
     }
   },
   update: async (id: string, data: IUser) => {
     try {
       const response = await axiosInstance.put(`/users/${id}`, data)
       return response
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
+      throw error
     }
   },
   refreshToken: async (): Promise<string | null> => {
@@ -62,6 +67,69 @@ export const AuthService = {
       return data.token
     } catch (error) {
       return null
+    }
+  },
+  sendOtp: async (email: string) => {
+    try {
+      const token = localStorage.getItem('token')
+
+      const headers = token ? { Authorization: `Bearer ${token}` } : undefined
+
+      const response = await axiosInstance.post('/users/send-otp', { email }, { headers })
+
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token)
+      }
+      return response
+    } catch (error: any) {
+      console.log(error)
+      throw error
+    }
+  },
+  verifyOtp: async (otp: string) => {
+    try {
+      const token = localStorage.getItem('token')
+
+      if (!token) {
+        throw new Error('Token not found')
+      }
+
+      const res = await axiosInstance.post(
+        '/users/verify-otp',
+        { otp },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+      return res
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  },
+  changePassword: async (data: { newPassword: string; confirmPassword: string }) => {
+    try {
+      const token = localStorage.getItem('token')
+
+      if (!token) {
+        throw new Error('Token not found')
+      }
+
+      const res = await axiosInstance.post(
+        '/users/change-password',
+        { newPassword: data.newPassword, confirmPassword: data.confirmPassword },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+      return res
+    } catch (error) {
+      console.log(error)
+      throw error
     }
   },
   logout: async () => {

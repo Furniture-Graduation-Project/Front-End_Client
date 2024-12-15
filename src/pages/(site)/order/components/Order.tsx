@@ -10,7 +10,6 @@ const Order = () => {
   const { id } = useParams()
   const { t } = useTranslate('order')
   const { data, isLoading, isError } = useSingleOrderQuery(id)
-  console.log(data)
 
   if (isLoading) {
     return (
@@ -138,7 +137,9 @@ const Order = () => {
             </p>
           </div>
         </div>
-        <Link to={'/account/order'} className='px-11 h-[52px] font-medium text-base rounded-full'>{t('purchaseHistory')}</Link>
+        <Link to={'/account/order'} className='px-11 h-[52px] font-medium text-base rounded-full'>
+          {t('purchaseHistory')}
+        </Link>
       </div>
     </div>
   )
