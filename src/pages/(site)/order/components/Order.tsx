@@ -1,15 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Separator } from '@/components/ui/separator'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useSingleOrderQuery } from '@/hooks/queries/useOrderQuery'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTranslate } from '@/hooks/useTranslate'
 import { IOrderItem } from '@/interface/order'
+import { Button } from '@/components/ui/button'
+import { useLanguage } from '@/context/LanguageContext'
+import { generatePDF } from '@/utils/pdfGenerator'
 
-const Order = () => {
-  const { id } = useParams()
+const Order = ({ data, isLoading, isError }: any) => {
   const { t } = useTranslate('order')
-  const { data, isLoading, isError } = useSingleOrderQuery(id)
+  const { language } = useLanguage()
+
+  const handleDownload = () => {
+    if (data && data.data && data.data.items) {
+      generatePDF(data, language)
+    }
+  }
 
   if (isLoading) {
     return (
@@ -64,7 +72,7 @@ const Order = () => {
             className='w-full max-w-sm'
           >
             <CarouselContent>
-              {data?.data.items?.map((item: IOrderItem, index) => (
+              {data?.data.items?.map((item: IOrderItem, index: number) => (
                 <CarouselItem key={index} className='sm:basis-1/2 md:basis-1/3 '>
                   <div className='p-3 relative'>
                     <div className=''>
@@ -137,9 +145,12 @@ const Order = () => {
             </p>
           </div>
         </div>
-        <Link to={'/account/order'} className='px-11 h-[52px] font-medium text-base rounded-full'>
-          {t('purchaseHistory')}
-        </Link>
+        <div className='grid grid-cols-2 gap-3'>
+          <Link to={'/account/order/' + data?.data._id}>
+            <Button>{t('purchaseHistory')}</Button>
+          </Link>
+          <Button onClick={handleDownload}>{t('Invoice')}</Button>
+        </div>
       </div>
     </div>
   )

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Footer from '@/components/common/Footer'
 import Header from '@/components/common/Header/Header'
 import { Button } from '@/components/ui/button'
@@ -6,7 +7,8 @@ import { useAuthToken } from '@/hooks/useAuthToken'
 import useListenLockAccount from '@/hooks/useListenLockAccount'
 import useListenOrder from '@/hooks/useListenOrder'
 import useListenUnauthorized from '@/hooks/useListenUnauthorized'
-import { Link } from 'react-router-dom'
+import { useTranslate } from '@/hooks/useTranslate'
+import { Link, useNavigate } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
 interface MainLayoutProps {
@@ -14,10 +16,23 @@ interface MainLayoutProps {
 }
 
 const MainLayout = ({ children }: MainLayoutProps) => {
+  const { t } = useTranslate('mainLayout')
+  const navigate = useNavigate()
+  const token = useAuthToken()
+  useEffect(() => {
+    if (
+      !token &&
+      (window.location.pathname.startsWith('/account') || window.location.pathname.startsWith('/checkout'))
+    ) {
+      navigate('/')
+    }
+  }, [token, navigate])
+
   useListenOrder()
   useAuthToken()
   const { isDialogOpen, handleDialogClose } = useListenUnauthorized()
   const { isLockOpen, handleLockClose } = useListenLockAccount()
+
   return (
     <>
       <div className='min-h-screen flex flex-col'>
@@ -29,14 +44,12 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       <Dialog open={isDialogOpen} onOpenChange={(open) => (open ? null : handleDialogClose())}>
         <DialogContent>
           <DialogHeader>
-            <h3 className='text-xl font-semibold'>Phiên đăng nhập đã hết hạn</h3>
+            <h3 className='text-xl font-semibold'>{t('loginExpired')}</h3>
           </DialogHeader>
-          <p className='text-sm text-gray-600'>
-            Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại để tiếp tục sử dụng dịch vụ.
-          </p>
+          <p className='text-sm text-gray-600'>{t('loginExpiredMessage')}</p>
           <DialogFooter>
             <DialogClose asChild>
-              <Button onClick={handleDialogClose}>Đăng nhập lại</Button>
+              <Button onClick={handleDialogClose}>{t('loginAgain')}</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
@@ -44,12 +57,12 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       <Dialog open={isLockOpen} onOpenChange={(open) => (open ? null : handleLockClose())}>
         <DialogContent>
           <DialogHeader>
-            <h3 className='text-xl font-semibold'>Tài khoản của bạn đã bị khóa</h3>
+            <h3 className='text-xl font-semibold'>{t('accountLocked')}</h3>
           </DialogHeader>
           <p className='text-sm text-gray-600'>
-            Nếu có thắc mắc về hành động này vui long liên hệ với chúng tôi tại{' '}
+            {t('accountLockedMessage')}{' '}
             <Link to={'/contact'} className='text-blue underline'>
-              liên hệ
+              {t('contact')}
             </Link>
           </p>
           <DialogFooter>
@@ -59,7 +72,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
                 to={'/signin'}
                 onClick={handleLockClose}
               >
-                Đăng nhập lại
+                {t('loginAgain')}
               </Link>
             </DialogClose>
           </DialogFooter>

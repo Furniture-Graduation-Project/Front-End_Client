@@ -173,7 +173,7 @@ const OrderSummary = ({
               })
             )}
           </div>
-          <Form {...form}>
+          {/* <Form {...form}>
             <form className='flex gap-x-3 mt-2' action='' onSubmit={form.handleSubmit(onSubmit)}>
               <div className='w-full'>
                 <FormField
@@ -190,16 +190,16 @@ const OrderSummary = ({
               </div>
               <Button type='submit'>{t('button')}</Button>
             </form>
-          </Form>
-          <div className='flex justify-between items-center'>
+          </Form> */}
+          {/* <div className='flex justify-between items-center'>
             <div className='flex items-center gap-x-2'>
               <TicketPercent size={24} />
             </div>
             <p className='text-[#38CB89] font-semibold'>
               -0% <span className='hidden sm:inline-block'>{t('remove')}</span>
             </p>
-          </div>
-          <Separator />
+          </div> */}
+          {/* <Separator /> */}
           <div className='flex justify-between items-center'>
             <div className='flex items-center gap-x-2'>
               <p>{t('shipping')}</p>

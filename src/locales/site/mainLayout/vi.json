@@ -1,0 +1,10 @@
+{
+  "mainLayout": {
+    "loginExpired": "Phiên đăng nhập đã hết hạn",
+    "accountLocked": "Tài khoản của bạn đã bị khóa",
+    "loginExpiredMessage": "Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại để tiếp tục sử dụng dịch vụ.",
+    "accountLockedMessage": "Nếu có thắc mắc về hành động này vui lòng liên hệ với chúng tôi tại",
+    "loginAgain": "Đăng nhập lại",
+    "contact": "Liên hệ"
+  }
+}

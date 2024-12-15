@@ -92,7 +92,8 @@
         "totalAmount": "Thanh tiền",
         "orderIdLabel": "Mã đơn hàng",
         "copyButton": "Sao chép",
-        "copySuccess": "Sao chép thành công"
+        "copySuccess": "Sao chép thành công",
+        "Invoice": "Xuất hóa đơn"
       },
       "payment": {
         "paymentMethod": "Phương thức thanh toán",
