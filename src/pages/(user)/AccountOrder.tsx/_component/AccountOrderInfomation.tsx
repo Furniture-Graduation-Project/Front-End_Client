@@ -4,15 +4,25 @@ import { formatCurrency } from '@/utils/formatCurrency'
 import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/hooks/use-toast'
 import { useTranslate } from '@/hooks/useTranslate'
+import { generatePDF } from '@/utils/pdfGenerator'
+import { useLanguage } from '@/context/LanguageContext'
 
 const AccountOrderInfomation = ({ order }: any) => {
   const { t } = useTranslate('account.order.infomation')
   const { toast } = useToast()
-
+  const { language } = useLanguage()
+  const handleDownload = () => {
+    if (order && order.data && order.data.items) {
+      generatePDF(order, language)
+    }
+  }
   return (
     <Card>
       <CardHeader>
-        <h2 className='text-xl font-bold'>{t('orderDetails')}</h2>
+        <div className='flex justify-between'>
+          <h2 className='text-xl font-bold'>{t('orderDetails')}</h2>
+          <Button onClick={handleDownload}>{t('Invoice')}</Button>
+        </div>
       </CardHeader>
       <CardContent className='space-y-4'>
         <div>
@@ -21,28 +31,29 @@ const AccountOrderInfomation = ({ order }: any) => {
             {order?.data.items && order?.data.items.length > 0 ? (
               order.data.items.map((item: any, index: number) => (
                 <div key={index}>
-                  <div className='flex justify-between w-full py-2'>
+                  <div className='grid grid-cols-1 sm:grid-cols-2 w-full py-2'>
                     <div className='flex gap-5'>
                       <img
-                        src={item.productId?.images && item.productId.images.length > 0 ? item.productId.images[0] : ''}
+                        src={item.productOptionId?.image ? item.productOptionId.image : ''}
                         alt={item.productId?.name}
                         className='w-24 h-24 object-cover sm:w-32 sm:h-32'
                       />
                       <div className='flex flex-col justify-between'>
                         <h3 className='text-lg font-semibold whitespace-nowrap'>{item.productId?.name}</h3>
                         <div className='text-[12px] text-[#6C7275]'>
-                          {item.productOptionId?.variants && item.productOptionId.variants.map((variant: any, id: number) => (
-                            <h4 className='whitespace-nowrap' key={id}>
-                              {variant.variant}: {variant.value}
-                            </h4>
-                          ))}
+                          {item.productOptionId?.variants &&
+                            item.productOptionId.variants.map((variant: any, id: number) => (
+                              <h4 className='whitespace-nowrap' key={id}>
+                                {variant.variant}: {variant.value}
+                              </h4>
+                            ))}
                         </div>
                         <h4>
                           {t('quantity')}: {item.quantity}
                         </h4>
                       </div>
                     </div>
-                    <h3 className='text-xl font-bold'>{formatCurrency(item.quantity * item.unitPrice)}</h3>
+                    <h3 className='text-xl font-bold text-end'>{formatCurrency(item.quantity * item.unitPrice)}</h3>
                   </div>
                   <Separator />
                 </div>
