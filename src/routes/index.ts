@@ -23,8 +23,11 @@ import AccountOrder from '@/pages/(user)/AccountOrder.tsx/AccountOrder'
 import AccountPage from '@/pages/(user)/AccountPage'
 import AccountSetting from '@/pages/(user)/AccountSetting/AccountSetting'
 import AccountWishlist from '@/pages/(user)/AccountWishlist/AccountWishlist'
-import AddressForm from '@/pages/(user)/Address/_components/AddressForm'
 import AddressPage from '@/pages/(user)/Address/AddressPage'
+import ChangePassPages from '@/pages/(user)/ChangePass.tsx/ChangePassPages'
+import ForgotPassPage from '@/pages/(user)/ForgotPass/ForgotPassPage'
+import NewPassPage from '@/pages/(user)/ForgotPass/NewPassPage'
+import VerifyOtp from '@/pages/(user)/ForgotPass/VerifyOtp'
 
 const routes: IRoute[] = [
   { path: '/', component: HomePage, layout: MainLayout },
@@ -67,12 +70,20 @@ const routes: IRoute[] = [
       { path: 'wishlist', component: AccountWishlist },
       {
         path: 'address',
-        component: AddressPage,
-        children: [{ path: 'add', component: AddressForm }]
+        component: AddressPage
+      },
+      {
+        path: 'change-password',
+        component: ChangePassPages
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPassPage
       }
     ]
   },
-
+  { path: '/forgot-password/verify-otp', component: VerifyOtp, layout: AuthLayout },
+  { path: '/new-password', component: NewPassPage, layout: AuthLayout },
   { path: '/order/:id', component: OrderPage, layout: MainLayout },
   { path: '/auth/callback', component: AuthCallback, layout: MainLayout },
   { path: '*', component: NotFoundPage, layout: MainLayout }

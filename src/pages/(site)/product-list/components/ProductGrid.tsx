@@ -5,7 +5,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/utils/classUtils'
 import { useMultipleProductQuery } from '@/hooks/queries/useProductQuery'
-import { Check, ChevronsUpDown, Grid3X3, LayoutGrid, Columns2 } from 'lucide-react'
+import { Check, ChevronsUpDown, Grid3X3, LayoutGrid, Columns2, Loader2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { useTranslate } from '@/hooks/useTranslate'
 
@@ -14,10 +14,9 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
 
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
-  const [productNumber, setProductNumber] = useState(0)
+  const [productNumber, setProductNumber] = useState(4)
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 12 })
   const [searchQuery, setSearchQuery] = useState('')
-  // const [showAllProducts, setShowAllProducts] = useState(false)
 
   const sortBy = [
     { value: 'A-Z', label: 'A-Z' },
@@ -31,38 +30,33 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
     isError,
     refetch
   } = useMultipleProductQuery(pagination, searchQuery, categoryId, materialId)
-  const noProducts = products?.data?.length === 0
-  const filteredProducts =
-    products?.data
-      ?.filter((product) => product.name.toLowerCase().includes(searchQuery.toLowerCase()))
-      .sort((a, b) => {
-        if (value === 'A-Z') {
-          return a.name.localeCompare(b.name)
-        }
-        if (value === 'Z-A') {
-          return b.name.localeCompare(a.name)
-        }
-        if (value === 'oldest') {
-          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        }
-        if (value === 'newest') {
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        }
-        if (value === 'price') {
-          return b.price - a.price
-        }
-        return 0
-      }) || []
-
-  const noSearchResults = filteredProducts.length === 0 && searchQuery.length > 0
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
   }
-  const visibleProducts = filteredProducts
-  useEffect(() => {
-    refetch()
-  }, [pagination, refetch])
+
+  const filteredProducts =
+    products?.data?.sort((a, b) => {
+      if (value === 'A-Z') {
+        return a.name.localeCompare(b.name)
+      }
+      if (value === 'Z-A') {
+        return b.name.localeCompare(a.name)
+      }
+      if (value === 'oldest') {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      }
+      if (value === 'newest') {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      }
+      if (value === 'price') {
+        return b.price - a.price
+      }
+      return 0
+    }) || []
+
+  const noProducts = products?.data?.length === 0
+  const noSearchResults = filteredProducts.length === 0 && searchQuery.length > 0
 
   const handleNextPage = () => {
     setPagination((prev) => ({ ...prev, pageIndex: prev.pageIndex + 1 }))
@@ -74,8 +68,13 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
 
   const isLastPage = filteredProducts.length < pagination.pageSize
   useEffect(() => {
+    refetch()
+  }, [pagination, searchQuery, refetch])
+
+  useEffect(() => {
     window.scrollTo({ top: 250, behavior: 'smooth' })
   }, [pagination.pageIndex])
+
   return (
     <div className='md:pl-6 flex-col w-full flex-grow'>
       <div className='flex justify-between h-10'>
@@ -150,7 +149,9 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
       </div>
 
       {isLoading ? (
-        <div>{t('loading')}</div>
+        <div className='flex justify-center items-center'>
+          <Loader2 className='animate-spin h-10 w-10 text-blue-500' />
+        </div>
       ) : isError ? (
         <div>{t('errorLoadingProducts')}</div>
       ) : noProducts ? (
@@ -165,11 +166,13 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
         <div
           className={cn(
             'grid gap-6 mt-10',
-            productNumber && `grid-cols-${productNumber}`,
-            !productNumber && 'xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2'
+            productNumber === 4 && 'grid-cols-4',
+            productNumber === 3 && 'grid-cols-3',
+            productNumber === 2 && 'grid-cols-2',
+            productNumber === 1 && 'grid-cols-1'
           )}
         >
-          {visibleProducts?.map((product) => (
+          {filteredProducts?.map((product) => (
             <ProductCard height='349px' width='262px' product={product} key={product._id} />
           ))}
         </div>

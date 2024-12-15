@@ -21,7 +21,7 @@ const AddressCard = ({ data }: IAddressCard) => {
           <AddressForm />
         </AddressPopover>
       </div>
-      <div className='grid grid-cols-3 mt-5 gap-6 mb-14'>
+      <div className='grid grid-cols-2 mt-5 gap-6 mb-14'>
         {data?.locations?.length === 0 && (
           <div className='col-span-3 text-center'>
             <p className='text-lg text-neutral-400'>{t('noAddress')}</p>

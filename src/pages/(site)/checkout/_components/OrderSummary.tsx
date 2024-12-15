@@ -142,9 +142,13 @@ const OrderSummary = ({
                         {t('update_price')}
                       </Button>
                     </div>
-                    <div className='flex justify-between py-6 px-3'>
+                    <div className='flex justify-between py-6 '>
                       <div className='flex gap-4'>
-                        <img src={item.productOptionId.image} alt={item.productOptionId.sku} className='w-24 h-28' />
+                        <img
+                          src={item.productOptionId.image}
+                          alt={item.productOptionId.sku}
+                          className='w-24 h-28 rounded-md'
+                        />
                         <div className='flex flex-col gap-y-2 justify-center'>
                           <h1 className='font-semibold text-[14px]'>{item.productId.name}</h1>
                           <div className='text-[12px] text-[#6C7275] flex flex-col gap-1'>

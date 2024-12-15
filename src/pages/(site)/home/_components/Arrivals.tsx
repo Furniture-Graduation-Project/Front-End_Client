@@ -6,6 +6,7 @@ import ProductCard from '@/components/site/ProductCard'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { useTranslate } from '@/hooks/useTranslate'
 import { useProductListQuery } from '@/hooks/queries/useProductQuery'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export function CarouselSize() {
   const { t } = useTranslate('home.carousel')
@@ -13,7 +14,13 @@ export function CarouselSize() {
   const { data: products, isLoading, isError } = useProductListQuery(undefined, true)
 
   if (isLoading) {
-    return <div>Đang tải...</div>
+    return (
+      <>
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Skeleton key={index} className='h-[300px]' />
+        ))}
+      </>
+    )
   }
 
   if (isError) {
