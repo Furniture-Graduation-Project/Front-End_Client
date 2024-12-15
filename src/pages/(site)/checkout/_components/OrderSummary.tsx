@@ -151,7 +151,7 @@ const OrderSummary = ({
                         />
                         <div className='flex flex-col gap-y-2 justify-center'>
                           <h1 className='font-semibold text-[14px]'>{item.productId.name}</h1>
-                          <div className='text-[12px] text-[#6C7275] flex flex-col gap-1'>
+                          <div className='text-[12px] text-neutral-7 flex flex-col gap-1'>
                             {item.productOptionId.variants.map((variant: any, id: number) => (
                               <span key={id}>
                                 {variant.variant}: {variant.value}

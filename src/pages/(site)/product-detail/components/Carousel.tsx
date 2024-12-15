@@ -1,10 +1,35 @@
 import { Skeleton } from '@/components/ui/skeleton'
+import { IProductItem } from '@/interface/productItem'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function Component({ data, isLoading }: { data: any; isLoading: boolean }) {
+export default function Component({
+  data,
+  productItem,
+  selectedVariant,
+  isLoading
+}: {
+  data: any
+  selectedVariant: IProductItem | undefined
+  productItem: any
+  isLoading: boolean
+}) {
+  const [images, setImages] = useState<string[]>([])
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  useEffect(() => {
+    if (Array.isArray(productItem?.data)) {
+      const productItemImage = productItem.data.map((item: IProductItem) => item.image)
+      setImages([...data?.data.images, ...productItemImage])
+    } else {
+      console.warn('productItem.data is not an array or is undefined.')
+    }
+  }, [data, productItem])
 
+  useEffect(() => {
+    if (selectedVariant && selectedVariant.image) {
+      setCurrentImageIndex(images.indexOf(selectedVariant.image))
+    }
+  }, [selectedVariant])
   return (
     <div className='relative w-full overflow-hidden max-w-full px-4 box-border'>
       {isLoading ? (
@@ -26,30 +51,30 @@ export default function Component({ data, isLoading }: { data: any; isLoading: b
         <>
           <div className='relative w-full max-w-full mx-auto aspect-square overflow-hidden'>
             <img
-              src={data?.data.images[currentImageIndex]}
+              src={images[currentImageIndex]}
               alt={data?.data.name}
               className='object-contain rounded-lg w-full h-full'
             />
             <button
-              onClick={() => setCurrentImageIndex((i) => (i > 0 ? i - 1 : data?.data.images.length - 1))}
+              onClick={() => setCurrentImageIndex((i) => (i > 0 ? i - 1 : images.length - 1))}
               className='absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg'
             >
               <ChevronLeft className='h-4 w-4' />
             </button>
             <button
-              onClick={() => setCurrentImageIndex((i) => (i < data?.data.images.length - 1 ? i + 1 : 0))}
+              onClick={() => setCurrentImageIndex((i) => (i < images.length - 1 ? i + 1 : 0))}
               className='absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg'
             >
               <ChevronRight className='h-4 w-4' />
             </button>
           </div>
 
-          <div className='p-2 flex items-center overflow-x-scroll gap-2 sm:gap-4 my-4 no-scrollbar max-w-full'>
-            {data?.data.images.map((src: string, index: number) => (
+          <div className='p-2 flex items-center overflow-x-scroll gap-2 sm:gap-4 my-4 no-scrollbar max-w-full border-b border-neutral-3'>
+            {images.map((src: string, index: number) => (
               <button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
-                className={`relative aspect-square w-[70px] min-w-[70px] max-w-[125px] xl:w-full rounded-lg overflow-hidden ${
+                className={`relative aspect-square w-[70px] min-w-[90px] max-w-[125px] xl:w-full rounded-lg overflow-hidden ${
                   currentImageIndex === index ? 'ring-2 ring-primary' : ''
                 }`}
               >
