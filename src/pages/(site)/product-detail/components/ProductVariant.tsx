@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { useTranslate } from '@/hooks/useTranslate'
 import { IVariant } from '@/interface/productItem'
+import { log } from 'console'
 import { ArrowRight } from 'lucide-react'
 
 const ProductVariant = ({
@@ -19,6 +20,7 @@ const ProductVariant = ({
   index: number
 }) => {
   const { t } = useTranslate('productDetail')
+
   return (
     <div key={variant._id}>
       <h3 className='font-medium mb-2 flex items-center gap-1'>

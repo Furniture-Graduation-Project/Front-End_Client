@@ -129,7 +129,7 @@ const AccountOrderRequestForm = ({ data }: any) => {
                   />
                   <div className='ml-4'>
                     <h3>Tên sản phẩm: {item.productId?.name}</h3>
-                    <div className='text-[12px] text-[#6C7275]'>
+                    <div className='text-[12px] text-neutral-7 '>
                       {item.productOptionId?.variants &&
                         item.productOptionId.variants.map((variant: any, id: number) => (
                           <h4 className='whitespace-nowrap' key={id}>
