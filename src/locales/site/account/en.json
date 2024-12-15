@@ -10,7 +10,19 @@
       "image": "Do you want to change avatar",
       "upload": "Upload Image",
       "cancel": "Cancel",
-      "save": "Save"
+      "save": "Save",
+      "changePass": "Change Password"
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "oldPassword": "Old Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "change": "Change",
+      "passValidate": "Password must be at least 6 characters long.",
+      "newPassValidate": "New password must be at least 6 characters long.",
+      "confirmPasswordValidate": "confirmPassword must be at least 6 characters long.",
+      "confirmPasswordNotMatch": "Confirm password does not match."
     },
     "detail": {
       "title": "My Account",
@@ -64,6 +76,8 @@
         "cancelButton": "Cancel",
         "successTitle": "Success!",
         "successDescription": "You have successfully updated the shipping address.",
+        "deleteAddressTitle": "Delete Address",
+        "deleteAddressDescription": "Are you sure you want to delete this address?",
         "validation": {
           "orderNameRequired": "Recipient name is required.",
           "orderPhoneInvalid": "Phone number must have 10-11 digits.",

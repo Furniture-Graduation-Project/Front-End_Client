@@ -16,16 +16,12 @@ type Checked = DropdownMenuCheckboxItemProps['checked']
 const MenuHeader = () => {
   const { user } = useAuthContext()
   const { t, i18n, setLocale } = useTranslate('header.menuHeader')
-  const { data: response, isLoading, error } = useMultipleCategoryQuery()
+  const { data: response, error } = useMultipleCategoryQuery()
   const { data: cartData } = useCartQuery(user?._id as string)
   const [language, setLanguage] = React.useState<Checked>(() => (i18n.language === 'en' ? true : false))
   const handleLanguage = async (change: boolean) => {
     setLanguage(change)
     await setLocale(language ? 'vi' : 'en')
-  }
-
-  if (isLoading) {
-    return <p>Loading...</p>
   }
 
   if (error) {

@@ -36,7 +36,7 @@ const AccountOrderInfomation = ({ order }: any) => {
                       <img
                         src={item.productOptionId?.image ? item.productOptionId.image : ''}
                         alt={item.productId?.name}
-                        className='w-24 h-24 object-cover sm:w-32 sm:h-32'
+                        className='w-24 h-24 object-cover sm:w-32 sm:h-32 rounded-md'
                       />
                       <div className='flex flex-col justify-between'>
                         <h3 className='text-lg font-semibold whitespace-nowrap'>{item.productId?.name}</h3>

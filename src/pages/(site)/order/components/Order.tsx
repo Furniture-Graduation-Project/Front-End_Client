@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Separator } from '@/components/ui/separator'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -7,9 +8,11 @@ import { IOrderItem } from '@/interface/order'
 import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/context/LanguageContext'
 import { generatePDF } from '@/utils/pdfGenerator'
+
 const Order = ({ data, isLoading, isError }: any) => {
   const { t } = useTranslate('order')
   const { language } = useLanguage()
+
   const handleDownload = () => {
     if (data && data.data && data.data.items) {
       generatePDF(data, language)

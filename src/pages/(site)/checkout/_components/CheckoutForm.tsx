@@ -47,7 +47,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   const [orderState, setOrderState] = useState<IOrder>({} as IOrder)
   const [currentDistrict, setCurrentDistrict] = useState<IDistrict[]>([])
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
-  const { data, isLoading, isError } = useAllAddressQuery()
+  const { data, isPending: addressPending, isError } = useAllAddressQuery()
   const [isFinished, setIsFinished] = useState<boolean>(true)
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
@@ -59,7 +59,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
     data: dataOrder,
     isPending
   } = useOrderMutation({ action: 'CREATE' })
-  const { data: locations } = useAddressQuery(user?._id || '')
+  const { data: locations, isLoading } = useAddressQuery(user?._id || '')
 
   const defaultLocation = locations && locations?.locations?.find((location: IAddress) => location.default)
 
@@ -195,9 +195,6 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
 
   return (
     <>
-      {user && user?.locations.length === 0 && (
-        <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={() => {}} loading={loading} />
-      )}
       <Form {...form}>
         <form
           id='checkoutForm'
@@ -209,7 +206,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
           }}
         >
           <div className='gap-y-6 flex flex-col'>
-            {user && user?.locations && user?.locations.length > 0 ? (
+            {user && user?.locations && user?.locations.length > 0 && !addressPending ? (
               <AddressCheckout data={locations} />
             ) : (
               <>

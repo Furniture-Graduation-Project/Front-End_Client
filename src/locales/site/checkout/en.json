@@ -53,6 +53,14 @@
       "errorTitle": "An error occurred while fetching your cart!",
       "retryAction": "Retry",
       "retryAltText": "Try again"
+    },
+    "address": {
+      "title": "Shipping Address",
+      "noAddress": "No default address!",
+      "default": "Default",
+      "change": "Change",
+      "list": "Address List",
+      "close": "Close"
     }
   }
 }

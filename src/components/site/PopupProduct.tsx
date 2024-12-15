@@ -1,16 +1,9 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog'
-import IconButton from '../ui/icon-button'
-import { ShoppingCart } from 'lucide-react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { useSingleProductQuery } from '@/hooks/queries/useProductQuery'
-import Product from '@/pages/(site)/product-detail/components/Product'
 import Carousel from '@/pages/(site)/product-detail/components/Carousel'
+import Product from '@/pages/(site)/product-detail/components/Product'
+import { ShoppingCart } from 'lucide-react'
+import IconButton from '../ui/icon-button'
 
 interface PopupProductProps {
   productId: string
