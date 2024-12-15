@@ -21,7 +21,6 @@ import { useNavigate } from 'react-router-dom'
 import PaymentPopup from '@/components/site/PaymentPopup/PaymentPopup'
 import AddressCheckout from './AddressCheckout'
 import { IAddress } from '@/interface/address'
-import { AlertModal } from '@/components/ui/alert-modal'
 
 const formSchema = z.object({
   firstName: z.string().optional(),
@@ -37,7 +36,14 @@ const formSchema = z.object({
   })
 })
 
-const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrder, stateErrorOrder }: any) => {
+const CheckoutForm = ({
+  dataCart,
+  amount,
+  isLoading: isLoadingCart,
+  setErrorOrder,
+  removeState,
+  stateErrorOrder
+}: any) => {
   const { user } = useAuthContext()
   const { toast } = useToast()
   const { t } = useTranslate('checkout.form')
@@ -49,8 +55,6 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
   const { data, isPending: addressPending, isError } = useAllAddressQuery()
   const [isFinished, setIsFinished] = useState<boolean>(true)
-  const [loading, setLoading] = useState(false)
-  const [open, setOpen] = useState(false)
   const {
     mutate,
     isSuccess,
@@ -165,6 +169,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
       const order = dataOrder.data.data as IOrder
       if (order) {
         if (order._id && order.payment?.paymentMethod === 'cash_on_delivery') {
+          removeState()
           navigate('/order/' + order._id)
         } else if (order._id && order.payment?.paymentMethod === 'credit_card') {
           setOrderState(order)
@@ -181,6 +186,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
         description: t('paymentSuccessDescription'),
         variant: 'default'
       })
+      removeState()
       setTimeout(() => navigate('/order/' + order._id), 3000)
     }
   }, [success])
@@ -189,6 +195,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
       setIsFinished(false)
     }
     if (openQR == isFinished && isFinished == false) {
+      removeState()
       navigate('/account/order')
     }
   }, [openQR])
@@ -466,7 +473,6 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
               form='checkoutForm'
               variant={'default'}
               className={`bg-black py-6`}
-              onClick={() => setOpen(true)}
             >
               {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : t('submit')}
             </Button>

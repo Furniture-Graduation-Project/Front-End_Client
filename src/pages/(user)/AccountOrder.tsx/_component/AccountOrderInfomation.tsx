@@ -21,7 +21,9 @@ const AccountOrderInfomation = ({ order }: any) => {
       <CardHeader>
         <div className='flex justify-between'>
           <h2 className='text-xl font-bold'>{t('orderDetails')}</h2>
-          <Button onClick={handleDownload}>{t('Invoice')}</Button>
+          <Button className={order?.data?.payment?.paymentStatus === 'unpaid' ? 'hidden' : ''} onClick={handleDownload}>
+            {t('Invoice')}
+          </Button>
         </div>
       </CardHeader>
       <CardContent className='space-y-4'>
