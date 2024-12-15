@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { motion } from 'framer-motion'
 import CheckoutForm from './CheckoutForm'
 import OrderSummary from './OrderSummary'
 import { useEffect, useState } from 'react'
 import { Toaster } from '@/components/ui/toaster'
 import useSessionStorage from '@/hooks/useSessionStorage'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { IOrderItem } from '@/interface/order'
 import useOrderMutation from '@/hooks/mutations/useOrderMutation'
 
@@ -20,6 +19,7 @@ const slideInRight = {
 }
 
 const Checkout = () => {
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
   const [state, setState, removeState] = useSessionStorage('stateOrder', null)
   const [errorOrder, setErrorOrder] = useState<IOrderItem[]>()
@@ -44,6 +44,9 @@ const Checkout = () => {
       })
       mutate(itemsCartData)
       setIsLoading(false)
+    } else {
+      navigate('/')
+      setIsLoading(false)
     }
   }, [state])
   useEffect(() => {
@@ -66,6 +69,7 @@ const Checkout = () => {
           dataCart={state}
           isLoading={isLoading}
           setErrorOrder={setErrorOrder}
+          removeState={removeState}
           stateErrorOrder={stateErrorOrder}
         />
       </motion.div>

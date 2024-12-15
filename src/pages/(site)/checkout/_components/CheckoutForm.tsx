@@ -36,7 +36,14 @@ const formSchema = z.object({
   })
 })
 
-const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrder, stateErrorOrder }: any) => {
+const CheckoutForm = ({
+  dataCart,
+  amount,
+  isLoading: isLoadingCart,
+  setErrorOrder,
+  removeState,
+  stateErrorOrder
+}: any) => {
   const { user } = useAuthContext()
   const { toast } = useToast()
   const { t } = useTranslate('checkout.form')
@@ -161,9 +168,8 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
     if (isSuccess && dataOrder?.data?.data) {
       const order = dataOrder.data.data as IOrder
       if (order) {
-        console.log(order);
-        
         if (order._id && order.payment?.paymentMethod === 'cash_on_delivery') {
+          removeState()
           navigate('/order/' + order._id)
         } else if (order._id && order.payment?.paymentMethod === 'credit_card') {
           setOrderState(order)
@@ -180,6 +186,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
         description: t('paymentSuccessDescription'),
         variant: 'default'
       })
+      removeState()
       setTimeout(() => navigate('/order/' + order._id), 3000)
     }
   }, [success])
@@ -188,6 +195,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
       setIsFinished(false)
     }
     if (openQR == isFinished && isFinished == false) {
+      removeState()
       navigate('/account/order')
     }
   }, [openQR])
