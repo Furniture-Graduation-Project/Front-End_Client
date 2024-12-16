@@ -59,6 +59,7 @@ export const ProductService = {
     categoryId?: string
     materialId?: string
     searchName?: string
+    sortBy?: string
   }): Promise<AxiosResponse<IApiResponse<IProduct[]>>> => {
     try {
       let query = `?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
@@ -73,6 +74,10 @@ export const ProductService = {
 
       if (pagination.searchName) {
         query += `&name=${encodeURIComponent(pagination.searchName)}`
+      }
+
+      if (pagination.sortBy) {
+        query += `&sortBy=${pagination.sortBy}`
       }
 
       const response: AxiosResponse<IApiResponse<IProduct[]>> = await axiosInstance.get(`${API_URL}/limited${query}`)
