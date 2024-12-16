@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { useTranslate } from '@/hooks/useTranslate'
 import { IVariant } from '@/interface/productItem'
-import { log } from 'console'
 import { ArrowRight } from 'lucide-react'
 
 const ProductVariant = ({

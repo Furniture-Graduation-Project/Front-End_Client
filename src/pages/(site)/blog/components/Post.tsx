@@ -1,4 +1,4 @@
-import { Grid, GripHorizontal, List, Menu, Search } from 'lucide-react'
+import { Grid, GripHorizontal, Search } from 'lucide-react'
 import { useBlogQuery } from '@/hooks/queries/useBlogQuery'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -8,7 +8,7 @@ import { useTranslate } from '@/hooks/useTranslate'
 const Post = () => {
   const [view, setView] = useState<'grid' | 'list' | 'bars' | 'menu'>('grid')
   const [searchTerm, setSearchTerm] = useState('')
-  const { blogs, isLoading, error, page, limit, handlePageChange, handleLimitChange } = useBlogQuery()
+  const { blogs, isLoading, error, limit, handleLimitChange } = useBlogQuery()
   const { t } = useTranslate('post')
 
   if (isLoading) return <div className='text-center py-4'>{t('loading')}</div>

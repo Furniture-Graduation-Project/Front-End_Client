@@ -73,6 +73,8 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
       })
       return
     }
+    console.log(state)
+
     setState(JSON.stringify(stateOrder))
     navigate('/checkout')
   }

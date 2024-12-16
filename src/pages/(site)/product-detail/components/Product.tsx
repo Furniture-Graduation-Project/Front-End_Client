@@ -149,6 +149,8 @@ const Product = ({
         refetch()
         return
       }
+      console.log(state)
+
       setState(JSON.stringify(stateOrder))
       navigate('/checkout')
     } else {

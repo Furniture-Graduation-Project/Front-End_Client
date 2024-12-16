@@ -1,7 +1,5 @@
 import Container from '@/components/Container'
-import { CommandDialog, CommandEmpty, CommandInput, CommandList } from '@/components/ui/command'
 import { NavigationMenu } from '@/components/ui/navigation-menu'
-import { Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import BrandLink from '../BrandLink'
 import CartHeader from './CartHeader'
@@ -10,11 +8,8 @@ import MenuHeader from './MenuHeader'
 import NavigationLinks from './NavigationLinks'
 import NotificationBar from './NotificationBar'
 import UserMenu from './UserMenu'
-import { useTranslate } from '@/hooks/useTranslate'
 
 const Header = () => {
-  const { t } = useTranslate('header.menuHeader')
-  const [search, setSearch] = useState(false)
   const [showNotification, setShowNotification] = useState(true)
   const [isSticky, setIsSticky] = useState(false)
 
