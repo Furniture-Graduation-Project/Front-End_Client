@@ -4,7 +4,7 @@ import { formatCurrency } from './formatCurrency'
 import { formatDate } from './formatDate'
 import { LogoBlack } from '@/assets'
 import { imageToBase64 } from './urlToBase64'
-;(pdfMake as any).vfs = pdfFonts.pdfMake?.vfs
+;(pdfMake as any).vfs = (pdfFonts as any).pdfMake?.vfs
 
 const translations: any = {
   vi: {
@@ -63,7 +63,7 @@ export const generatePDF = (data: any, language: string) => {
         const status: 'paid' | 'unpaid' = data.data.payment?.paymentStatus
         const statusColor = status === 'paid' ? '#4CAF50' : '#FF6347'
 
-        const docDefinition = {
+        const docDefinition: any = {
           content: [
             {
               columns: [

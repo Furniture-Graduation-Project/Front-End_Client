@@ -15,6 +15,8 @@ const OrderPage = () => {
   const [state, setState, removeState] = useSessionStorage('stateOrder', null)
 
   useEffect(() => {
+    console.log(state)
+    setState(null)
     removeState()
   }, [])
   return (

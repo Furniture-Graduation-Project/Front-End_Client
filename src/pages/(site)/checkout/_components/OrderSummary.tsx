@@ -1,21 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useTranslate } from '@/hooks/useTranslate'
 import { IOrderItem } from '@/interface/order'
 import { formatCurrency } from '@/utils/formatCurrency'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { CircleX, TicketPercent } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import { CircleX } from 'lucide-react'
 
-const formSchema = z.object({
-  coupon: z.string().optional()
-})
+// const formSchema = z.object({
+//   coupon: z.string().optional()
+// })
 const OrderSummary = ({
   amount,
   dataCart,
@@ -34,15 +29,15 @@ const OrderSummary = ({
   setStateErrorOrder: (value: boolean) => void
 }) => {
   const { t } = useTranslate('checkout.order')
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      coupon: ''
-    }
-  })
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data)
-  }
+  // const form = useForm<z.infer<typeof formSchema>>({
+  //   resolver: zodResolver(formSchema),
+  //   defaultValues: {
+  //     coupon: ''
+  //   }
+  // })
+  // const onSubmit = (data: z.infer<typeof formSchema>) => {
+  //   console.log(data)
+  // }
   const getErrorOrder = (obj1: any, obj2: IOrderItem) => {
     if (obj1.productId._id !== obj2.productId) {
       setStateErrorOrder(true)
