@@ -38,6 +38,7 @@
       "submit": "Submit"
     },
     "order": {
+      "title": "Orders History",
       "status": {
         "order_status": "Order Status",
         "cancel_order": "Cancel Order",
