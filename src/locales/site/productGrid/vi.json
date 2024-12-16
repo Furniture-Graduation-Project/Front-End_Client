@@ -10,6 +10,8 @@
     "loading": "Đang tải...",
     "errorLoadingProducts": "Lỗi tải sản phẩm",
     "newest": "Mới nhất",
-    "oldest": "Cũ nhất"
+    "oldest": "Cũ nhất",
+    "a-z": "A-Z",
+    "z-a": "Z-A"
   }
 }
