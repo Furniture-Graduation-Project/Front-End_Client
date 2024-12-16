@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import ProductCard from '@/components/site/ProductCard'
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
@@ -8,6 +8,7 @@ import { useMultipleProductQuery } from '@/hooks/queries/useProductQuery'
 import { Check, ChevronsUpDown, Columns2, Grid3X3, LayoutGrid, Loader2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { useTranslate } from '@/hooks/useTranslate'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; materialId?: string }) => {
   const { t } = useTranslate('productGrid')
@@ -67,7 +68,9 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
         return products
     }
   }
+
   const sortedProducts = sortProducts(filteredProducts, value || '')
+
   return (
     <div className='md:pl-6 flex-col w-full flex-grow'>
       <div className='flex justify-between h-10'>
@@ -146,9 +149,18 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
       </div>
 
       {isLoading ? (
-        <div className='flex justify-center items-center'>
-          <Loader2 className='animate-spin h-10 w-10 text-blue-500' />
-        </div>
+        <>
+          <div className='grid grid-cols-4 gap-6'>
+            {Array.from({ length: productNumber }).map((_, index) => (
+              <Fragment key={index}>
+                <Skeleton className='h-[349px] w-[262px]' />
+                <Skeleton className='h-[349px] w-[262px]' />
+                <Skeleton className='h-[349px] w-[262px]' />
+                <Skeleton className='h-[349px] w-[262px]' />
+              </Fragment>
+            ))}
+          </div>
+        </>
       ) : isError ? (
         <div>{t('errorLoadingProducts')}</div>
       ) : noProducts ? (
@@ -170,7 +182,8 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
           )}
         >
           {sortedProducts?.map((product) => (
-            <ProductCard height='349px' width='262px' product={product} key={product._id} />
+            // <ProductCard height='349px' width='262px' product={product} key={product._id} />
+            <ProductCard height='300px' product={product} key={product._id} />
           ))}
         </div>
       )}

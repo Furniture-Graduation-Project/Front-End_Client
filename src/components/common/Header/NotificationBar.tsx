@@ -10,7 +10,7 @@ interface NotificationBarProps {
 const NotificationBar: React.FC<NotificationBarProps> = ({ setShow }) => {
   const [isVisible, setIsVisible] = useState(true)
 
-  const { t } = useTranslate('header.notification')
+  const { t } = useTranslate('header.notificationBar')
 
   useEffect(() => {
     if (!isVisible) {
