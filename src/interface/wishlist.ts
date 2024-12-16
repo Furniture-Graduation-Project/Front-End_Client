@@ -5,6 +5,6 @@ export interface IWishlist {
     name: string
     images: string[]
   }
-  addedAt: Date
-  userId: string
+  addedAt?: Date
+  userId?: string
 }

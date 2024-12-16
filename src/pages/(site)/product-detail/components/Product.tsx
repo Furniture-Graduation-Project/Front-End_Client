@@ -4,7 +4,6 @@ import { Heart, Minus, Plus } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { IProductItem, IVariant } from '@/interface/productItem'
-import { useProductItemsByProductId } from '@/hooks/queries/useProductItemQuery'
 import { useCartMutation } from '@/hooks/mutations/useCartMutation'
 import { useTranslate } from '@/hooks/useTranslate'
 import { formatCurrency } from '@/utils/formatCurrency'
@@ -19,29 +18,43 @@ import { IWishlist } from '@/interface/wishlist'
 import useWishlistMutation from '@/hooks/mutations/useWishlistMutation'
 import { cn } from '@/utils/classUtils'
 
-const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; refetch: () => void }) => {
+const Product = ({
+  selectedVariant,
+  data,
+  productItem,
+  setSelectedVariant,
+  isLoading,
+  productItemLoading,
+  refetch
+}: {
+  selectedVariant: IProductItem | undefined
+  data: any
+  productItem: any
+  setSelectedVariant: (variant: IProductItem | undefined) => void
+  isLoading: boolean
+  productItemLoading: boolean
+  refetch: () => void
+}) => {
   const { t } = useTranslate('productDetail')
   const { toast } = useToast()
   const { user } = useAuthContext()
   const navigate = useNavigate()
   const [state, setState] = useSessionStorage('stateOrder', null)
-  const { data: productItem, isLoading: productItemLoading } = useProductItemsByProductId(data?.data?._id || '')
   const { mutate } = useCartMutation('ADD')
-  const [selectedVariant, setSelectedVariant] = useState<IProductItem | undefined>()
   const { data: wishlist } = useWishlistQuery(user?._id || '')
   const { mutate: addToWishlist } = useWishlistMutation({ action: 'ADD' })
   const { mutate: removeFromWishlist } = useWishlistMutation({ action: 'REMOVE' })
   const [price, setPrice] = useState<number>(0)
   const [stock, setStock] = useState(0)
-
   const [isInWishlist, setIsInWishlist] = useState(false)
   const [quantity, setQuantity] = useState(1)
   const [sku, setSku] = useState<string | undefined>(undefined)
 
-  const getUniqueVariants = (variantName: string) => {
+  const getUniqueVariants = (variantName: string): IVariant[] => {
     if (!productItem || !productItem.data) return []
-    const variants = productItem.data.reduce<IVariant[]>((acc, item) => {
-      item.variants.forEach((variant) => {
+
+    const variants = (productItem.data as IProductItem[]).reduce<IVariant[]>((acc, item) => {
+      item.variants.forEach((variant: any) => {
         if (variant.variant === variantName && !acc.some((v) => v.value === variant.value)) {
           acc.push(variant)
         }
@@ -53,9 +66,27 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
   }
 
   const handleVariantSelect = (variant: IVariant) => {
+    const updatedVariants =
+      selectedVariant?.variants?.map((existingVariant) => {
+        if (existingVariant.variant === variant.variant) {
+          return { ...existingVariant, value: variant.value }
+        }
+        return existingVariant
+      }) || []
+    if (!updatedVariants.some((v) => v.variant === variant.variant)) {
+      updatedVariants.push(variant)
+    }
+    const selectedVariantProductItem = {
+      ...selectedVariant,
+      variants: updatedVariants
+    }
     if (!productItem || !productItem.data) return
-    const item: IProductItem | undefined = productItem.data.find((item) => {
-      return item.variants.some((v) => v.variant === variant.variant && v.value === variant.value)
+    const item: IProductItem | undefined = productItem.data.find((item: any) => {
+      return selectedVariantProductItem.variants.every((selectedVariant: any) => {
+        return item.variants.some((v: any) => {
+          return v.variant === selectedVariant.variant && v.value === selectedVariant.value
+        })
+      })
     })
     setSelectedVariant(item)
     setPrice(item?.price || 0)
@@ -118,6 +149,8 @@ const Product = ({ data, isLoading, refetch }: { data: any; isLoading: boolean; 
         refetch()
         return
       }
+      console.log(state)
+
       setState(JSON.stringify(stateOrder))
       navigate('/checkout')
     } else {

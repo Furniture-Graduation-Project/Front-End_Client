@@ -10,7 +10,19 @@
       "image": "Bạn có muốn thay đổi ảnh đại diện",
       "upload": "Tải ảnh lên",
       "cancel": "Hủy",
-      "save": "Lưu lại"
+      "save": "Lưu lại",
+      "changePass": "Thay đổi mật khẩu"
+    },
+    "changePassword": {
+      "title": "Thay đổi mật khẩu",
+      "oldPassword": "Mật khẩu cũ",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "change": "Thay đổi",
+      "passValidate": "Mật khẩu phải có ít nhất 6 ký tự.",
+      "newPassValidate": "Mật khẩu mới phải có ít nhất 6 ký tự.",
+      "confirmPasswordValidate": "Xác nhận mật khẩu phải có ít nhất 6 ký tự.",
+      "confirmPasswordNotMatch": "Xác nhận mật khẩu không khớp."
     },
     "detail": {
       "title": "Tài khoản của tôi",
@@ -100,6 +112,11 @@
         "statusHistory": "Lịch sử trạng thái"
       },
       "request": {
+        "quantityError": "Số lượng phải lớn hơn hoặc bằng 0.",
+        "unitPriceError": "Giá đơn vị phải lớn hơn hoặc bằng 0.",
+        "selectProductError": "Vui lòng chọn ít nhất một sản phẩm để trả.",
+        "reasonError": "Lý do phải dài ít nhất 10 ký tự.",
+        "orderRequestTitle": "Yêu cầu trả hàng",
         "returnRequest": "Yêu cầu trả hàng",
         "back": "Quay lại",
         "status": {

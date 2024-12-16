@@ -36,18 +36,19 @@ export const columns: ColumnDef<IOrder>[] = [
       const statusText = getOrderStatus(status, language)
       return (
         <>
-          {row.original.status == 'shipped' ? (
+          {row.original.status == 'delivered' ? (
             <Button
               onClick={() =>
                 mutate({
                   _id: row.original._id,
-                  status: 'delivered'
+                  status: 'received'
                 })
               }
               className={`rounded-none`}
               variant={'outline'}
+              disabled={row.original.payment?.paymentStatus !== 'paid'}
             >
-              Đã nhận hàng
+              {getOrderStatus('received', language)}
             </Button>
           ) : (
             <h3 className='whitespace-nowrap'> {statusText}</h3>

@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useTranslate } from '@/hooks/useTranslate'
-import { ArrowRight, TicketPercent, X } from 'lucide-react'
-import { Link } from 'react-router-dom'
 
 interface NotificationBarProps {
   setShow: (show: boolean) => void
 }
 
 const NotificationBar: React.FC<NotificationBarProps> = ({ setShow }) => {
-  const { t } = useTranslate('header.notificationBar')
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible] = useState(true)
 
   useEffect(() => {
     if (!isVisible) {

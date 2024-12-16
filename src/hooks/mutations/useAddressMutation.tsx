@@ -54,7 +54,7 @@ const useAddressMutation = ({ action }: MutationQueryProps) => {
   }
 
   const { mutate, ...rest } = useMutation({
-    mutationFn: async ({ userId, query, data }: { userId: string; query: string; data: IAddress }) => {
+    mutationFn: async ({ userId, query, data }: any) => {
       switch (action) {
         case 'CREATE':
           return await AddressServices.create(userId, data)

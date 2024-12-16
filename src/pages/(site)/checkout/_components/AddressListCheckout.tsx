@@ -14,6 +14,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { useAuthContext } from '@/context/AuthContext'
 import useAddressMutation from '@/hooks/mutations/useAddressMutation'
+import { useTranslate } from '@/hooks/useTranslate'
 import { IAddress } from '@/interface/address'
 import AddressForm from '@/pages/(user)/Address/_components/AddressForm'
 import { AddressPopover } from '@/pages/(user)/Address/_components/AddressPopover'
@@ -31,6 +32,7 @@ export function AddressListCheckout({ data }: AddressListCheckoutProps) {
   const [open, setOpen] = useState(false)
   const { user } = useAuthContext()
   const { mutate } = useAddressMutation({ action: 'DEFAULT' })
+  const { t } = useTranslate('checkout.address')
 
   const handleSetDefault = (locationId: string) => {
     try {
@@ -48,17 +50,19 @@ export function AddressListCheckout({ data }: AddressListCheckoutProps) {
         </AddressPopover>
       </div>
       <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogTrigger asChild>
-          <Button size={'sm'} className='ml-2'>
-            Thay đổi
-          </Button>
-        </AlertDialogTrigger>
+        {data?.locations?.length > 0 && (
+          <AlertDialogTrigger asChild>
+            <Button size={'sm'} className='ml-2'>
+              {t('change')}
+            </Button>
+          </AlertDialogTrigger>
+        )}
+
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Danh sách địa chỉ</AlertDialogTitle>
+            <AlertDialogTitle>{t('list')}</AlertDialogTitle>
             <Card className='w-full border border-black'>
               <CardHeader className='flex flex-row items-center space-y-0 pb-0.5'></CardHeader>
-
               <ScrollArea className='h-[500px]'>
                 <CardContent className='space-y-4'>
                   {data?.locations
@@ -80,7 +84,7 @@ export function AddressListCheckout({ data }: AddressListCheckoutProps) {
                         </div>
                         <div className='flex items-center gap-x-4'>
                           <p className='text-lg'>{item.firstName + ' ' + item.lastName + ' - ' + item.phone}</p>
-                          {item.default && <Badge>Mặc định</Badge>}
+                          {item.default && <Badge>{t('default')}</Badge>}
                         </div>
                         <p className='text-zinc-600 text-md'>
                           {`${item.street}, ${item.ward}, ${item.district}, ${item.city}`}
@@ -93,7 +97,7 @@ export function AddressListCheckout({ data }: AddressListCheckoutProps) {
             </Card>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Đóng</AlertDialogCancel>
+            <AlertDialogCancel>{t('close')}</AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

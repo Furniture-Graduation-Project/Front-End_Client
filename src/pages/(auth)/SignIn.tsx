@@ -10,6 +10,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
+import ForgotPassPage from '../(user)/ForgotPass/ForgotPassPage'
 
 export default function SignIn() {
   const { onSubmit: handleSubmit, isPending } = useAccountMutation({
@@ -100,9 +101,10 @@ export default function SignIn() {
                 {t('remember', 'Remember me')}
               </label>
             </div>
-            <a href='forgot' className='body-2-semi text-black'>
+            {/* <a href='forgot' className='body-2-semi text-black'>
               {t('forgotPassword', 'Forgot password?')}
-            </a>
+            </a> */}
+            <ForgotPassPage />
           </div>
           <Button disabled={isPending} typeof='submit' type='submit' className='w-full'>
             {t('signinButton', 'Sign In')}

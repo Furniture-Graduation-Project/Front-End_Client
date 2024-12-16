@@ -53,6 +53,14 @@
       "errorTitle": "Có lỗi xảy ra khi lấy giỏ hàng của bạn!",
       "retryAction": "Thử lại",
       "retryAltText": "Thử lại lần nữa"
+    },
+    "address": {
+      "title": "Địa chỉ nhận hàng",
+      "noAddress": "Không có địa chỉ mặc định !",
+      "default": "Mặc định",
+      "change": "Thay đổi",
+      "list": "Danh sách địa chỉ",
+      "close": "Đóng"
     }
   }
 }

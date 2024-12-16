@@ -2,8 +2,9 @@ import DataTableCustom from '@/components/site/DataTable/DataTableCustom'
 import { useMultipleOrderQuery } from '@/hooks/queries/useOrderQuery'
 import { useDataTable } from '@/hooks/useDataTable'
 import { PaginationState } from '@tanstack/react-table'
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 import { columns } from './columns'
+import AccountOrderListPagination from './AccountOrderListPagination'
 
 const AccountOrderList = () => {
   const [pagination, setPagination] = useState<PaginationState>({
@@ -20,14 +21,10 @@ const AccountOrderList = () => {
     pagination,
     setPagination
   })
-
-  useEffect(() => {
-    setPagination(pagination)
-  }, [pagination])
-
   return (
     <div>
       <DataTableCustom columns={columns} isError={isError} isLoading={isLoading} refetch={refetch} table={table} />
+      <AccountOrderListPagination setPagination={setPagination} table={table} />
     </div>
   )
 }

@@ -21,7 +21,6 @@ import { useNavigate } from 'react-router-dom'
 import PaymentPopup from '@/components/site/PaymentPopup/PaymentPopup'
 import AddressCheckout from './AddressCheckout'
 import { IAddress } from '@/interface/address'
-import { AlertModal } from '@/components/ui/alert-modal'
 
 const formSchema = z.object({
   firstName: z.string().optional(),
@@ -37,7 +36,13 @@ const formSchema = z.object({
   })
 })
 
-const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrder, stateErrorOrder }: any) => {
+const CheckoutForm = ({
+  dataCart,
+  amount,
+  isLoading: isLoadingCart,
+  setErrorOrder,
+  stateErrorOrder
+}: any) => {
   const { user } = useAuthContext()
   const { toast } = useToast()
   const { t } = useTranslate('checkout.form')
@@ -47,10 +52,8 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   const [orderState, setOrderState] = useState<IOrder>({} as IOrder)
   const [currentDistrict, setCurrentDistrict] = useState<IDistrict[]>([])
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
-  const { data, isLoading, isError } = useAllAddressQuery()
+  const { data, isPending: addressPending, isError } = useAllAddressQuery()
   const [isFinished, setIsFinished] = useState<boolean>(true)
-  const [loading, setLoading] = useState(false)
-  const [open, setOpen] = useState(false)
   const {
     mutate,
     isSuccess,
@@ -59,7 +62,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
     data: dataOrder,
     isPending
   } = useOrderMutation({ action: 'CREATE' })
-  const { data: locations } = useAddressQuery(user?._id || '')
+  const { data: locations, isLoading } = useAddressQuery(user?._id || '')
 
   const defaultLocation = locations && locations?.locations?.find((location: IAddress) => location.default)
 
@@ -195,9 +198,6 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
 
   return (
     <>
-      {user && user?.locations.length === 0 && (
-        <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={() => {}} loading={loading} />
-      )}
       <Form {...form}>
         <form
           id='checkoutForm'
@@ -209,7 +209,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
           }}
         >
           <div className='gap-y-6 flex flex-col'>
-            {user && user?.locations && user?.locations.length > 0 ? (
+            {user && user?.locations && user?.locations.length > 0 && !addressPending ? (
               <AddressCheckout data={locations} />
             ) : (
               <>
@@ -464,12 +464,11 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
                 isLoadingCart ||
                 !user ||
                 stateErrorOrder ||
-                JSON.parse(dataCart).length === 0
+                JSON.parse(dataCart)?.length === 0
               }
               form='checkoutForm'
               variant={'default'}
               className={`bg-black py-6`}
-              onClick={() => setOpen(true)}
             >
               {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : t('submit')}
             </Button>
