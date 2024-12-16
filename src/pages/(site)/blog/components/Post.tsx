@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { formatDate } from '@/utils/formatDate'
 import { useTranslate } from '@/hooks/useTranslate'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const Post = () => {
   const [view, setView] = useState<'grid' | 'list' | 'bars' | 'menu'>('grid')
@@ -11,7 +12,19 @@ const Post = () => {
   const { blogs, isLoading, error, page, limit, handlePageChange, handleLimitChange } = useBlogQuery()
   const { t } = useTranslate('post')
 
-  if (isLoading) return <div className='text-center py-4'>{t('loading')}</div>
+  if (isLoading) {
+    return (
+      <>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className='grid grid-cols-3 gap-6 my-14'>
+            <Skeleton className='w-[400px] h-[255px]' />
+            <Skeleton className='w-[400px] h-[255px]' />
+            <Skeleton className='w-[400px] h-[255px]' />
+          </div>
+        ))}
+      </>
+    )
+  }
   if (error) return <div className='text-center py-4 text-red-500'>{t('errorLoadingBlogs')}</div>
   if (!blogs || blogs.length === 0) return <div className='text-center py-4'>{t('noBlogsFound')}</div>
 

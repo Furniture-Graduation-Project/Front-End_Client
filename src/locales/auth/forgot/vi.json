@@ -1,0 +1,7 @@
+{
+  "failed": {
+    "title": "Đăng nhập thất bại!",
+    "description": "Đăng nhập thất bại hoặc có thể email này đã được đăng ký, vui lòng thử bằng tài khoản khác!",
+    "button": "Quay lại trang đăng nhập"
+  }
+}

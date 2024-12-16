@@ -15,13 +15,13 @@ export default function ChangePassPage() {
   const { t } = useTranslate('account.changePassword')
   const formSchema = z
     .object({
-      password: z.string().min(6, {
-        message: t('passwordValidate')
+      password: z.string().min(9, {
+        message: t('passValidate')
       }),
-      newPassword: z.string().min(6, {
-        message: t('newPasswordValidate')
+      newPassword: z.string().min(9, {
+        message: t('newPassValidate')
       }),
-      confirmPassword: z.string().min(6, {
+      confirmPassword: z.string().min(9, {
         message: t('confirmPasswordValidate')
       })
     })

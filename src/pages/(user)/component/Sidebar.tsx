@@ -75,7 +75,13 @@ const SidebarAccount = () => {
   return (
     <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit  mb-24 sm:sticky sm:top-32'>
       <div className='relative'>
-        <AvatarAccount src={user?.avatar || '/images/avatar.png'} className='h-20 w-20 mx-auto' />
+        <AvatarAccount
+          src={
+            user?.avatar ||
+            'https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8='
+          }
+          className='h-20 w-20 mx-auto'
+        />
         <div className='bg-black border-[2px] border-white rounded-full w-[30px] h-[30px] flex justify-center items-center absolute top-14 right-20 hover:opacity-80 transition transform duration-200'>
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -105,6 +111,7 @@ const SidebarAccount = () => {
                     <Label
                       htmlFor='avatarUpload'
                       className='cursor-pointer text-sm border p-3 rounded-md border-zinc-400'
+                      aria-disabled={loading}
                     >
                       {t('upload')}
                     </Label>
@@ -112,8 +119,10 @@ const SidebarAccount = () => {
                 </div>
                 <Separator />
                 <AlertDialogFooter>
-                  <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
-                  <AlertDialogAction type='submit'>{t('save')}</AlertDialogAction>
+                  <AlertDialogCancel disabled={loading}>{t('cancel')}</AlertDialogCancel>
+                  <AlertDialogAction disabled={loading} type='submit'>
+                    {t('save')}
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </form>
             </AlertDialogContent>

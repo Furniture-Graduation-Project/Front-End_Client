@@ -1,15 +1,16 @@
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { useAuthContext } from '@/context/AuthContext'
+import { useCartQuery } from '@/hooks/queries/useCartQuery'
+import { useMultipleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
+import { useWishlistQuery } from '@/hooks/queries/useWishlistQuery'
+import { useTranslate } from '@/hooks/useTranslate'
+import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
 import { Facebook, Heart, Instagram, Menu, Search, ShoppingBag, Youtube } from 'lucide-react'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import BrandLink from '../BrandLink'
-import { useTranslate } from '@/hooks/useTranslate'
-import React from 'react'
-import { useMultipleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
-import { useCartQuery } from '@/hooks/queries/useCartQuery'
-import { useAuthContext } from '@/context/AuthContext'
 
 type Checked = DropdownMenuCheckboxItemProps['checked']
 
@@ -18,6 +19,8 @@ const MenuHeader = () => {
   const { t, i18n, setLocale } = useTranslate('header.menuHeader')
   const { data: response, error } = useMultipleCategoryQuery()
   const { data: cartData } = useCartQuery(user?._id as string)
+  const { data: wishlist } = useWishlistQuery(user?._id || '')
+
   const [language, setLanguage] = React.useState<Checked>(() => (i18n.language === 'en' ? true : false))
   const handleLanguage = async (change: boolean) => {
     setLanguage(change)
@@ -152,14 +155,21 @@ const MenuHeader = () => {
                   </Link>
                   <div className='flex items-center'>
                     <Heart className='mr-[6px] w-[18px]' />
-                    <div className='rounded-full bg-black text-white w-[20px] h-[20px]'>{2}</div>
+                    <div className='rounded-full bg-black text-white w-[20px] h-[20px] text-center leading-[20px]'>
+                      {wishlist?.data?.length || 0}
+                    </div>
                   </div>
                 </div>
               </div>
               <div className='border-b border-neutral-3 mt-1'></div>
-              <button className='mx-auto bg-black w-full mt-5 h-[52px] rounded-lg text-white button-m'>
-                {t('sign-in')}
-              </button>
+              <Link to={'/signin'}>
+                {!user && (
+                  <button className='mx-auto bg-black w-full mt-5 h-[52px] rounded-lg text-white button-m'>
+                    {t('sign-in')}
+                  </button>
+                )}
+              </Link>
+
               <div className='flex mt-4 space-x-4 *:w-5 *:h-5'>
                 <Instagram />
                 <Facebook />

@@ -75,10 +75,14 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
         break
 
       case 'CHANGE_PASS':
+        logout()
+        localStorage.removeItem('token')
+        localStorage.removeItem('otp')
         toast({
           title: 'Đổi mật khẩu thành công!',
           variant: 'success'
         })
+        navigate('/signin')
         break
 
       default:

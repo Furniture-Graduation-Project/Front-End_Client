@@ -2,6 +2,7 @@ import { IRoute } from '@/interface/route'
 import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
 import AuthCallback from '@/pages/(auth)/AuthCallBack'
+import Failed from '@/pages/(auth)/Failed'
 import Logout from '@/pages/(auth)/Logout'
 import SignIn from '@/pages/(auth)/SignIn'
 import SignUp from '@/pages/(auth)/SignUp'
@@ -33,6 +34,8 @@ const routes: IRoute[] = [
   { path: '/', component: HomePage, layout: MainLayout },
   { path: '/signin', component: SignIn, layout: AuthLayout },
   { path: '/signup', component: SignUp, layout: AuthLayout },
+  { path: '/forgot-password/verify-otp', component: VerifyOtp, layout: AuthLayout },
+  { path: '/new-password', component: NewPassPage, layout: AuthLayout },
   { path: '/logout', component: Logout, layout: MainLayout },
   { path: '/shop', component: ShopPage, layout: MainLayout },
   {
@@ -82,10 +85,10 @@ const routes: IRoute[] = [
       }
     ]
   },
-  { path: '/forgot-password/verify-otp', component: VerifyOtp, layout: AuthLayout },
-  { path: '/new-password', component: NewPassPage, layout: AuthLayout },
+
   { path: '/order/:id', component: OrderPage, layout: MainLayout },
   { path: '/auth/callback', component: AuthCallback, layout: MainLayout },
+  { path: '/failed', component: Failed, layout: MainLayout },
   { path: '*', component: NotFoundPage, layout: MainLayout }
 ]
 

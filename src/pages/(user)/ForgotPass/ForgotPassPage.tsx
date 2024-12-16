@@ -9,9 +9,11 @@ import {
 } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useAuthContext } from '@/context/AuthContext'
 import useAccountMutation from '@/hooks/mutations/useUserMutation'
+import { useTranslate } from '@/hooks/useTranslate'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -20,7 +22,11 @@ const formSchema = z.object({
 })
 
 const ForgotPassPage = () => {
+  const { user } = useAuthContext()
   const [open, setOpen] = useState(false)
+
+  const { t } = useTranslate('account.forgotPassword')
+
   const { mutate } = useAccountMutation({ action: 'SEND_OTP' })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
@@ -36,19 +42,23 @@ const ForgotPassPage = () => {
       setOpen(false)
     }
   }
+
+  useEffect(() => {
+    if (user) {
+      form.setValue('email', user?.email ?? '')
+    }
+  }, [user, form])
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button type='button' className='float-left p-0 text-[#4BA9FE]' variant={'link'} onClick={() => setOpen(!open)}>
-          Bạn quên mật khẩu ư ?
+          {t('title')}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Bạn quên mật khẩu ?</DialogTitle>
-          <DialogDescription className='py-3'>
-            Đừng lo lắng, chúng tôi sẽ giúp bạn khôi phục mật khẩu của mình
-          </DialogDescription>
+          <DialogTitle>{t('subTitle')}</DialogTitle>
+          <DialogDescription className='py-3'>{t('description')}</DialogDescription>
           <Form {...form}>
             <form
               onSubmit={(e) => {
@@ -65,14 +75,14 @@ const ForgotPassPage = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder='Email' type='email' {...field} />
+                      <Input placeholder='Email' type='email' {...field} disabled={user ? true : false} />
                     </FormControl>
 
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type='submit'>Submit</Button>
+              <Button type='submit'>{t('submit')}</Button>
             </form>
           </Form>
         </DialogHeader>

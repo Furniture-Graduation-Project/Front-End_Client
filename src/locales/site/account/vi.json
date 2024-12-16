@@ -19,10 +19,28 @@
       "newPassword": "Mật khẩu mới",
       "confirmPassword": "Xác nhận mật khẩu",
       "change": "Thay đổi",
-      "passValidate": "Mật khẩu phải có ít nhất 6 ký tự.",
-      "newPassValidate": "Mật khẩu mới phải có ít nhất 6 ký tự.",
-      "confirmPasswordValidate": "Xác nhận mật khẩu phải có ít nhất 6 ký tự.",
+      "passValidate": "Mật khẩu phải có ít nhất 9 ký tự.",
+      "newPassValidate": "Mật khẩu mới phải có ít nhất 9 ký tự.",
+      "confirmPasswordValidate": "Xác nhận mật khẩu phải có ít nhất 9 ký tự.",
       "confirmPasswordNotMatch": "Xác nhận mật khẩu không khớp."
+    },
+    "forgotPassword": {
+      "title": "Bạn quên mật khẩu ư ?",
+      "subTitle": "Bạn quên mật khẩu ?",
+      "description": " Đừng lo lắng, chúng tôi sẽ giúp bạn khôi phục mật khẩu của mình.",
+      "submit": "Gửi",
+      "otp": "Xác thực OTP",
+      "otpDescription": "Mã OTP đã được gửi đến email của bạn. Vui lòng nhập mã OTP để xác thực tài khoản.",
+      "otpResend": "Gửi lại mã OTP",
+      "changePassword": "Thay đổi mật khẩu",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "confirmPasswordNotMatch": "Xác nhận mật khẩu không khớp.",
+      "save": "Lưu lại",
+      "validateNewPassword": "Mật khẩu mới phải có ít nhất 9 ký tự.",
+      "validateConfirmPassword": "Xác nhận mật khẩu phải có ít nhất 9 ký tự.",
+      "changePasswordSuccess": "Đặt lại mật khẩu thành công !",
+      "changePasswordError": "Đặt lại mật khẩu thất bại !"
     },
     "detail": {
       "title": "Tài khoản của tôi",
@@ -157,7 +175,13 @@
       "next": "Sau",
       "open": "Mở menu",
       "delete": "Xóa",
-      "view": "Chuyển đến sản phẩm"
+      "view": "Chuyển đến sản phẩm",
+      "price": "Giá",
+      "cancel": "Hủy",
+      "confirm": "Xác nhận",
+      "addCart": "Thêm vào giỏ hàng",
+      "sure": "Bạn có chắc chắn không?",
+      "description": "Hành động này không thể hoàn tác."
     }
   }
 }

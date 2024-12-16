@@ -19,7 +19,7 @@ const LanguageMenu = () => {
   }
 
   React.useEffect(() => {
-    setIsEnglish(language === 'en') 
+    setIsEnglish(language === 'en')
   }, [language])
 
   return (

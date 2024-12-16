@@ -1,7 +1,5 @@
 import Container from '@/components/Container'
-import { CommandDialog, CommandEmpty, CommandInput, CommandList } from '@/components/ui/command'
 import { NavigationMenu } from '@/components/ui/navigation-menu'
-import { Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import BrandLink from '../BrandLink'
 import CartHeader from './CartHeader'
@@ -10,10 +8,8 @@ import MenuHeader from './MenuHeader'
 import NavigationLinks from './NavigationLinks'
 import NotificationBar from './NotificationBar'
 import UserMenu from './UserMenu'
-import { useTranslate } from '@/hooks/useTranslate'
 
 const Header = () => {
-  const { t } = useTranslate('header.menuHeader')
   const [search, setSearch] = useState(false)
   const [showNotification, setShowNotification] = useState(true)
   const [isSticky, setIsSticky] = useState(false)
@@ -32,7 +28,7 @@ const Header = () => {
       {showNotification && <NotificationBar setShow={setShowNotification} />}
       <header
         className={`bg-white transition-all duration-300 ease-in-out transform ${
-          isSticky ? 'fixed top-0 left-0 right-0 shadow-lg z-50 backdrop-blur-md bg-opacity-85' : 'relative z-50'
+          isSticky ? 'fixed top-0 left-0 right-0 shadow-lg z-50 backdrop-blur-md bg-opacity-85' : 'relative z-30'
         }`}
       >
         <Container className='sm:px-0 px-8'>
@@ -41,7 +37,10 @@ const Header = () => {
               <MenuHeader />
               <BrandLink />
             </div>
-            <CartHeader mobile />
+            <div className='flex items-center justify-center gap-x-4'>
+              <UserMenu mobile />
+              <CartHeader mobile />
+            </div>
             <NavigationMenu className='hidden lg:flex lg:gap-x-12 '>
               <NavigationLinks />
             </NavigationMenu>
@@ -54,7 +53,7 @@ const Header = () => {
                 </CommandList>
               </CommandDialog> */}
               <LanguageMenu />
-              <UserMenu />
+              <UserMenu mobile={false} />
               <CartHeader mobile={false} />
             </div>
           </nav>

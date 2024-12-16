@@ -54,3 +54,15 @@ export const useMultipleProductQuery = (
 
   return { data: response?.data, ...rest }
 }
+
+export const useProductWithPriceQuery = (id: string) => {
+  const { data, ...rest } = useQuery({
+    queryKey: ['PRODUCT_PRICE', id],
+    queryFn: async () => {
+      const response = await ProductService.getProductWithPrice(id)
+      return response.data
+    }
+  })
+
+  return { data, ...rest }
+}
