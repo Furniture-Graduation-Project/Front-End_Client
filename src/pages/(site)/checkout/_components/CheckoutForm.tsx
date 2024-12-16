@@ -41,7 +41,6 @@ const CheckoutForm = ({
   amount,
   isLoading: isLoadingCart,
   setErrorOrder,
-  removeState,
   stateErrorOrder
 }: any) => {
   const { user } = useAuthContext()
@@ -169,7 +168,6 @@ const CheckoutForm = ({
       const order = dataOrder.data.data as IOrder
       if (order) {
         if (order._id && order.payment?.paymentMethod === 'cash_on_delivery') {
-          removeState()
           navigate('/order/' + order._id)
         } else if (order._id && order.payment?.paymentMethod === 'credit_card') {
           setOrderState(order)
@@ -186,7 +184,6 @@ const CheckoutForm = ({
         description: t('paymentSuccessDescription'),
         variant: 'default'
       })
-      removeState()
       setTimeout(() => navigate('/order/' + order._id), 3000)
     }
   }, [success])
@@ -195,7 +192,6 @@ const CheckoutForm = ({
       setIsFinished(false)
     }
     if (openQR == isFinished && isFinished == false) {
-      removeState()
       navigate('/account/order')
     }
   }, [openQR])
@@ -468,7 +464,7 @@ const CheckoutForm = ({
                 isLoadingCart ||
                 !user ||
                 stateErrorOrder ||
-                JSON.parse(dataCart).length === 0
+                JSON.parse(dataCart)?.length === 0
               }
               form='checkoutForm'
               variant={'default'}
