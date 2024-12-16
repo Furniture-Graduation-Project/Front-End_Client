@@ -56,6 +56,7 @@
       "submit": "Lưu lại"
     },
     "order": {
+      "title": "Lịch sử mua hàng",
       "status": {
         "order_status": "Trạng thái đơn hàng",
         "cancel_order": "Hủy đơn hàng",
@@ -130,6 +131,11 @@
         "statusHistory": "Lịch sử trạng thái"
       },
       "request": {
+        "quantityError": "Số lượng phải lớn hơn hoặc bằng 0.",
+        "unitPriceError": "Giá đơn vị phải lớn hơn hoặc bằng 0.",
+        "selectProductError": "Vui lòng chọn ít nhất một sản phẩm để trả.",
+        "reasonError": "Lý do phải dài ít nhất 10 ký tự.",
+        "orderRequestTitle": "Yêu cầu trả hàng",
         "returnRequest": "Yêu cầu trả hàng",
         "back": "Quay lại",
         "status": {

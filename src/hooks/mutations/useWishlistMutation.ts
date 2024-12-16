@@ -34,7 +34,7 @@ const useWishlistMutation = ({ action }: MutationQueryProps) => {
   }
 
   const { mutate, ...rest } = useMutation({
-    mutationFn: async ({ userId, data }: { userId: string; data: IWishlist }) => {
+    mutationFn: async ({ userId, data }: { userId: string; data: IWishlist } | any) => {
       switch (action) {
         case 'ADD':
           return await WishlistService.create(userId, data)

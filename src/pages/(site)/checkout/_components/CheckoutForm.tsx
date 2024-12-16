@@ -21,7 +21,6 @@ import { useNavigate } from 'react-router-dom'
 import PaymentPopup from '@/components/site/PaymentPopup/PaymentPopup'
 import AddressCheckout from './AddressCheckout'
 import { IAddress } from '@/interface/address'
-import { AlertModal } from '@/components/ui/alert-modal'
 
 const formSchema = z.object({
   firstName: z.string().optional(),
@@ -37,7 +36,13 @@ const formSchema = z.object({
   })
 })
 
-const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrder, stateErrorOrder }: any) => {
+const CheckoutForm = ({
+  dataCart,
+  amount,
+  isLoading: isLoadingCart,
+  setErrorOrder,
+  stateErrorOrder
+}: any) => {
   const { user } = useAuthContext()
   const { toast } = useToast()
   const { t } = useTranslate('checkout.form')
@@ -49,8 +54,6 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   const [currentWard, setCurrentWard] = useState<IWard[]>([])
   const { data, isPending: addressPending, isError } = useAllAddressQuery()
   const [isFinished, setIsFinished] = useState<boolean>(true)
-  const [loading, setLoading] = useState(false)
-  const [open, setOpen] = useState(false)
   const {
     mutate,
     isSuccess,
@@ -461,12 +464,11 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
                 isLoadingCart ||
                 !user ||
                 stateErrorOrder ||
-                JSON.parse(dataCart).length === 0
+                JSON.parse(dataCart)?.length === 0
               }
               form='checkoutForm'
               variant={'default'}
               className={`bg-black py-6`}
-              onClick={() => setOpen(true)}
             >
               {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : t('submit')}
             </Button>

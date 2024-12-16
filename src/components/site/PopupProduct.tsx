@@ -6,6 +6,9 @@ import Product from '@/pages/(site)/product-detail/components/Product'
 import { Eye, ShoppingCart } from 'lucide-react'
 import { Button } from '../ui/button'
 import IconButton from '../ui/icon-button'
+import { useProductItemsByProductId } from '@/hooks/queries/useProductItemQuery'
+import { useState } from 'react'
+import { IProductItem } from '@/interface/productItem'
 
 interface PopupProductProps {
   productId: string
@@ -15,7 +18,8 @@ interface PopupProductProps {
 const PopupProduct = ({ productId, button }: PopupProductProps) => {
   const { t } = useTranslate('account.wishlist')
   const { data, isLoading, refetch } = useSingleProductQuery(productId || '')
-
+  const { data: productItem, isLoading: productItemLoading } = useProductItemsByProductId(productId || '')
+  const [selectedVariant, setSelectedVariant] = useState<IProductItem | undefined>()
   return (
     <Dialog>
       {button ? (
@@ -37,9 +41,16 @@ const PopupProduct = ({ productId, button }: PopupProductProps) => {
         <DialogTitle></DialogTitle>
         <DialogHeader>
           <div className='flex gap-x-4 items-center'>
-            <Carousel data={data} isLoading={isLoading} />
-
-            <Product data={data} isLoading={isLoading} refetch={refetch} />
+            <Carousel selectedVariant={selectedVariant} data={data} productItem={productItem} isLoading={isLoading} />
+            <Product
+              data={data}
+              productItem={productItem}
+              selectedVariant={selectedVariant}
+              setSelectedVariant={setSelectedVariant}
+              isLoading={isLoading}
+              productItemLoading={productItemLoading}
+              refetch={refetch}
+            />
           </div>
         </DialogHeader>
       </DialogContent>

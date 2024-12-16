@@ -5,7 +5,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/utils/classUtils'
 import { useMultipleProductQuery } from '@/hooks/queries/useProductQuery'
-import { Check, ChevronsUpDown, Grid3X3, LayoutGrid, Columns2, Loader2 } from 'lucide-react'
+import { Check, ChevronsUpDown, Columns2, Grid3X3, LayoutGrid, Loader2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { useTranslate } from '@/hooks/useTranslate'
 
@@ -13,14 +13,14 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
   const { t } = useTranslate('productGrid')
 
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState<'newest' | 'oldest' | 'a-z' | 'z-a' | undefined>(undefined)
   const [productNumber, setProductNumber] = useState(4)
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 12 })
   const [searchQuery, setSearchQuery] = useState('')
 
   const sortBy = [
-    { value: 'A-Z', label: 'A-Z' },
-    { value: 'Z-A', label: 'Z-A' },
+    { value: 'a-z', label: t('a-z') },
+    { value: 'z-a', label: t('z-a') },
     { value: 'newest', label: t('newest') },
     { value: 'oldest', label: t('oldest') }
   ]
@@ -29,33 +29,15 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
     isLoading,
     isError,
     refetch
-  } = useMultipleProductQuery(pagination, searchQuery, categoryId, materialId)
+  } = useMultipleProductQuery(pagination, searchQuery, categoryId, materialId, value)
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
   }
 
-  const filteredProducts =
-    products?.data?.sort((a, b) => {
-      if (value === 'A-Z') {
-        return a.name.localeCompare(b.name)
-      }
-      if (value === 'Z-A') {
-        return b.name.localeCompare(a.name)
-      }
-      if (value === 'oldest') {
-        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      }
-      if (value === 'newest') {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      }
-      if (value === 'price') {
-        return b.price - a.price
-      }
-      return 0
-    }) || []
+  const filteredProducts = products?.data || []
 
-  const noProducts = products?.data?.length === 0
+  const noProducts = filteredProducts.length === 0
   const noSearchResults = filteredProducts.length === 0 && searchQuery.length > 0
 
   const handleNextPage = () => {
@@ -69,12 +51,23 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
   const isLastPage = filteredProducts.length < pagination.pageSize
   useEffect(() => {
     refetch()
-  }, [pagination, searchQuery, refetch])
+  }, [pagination, searchQuery, refetch, value])
 
   useEffect(() => {
     window.scrollTo({ top: 250, behavior: 'smooth' })
   }, [pagination.pageIndex])
 
+  const sortProducts = (products: any[], sortOrder: string) => {
+    switch (sortOrder) {
+      case 'z-a':
+        return products.sort((a, b) => b.name.localeCompare(a.name, 'vi', { sensitivity: 'base' }))
+      case 'a-z':
+        return products.sort((a, b) => a.name.localeCompare(b.name, 'vi', { sensitivity: 'base' }))
+      default:
+        return products
+    }
+  }
+  const sortedProducts = sortProducts(filteredProducts, value || '')
   return (
     <div className='md:pl-6 flex-col w-full flex-grow'>
       <div className='flex justify-between h-10'>
@@ -105,8 +98,12 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
                       <CommandItem
                         key={sort.value}
                         value={sort.value}
-                        onSelect={(currentValue) => {
-                          setValue(currentValue === value ? '' : currentValue)
+                        onSelect={(currentValue: string) => {
+                          if (sortBy.some((sortOption) => sortOption.value === currentValue)) {
+                            setValue(currentValue as 'newest' | 'oldest' | 'a-z' | 'z-a' | undefined)
+                          } else {
+                            setValue(undefined)
+                          }
                           setOpen(false)
                         }}
                       >
@@ -172,7 +169,7 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
             productNumber === 1 && 'grid-cols-1'
           )}
         >
-          {filteredProducts?.map((product) => (
+          {sortedProducts?.map((product) => (
             <ProductCard height='349px' width='262px' product={product} key={product._id} />
           ))}
         </div>

@@ -18,11 +18,11 @@ export const useSingleOrderQuery = (id: string | undefined) => {
   return { data, ...rest }
 }
 
-export const useMultipleOrderQuery = ({ pageIndex, pageSize }: PaginationState) => {
+export const useMultipleOrderQuery = ({ pageIndex, pageSize }: PaginationState, queryParams: any) => {
   const { data, ...rest } = useQuery({
-    queryKey: ['ORDER', pageIndex, pageSize],
+    queryKey: ['ORDER', pageIndex, pageSize, queryParams],
     queryFn: async () => {
-      const response = await OrderService.getAll({ pageIndex, pageSize })
+      const response = await OrderService.getAll({ pageIndex, pageSize }, queryParams)
       return response.data
     }
   })
