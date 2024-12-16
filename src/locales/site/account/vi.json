@@ -38,6 +38,7 @@
       "submit": "Lưu lại"
     },
     "order": {
+      "title": "Lịch sử mua hàng",
       "status": {
         "order_status": "Trạng thái đơn hàng",
         "cancel_order": "Hủy đơn hàng",

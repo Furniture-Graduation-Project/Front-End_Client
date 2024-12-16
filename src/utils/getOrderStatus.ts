@@ -1,5 +1,7 @@
 export const getOrderStatus = (status: string, language: string) => {
   switch (status) {
+    case 'all':
+      return language === 'en' ? 'All' : 'Tất cả'
     case 'pending':
       return language === 'en' ? 'Pending' : 'Chờ xử lý'
     case 'unpaid':
@@ -16,6 +18,8 @@ export const getOrderStatus = (status: string, language: string) => {
       return language === 'en' ? 'Received' : 'Đã nhận hàng'
     case 'cancelled':
       return language === 'en' ? 'Cancelled' : 'Đã hủy'
+    case 'return':
+      return language === 'en' ? 'Return' : 'Trả hàng'
     default:
       return ''
   }
