@@ -49,7 +49,12 @@
       "join": "Tham gia cùng chúng tôi",
       "signupText": "Đăng ký để nhận ưu đãi, sản phẩm mới và khuyến mãi",
       "emailPlaceholder": "Địa chỉ email",
-      "signupButton": "Đăng ký"
+      "signupButton": "Đăng ký",
+      "successMessage": "Thông báo thành công",
+      "subscriptionSuccess": "Bạn đã đăng ký thành công!",
+      "errorMessage": "Thông báo lỗi",
+      "checkEmailError": "Vui lòng kiểm tra email của bạn và thử lại.",
+      "error": "Vui lòng nhập địa chỉ email hợp lệ"
     }
   }
 }

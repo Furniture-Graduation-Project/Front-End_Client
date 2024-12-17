@@ -49,7 +49,12 @@
       "join": "Join Our Newsletter",
       "signupText": "Sign up for deals, new products and promotions",
       "emailPlaceholder": "Email address",
-      "signupButton": "Signup"
+      "signupButton": "Signup",
+      "successMessage": "Success Notification",
+      "subscriptionSuccess": "You have successfully subscribed!",
+      "errorMessage": "Error Notification",
+      "checkEmailError": "Please check your email and try again.",
+      "error": "Please enter a valid email address"
     }
   }
 }
