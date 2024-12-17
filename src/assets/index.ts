@@ -14,6 +14,9 @@ import ProductImage from '@/assets/images/3.png'
 import ArticlesImage from '@/assets/images/5.png'
 import NewsletterBanner from '@/assets/images/footer.png'
 import AvatarNull from '@/assets/images/auth/blank-profile-picture.png'
+import GoogleLogo from '@/assets/images/logo/google-logo.webp'
+import FacebookLogo from '@/assets/images/logo/logo-fb.svg'
+
 export {
   LogoWhite,
   LogoBlack,
@@ -30,5 +33,7 @@ export {
   ProductImage,
   ArticlesImage,
   NewsletterBanner,
-  AvatarNull
+  AvatarNull,
+  GoogleLogo,
+  FacebookLogo
 }

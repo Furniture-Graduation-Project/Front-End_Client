@@ -174,11 +174,11 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
       ) : (
         <div
           className={cn(
-            'grid gap-6 mt-10',
-            productNumber === 4 && 'grid-cols-4',
-            productNumber === 3 && 'grid-cols-3',
-            productNumber === 2 && 'grid-cols-2',
-            productNumber === 1 && 'grid-cols-1'
+            'grid gap-6 mt-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ',
+            productNumber === 4 && 'xl:grid-cols-4',
+            productNumber === 3 && 'xl:grid-cols-3',
+            productNumber === 2 && 'xl:grid-cols-2',
+            productNumber === 1 && 'xl:grid-cols-1'
           )}
         >
           {sortedProducts?.map((product) => (

@@ -51,7 +51,11 @@
       "newPassword": "New Password",
       "confirmPassword": "Confirm Password",
       "change": "Change",
-      "submit": "Submit"
+      "submit": "Submit",
+      "emailValidate": "Email is required",
+      "emailValidate2": "Invalid email format",
+      "nameValidate": "Name is required",
+      "passwordValidate": "Password must be at least 9 characters long"
     },
     "order": {
       "title": "Orders History",

@@ -61,7 +61,7 @@ export function AddressPopover({
 
       {!update && !onDelete && (
         <DialogTrigger asChild>
-          <Button size={'sm'} variant={'default'} onClick={() => setIsOpen(true)}>
+          <Button className='w-full md:w-auto' size={'sm'} variant={'default'} onClick={() => setIsOpen(true)}>
             <MapPinPlus className='mr-2 w-4 h-4' />
             {t('addAddress')}
           </Button>

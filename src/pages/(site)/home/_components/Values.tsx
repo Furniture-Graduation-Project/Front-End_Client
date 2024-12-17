@@ -13,7 +13,7 @@ const Values: React.FC<Props> = ({ bgColor }) => {
   return (
     <>
       <div className={`${bgColor}`}>
-        <Container className='sm:px-0 px-8'>
+        <Container className='lg:px-0 px-8'>
           <div className='grid lg:grid-cols-4 grid-cols-2 gap-2 sm:gap-7 *:w-auto *:rounded-lg'>
             <div className='bg-neutral-2 h-[200px] sm:h-[280px] flex justify-center flex-col'>
               <div className='ml-5 sm:ml-12'>

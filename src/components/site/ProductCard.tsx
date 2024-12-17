@@ -87,14 +87,14 @@ const ProductCard = ({ width, height, product }: ProductCardProps) => {
 
         {/* Product Info */}
         {isProductNew && (
-          <div className='absolute top-6 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-white'>
+          <div className='absolute top-6 left-4 hairline-1 px-[14px] py-1 rounded-md bg-green text-white'>
             {t('new')}
           </div>
         )}
 
-        <div className='absolute top-14 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-green text-white'>
+        {/* <div className='absolute top-14 left-4 uppercase hairline-1 px-[14px] py-1 rounded-md bg-green text-white'>
           -50%
-        </div>
+        </div> */}
 
         {/* Wishlist Icon */}
         <IconButton

@@ -35,10 +35,11 @@
       "button": "Shop Christmas Collection"
     },
     "sale": {
-      "title": "SALE UP TO 35% OFF",
+      "title": "When only",
+      "title2": "the best will do",
       "headline1": "HUNDREDS of",
       "headline2": "New lower prices!",
-      "description": "It’s more affordable than ever to give every room in your home a stylish makeover.",
+      "description": "Our top selling gifts will impress even the pickiest of recipients.",
       "shopNow": "Shop Now"
     },
     "articles": {

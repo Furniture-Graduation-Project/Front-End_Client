@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import OrderSummary from './OrderSummary'
-import CheckoutFormTest from './CheckoutFormA'
+import CheckoutForm from './CheckoutForm'
 
 const slideInLeft = {
   hidden: { opacity: 0, x: -50 },
@@ -61,14 +61,7 @@ const Checkout = () => {
   return (
     <div className='flex flex-col-reverse gap-y-6 lg:grid lg:grid-cols-7 gap-x-16 my-20'>
       <motion.div className='lg:col-span-4' initial='hidden' animate='visible' variants={slideInLeft}>
-        {/* <CheckoutForm
-          amount={amount}
-          dataCart={state}
-          isLoading={isLoading}
-          setErrorOrder={setErrorOrder}
-          stateErrorOrder={stateErrorOrder}
-        /> */}
-        <CheckoutFormTest
+        <CheckoutForm
           amount={amount}
           dataCart={state}
           isLoading={isLoading}

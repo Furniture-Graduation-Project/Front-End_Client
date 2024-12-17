@@ -31,7 +31,7 @@ const Header = () => {
           isSticky ? 'fixed top-0 left-0 right-0 shadow-lg z-50 backdrop-blur-md bg-opacity-85' : 'relative z-30'
         }`}
       >
-        <Container className='sm:px-0 px-8'>
+        <Container className='lg:px-0 px-8'>
           <nav className='mx-auto flex items-center justify-between py-4 lg:py-6' aria-label='Global'>
             <div className='flex lg:flex-1 items-center'>
               <MenuHeader />

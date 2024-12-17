@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { formatDate } from '@/utils/formatDate'
 import { useTranslate } from '@/hooks/useTranslate'
 import { Skeleton } from '@/components/ui/skeleton'
+import Container from '@/components/Container'
 
 const Post = () => {
   const [view, setView] = useState<'grid' | 'list' | 'bars' | 'menu'>('grid')
@@ -16,11 +17,11 @@ const Post = () => {
     return (
       <>
         {Array.from({ length: 3 }).map((_, index) => (
-          <div key={index} className='grid grid-cols-3 gap-6 my-14'>
+          <Container key={index} className='grid grid-cols-3 gap-6 my-14'>
             <Skeleton className='w-[400px] h-[255px]' />
             <Skeleton className='w-[400px] h-[255px]' />
             <Skeleton className='w-[400px] h-[255px]' />
-          </div>
+          </Container>
         ))}
       </>
     )
@@ -36,7 +37,7 @@ const Post = () => {
 
   return (
     <section className='container mx-auto px-4 py-8'>
-      <div className='flex justify-between items-center mb-6'>
+      <div className='flex flex-col gap-y-4 md:flex-row  justify-between items-center mb-6'>
         <div className='flex gap-4'>
           <div className='text-gray-600 font-bold'>{t('allBlog')}</div>
           <div className='text-gray-600 font-bold'>{t('featured')}</div>
