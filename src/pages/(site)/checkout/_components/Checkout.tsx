@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import OrderSummary from './OrderSummary'
-import CheckoutFormTest from './CheckOutFormA'
+import CheckoutFormTest from './CheckoutFormA'
 
 const slideInLeft = {
   hidden: { opacity: 0, x: -50 },

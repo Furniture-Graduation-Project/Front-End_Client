@@ -49,7 +49,7 @@ export const useWishlistColumns = (): ColumnDef<WishlistColumn>[] => {
             <AlertModal
               isOpen={open}
               onClose={() => setOpen(false)}
-              onConfirm={() => onDelete(user?._id || '', row.original)}
+              onConfirm={() => onDelete(user?._id || '', row.original as any)}
               loading={loading}
             />
             <div className='flex items-center gap-x-4 p-0'>
