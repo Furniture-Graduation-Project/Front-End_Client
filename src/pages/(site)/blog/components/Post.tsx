@@ -1,17 +1,31 @@
-import { Grid, GripHorizontal, List, Menu, Search } from 'lucide-react'
+import { Grid, GripHorizontal, Search } from 'lucide-react'
 import { useBlogQuery } from '@/hooks/queries/useBlogQuery'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { formatDate } from '@/utils/formatDate'
 import { useTranslate } from '@/hooks/useTranslate'
+import { Skeleton } from '@/components/ui/skeleton'
+import Container from '@/components/Container'
 
 const Post = () => {
   const [view, setView] = useState<'grid' | 'list' | 'bars' | 'menu'>('grid')
   const [searchTerm, setSearchTerm] = useState('')
-  const { blogs, isLoading, error, page, limit, handlePageChange, handleLimitChange } = useBlogQuery()
+  const { blogs, isLoading, error, limit, handleLimitChange } = useBlogQuery()
   const { t } = useTranslate('post')
 
-  if (isLoading) return <div className='text-center py-4'>{t('loading')}</div>
+  if (isLoading) {
+    return (
+      <>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <Container key={index} className='grid grid-cols-3 gap-6 my-14'>
+            <Skeleton className='w-[400px] h-[255px]' />
+            <Skeleton className='w-[400px] h-[255px]' />
+            <Skeleton className='w-[400px] h-[255px]' />
+          </Container>
+        ))}
+      </>
+    )
+  }
   if (error) return <div className='text-center py-4 text-red-500'>{t('errorLoadingBlogs')}</div>
   if (!blogs || blogs.length === 0) return <div className='text-center py-4'>{t('noBlogsFound')}</div>
 
@@ -23,7 +37,7 @@ const Post = () => {
 
   return (
     <section className='container mx-auto px-4 py-8'>
-      <div className='flex justify-between items-center mb-6'>
+      <div className='flex flex-col gap-y-4 md:flex-row  justify-between items-center mb-6'>
         <div className='flex gap-4'>
           <div className='text-gray-600 font-bold'>{t('allBlog')}</div>
           <div className='text-gray-600 font-bold'>{t('featured')}</div>

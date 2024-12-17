@@ -19,6 +19,7 @@ const ProductVariant = ({
   index: number
 }) => {
   const { t } = useTranslate('productDetail')
+
   return (
     <div key={variant._id}>
       <h3 className='font-medium mb-2 flex items-center gap-1'>

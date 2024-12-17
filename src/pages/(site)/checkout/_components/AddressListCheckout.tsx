@@ -44,7 +44,7 @@ export function AddressListCheckout({ data }: AddressListCheckoutProps) {
 
   return (
     <>
-      <div className='ml-auto'>
+      <div className='md:ml-auto'>
         <AddressPopover>
           <AddressForm />
         </AddressPopover>
@@ -52,7 +52,7 @@ export function AddressListCheckout({ data }: AddressListCheckoutProps) {
       <AlertDialog open={open} onOpenChange={setOpen}>
         {data?.locations?.length > 0 && (
           <AlertDialogTrigger asChild>
-            <Button size={'sm'} className='ml-2'>
+            <Button size={'sm'} className='md:ml-2'>
               {t('change')}
             </Button>
           </AlertDialogTrigger>

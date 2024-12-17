@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/ui/input-otp'
 import useAccountMutation from '@/hooks/mutations/useUserMutation'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useEffect, useState } from 'react'
 import * as z from 'zod'
+import { useTranslate } from '@/hooks/useTranslate'
 
 const formSchema = z.object({
   otp: z.string()
@@ -16,6 +17,9 @@ const formSchema = z.object({
 export default function VerifyOtp() {
   const { mutate } = useAccountMutation({ action: 'VERIFY_OTP' })
   const { mutate: sendOtp } = useAccountMutation({ action: 'SEND_OTP' })
+
+  const { t } = useTranslate('account.forgotPassword')
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
   })
@@ -49,6 +53,7 @@ export default function VerifyOtp() {
           onSuccess: () => navigate('/new-password', { replace: true })
         }
       )
+      localStorage.setItem('otp', 'true')
       toast.success('Xác thực thành công!')
     } catch (error) {
       toast.error('Xác thực thất bại!')
@@ -58,7 +63,7 @@ export default function VerifyOtp() {
 
   return (
     <div className='py-4 px-6 sm:px-12 lg:px-24 xl:px-32 sm:h-full flex flex-col justify-center space-y-6'>
-      <h2 className='font-bold text-3xl'>Xác thực mã OTP</h2>
+      <h2 className='font-bold text-3xl'>{t('otp')}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <FormField
@@ -81,15 +86,15 @@ export default function VerifyOtp() {
                     </InputOTPGroup>
                   </InputOTP>
                 </FormControl>
-
+                <FormDescription>{t('otpDescription')}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
           <div className='flex items-center gap-x-4'>
-            <Button type='submit'>Submit</Button>
-            <Button type='button' variant='outline' onClick={handleResendOtp}>
-              Gửi lại OTP {isResendDisabled && `(${timeLeft}s)`}
+            <Button type='submit'>{t('submit')}</Button>
+            <Button type='button' variant='outline' onClick={handleResendOtp} disabled={isResendDisabled}>
+              {t('otpResend')} {isResendDisabled && `(${timeLeft}s)`}
             </Button>
           </div>
         </form>

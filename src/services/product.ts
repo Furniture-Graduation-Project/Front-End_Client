@@ -59,6 +59,7 @@ export const ProductService = {
     categoryId?: string
     materialId?: string
     searchName?: string
+    sortBy?: string
   }): Promise<AxiosResponse<IApiResponse<IProduct[]>>> => {
     try {
       let query = `?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
@@ -73,6 +74,10 @@ export const ProductService = {
 
       if (pagination.searchName) {
         query += `&name=${encodeURIComponent(pagination.searchName)}`
+      }
+
+      if (pagination.sortBy) {
+        query += `&sortBy=${pagination.sortBy}`
       }
 
       const response: AxiosResponse<IApiResponse<IProduct[]>> = await axiosInstance.get(`${API_URL}/limited${query}`)
@@ -91,6 +96,16 @@ export const ProductService = {
       return response
     } catch (error) {
       console.error(`Lỗi khi tìm kiếm sản phẩm theo tên "${name}":`, error)
+      throw error
+    }
+  },
+
+  getProductWithPrice: async (id: string) => {
+    try {
+      const response = await axiosInstance.get(`${API_URL}/${id}/with-price`)
+      return response
+    } catch (error) {
+      console.error(`Lỗi khi lấy sản phẩm với ID ${id}:`, error)
       throw error
     }
   }

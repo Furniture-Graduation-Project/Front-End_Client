@@ -19,10 +19,26 @@
       "newPassword": "New Password",
       "confirmPassword": "Confirm Password",
       "change": "Change",
-      "passValidate": "Password must be at least 6 characters long.",
-      "newPassValidate": "New password must be at least 6 characters long.",
-      "confirmPasswordValidate": "confirmPassword must be at least 6 characters long.",
+      "passValidate": "Password must be at least 9 characters long.",
+      "newPassValidate": "New password must be at least 9 characters long.",
+      "confirmPasswordValidate": "confirmPassword must be at least 9 characters long.",
       "confirmPasswordNotMatch": "Confirm password does not match."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password?",
+      "subTitle": "Forgot Password?",
+      "description": "Don't worry, we'll help you recover your password.",
+      "submit": "Submit",
+      "otp": "OTP Verification",
+      "otpDescription": "The OTP code has been sent to your email. Please enter the OTP code to verify your account.",
+      "otpResend": "Resend OTP",
+      "changePassword": "Change Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordNotMatch": "Confirm password does not match.",
+      "save": "Save",
+      "validateNewPassword": "New password must be at least 9 characters long.",
+      "validateConfirmPassword": "Confirm password must be at least 9 characters long."
     },
     "detail": {
       "title": "My Account",
@@ -35,9 +51,14 @@
       "newPassword": "New Password",
       "confirmPassword": "Confirm Password",
       "change": "Change",
-      "submit": "Submit"
+      "submit": "Submit",
+      "emailValidate": "Email is required",
+      "emailValidate2": "Invalid email format",
+      "nameValidate": "Name is required",
+      "passwordValidate": "Password must be at least 9 characters long"
     },
     "order": {
+      "title": "Orders History",
       "status": {
         "order_status": "Order Status",
         "cancel_order": "Cancel Order",
@@ -112,6 +133,11 @@
         "statusHistory": "Status history"
       },
       "request": {
+        "quantityError": "Quantity must be at least 0.",
+        "unitPriceError": "UnitPrice must be at least 0.",
+        "selectProductError": "Select at least one product to return.",
+        "reasonError": "Reason must be at least 10 characters long.",
+        "orderRequestTitle": "Order Return Request",
         "returnRequest": "Return Request",
         "back": "Back",
         "status": {
@@ -157,7 +183,12 @@
       "next": "Next",
       "open": "Open Menu",
       "delete": "Delete",
-      "view": "Move to Product"
+      "view": "Move to Product",
+      "price": "Price",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "sure": "Are you sure?",
+      "description": "This action cannot be undone."
     }
   }
 }

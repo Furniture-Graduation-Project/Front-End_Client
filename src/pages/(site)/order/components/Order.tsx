@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Separator } from '@/components/ui/separator'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Link } from 'react-router-dom'
 import { useTranslate } from '@/hooks/useTranslate'
-import { IOrderItem } from '@/interface/order'
 import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/context/LanguageContext'
 import { generatePDF } from '@/utils/pdfGenerator'
+import { formatCurrency } from '@/utils/formatCurrency'
+import { formatDate } from '@/utils/formatDate'
 
 const Order = ({ data, isLoading, isError }: any) => {
   const { t } = useTranslate('order')
@@ -72,15 +72,11 @@ const Order = ({ data, isLoading, isError }: any) => {
             className='w-full max-w-sm'
           >
             <CarouselContent>
-              {data?.data.items?.map((item: IOrderItem, index: number) => (
+              {data?.data.items?.map((item: any, index: number) => (
                 <CarouselItem key={index} className='sm:basis-1/2 md:basis-1/3 '>
                   <div className='p-3 relative'>
                     <div className=''>
-                      <img
-                        src='https://assets.weimgs.com/weimgs/rk/images/wcm/products/202420/0120/meyer-wooden-drink-tables-18-21-5-o.jpg'
-                        alt='img'
-                        className='rounded-md'
-                      />
+                      <img src={item.productOptionId?.image} alt={item.productId?.name} className='rounded-md' />
                       <div className='w-8 px-[11px] py-1 flex justify-center items-center bg-black text-white rounded-full top-0 right-0 absolute'>
                         {item.quantity}
                       </div>
@@ -132,10 +128,8 @@ const Order = ({ data, isLoading, isError }: any) => {
           </div>
           <div className='flex flex-col items-start gap-y-5 *:text-sm *:font-semibold'>
             <p className='uppercase'>{data?.data.code}</p>
-            <p>{data?.data.payment?.paymentDate && new Date(data.data.payment.paymentDate).toLocaleDateString()}</p>
-            <p>
-              {data?.data.totalPrice} <span>VND</span>
-            </p>
+            <p>{formatDate(data?.data.payment?.paymentDate, language)}</p>
+            <p>{formatCurrency(data?.data.totalPrice)}</p>
             <p>
               {data?.data.payment?.paymentMethod == 'credit_card'
                 ? 'Thanh trước khi nhân hàng'
@@ -145,11 +139,20 @@ const Order = ({ data, isLoading, isError }: any) => {
             </p>
           </div>
         </div>
-        <div className='grid grid-cols-2 gap-3'>
+        <div className='flex justify-center gap-3'>
           <Link to={'/account/order/' + data?.data._id}>
             <Button>{t('purchaseHistory')}</Button>
           </Link>
-          <Button onClick={handleDownload}>{t('Invoice')}</Button>
+          <Button
+            className={
+              data?.data.payment?.paymentMethod == 'credit_card' && data?.data.payment?.paymentStatus == 'paid'
+                ? 'block'
+                : 'hidden'
+            }
+            onClick={handleDownload}
+          >
+            {t('Invoice')}
+          </Button>
         </div>
       </div>
     </div>

@@ -10,6 +10,8 @@
     "loading": "Loading...",
     "errorLoadingProducts": "Error loading products",
     "newest": "Newest",
-    "oldest": "Oldest"
+    "oldest": "Oldest",
+    "a-z": "A-Z",
+    "z-a": "Z-A"
   }
 }

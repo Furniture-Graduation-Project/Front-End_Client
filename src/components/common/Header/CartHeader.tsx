@@ -193,13 +193,13 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                                 <p className='ml-4 text-[#121212]'>{formatCurrency(item.productOptionId.price)}</p>
                               </div>
                               <div className='flex flex-1 justify-between items-center mt-1'>
-                                <p className='text-[12px] text-[#6C7275]'>
+                                <div className='text-[12px] text-neutral-7 flex flex-col'>
                                   {item.productOptionId.variants.map((variant: any, id: number) => (
                                     <span key={id}>
                                       {variant.variant}: {variant.value}
                                     </span>
                                   ))}
-                                </p>
+                                </div>
                                 <button
                                   type='button'
                                   onClick={() => handleDeleteItem(item)}

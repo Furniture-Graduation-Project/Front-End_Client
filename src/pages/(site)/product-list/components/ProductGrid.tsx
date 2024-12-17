@@ -1,26 +1,27 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import ProductCard from '@/components/site/ProductCard'
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/utils/classUtils'
 import { useMultipleProductQuery } from '@/hooks/queries/useProductQuery'
-import { Check, ChevronsUpDown, Grid3X3, LayoutGrid, Columns2, Loader2 } from 'lucide-react'
+import { Check, ChevronsUpDown, Columns2, Grid3X3, LayoutGrid } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { useTranslate } from '@/hooks/useTranslate'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; materialId?: string }) => {
   const { t } = useTranslate('productGrid')
 
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState<'newest' | 'oldest' | 'a-z' | 'z-a' | undefined>(undefined)
   const [productNumber, setProductNumber] = useState(4)
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 12 })
   const [searchQuery, setSearchQuery] = useState('')
 
   const sortBy = [
-    { value: 'A-Z', label: 'A-Z' },
-    { value: 'Z-A', label: 'Z-A' },
+    { value: 'a-z', label: t('a-z') },
+    { value: 'z-a', label: t('z-a') },
     { value: 'newest', label: t('newest') },
     { value: 'oldest', label: t('oldest') }
   ]
@@ -29,33 +30,15 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
     isLoading,
     isError,
     refetch
-  } = useMultipleProductQuery(pagination, searchQuery, categoryId, materialId)
+  } = useMultipleProductQuery(pagination, searchQuery, categoryId, materialId, value)
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
   }
 
-  const filteredProducts =
-    products?.data?.sort((a, b) => {
-      if (value === 'A-Z') {
-        return a.name.localeCompare(b.name)
-      }
-      if (value === 'Z-A') {
-        return b.name.localeCompare(a.name)
-      }
-      if (value === 'oldest') {
-        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      }
-      if (value === 'newest') {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      }
-      if (value === 'price') {
-        return b.price - a.price
-      }
-      return 0
-    }) || []
+  const filteredProducts = products?.data || []
 
-  const noProducts = products?.data?.length === 0
+  const noProducts = filteredProducts.length === 0
   const noSearchResults = filteredProducts.length === 0 && searchQuery.length > 0
 
   const handleNextPage = () => {
@@ -69,11 +52,24 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
   const isLastPage = filteredProducts.length < pagination.pageSize
   useEffect(() => {
     refetch()
-  }, [pagination, searchQuery, refetch])
+  }, [pagination, searchQuery, refetch, value])
 
   useEffect(() => {
     window.scrollTo({ top: 250, behavior: 'smooth' })
   }, [pagination.pageIndex])
+
+  const sortProducts = (products: any[], sortOrder: string) => {
+    switch (sortOrder) {
+      case 'z-a':
+        return products.sort((a, b) => b.name.localeCompare(a.name, 'vi', { sensitivity: 'base' }))
+      case 'a-z':
+        return products.sort((a, b) => a.name.localeCompare(b.name, 'vi', { sensitivity: 'base' }))
+      default:
+        return products
+    }
+  }
+
+  const sortedProducts = sortProducts(filteredProducts, value || '')
 
   return (
     <div className='md:pl-6 flex-col w-full flex-grow'>
@@ -105,8 +101,12 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
                       <CommandItem
                         key={sort.value}
                         value={sort.value}
-                        onSelect={(currentValue) => {
-                          setValue(currentValue === value ? '' : currentValue)
+                        onSelect={(currentValue: string) => {
+                          if (sortBy.some((sortOption) => sortOption.value === currentValue)) {
+                            setValue(currentValue as 'newest' | 'oldest' | 'a-z' | 'z-a' | undefined)
+                          } else {
+                            setValue(undefined)
+                          }
                           setOpen(false)
                         }}
                       >
@@ -149,9 +149,18 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
       </div>
 
       {isLoading ? (
-        <div className='flex justify-center items-center'>
-          <Loader2 className='animate-spin h-10 w-10 text-blue-500' />
-        </div>
+        <>
+          <div className='grid grid-cols-4 gap-6'>
+            {Array.from({ length: productNumber }).map((_, index) => (
+              <Fragment key={index}>
+                <Skeleton className='h-[349px] w-[262px]' />
+                <Skeleton className='h-[349px] w-[262px]' />
+                <Skeleton className='h-[349px] w-[262px]' />
+                <Skeleton className='h-[349px] w-[262px]' />
+              </Fragment>
+            ))}
+          </div>
+        </>
       ) : isError ? (
         <div>{t('errorLoadingProducts')}</div>
       ) : noProducts ? (
@@ -165,15 +174,16 @@ const ProductGrid = ({ categoryId, materialId }: { categoryId?: string; material
       ) : (
         <div
           className={cn(
-            'grid gap-6 mt-10',
-            productNumber === 4 && 'grid-cols-4',
-            productNumber === 3 && 'grid-cols-3',
-            productNumber === 2 && 'grid-cols-2',
-            productNumber === 1 && 'grid-cols-1'
+            'grid gap-6 mt-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ',
+            productNumber === 4 && 'xl:grid-cols-4',
+            productNumber === 3 && 'xl:grid-cols-3',
+            productNumber === 2 && 'xl:grid-cols-2',
+            productNumber === 1 && 'xl:grid-cols-1'
           )}
         >
-          {filteredProducts?.map((product) => (
-            <ProductCard height='349px' width='262px' product={product} key={product._id} />
+          {sortedProducts?.map((product) => (
+            // <ProductCard height='349px' width='262px' product={product} key={product._id} />
+            <ProductCard height='300px' product={product} key={product._id} />
           ))}
         </div>
       )}

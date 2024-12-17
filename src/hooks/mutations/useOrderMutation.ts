@@ -59,12 +59,14 @@ const useOrderMutation = ({ action }: MutationQueryProps) => {
       query.invalidateQueries({ queryKey: ['ORDER'] })
     },
     onError: (error: any) => {
-      const message = error?.response?.data?.message || 'Có lỗi xảy ra khi cập nhật đơn hàng !'
+      const serverMessage =
+        error?.response?.data?.details || error?.response?.data?.message || 'Unknown error from server'
       toast({
-        title: 'Có lỗi xảy ra!',
-        description: message,
+        title: 'Giao dịch thất bại!',
+        description: serverMessage,
         variant: 'destructive'
       })
+
       query.invalidateQueries({ queryKey: ['ORDER'] })
     }
   })

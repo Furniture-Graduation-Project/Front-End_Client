@@ -3,7 +3,6 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import useAccountMutation from '@/hooks/mutations/useUserMutation'
-import { toast } from '@/hooks/use-toast'
 import { useTranslate } from '@/hooks/useTranslate'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
@@ -61,20 +60,7 @@ const SignUp = () => {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     const { remember, ...rest } = data
-    try {
-      handleSubmit(rest)
-      toast({
-        title: t('success'),
-        description: t('successDescription'),
-        variant: 'success'
-      })
-    } catch (error) {
-      toast({
-        title: t('error'),
-        description: t('errorDescription'),
-        variant: 'destructive'
-      })
-    }
+    handleSubmit(rest)
   }
 
   return (

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
 import { useTranslate } from '@/hooks/useTranslate'
-import { ArrowRight, TicketPercent, X } from 'lucide-react'
+import { ArrowRight, X } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 interface NotificationBarProps {
@@ -8,8 +8,9 @@ interface NotificationBarProps {
 }
 
 const NotificationBar: React.FC<NotificationBarProps> = ({ setShow }) => {
-  const { t } = useTranslate('header.notificationBar')
   const [isVisible, setIsVisible] = useState(true)
+
+  const { t } = useTranslate('header.notificationBar')
 
   useEffect(() => {
     if (!isVisible) {
@@ -20,20 +21,22 @@ const NotificationBar: React.FC<NotificationBarProps> = ({ setShow }) => {
 
   return (
     <div
-      className={`h-[0px] bg-neutral-2 flex justify-center items-center w-full m-0 font-semibold sm:px-0 px-[32px] relative z-50 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+      className={`h-[40px] bg-neutral-2 flex justify-center items-center w-full m-0 font-semibold sm:px-0 px-[32px] relative z-50 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
     >
-      {/* <div className='flex justify-center items-center mr-4'>
-        <TicketPercent className='mr-2 h-auto' />
+      <div className='flex justify-center items-center mr-4'>
+        <span role='img' aria-label='christmas tree' className='text-xl mr-2'>
+          🎄
+        </span>
         <span className='text-[12px] sm:caption-1-semi'>{t('notification')}</span>
         <span className='hidden sm:flex text-[12px] sm:caption-1-semi ml-1'>{t('notification2')}</span>
       </div>
       <div className='hidden md:flex justify-center items-center button-xs underline text-blue'>
-        <Link className='mr-1' to=''>
+        <Link className='mr-1' to='/products'>
           {t('shopNow')}
         </Link>
         <ArrowRight className='h-[18px]' />
       </div>
-      <X onClick={() => setIsVisible(false)} className='h-[18px] absolute right-4 cursor-pointer' /> */}
+      <X onClick={() => setIsVisible(false)} className='h-[18px] absolute right-4 cursor-pointer' />
     </div>
   )
 }

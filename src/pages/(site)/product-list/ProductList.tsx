@@ -2,7 +2,7 @@ import Container from '@/components/Container'
 import Banner from '@/pages/(site)/home/_components/Banner'
 import ProductFilter from './components/ProductFilter'
 import ProductGrid from './components/ProductGrid'
-import Newsletter from '@/pages/(site)/home/_components/Newsletter'
+import Newsletter from '@/components/site/Newsletter'
 import { Separator } from '@/components/ui/separator'
 import { useLocation } from 'react-router-dom'
 

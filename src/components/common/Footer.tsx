@@ -28,7 +28,7 @@ const Footer = () => {
               {t('shop')}
             </NavLink> */}
             <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/product'>
-              {t('products')}
+              {t('product')}
             </NavLink>
             <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/blog'>
               {t('blog')}
@@ -38,9 +38,9 @@ const Footer = () => {
             </NavLink>
           </div>
         </div>
-        <div className='flex justify-center items-center flex-col-reverse sm:flex-row sm:justify-between text-[12px] pt-3 border-t border-t-neutral-4 mt-[40px]'>
+        <div className='flex justify-center items-center flex-col-reverse sm:flex-row sm:justify-between text-[12px] pt-6 border-t border-t-neutral-4 mt-[40px]'>
           <div className='flex sm:mr-6 items-center mt-5 sm:mt-0 space-x-7'>
-            <p className='text-[12px] text-neutral-3'>{t('copyright')}</p>
+            <p className='text-[12px] text-neutral-3 text-center'>{t('copyright')}</p>
             <Link className='sm:block hidden' to='/privacy-policy'>
               {t('privacyPolicy')}
             </Link>
@@ -56,7 +56,7 @@ const Footer = () => {
               {t('termsOfUse')}
             </Link>
           </div>
-          <div className='flex mt-5 sm:mt-08 space-x-5'>
+          <div className='flex mt-5 sm:mt-0 space-x-5'>
             <Instagram />
             <Facebook />
             <Youtube />

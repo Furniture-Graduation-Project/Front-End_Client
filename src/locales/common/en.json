@@ -1,8 +1,8 @@
 {
   "header": {
     "notificationBar": {
-      "notification": "30% off storewide ",
-      "notification2": " — Limited time!",
+      "notification": "Merry Christmas! ",
+      "notification2": " — Wishing you a peaceful Christmas!",
       "shopNow": "Shop Now"
     },
     "menuHeader": {
@@ -54,7 +54,7 @@
     "brand": "River Interior Store",
     "home": "Home",
     "shop": "Shop",
-    "product": "Product",
+    "products": "Product",
     "blog": "Blog",
     "contactUs": "Contact Us",
     "copyright": "Copyright © 2024 River Interior. All rights reserved",

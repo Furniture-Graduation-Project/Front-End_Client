@@ -65,6 +65,9 @@ import notFoundVI from '../locales/site/error/vi.json'
 import mainLayoutEN from '../locales/site/mainLayout/en.json'
 import mainLayoutVI from '../locales/site/mainLayout/vi.json'
 
+import forgotEn from '../locales/auth/forgot/en.json'
+import forgotVI from '../locales/auth/forgot/vi.json'
+
 export const currentLocales: LocaleCodeName[] = [
   { code: 'vi', name: 'Tiếng Việt' },
   { code: 'en', name: 'English' }
@@ -91,6 +94,7 @@ export const localizationResources = {
     blogPost: postEN,
     blogBannerPage: blogBannerPageEN,
     productDetail: productDetailEN,
+    forgot: forgotEn,
     notFound: notFoundEN,
     mainLayout: mainLayoutEN
   },
@@ -114,6 +118,7 @@ export const localizationResources = {
     blogPost: postVI,
     blogBannerPage: blogBannerPageVI,
     productDetail: productDetailVI,
+    forgot: forgotVI,
     notFound: notFoundVI,
     mainLayout: mainLayoutVI
   }

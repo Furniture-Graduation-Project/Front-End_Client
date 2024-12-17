@@ -1,9 +1,8 @@
 import { Button } from '@/components/ui/button'
 import { CardFooter } from '@/components/ui/card'
-import { ITable } from '@/interface/table'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 
-const DataTablePagination = ({ table }: ITable<any>) => {
+const AccountOrderListPagination = ({ table, setPagination }: any) => {
   return (
     <CardFooter className='flex flex-wrap items-center justify-center py-4 border-t'>
       <div className='flex items-center space-x-6 lg:space-x-8'>
@@ -14,7 +13,7 @@ const DataTablePagination = ({ table }: ITable<any>) => {
           <Button
             variant='outline'
             className='hidden h-8 w-8 p-0 lg:flex'
-            onClick={() => table.setPageIndex(0)}
+            onClick={() => setPagination({ pageIndex: 0 })}
             disabled={!table.getCanPreviousPage()}
           >
             <ChevronsLeft className='h-4 w-4' />
@@ -22,7 +21,7 @@ const DataTablePagination = ({ table }: ITable<any>) => {
           <Button
             variant='outline'
             className='h-8 w-8 p-0'
-            onClick={() => table.previousPage()}
+            onClick={() => setPagination({ pageIndex: table.getState().pagination.pageIndex - 1 })}
             disabled={!table.getCanPreviousPage()}
           >
             <ChevronLeft className='h-4 w-4' />
@@ -30,7 +29,7 @@ const DataTablePagination = ({ table }: ITable<any>) => {
           <Button
             variant='outline'
             className='h-8 w-8 p-0'
-            onClick={() => table.nextPage()}
+            onClick={() => setPagination({ pageIndex: table.getState().pagination.pageIndex + 1 })}
             disabled={!table.getCanNextPage()}
           >
             <ChevronRight className='h-4 w-4' />
@@ -38,7 +37,7 @@ const DataTablePagination = ({ table }: ITable<any>) => {
           <Button
             variant='outline'
             className='hidden h-8 w-8 p-0 lg:flex'
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            onClick={() => setPagination({ pageIndex: table.getPageCount() - 1 })}
             disabled={!table.getCanNextPage()}
           >
             <ChevronsRight className='h-4 w-4' />
@@ -49,4 +48,4 @@ const DataTablePagination = ({ table }: ITable<any>) => {
   )
 }
 
-export default DataTablePagination
+export default AccountOrderListPagination

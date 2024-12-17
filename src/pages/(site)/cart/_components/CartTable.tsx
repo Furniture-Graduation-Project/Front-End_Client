@@ -140,13 +140,13 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
                   <img src={item.productOptionId.image} alt={item.productId.name} className='w-24 h-28' />
                   <div className='flex flex-col gap-y-2 justify-center'>
                     <h1 className='font-semibold text-[14px]'>{item.productId.name}</h1>
-                    <p className='text-[12px] text-[#6C7275]'>
-                      {item.productOptionId?.variants.map((variant: any, id: number) => (
+                    <div className='text-[12px] text-neutral-7 flex flex-col'>
+                      {item.productOptionId.variants.map((variant: any, id: number) => (
                         <span key={id}>
                           {variant.variant}: {variant.value}
                         </span>
                       ))}
-                    </p>
+                    </div>
                     <p className='text-[12px] text-[#6C7275]'>
                       {item.productOptionId.stock === 0
                         ? t('out_of_stock')

@@ -1,9 +1,9 @@
 {
   "header": {
     "notificationBar": {
-      "notification": "Giảm giá 30% toàn cửa hàng ",
-      "notification2": " — Thời gian có hạn!",
-      "shopNow": "Mua Ngay"
+      "notification": "Chúc mừng giáng sinh! ",
+      "notification2": " — Chúc bạn một mùa giáng sinh an lành!",
+      "shopNow": "Mua Đồ Ngay"
     },
     "menuHeader": {
       "home": "Trang chủ",
@@ -54,8 +54,8 @@
     "brand": "Cửa hàng nội thất River",
     "home": "Trang chủ",
     "shop": "Cửa hàng",
-    "product": "Sản phẩm",
-    "blog": "Blog",
+    "products": "Sản phẩm",
+    "blog": "Bài viết",
     "contactUs": "Liên hệ",
     "copyright": "Bản quyền © 2024 Nội thất River. Bảo lưu mọi quyền",
     "privacyPolicy": "Chính sách",

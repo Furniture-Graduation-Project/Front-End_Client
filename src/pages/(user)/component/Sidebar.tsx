@@ -62,6 +62,7 @@ const SidebarAccount = () => {
         title: 'Cập nhật avatar thành công!',
         variant: 'success'
       })
+      setPreview(null)
     } catch (error) {
       console.error(error)
       toast({
@@ -73,54 +74,59 @@ const SidebarAccount = () => {
   }
 
   return (
-    <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit  mb-24 sm:sticky sm:top-32'>
-      <div className='relative'>
-        <AvatarAccount src={user?.avatar || '/images/avatar.png'} className='h-20 w-20 mx-auto' />
-        <div className='bg-black border-[2px] border-white rounded-full w-[30px] h-[30px] flex justify-center items-center absolute top-14 right-20 hover:opacity-80 transition transform duration-200'>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
+    <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit mb-24 static xl:sticky xl:top-32'>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <div className='relative w-20 h-20 mx-auto'>
+            <AvatarAccount
+              src={
+                user?.avatar ||
+                'https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8='
+              }
+              className='h-20 w-20 mx-auto'
+            />
+            <div className='bg-black border-[2px] border-white rounded-full w-[30px] h-[30px] flex justify-center items-center absolute top-14 right-0 hover:opacity-80 transition transform duration-200'>
               <Button size={'icon'} variant={'null'}>
                 <Camera className='text-white h-4 w-4' />
               </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>{t('image')}</AlertDialogTitle>
-              </AlertDialogHeader>
-              <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
-                <div className='flex justify-center items-center gap-x-6'>
-                  {loading ? (
-                    <Skeleton className='h-20 w-20 rounded-full' />
-                  ) : (
-                    <AvatarAccount src={preview || ''} className='h-20 w-20' />
-                  )}
-                  <div>
-                    <Input
-                      disabled={loading}
-                      id='avatarUpload'
-                      type='file'
-                      className='hidden'
-                      onChange={onChangeImage}
-                    />
-                    <Label
-                      htmlFor='avatarUpload'
-                      className='cursor-pointer text-sm border p-3 rounded-md border-zinc-400'
-                    >
-                      {t('upload')}
-                    </Label>
-                  </div>
-                </div>
-                <Separator />
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
-                  <AlertDialogAction type='submit'>{t('save')}</AlertDialogAction>
-                </AlertDialogFooter>
-              </form>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
-        <p className='text-xl font-semibold text-center mt-2'>{user?.name}</p>
-      </div>
+            </div>
+          </div>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('image')}</AlertDialogTitle>
+          </AlertDialogHeader>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
+            <div className='flex justify-center items-center gap-x-6'>
+              {loading ? (
+                <Skeleton className='h-20 w-20 rounded-full' />
+              ) : (
+                <AvatarAccount src={preview || user?.avatar || ''} className='h-20 w-20' />
+              )}
+              <div>
+                <Input disabled={loading} id='avatarUpload' type='file' className='hidden' onChange={onChangeImage} />
+                <Label
+                  htmlFor='avatarUpload'
+                  className='cursor-pointer text-sm border p-3 rounded-md border-zinc-400'
+                  aria-disabled={loading}
+                >
+                  {t('upload')}
+                </Label>
+              </div>
+            </div>
+            <Separator />
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={loading} onClick={() => setPreview(null)}>
+                {t('cancel')}
+              </AlertDialogCancel>
+              <AlertDialogAction disabled={loading} type='submit'>
+                {t('save')}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </form>
+        </AlertDialogContent>
+      </AlertDialog>
+      <p className='text-xl font-semibold text-center mt-2'>{user?.name}</p>
       <div className='mt-10'>
         <ul className='*:text-base *:font-semibold hidden md:flex flex-col gap-y-6'>
           <li className='*:flex'>

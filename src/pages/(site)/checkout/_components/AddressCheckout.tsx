@@ -18,7 +18,7 @@ const AddressCheckout = ({ data }: AddressCheckoutProps) => {
   return (
     <>
       <Card className='w-full border border-black'>
-        <CardHeader className='flex flex-row items-center space-y-0 pb-2 mb-3'>
+        <CardHeader className='flex flex-col md:flex-row md:items-center space-y-0 pb-2 mb-3 gap-y-4'>
           <div className='flex items-center font-semibold'>
             <MapPin className='h-7 w-7 mr-2' />
             {t('title')}

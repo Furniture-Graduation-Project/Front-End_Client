@@ -13,7 +13,6 @@ import { useState } from 'react'
 import { useTranslate } from '@/hooks/useTranslate'
 import { useAuthContext } from '@/context/AuthContext'
 import useAddressMutation from '@/hooks/mutations/useAddressMutation'
-import { toast } from '@/hooks/use-toast'
 
 export function AddressPopover({
   children,
@@ -29,7 +28,6 @@ export function AddressPopover({
   const [isOpen, setIsOpen] = useState(false)
   const { user } = useAuthContext()
   const { mutate } = useAddressMutation({ action: 'DELETE' })
-  const { mutate: setDefault } = useAddressMutation({ action: 'DEFAULT' })
 
   const { t } = useTranslate('account.order.address')
 
@@ -38,24 +36,6 @@ export function AddressPopover({
       mutate({ userId: user?._id, query: locationId }, { onSuccess: () => setIsOpen(false) })
     } catch (error) {
       console.log(error)
-    }
-  }
-
-  const handleSetDefault = () => {
-    try {
-      setDefault({ userId: user?._id, query: locationId }, { onSuccess: () => setIsOpen(false) })
-      toast({
-        title: 'Success',
-        description: 'Set default address successfully',
-        variant: 'success'
-      })
-    } catch (error) {
-      console.log(error)
-      toast({
-        title: 'Error',
-        description: 'Set default address failed',
-        variant: 'destructive'
-      })
     }
   }
 
@@ -81,7 +61,7 @@ export function AddressPopover({
 
       {!update && !onDelete && (
         <DialogTrigger asChild>
-          <Button size={'sm'} variant={'default'} onClick={() => setIsOpen(true)}>
+          <Button className='w-full md:w-auto' size={'sm'} variant={'default'} onClick={() => setIsOpen(true)}>
             <MapPinPlus className='mr-2 w-4 h-4' />
             {t('addAddress')}
           </Button>

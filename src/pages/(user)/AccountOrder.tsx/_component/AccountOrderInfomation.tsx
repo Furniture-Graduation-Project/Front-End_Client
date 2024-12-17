@@ -21,7 +21,9 @@ const AccountOrderInfomation = ({ order }: any) => {
       <CardHeader>
         <div className='flex justify-between'>
           <h2 className='text-xl font-bold'>{t('orderDetails')}</h2>
-          <Button onClick={handleDownload}>{t('Invoice')}</Button>
+          <Button className={order?.data?.payment?.paymentStatus === 'unpaid' ? 'hidden' : ''} onClick={handleDownload}>
+            {t('Invoice')}
+          </Button>
         </div>
       </CardHeader>
       <CardContent className='space-y-4'>
@@ -40,7 +42,7 @@ const AccountOrderInfomation = ({ order }: any) => {
                       />
                       <div className='flex flex-col justify-between'>
                         <h3 className='text-lg font-semibold whitespace-nowrap'>{item.productId?.name}</h3>
-                        <div className='text-[12px] text-[#6C7275]'>
+                        <div className='text-[12px] text-neutral-7 flex flex-col'>
                           {item.productOptionId?.variants &&
                             item.productOptionId.variants.map((variant: any, id: number) => (
                               <h4 className='whitespace-nowrap' key={id}>

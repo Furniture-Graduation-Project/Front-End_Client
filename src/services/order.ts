@@ -16,14 +16,23 @@ export const OrderService = {
     }
   },
 
-  getAll: async (pagination: {
-    pageIndex: number
-    pageSize: number
-  }): Promise<AxiosResponse<IApiResponse<IOrder[]>>> => {
+  getAll: async (
+    pagination: {
+      pageIndex: number
+      pageSize: number
+    },
+    params: any
+  ): Promise<AxiosResponse<IApiResponse<IOrder[]>>> => {
     try {
-      const response: AxiosResponse<IApiResponse<IOrder[]>> = await axiosInstance.get(
-        `${API}/client/limited?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
-      )
+      let url = `${API}/client/limited?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
+      if (params) {
+        Object.keys(params).forEach((key) => {
+          if (params[key] !== undefined && params[key] !== null) {
+            url += `&${key}=${encodeURIComponent(params[key])}`
+          }
+        })
+      }
+      const response: AxiosResponse<IApiResponse<IOrder[]>> = await axiosInstance.get(url)
       return response
     } catch (error) {
       console.error('Lỗi khi lấy danh sách đơn hàng:', error)
