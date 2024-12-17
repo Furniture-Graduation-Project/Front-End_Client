@@ -1,10 +1,15 @@
 import { DEFAULT_PAGE_SIZE } from '@/constants/pagination'
 import { ProductService } from '@/services/product'
 import { useQuery } from '@tanstack/react-query'
-export const useProductListQuery = (categoryId?: string) => {
+
+export const useProductListQuery = (categoryId?: string, isNewProduct?: boolean) => {
   const { data, ...rest } = useQuery({
-    queryKey: ['PRODUCTS', categoryId],
+    queryKey: ['PRODUCTS', categoryId, isNewProduct],
     queryFn: async () => {
+      if (isNewProduct) {
+        const response = await ProductService.getProductNew(categoryId)
+        return response.data
+      }
       const response = await ProductService.getAll(categoryId)
       return response.data
     }
@@ -36,21 +41,13 @@ export const useMultipleProductQuery = (
   const { data: response, ...rest } = useQuery({
     queryKey: ['PRODUCT', pageIndex, pageSize, searchTerm, categoryId, materialId],
     queryFn: async () => {
-      if (searchTerm) {
-        const searchResponse = await ProductService.getByName(searchTerm)
-        return searchResponse
-      }
-
-      if (pagination) {
-        const response = await ProductService.getLimited({
-          pageIndex,
-          pageSize,
-          categoryId,
-          materialId
-        })
-        return response
-      }
-      const response = await ProductService.getAll(categoryId)
+      const response = await ProductService.getLimited({
+        pageIndex,
+        pageSize,
+        categoryId,
+        materialId,
+        searchName: searchTerm
+      })
       return response
     }
   })

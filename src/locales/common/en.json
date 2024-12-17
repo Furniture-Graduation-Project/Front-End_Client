@@ -43,11 +43,15 @@
     },
     "userMenu": {
       "signIn": "Sign In",
-      "signUp": "Sign Up"
+      "signUp": "Sign Up",
+      "profile": "Profile",
+      "wishlist": "Wishlist",
+      "changePassword": "Change Password",
+      "signOut": "Sign Out"
     }
   },
   "footer": {
-    "brand": "Gift & Decoration Store",
+    "brand": "River Interior Store",
     "home": "Home",
     "shop": "Shop",
     "product": "Product",

@@ -9,14 +9,6 @@ export const SocketService = {
         transports: ['websocket', 'polling'],
         reconnection: true
       })
-
-      socket.on('connect', () => {
-        console.log('Socket connected:', socket?.connected)
-      })
-
-      socket.on('disconnect', () => {
-        console.log('Socket disconnected')
-      })
     }
   },
   get: () => socket,

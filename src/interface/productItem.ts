@@ -1,9 +1,13 @@
+import { IProduct } from './product'
+
 export interface IProductItem {
   _id: string
-  productId: string
+  productId: IProduct
   variants: IVariant[]
   stock: number
+  outStock: number
   price: number
+  SKU: string
   image?: string
 }
 

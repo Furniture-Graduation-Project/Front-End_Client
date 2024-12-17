@@ -9,13 +9,20 @@ import NavigationLink from './NavigationLink'
 import { Link } from 'react-router-dom'
 import { useMultipleCategoryQuery } from '@/hooks/queries/useCategoryQuery'
 import { useTranslate } from '@/hooks/useTranslate'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const NavigationLinks = () => {
   const { t } = useTranslate('header.menuHeader')
   const { data, isLoading, error } = useMultipleCategoryQuery()
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return (
+      <>
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Skeleton key={index} className='w-20 h-6' />
+        ))}
+      </>
+    )
   }
 
   if (error) {

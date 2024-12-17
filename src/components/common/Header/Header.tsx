@@ -46,13 +46,13 @@ const Header = () => {
               <NavigationLinks />
             </NavigationMenu>
             <div className='hidden lg:flex lg:flex-1 lg:justify-end lg:items-center space-x-5'>
-              <Search className='hover:cursor-pointer' onClick={() => setSearch(true)} />
+              {/* <Search className='hover:cursor-pointer' onClick={() => setSearch(true)} />
               <CommandDialog open={search} onOpenChange={setSearch}>
                 <CommandInput placeholder={t('type')} />
                 <CommandList>
                   <CommandEmpty>{t('result')}</CommandEmpty>
                 </CommandList>
-              </CommandDialog>
+              </CommandDialog> */}
               <LanguageMenu />
               <UserMenu />
               <CartHeader mobile={false} />

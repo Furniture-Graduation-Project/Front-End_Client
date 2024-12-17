@@ -18,6 +18,7 @@ import { QrCode } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import PaymentSuccess from './_component/PaymentSuccess'
 import { useTranslate } from '@/hooks/useTranslate'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const PaymentPopup = ({
   orderState,
@@ -37,7 +38,8 @@ const PaymentPopup = ({
 
   const [description, setDescription] = useState<string>('')
   const [qrCode, setQrCode] = useState<string | null>(null)
-  const { mutate, isSuccess, isError, data } = useOrderMutation({ action: 'CREATE_QR' })
+
+  const { mutate, isSuccess, isError, isPending, data } = useOrderMutation({ action: 'CREATE_QR' })
   const [timeLeft, setTimeLeft] = useState({
     minutes: 0,
     seconds: 0
@@ -48,7 +50,7 @@ const PaymentPopup = ({
     isError: isErrorPayment
   } = useOrderMutation({ action: 'PAYMENT' })
 
-  const hanleCreateQR = () => {
+  const handleCreateQR = () => {
     if (orderState?.totalPrice) {
       const date = new Date()
       const startTime = new Date().getTime()
@@ -108,7 +110,6 @@ const PaymentPopup = ({
         return prev
       })
     }, 1000)
-
     return () => clearInterval(timer)
   }, [])
 
@@ -119,6 +120,11 @@ const PaymentPopup = ({
           <DialogHeader>
             <DialogTitle className='text-center'>{t('paymentSuccess.title')}</DialogTitle>
             <DialogDescription className='py-2'>
+              {isPending && (
+                <div className='flex justify-center'>
+                  <Skeleton className='w-2/4 max-w-[20rem] h-80 mx-auto' />
+                </div>
+              )}
               <div
                 className={
                   !qrCode && timeLeft.minutes == 0 && timeLeft.seconds == 0
@@ -127,7 +133,10 @@ const PaymentPopup = ({
                 }
               >
                 <QrCode className='w-2/4 max-w-[20rem] h-auto mx-auto' />
-                <Button className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' onClick={hanleCreateQR}>
+                <Button
+                  className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+                  onClick={handleCreateQR}
+                >
                   {t('paymentSuccess.retryQrCode')}
                 </Button>
               </div>
@@ -143,7 +152,7 @@ const PaymentPopup = ({
                       ? 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
                       : 'hidden'
                   }
-                  onClick={hanleCreateQR}
+                  onClick={handleCreateQR}
                 >
                   {t('paymentSuccess.retryQrCode')}
                 </Button>
@@ -177,7 +186,7 @@ const PaymentPopup = ({
                   <TableRow>
                     <TableCell className='p-3'>{t('paymentSuccess.accountNumber')}</TableCell>
                     <TableCell className='p-3'>
-                      {import.meta.env.VITE_BANK_NUMBER ? import.meta.env.VITE_BANK_NUMBER : '######'}
+                      {import.meta.env.VITE_ACCOUNT_NO ? import.meta.env.VITE_ACCOUNT_NO : '######'}
                     </TableCell>
                   </TableRow>
                   <TableRow>

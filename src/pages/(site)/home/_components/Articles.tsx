@@ -26,7 +26,7 @@ const Articles = () => {
           <h1>{t('title')}</h1>
         </div>
         <div className='flex items-center transition duration-500 ease-in-out transform hover:-translate-x-1 hover:opacity-70'>
-          <Link to='/articles' className='underline font-medium text-[14px] sm:button-s'>
+          <Link to='/blog' className='underline font-medium text-[14px] sm:button-s'>
             {t('moreArticles')}
           </Link>
           <ArrowRight className='h-4' />

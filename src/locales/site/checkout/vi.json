@@ -9,6 +9,7 @@
       "title3": "Phương Thức Thanh Toán",
       "firstName": "Tên",
       "lastName": "Họ",
+      "addressName": "Tên Địa Chỉ",
       "phone": "Số Điện Thoại",
       "emailPlaceholder": "Email của bạn",
       "street": "Địa Chỉ",
@@ -20,7 +21,17 @@
       "paymentMethod2": "Thanh Toán Khi Nhận Hàng",
       "submit": "Đặt Hàng",
       "errorOrder": "Quay lại trang giỏ hàng !",
-      "tryAgain": "Quay lại"
+      "tryAgain": "Quay lại",
+      "setDefault": "Đặt làm địa chỉ mặc định",
+      "setDefaultDes": "Đặt địa chỉ này làm mặc định cho việc giao hàng của bạn",
+      "successTitle": "Thành công!",
+      "errorTitle": "Lỗi!",
+      "successDes": "Tạo địa chỉ thành công!",
+      "errorDes": "Tạo địa chỉ thất bại!",
+      "updateDes": "Cập nhật địa chỉ thành công!",
+      "updateErrorDes": "Cập nhật địa chỉ thất bại!",
+      "paymentSuccessTitle": "Thanh toán thành công!",
+      "paymentSuccessDescription": "Thành công! Bạn sẽ được chuyển đến trang đơn hàng sau 3 giây."
     },
     "order": {
       "title": "Tóm Tắt Đơn Hàng",
@@ -42,6 +53,14 @@
       "errorTitle": "Có lỗi xảy ra khi lấy giỏ hàng của bạn!",
       "retryAction": "Thử lại",
       "retryAltText": "Thử lại lần nữa"
+    },
+    "address": {
+      "title": "Địa chỉ nhận hàng",
+      "noAddress": "Không có địa chỉ mặc định !",
+      "default": "Mặc định",
+      "change": "Thay đổi",
+      "list": "Danh sách địa chỉ",
+      "close": "Đóng"
     }
   }
 }

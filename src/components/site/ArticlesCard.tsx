@@ -12,12 +12,17 @@ const ArticlesCard = ({ blog }: ArticlesCardProps) => {
 
   return (
     <div className='mb-3'>
-      <img
-        src={blog.image}
-        alt={blog.title}
-        className='rounded-lg hover:scale-105 transform ease-in-out duration-500'
-      />
-      <h1 className='headline-7'>{blog.title}</h1>
+      <Link to={`/blog/${blog._id}`}>
+        <img
+          src={blog.image}
+          alt={blog.title}
+          className='rounded-lg w-full h-72 object-cover hover:scale-105 transform ease-in-out duration-500 mb-4'
+        />
+      </Link>
+      <Link to={`/blog/${blog._id}`}>
+        <h2 className='headline-7'>{blog.title}</h2>
+      </Link>
+
       <div className='flex items-center transition duration-500 ease-in-out transform hover:translate-x-1 hover:opacity-70'>
         <Link to={`/blog/${blog._id}`} className='underline button-s'>
           {t('readMore')}

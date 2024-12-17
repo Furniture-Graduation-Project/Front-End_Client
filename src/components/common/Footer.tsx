@@ -16,24 +16,26 @@ const Footer = () => {
             <div className='border-b border-b-neutral-4 pb-3 sm:p-0 sm:border-none sm:w-[124px] sm:h-[24px] sm:pr-10'>
               <BrandLink color={true} />
             </div>
-            <p className='text-center sm:text-left md:pl-10 my-5 sm:my-0 md:border-l md:border-l-neutral-4'>
+            <p className='text-center sm:text-left md:pl-10 md:pr-8 my-5 sm:my-0 md:border-l md:border-l-neutral-4'>
               {t('brand')}
             </p>
           </div>
           <div className='flex sm:flex-row flex-col items-center'>
-            <NavLink className='sm:mr-10 sm:mb-0 mb-5' to='/'>
+            <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/'>
               {t('home')}
             </NavLink>
-            <NavLink className='sm:mr-10 sm:mb-0 mb-5' to='/shop'>
+            {/* <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/shop'>
               {t('shop')}
+            </NavLink> */}
+            <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/product'>
+              {t('products')}
             </NavLink>
-            <NavLink className='sm:mr-10 sm:mb-0 mb-5' to='/product'>
-              {t('product')}
-            </NavLink>
-            <NavLink className='sm:mr-10 sm:mb-0 mb-5' to='/blog'>
+            <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/blog'>
               {t('blog')}
             </NavLink>
-            <NavLink to='/contact'>{t('contactUs')}</NavLink>
+            <NavLink className='hover:opacity-80 transition duration-200' to='/contact'>
+              {t('contactUs')}
+            </NavLink>
           </div>
         </div>
         <div className='flex justify-center items-center flex-col-reverse sm:flex-row sm:justify-between text-[12px] pt-3 border-t border-t-neutral-4 mt-[40px]'>

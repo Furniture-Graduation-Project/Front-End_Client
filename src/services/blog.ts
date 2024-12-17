@@ -13,6 +13,16 @@ export const BlogService = {
     }
   },
 
+  getBlogNew: async (): Promise<BlogResponse> => {
+    try {
+      const response = await axiosInstance.get('/blog/new') // Đường dẫn `/blog/new` sẽ gọi đến API lấy bài viết mới nhất
+      return response.data
+    } catch (error) {
+      console.error('Error fetching new blogs:', error)
+      throw error
+    }
+  },
+
   getById: async (id: string) => {
     try {
       const response = await axiosInstance.get(`/blog/${id}`)

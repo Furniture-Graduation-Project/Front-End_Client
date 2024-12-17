@@ -4,277 +4,234 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Textarea } from '@/components/ui/textarea'
-import { Flame, Headphones, Heart, Smile, ThumbsUp } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AdditionalInfo from './AdditionalInfo'
-import Questions from './Questions'
+import { IReview } from '@/interface/review'
+import { useReviewQuery } from '@/hooks/queries/useReviewQuery'
+import { useReviewMutation } from '@/hooks/mutations/useReviewMutation'
+import { useTranslate } from '@/hooks/useTranslate'
+import { useAuthContext } from '@/context/AuthContext'
+import { Input } from '@/components/ui/input'
+import { ArrowRight, Star } from 'lucide-react'
+import { useForm, Controller } from 'react-hook-form'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { PaginationState } from '@tanstack/react-table'
+import { AvatarNull } from '@/assets'
+import { Link } from 'react-router-dom'
 
-interface Review {
-  id: number
-  author: string
-  avatar: string
-  rating: number
-  content: string
-}
-
-const reviews: Review[] = [
-  {
-    id: 1,
-    author: 'Sofia Harvetz',
-    avatar: '/placeholder.svg',
-    rating: 5,
-    content:
-      'I bought it 3 weeks ago and now come back just to say "Awesome Product". I really enjoy it. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 2,
-    author: 'Nicolas Jensen',
-    avatar: '/placeholder.svg',
-    rating: 5,
-    content:
-      'I bought it 3 weeks ago and now come back just to say "Awesome Product". I really enjoy it. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 3,
-    author: 'Emily Clark',
-    avatar: '/placeholder.svg',
-    rating: 4,
-    content:
-      'The product is good, but the delivery was late. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 4,
-    author: 'John Doe',
-    avatar: '/placeholder.svg',
-    rating: 3,
-    content:
-      'It works as expected, but I had some issues with the setup. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  },
-  {
-    id: 5,
-    author: 'Jane Smith',
-    avatar: '/placeholder.svg',
-    rating: 5,
-    content:
-      'Excellent product! Highly recommend. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.'
-  }
-]
-
-export default function Review() {
-  const [reviewList, setReviewList] = useState(reviews)
-  const [newReview, setNewReview] = useState({
-    author: '',
-    rating: 5,
-    content: ''
+const Review = ({ data }: any) => {
+  const { t } = useTranslate('productDetail')
+  const { user } = useAuthContext()
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 5
+  })
+  const { data: reviewList, isLoading, isError, refetch } = useReviewQuery(data?.data?._id || '', pagination)
+  const { mutate } = useReviewMutation()
+  const [averageRating, setAverageRating] = useState<string>('5')
+  const reviewSchema = z.object({
+    reviewText: z.string().min(5, t('reviewMustBeAtLeast5CharactersLong')),
+    rating: z.number().min(1).max(5, t('ratingMustBeBetween1And5'))
   })
 
-  const handleSubmitReview = (e: React.FormEvent) => {
-    e.preventDefault()
-    setReviewList([
-      {
-        id: reviews.length + 1,
-        ...newReview,
-        avatar: '/placeholder.svg'
-      },
-      ...reviews
-    ])
-    setNewReview({ author: '', rating: 5, content: '' })
+  type ReviewFormData = z.infer<typeof reviewSchema>
+  const { control, handleSubmit, reset } = useForm<ReviewFormData>({
+    resolver: zodResolver(reviewSchema),
+    defaultValues: {
+      reviewText: '',
+      rating: 5
+    }
+  })
+  const [selectedRating, setSelectedRating] = useState<number>(5)
+  const [open, setOpen] = useState(false)
+
+  const handleReviewSubmit = (form: ReviewFormData) => {
+    if (user && data) {
+      const newReview = {
+        userId: user._id,
+        productId: data?.data?._id as string,
+        rating: selectedRating,
+        reviewText: form.reviewText
+      }
+      mutate(newReview)
+      reset()
+      setOpen(false)
+    }
   }
 
+  useEffect(() => {
+    setAverageRating('5')
+    if (reviewList?.data) {
+      const totalRating = reviewList?.data.reduce((sum, review) => sum + review.rating, 0)
+      const averageRating = (totalRating / reviewList?.data.length).toFixed(1)
+      setAverageRating(averageRating)
+    }
+  }, [reviewList?.data])
+
+  useEffect(() => {
+    refetch()
+  }, [pagination])
+
   return (
-    <>
-      <Tabs defaultValue='reviews' className='w-full'>
-        <TabsList className='border-b rounded-none w-full justify-start h-auto p-0 bg-transparent'>
-          <TabsTrigger
-            value='info'
-            className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent'
-          >
-            Additional Info
-          </TabsTrigger>
-          <TabsTrigger
-            value='questions'
-            className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent'
-          >
-            Questions
-          </TabsTrigger>
-          <TabsTrigger
-            value='reviews'
-            className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent'
-          >
-            Reviews
-          </TabsTrigger>
-        </TabsList>
+    <Tabs defaultValue='reviews' className='w-full'>
+      <TabsList className='border-b rounded-none w-full justify-start h-auto p-0 bg-transparent'>
+        <TabsTrigger
+          value='info'
+          className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary'
+        >
+          {t('Additional Info')}
+        </TabsTrigger>
+        <TabsTrigger
+          value='reviews'
+          className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary'
+        >
+          {t('Reviews')}
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value='info' className='mt-6'>
+        <AdditionalInfo data={data} />
+      </TabsContent>
+      <TabsContent value='reviews' className='mt-6'>
+        <div className='space-y-8'>
+          <div>
+            <h2 className='text-2xl font-semibold mb-2'>{t('Customer Reviews')}</h2>
+            <div className='flex items-center gap-2 mb-4'>
+              <div className='flex gap-1'>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star fill={star <= Math.round(+averageRating) ? '#000000' : 'none'} key={star} size={16} />
+                ))}
+              </div>
+              <span className='text-sm text-muted-foreground'>
+                {t('Average Rating')} {averageRating || '5'}/5
+              </span>
+            </div>
+          </div>
+          <div className='relative'>
+            <Controller
+              disabled={!user}
+              control={control}
+              name='reviewText'
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  className='p-9 border border-neutral-7'
+                  autoComplete='off'
+                  placeholder={t('writeYourReview')}
+                />
+              )}
+            />
 
-        <TabsContent value='info' className='mt-6'>
-          <AdditionalInfo />
-        </TabsContent>
-
-        <TabsContent value='questions' className='mt-6'>
-          <Questions />
-        </TabsContent>
-
-        <TabsContent value='reviews' className='mt-6'>
-          <div className='space-y-8'>
-            <div>
-              <h2 className='text-2xl font-semibold mb-2'>Customer Reviews</h2>
-              <div className='flex items-center gap-2 mb-4'>
-                <div className='flex'>
-                  {[1, 2, 3, 4].map((star) => (
-                    <svg key={star} className='w-5 h-5 fill-primary' viewBox='0 0 20 20' fill='currentColor'>
-                      <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                    </svg>
+            {user ? (
+              <Button
+                className='absolute right-5 top-1/2 transform -translate-y-1/2 rounded-full button-s'
+                onClick={() => setOpen(true)}
+              >
+                <span className='hidden sm:block'>{t('Write Review')}</span>
+                <ArrowRight className='block sm:hidden' />
+              </Button>
+            ) : (
+              <Link to='/signin' className='absolute right-5 top-1/2 transform -translate-y-1/2 '>
+                <Button variant={'outline'} className='rounded-full button-s'>
+                  {t('loginToWriteAReview')}
+                </Button>
+              </Link>
+            )}
+          </div>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className='sm:max-w-[425px]'>
+              <DialogHeader>
+                <DialogTitle>{t('productReview')}</DialogTitle>
+                <DialogDescription>{t('pleaseEnterYourReviewForTheProduct')}</DialogDescription>
+              </DialogHeader>
+              <DialogFooter className='flex justify-between'>
+                <div className='flex items-center gap-2 mr-10'>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      className={`w-6 h-6 cursor-pointer ${
+                        star <= selectedRating ? 'text-yellow fill-current' : 'text-neutral-950 fill-none'
+                      }`}
+                      onClick={() => setSelectedRating(star)}
+                    />
                   ))}
-                  <svg className='w-5 h-5 text-muted-foreground' viewBox='0 0 20 20' fill='currentColor'>
-                    <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                  </svg>
                 </div>
-                <span className='text-sm text-muted-foreground'>{reviewList.length} Reviews</span>
-              </div>
-            </div>
-
-            <div className='flex items-center justify-between'>
-              <div className='flex gap-2'>
-                <Button variant='outline' size='icon'>
-                  <Heart className='w-4 h-4' />
-                </Button>
-                <Button variant='outline' size='icon'>
-                  <Headphones className='w-4 h-4' />
-                </Button>
-                <Button variant='outline' size='icon'>
-                  <ThumbsUp className='w-4 h-4' />
-                </Button>
-                <Button variant='outline' size='icon'>
-                  <Smile className='w-4 h-4' />
-                </Button>
-                <Button variant='outline' size='icon'>
-                  <Flame className='w-4 h-4' />
-                </Button>
-              </div>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button>Write Review</Button>
-                </DialogTrigger>
-                <DialogContent className='sm:max-w-[425px]'>
-                  <DialogHeader>
-                    <DialogTitle>Write a Review</DialogTitle>
-                    <DialogDescription>
-                      Share your thoughts about the product. Your review will be visible to other customers.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <form onSubmit={handleSubmitReview} className='grid gap-4 py-4'>
-                    <div className='grid grid-cols-4 items-center gap-4'>
-                      <Label htmlFor='name' className='text-right'>
-                        Name
-                      </Label>
-                      <Input
-                        id='name'
-                        value={newReview.author}
-                        onChange={(e) => setNewReview({ ...newReview, author: e.target.value })}
-                        className='col-span-3'
-                      />
-                    </div>
-                    <div className='grid grid-cols-4 items-center gap-4'>
-                      <Label htmlFor='rating' className='text-right'>
-                        Rating
-                      </Label>
-                      <Select
-                        value={newReview.rating.toString()}
-                        onValueChange={(value) => setNewReview({ ...newReview, rating: parseInt(value) })}
-                      >
-                        <SelectTrigger className='col-span-3'>
-                          <SelectValue placeholder='Select a rating' />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {[1, 2, 3, 4, 5].map((rating) => (
-                            <SelectItem key={rating} value={rating.toString()}>
-                              {rating} Star{rating > 1 ? 's' : ''}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className='grid grid-cols-4 items-center gap-4'>
-                      <Label htmlFor='review' className='text-right'>
-                        Review
-                      </Label>
-                      <Textarea
-                        id='review'
-                        value={newReview.content}
-                        onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
-                        className='col-span-3'
-                      />
-                    </div>
-                    <Button type='submit' className='ml-auto'>
-                      Submit Review
-                    </Button>
-                  </form>
-                </DialogContent>
-              </Dialog>
-            </div>
-
-            <div className='flex justify-end mb-6'>
-              <Select defaultValue='newest'>
-                <SelectTrigger className='w-[180px]'>
-                  <SelectValue placeholder='Sort by' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='newest'>Newest</SelectItem>
-                  <SelectItem value='oldest'>Oldest</SelectItem>
-                  <SelectItem value='highest'>Highest Rated</SelectItem>
-                  <SelectItem value='lowest'>Lowest Rated</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className='space-y-8'>
-              {reviewList.map((review) => (
-                <div key={review.id} className='space-y-4'>
-                  <div className='flex items-center gap-4'>
-                    <Avatar>
-                      <AvatarImage src={review.avatar} alt={review.author} />
-                      <AvatarFallback>{review.author[0]}</AvatarFallback>
+                <Button onClick={handleSubmit(handleReviewSubmit)}>{t('Submit Review')}</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          <h2 className='headline-6'>
+            {reviewList?.totalData ? reviewList?.totalData : 0} {t('Reviews')}
+          </h2>
+          <div className='space-y-8'>
+            {isLoading ? (
+              <p>{t('Loading reviews...')}</p>
+            ) : isError ? (
+              <p>{t('Failed to load reviews')}</p>
+            ) : (
+              reviewList?.data &&
+              reviewList?.data.length > 0 &&
+              reviewList?.data.map((review: IReview) => (
+                <div key={review.id} className='space-y-4 border-b pb-4'>
+                  <div className='grid grid-cols-[72px_1fr] gap-4'>
+                    <Avatar className='h-16 w-16'>
+                      {review.userId ? (
+                        <>
+                          <AvatarImage alt='avatar' src={review.userId.avatar || AvatarNull} />
+                          <AvatarFallback>{review.userId.avatar || 'N/A'}</AvatarFallback>
+                        </>
+                      ) : (
+                        <>
+                          <AvatarImage alt='avatar' src={AvatarNull} />
+                          <AvatarFallback>N/A</AvatarFallback>
+                        </>
+                      )}
                     </Avatar>
+
                     <div>
-                      <h3 className='font-semibold'>{review.author}</h3>
-                      <div className='flex'>
+                      <h3 className='text-neutral-7 body-1-semi mb-4'>
+                        {review.userId ? review.userId.name : t('anonymousUser')}
+                      </h3>
+                      <div className='flex gap-1'>
                         {Array.from({ length: review.rating }).map((_, i) => (
-                          <svg key={i} className='w-4 h-4 fill-primary' viewBox='0 0 20 20' fill='currentColor'>
-                            <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                          </svg>
+                          <Star fill='#000000' key={i} size={16} />
                         ))}
                       </div>
                     </div>
-                  </div>
-                  <p className='text-muted-foreground'>{review.content}</p>
-                  <div className='flex gap-4'>
-                    <Button variant='ghost' size='sm'>
-                      Like
-                    </Button>
-                    <Button variant='ghost' size='sm'>
-                      Reply
-                    </Button>
+                    <div className='hidden md:block'></div>
+                    <p className='body-2 text-neutral-5 col-span-2 md:col-span-1'>{review.reviewText}</p>
                   </div>
                 </div>
-              ))}
-            </div>
-
-            <div className='flex justify-center'>
-              <Button variant='outline' className='border-black rounded-full px-10'>
-                Load more
+              ))
+            )}
+            <div
+              className={` justify-center ${reviewList?.totalData && reviewList?.totalData > pagination.pageSize ? 'flex' : 'hidden'}`}
+            >
+              <Button
+                className='rounded-full px-10'
+                variant={'outline'}
+                onClick={() =>
+                  setPagination((p) => {
+                    return {
+                      ...p,
+                      pageSize: p.pageSize + 5
+                    }
+                  })
+                }
+              >
+                Tải thêm
               </Button>
             </div>
           </div>
-        </TabsContent>
-      </Tabs>
-    </>
+        </div>
+      </TabsContent>
+    </Tabs>
   )
 }
+
+export default Review

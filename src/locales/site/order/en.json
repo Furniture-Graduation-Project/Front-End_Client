@@ -1,13 +1,14 @@
 {
-    "order": {
-        "title": "Complete !",
-        "thankYou": "Thank you! 🎉",
-        "orderReceived": "Your order will be prepared",
-        "orderCode": "Order Code:",
-        "date": "Date:",
-        "total": "Total:",
-        "paymentMethod": "Payment method:",
-        "purchaseHistory": "Purchase history",
-        "failedToLoad": "Failed to load order details. Please try again later."
-    }
+  "order": {
+    "title": "Complete !",
+    "thankYou": "Thank you! 🎉",
+    "orderReceived": "Your order will be prepared",
+    "orderCode": "Order Code:",
+    "date": "Date:",
+    "total": "Total:",
+    "paymentMethod": "Payment method:",
+    "purchaseHistory": "Purchase history",
+    "failedToLoad": "Failed to load order details. Please try again later.",
+    "Invoice": "Invoice"
+  }
 }

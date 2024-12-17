@@ -18,6 +18,21 @@ export const ProductService = {
     }
   },
 
+  getProductNew: async (categoryId?: string): Promise<AxiosResponse<IApiResponse<IProduct[]>>> => {
+    try {
+      let query = `/new`
+      if (categoryId) {
+        query += `?categoryId=${categoryId}`
+      }
+      const response: AxiosResponse<IApiResponse<IProduct[]>> = await axiosInstance.get(`${API_URL}${query}`)
+      console.log('Dữ liệu sản phẩm mới từ API:', response.data)
+      return response
+    } catch (error) {
+      console.error('Lỗi khi lấy sản phẩm mới:', error)
+      throw error
+    }
+  },
+
   getById: async (id: string): Promise<AxiosResponse<IApiResponse<IProduct>>> => {
     try {
       const response: AxiosResponse<IApiResponse<IProduct>> = await axiosInstance.get(`${API_URL}/${id}`)
@@ -43,6 +58,7 @@ export const ProductService = {
     pageSize: number
     categoryId?: string
     materialId?: string
+    searchName?: string
   }): Promise<AxiosResponse<IApiResponse<IProduct[]>>> => {
     try {
       let query = `?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
@@ -53,6 +69,10 @@ export const ProductService = {
 
       if (pagination.materialId) {
         query += `&materialId=${pagination.materialId}`
+      }
+
+      if (pagination.searchName) {
+        query += `&name=${encodeURIComponent(pagination.searchName)}`
       }
 
       const response: AxiosResponse<IApiResponse<IProduct[]>> = await axiosInstance.get(`${API_URL}/limited${query}`)

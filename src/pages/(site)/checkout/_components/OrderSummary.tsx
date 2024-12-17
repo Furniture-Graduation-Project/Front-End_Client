@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -94,7 +95,7 @@ const OrderSummary = ({
     setState(JSON.stringify(newStateOrder))
   }
   return (
-    <div className='sticky top-10'>
+    <div className='sticky top-32'>
       <div className='border border-black py-4 px-6 rounded-md'>
         <div className='flex flex-col gap-y-4'>
           <h1 className='text-[28px] font-semibold'>{t('title')}</h1>
@@ -141,22 +142,22 @@ const OrderSummary = ({
                         {t('update_price')}
                       </Button>
                     </div>
-                    <div className='flex justify-between py-6 px-3'>
+                    <div className='flex justify-between py-6 '>
                       <div className='flex gap-4'>
                         <img
-                          src='https://assets.weimgs.com/weimgs/rk/images/wcm/products/202420/0120/meyer-wooden-drink-tables-18-21-5-o.jpg'
-                          alt=''
-                          className='w-24 h-28'
+                          src={item.productOptionId.image}
+                          alt={item.productOptionId.sku}
+                          className='w-24 h-28 rounded-md'
                         />
                         <div className='flex flex-col gap-y-2 justify-center'>
                           <h1 className='font-semibold text-[14px]'>{item.productId.name}</h1>
-                          <p className='text-[12px] text-[#6C7275]'>
+                          <div className='text-[12px] text-[#6C7275] flex flex-col gap-1'>
                             {item.productOptionId.variants.map((variant: any, id: number) => (
                               <span key={id}>
                                 {variant.variant}: {variant.value}
                               </span>
                             ))}
-                          </p>
+                          </div>
                           <div className='inline-flex'>
                             <p className='text-[12px]'>
                               {t('quantity')} :<span className='mx-3'>{item.quantity}</span>
@@ -172,7 +173,7 @@ const OrderSummary = ({
               })
             )}
           </div>
-          <Form {...form}>
+          {/* <Form {...form}>
             <form className='flex gap-x-3 mt-2' action='' onSubmit={form.handleSubmit(onSubmit)}>
               <div className='w-full'>
                 <FormField
@@ -189,16 +190,16 @@ const OrderSummary = ({
               </div>
               <Button type='submit'>{t('button')}</Button>
             </form>
-          </Form>
-          <div className='flex justify-between items-center'>
+          </Form> */}
+          {/* <div className='flex justify-between items-center'>
             <div className='flex items-center gap-x-2'>
               <TicketPercent size={24} />
             </div>
             <p className='text-[#38CB89] font-semibold'>
               -0% <span className='hidden sm:inline-block'>{t('remove')}</span>
             </p>
-          </div>
-          <Separator />
+          </div> */}
+          {/* <Separator /> */}
           <div className='flex justify-between items-center'>
             <div className='flex items-center gap-x-2'>
               <p>{t('shipping')}</p>

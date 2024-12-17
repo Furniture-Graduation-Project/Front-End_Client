@@ -2,7 +2,7 @@ import { ArrowRight, Calendar, User } from 'lucide-react'
 import JoinNewsletter from './components/JoinNewsletter'
 import RelatedPosts from './components/RelatedPosts'
 import { Link, useParams } from 'react-router-dom'
-import { useBlogDetailQuery, useBlogQuery } from '@/hooks/queries/useBlogQuery'
+import { useBlogDetailQuery, useBlogNewQuery } from '@/hooks/queries/useBlogQuery'
 import { useTranslate } from '@/hooks/useTranslate'
 import { formatDate } from '@/utils/formatDate'
 
@@ -10,12 +10,14 @@ const BlogDetailPage = () => {
   const { id } = useParams<{ id: string }>()
   const { data: blogData, isLoading, error } = useBlogDetailQuery(id || '')
   const { t } = useTranslate('blogDetail')
-  const { blogs } = useBlogQuery()
+  const { data: newBlogsData, isLoading: isNewBlogsLoading } = useBlogNewQuery()
+
   if (isLoading) return <div>{t('loading')}</div>
   if (error) return <div>Error loading blog: {(error as Error).message}</div>
   if (!blogData || !blogData.data) return <div>{t('blogNotFound')}</div>
 
   const blog = blogData.data
+  const newBlogs = newBlogsData?.data || []
 
   return (
     <>
@@ -38,7 +40,6 @@ const BlogDetailPage = () => {
               <h2 className='text-4xl font-bold mb-4'>{blog.title}</h2>
               <div className='flex items-center text-sm text-gray-500'>
                 <User className='mr-2' />
-                {/* <span className='mr-4'>{blog.employeeId?.fullName || t('unknownAuthor')}</span> */}
                 <span className='mr-4'>Nội thất River</span>
                 <Calendar className='mr-2' />
                 <span>{formatDate(blog.createdAt, 'vi-VN')}</span>
@@ -62,9 +63,15 @@ const BlogDetailPage = () => {
                 <ArrowRight className='ml-2' />
               </Link>
             </div>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-              {blogs?.map((relatedBlog) => <RelatedPosts key={relatedBlog._id} blog={relatedBlog} />)}
-            </div>
+            {isNewBlogsLoading ? (
+              <div>{t('loading')}</div>
+            ) : (
+              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                {newBlogs.map((relatedBlog) => (
+                  <RelatedPosts key={relatedBlog._id} blog={relatedBlog} />
+                ))}
+              </div>
+            )}
           </section>
         </main>
       </div>

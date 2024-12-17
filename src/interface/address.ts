@@ -1,11 +1,13 @@
 export interface IAddress {
-  _id: string
+  _id?: string
+  addressName: string
+  country: string
   street: string
+  firstName: string
+  lastName: string
+  phone: string
   city: string
-  state: string
-  postalCode?: string
-  country?: string
-  recipientName: string
-  phoneNumber: string
-  userId?: string
+  district: string
+  ward: string
+  default: boolean
 }

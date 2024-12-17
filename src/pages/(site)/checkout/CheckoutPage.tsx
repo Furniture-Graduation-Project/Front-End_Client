@@ -1,8 +1,8 @@
 import Container from '@/components/Container'
 import Checkout from './_components/Checkout'
-import TextTitle from '@/components/ui/textTitle'
+import TextTitle from '@/components/site/textTitle'
 import { useTranslate } from '@/hooks/useTranslate'
-import AnimatedSection from '@/components/ui/AnimatedSection'
+import AnimatedSection from '@/components/site/AnimatedSection'
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
