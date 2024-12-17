@@ -1,4 +1,3 @@
-import { Footer } from '@/components/common/Footer'
 import LogoBlack from '@/assets/images/logo/logoWhite.png'
 import LogoWhite from '@/assets/images/logo/logoWhite.png'
 import BannerImage from '@/assets/images/banner.png'

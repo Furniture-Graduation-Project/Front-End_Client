@@ -1,26 +1,24 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { CreditCard, DollarSign, Loader2 } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import PaymentPopup from '@/components/site/PaymentPopup/PaymentPopup'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { cn } from '@/utils/classUtils'
-import { useTranslate } from '@/hooks/useTranslate'
-import { useEffect, useState } from 'react'
-import { IDistrict, ILocation, IWard } from '@/interface/location'
-import useOrderMutation from '@/hooks/mutations/useOrderMutation'
-import { IOrder } from '@/interface/order'
-import { useAddressQuery, useAllAddressQuery } from '@/hooks/queries/useAddressQuery'
-import { useAuthContext } from '@/context/AuthContext'
-import { useToast } from '@/hooks/use-toast'
+import { Skeleton } from '@/components/ui/skeleton'
 import { ToastAction } from '@/components/ui/toast'
-import { useNavigate } from 'react-router-dom'
-import PaymentPopup from '@/components/site/PaymentPopup/PaymentPopup'
-import AddressCheckout from './AddressCheckout'
+import { useAuthContext } from '@/context/AuthContext'
+import useOrderMutation from '@/hooks/mutations/useOrderMutation'
+import { useAddressQuery } from '@/hooks/queries/useAddressQuery'
+import { useToast } from '@/hooks/use-toast'
+import { useTranslate } from '@/hooks/useTranslate'
 import { IAddress } from '@/interface/address'
+import { IOrder } from '@/interface/order'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CreditCard, DollarSign, Loader2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import * as z from 'zod'
+import AddressCheckout from './AddressCheckout'
 
 const formSchema = z.object({
   firstName: z.string().optional(),
@@ -36,13 +34,7 @@ const formSchema = z.object({
   })
 })
 
-const CheckoutForm = ({
-  dataCart,
-  amount,
-  isLoading: isLoadingCart,
-  setErrorOrder,
-  stateErrorOrder
-}: any) => {
+const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrder, stateErrorOrder }: any) => {
   const { user } = useAuthContext()
   const { toast } = useToast()
   const { t } = useTranslate('checkout.form')
@@ -50,9 +42,6 @@ const CheckoutForm = ({
   const [openQR, setOpenQR] = useState<boolean>(false)
   const [success, setSuccess] = useState<boolean>(false)
   const [orderState, setOrderState] = useState<IOrder>({} as IOrder)
-  const [currentDistrict, setCurrentDistrict] = useState<IDistrict[]>([])
-  const [currentWard, setCurrentWard] = useState<IWard[]>([])
-  const { data, isPending: addressPending, isError } = useAllAddressQuery()
   const [isFinished, setIsFinished] = useState<boolean>(true)
   const {
     mutate,
@@ -80,16 +69,7 @@ const CheckoutForm = ({
       payment: 'cash_on_delivery'
     }
   })
-  const handleChangeDistrict = (value: string, field: any) => {
-    field.onChange(value)
-    const selectedCity = data?.data.find((city) => city.name === value)
-    setCurrentDistrict(selectedCity ? selectedCity.districts : [])
-  }
-  const handleChangeWard = (value: string, field: any) => {
-    field.onChange(value)
-    const selectedWard = currentDistrict?.find((ward) => ward.name === value)
-    setCurrentWard(selectedWard ? selectedWard.wards : [])
-  }
+
   const onSubmitCheckout = (data: z.infer<typeof formSchema>) => {
     const items = JSON.parse(dataCart).map((item: any) => {
       return {
@@ -99,58 +79,51 @@ const CheckoutForm = ({
         unitPrice: item.productOptionId.price
       }
     })
-    if (user && user._id && !defaultLocation) {
-      const order: IOrder = {
-        userId: user._id,
-        orderName: data.firstName + ' ' + data.lastName,
-        orderPhone: data.phone || '',
-        orderAddress: data.country + ', ' + data.city + ', ' + data.district + ', ' + data.ward + ', ' + data.street,
-        totalPrice: amount,
-        items,
-        payment: {
-          paymentMethod: data.payment,
-          amount: amount
-        },
-        statusHistory: [
-          {
-            status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
-          }
-        ],
-        status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
-      }
 
-      mutate(order)
-    }
-    if (user && user._id && defaultLocation) {
-      const order: IOrder = {
-        userId: user._id,
-        orderName: defaultLocation.firstName + ' ' + defaultLocation.lastName,
-        orderPhone: defaultLocation.phone || '',
-        orderAddress:
-          defaultLocation.country +
-          ', ' +
-          defaultLocation.city +
-          ', ' +
-          defaultLocation.district +
-          ', ' +
-          defaultLocation.ward +
-          ', ' +
-          defaultLocation.street,
-        totalPrice: amount,
-        items,
-        payment: {
-          paymentMethod: data.payment,
-          amount: amount
-        },
-        statusHistory: [
-          {
-            status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
-          }
-        ],
-        status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
+    try {
+      if (user && user._id && defaultLocation) {
+        const order: IOrder = {
+          userId: user._id,
+          orderName: defaultLocation.firstName + ' ' + defaultLocation.lastName,
+          orderPhone: defaultLocation.phone || '',
+          orderAddress:
+            defaultLocation.country +
+            ', ' +
+            defaultLocation.city +
+            ', ' +
+            defaultLocation.district +
+            ', ' +
+            defaultLocation.ward +
+            ', ' +
+            defaultLocation.street,
+          totalPrice: amount,
+          items,
+          payment: {
+            paymentMethod: data.payment,
+            amount: amount
+          },
+          statusHistory: [
+            {
+              status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
+            }
+          ],
+          status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
+        }
+        mutate(order)
+      } else {
+        toast({
+          title: 'Lỗi',
+          description: 'Không thể tạo đơn hàng, vui lòng thử lại sau.',
+          action: <ToastAction altText='Try again'>{t('tryAgain')}</ToastAction>
+        })
       }
-
-      mutate(order)
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: t('errorOrder'),
+        description: t('errorOrder'),
+        action: <ToastAction altText='Try again'>{t('tryAgain')}</ToastAction>
+      })
     }
   }
   useEffect(() => {
@@ -163,6 +136,7 @@ const CheckoutForm = ({
       })
     }
   }, [isErrorOrder])
+
   useEffect(() => {
     if (isSuccess && dataOrder?.data?.data) {
       const order = dataOrder.data.data as IOrder
@@ -176,15 +150,16 @@ const CheckoutForm = ({
       }
     }
   }, [isSuccess, dataOrder, navigate])
+
   useEffect(() => {
-    if (success && dataOrder?.data?.data) {
-      const order = dataOrder.data.data as IOrder
+    if (success) {
       toast({
         title: t('paymentSuccessTitle'),
         description: t('paymentSuccessDescription'),
         variant: 'default'
       })
-      setTimeout(() => navigate('/order/' + order._id), 3000)
+
+      setTimeout(() => navigate('/order/' + orderState._id), 3000)
     }
   }, [success])
   useEffect(() => {
@@ -209,209 +184,7 @@ const CheckoutForm = ({
           }}
         >
           <div className='gap-y-6 flex flex-col'>
-            {user && user?.locations && user?.locations.length > 0 && !addressPending ? (
-              <AddressCheckout data={locations} />
-            ) : (
-              <>
-                <div className='px-6 py-10 border rounded-md flex flex-col gap-y-6 border-black'>
-                  <h1 className='font-medium text-xl'>{t('title1')}</h1>
-                  <div className='grid grid-cols-2 gap-x-6'>
-                    <FormField
-                      control={form.control}
-                      name='lastName'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>
-                            {t('lastName')}
-                          </FormLabel>
-                          <FormControl>
-                            <Input type='text' {...field} placeholder={t('lastName')} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    ></FormField>
-                    <FormField
-                      control={form.control}
-                      name='firstName'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className={cn(`uppercase text-[#6C7275] font-bold text-[12px]`)}>
-                            {t('firstName')}
-                          </FormLabel>
-                          <FormControl>
-                            <Input type='text' {...field} placeholder={t('firstName')} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    ></FormField>
-                  </div>
-                  <FormField
-                    control={form.control}
-                    name='phone'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('phone')}</FormLabel>
-                        <FormControl>
-                          <Input type='text' {...field} placeholder={t('phone')} />
-                        </FormControl>
-                        <Select>
-                          <SelectContent>
-                            {currentDistrict && currentDistrict.length > 0 ? (
-                              currentDistrict.map((item: IDistrict) => (
-                                <SelectItem key={item.codename} value={item.name}>
-                                  {item.name}
-                                </SelectItem>
-                              ))
-                            ) : (
-                              <SelectItem key='-1' value='-1'>
-                                #####
-                              </SelectItem>
-                            )}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  ></FormField>
-                  <FormField
-                    control={form.control}
-                    name='ward'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('country')}</FormLabel>
-                        <FormControl>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue className='placeholder-gray-400' placeholder='Country' />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value='Việt Nam'>Việt Nam</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  ></FormField>
-                  <FormField
-                    control={form.control}
-                    name='city'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('city')}</FormLabel>
-                        <Select
-                          onValueChange={(value) => handleChangeDistrict(value, field)}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue className='placeholder-gray-400' placeholder={t('city')} />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {data?.data && data.data.length > 0 ? (
-                              data.data.map((item: ILocation) => (
-                                <SelectItem key={item.codename} value={item.name}>
-                                  {item.name}
-                                </SelectItem>
-                              ))
-                            ) : (
-                              <SelectItem key='-1' value='-1'>
-                                Trống
-                              </SelectItem>
-                            )}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  ></FormField>
-                  <div className='grid grid-cols-2 gap-x-6'>
-                    <FormField
-                      control={form.control}
-                      name='district'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>
-                            {t('district')}
-                          </FormLabel>
-                          <Select onValueChange={(value) => handleChangeWard(value, field)} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue className='placeholder-gray-400' placeholder={t('district')} />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {currentDistrict && currentDistrict.length > 0 ? (
-                                currentDistrict.map((item: IDistrict) => (
-                                  <SelectItem key={item.codename} value={item.name}>
-                                    {item.name}
-                                  </SelectItem>
-                                ))
-                              ) : (
-                                <SelectItem key='-1' value='-1'>
-                                  Trống
-                                </SelectItem>
-                              )}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    ></FormField>
-                    <FormField
-                      control={form.control}
-                      name='ward'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('ward')}</FormLabel>
-                          <FormControl>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue className='placeholder-gray-400' placeholder={t('ward')} />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {currentWard && currentWard.length > 0 ? (
-                                  currentWard.map((item: IWard) => (
-                                    <SelectItem key={item.codename} value={item.name}>
-                                      {item.name}
-                                    </SelectItem>
-                                  ))
-                                ) : (
-                                  <SelectItem key='-1' value='-1'>
-                                    Trống
-                                  </SelectItem>
-                                )}
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    ></FormField>
-                  </div>
-                  <FormField
-                    control={form.control}
-                    name='street'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className='uppercase text-[#6C7275] font-bold text-[12px]'>{t('street')}</FormLabel>
-                        <FormControl>
-                          <Input type='text' {...field} placeholder={t('street')} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  ></FormField>
-                </div>
-              </>
-            )}
+            {user && user?.locations ? <AddressCheckout data={locations} /> : <Skeleton className='h-[100px]' />}
 
             <div className='px-6 py-10 border border-black rounded-md flex flex-col gap-y-6'>
               <h1 className='font-medium text-xl'>{t('title3')}</h1>
@@ -460,11 +233,10 @@ const CheckoutForm = ({
                 dataOrder ||
                 isPending ||
                 isLoading ||
-                isError ||
                 isLoadingCart ||
                 !user ||
                 stateErrorOrder ||
-                JSON.parse(dataCart)?.length === 0
+                JSON.parse(dataCart).length === 0
               }
               form='checkoutForm'
               variant={'default'}
