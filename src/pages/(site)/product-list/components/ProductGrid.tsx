@@ -5,7 +5,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/utils/classUtils'
 import { useMultipleProductQuery } from '@/hooks/queries/useProductQuery'
-import { Check, ChevronsUpDown, Columns2, Grid3X3, LayoutGrid, Loader2 } from 'lucide-react'
+import { Check, ChevronsUpDown, Columns2, Grid3X3, LayoutGrid } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { useTranslate } from '@/hooks/useTranslate'
 import { Skeleton } from '@/components/ui/skeleton'

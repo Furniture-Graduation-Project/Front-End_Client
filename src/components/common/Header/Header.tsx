@@ -10,7 +10,7 @@ import NotificationBar from './NotificationBar'
 import UserMenu from './UserMenu'
 
 const Header = () => {
-  const [search, setSearch] = useState(false)
+  // const [search, setSearch] = useState(false)
   const [showNotification, setShowNotification] = useState(true)
   const [isSticky, setIsSticky] = useState(false)
 

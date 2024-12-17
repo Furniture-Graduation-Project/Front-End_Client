@@ -7,7 +7,6 @@ import { formatCurrency } from '@/utils/formatCurrency'
 import { ColumnDef } from '@tanstack/react-table'
 import { X } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { CellAction } from './CellAction'
 import { useMemo, useState } from 'react'
 import { AlertModal } from '@/components/ui/alert-modal'
 import { IWishlist } from '@/interface/wishlist'
@@ -50,7 +49,7 @@ export const useWishlistColumns = (): ColumnDef<WishlistColumn>[] => {
             <AlertModal
               isOpen={open}
               onClose={() => setOpen(false)}
-              onConfirm={() => onDelete(user?._id || '', row.original)}
+              onConfirm={() => onDelete(user?._id || '', row.original as any)}
               loading={loading}
             />
             <div className='flex items-center gap-x-4 p-0'>

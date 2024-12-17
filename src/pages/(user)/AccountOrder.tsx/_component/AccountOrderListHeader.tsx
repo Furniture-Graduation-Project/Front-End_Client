@@ -6,7 +6,6 @@ import { Search } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const AccountOrderListHeader = ({
-  queryParams,
   setQueryParams
 }: {
   queryParams: any
