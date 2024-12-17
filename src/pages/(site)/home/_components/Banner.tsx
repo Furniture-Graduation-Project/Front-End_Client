@@ -7,12 +7,12 @@ import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carouse
 import { useTranslate } from '@/hooks/useTranslate'
 
 const Banner = ({ text }: { text: boolean }) => {
-  const plugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: true }))
+  const plugin = React.useRef(Autoplay({ delay: 5000, stopOnInteraction: true }))
   const { t } = useTranslate('home.banner')
 
   return (
     <>
-      <Container className='sm:px-0 px-8 relative z-10'>
+      <Container className='lg:px-0 px-8 relative z-10'>
         <Carousel
           plugins={[plugin.current]}
           className='w-full'

@@ -7,7 +7,6 @@ import { formatCurrency } from '@/utils/formatCurrency'
 import { ColumnDef } from '@tanstack/react-table'
 import { X } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { CellAction } from './CellAction'
 import { useMemo, useState } from 'react'
 import { AlertModal } from '@/components/ui/alert-modal'
 import { IWishlist } from '@/interface/wishlist'
@@ -57,7 +56,7 @@ export const useWishlistColumns = (): ColumnDef<WishlistColumn>[] => {
               <X onClick={() => setOpen(true)} className='h-6 w-6 mr-2 text-[#6C7275] hover:cursor-pointer' />
               <Link to={`/products/${row.original._id}`}>
                 <img
-                  className='w-16 h-20 rounded-md'
+                  className='w-16 h-20 rounded-md object-cover'
                   src={row.original.image || '/placeholder-image.jpg'}
                   alt={row.original.name || 'Product image'}
                 />

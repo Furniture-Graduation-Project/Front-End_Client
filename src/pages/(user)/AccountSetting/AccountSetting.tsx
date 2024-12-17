@@ -10,16 +10,21 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { DeleteAccount } from './DeleteAccount'
 
-const formSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().min(1, 'Email is required'),
-  password: z.string().min(6, 'Password must be at least 6 characters')
-})
-
 export default function AccountDetail() {
   const [change, setChange] = useState(true)
   const { user } = useAuthContext()
   const { t } = useTranslate('account.detail')
+
+  const formSchema = z.object({
+    name: z.string().min(1, t('nameValidate')),
+    email: z
+      .string()
+      .email({
+        message: t('emailValidate2')
+      })
+      .min(1, t('emailValidate')),
+    password: z.string().min(6, t('passwordValidate'))
+  })
 
   const { mutate } = useAccountMutation({ action: 'UPDATE' })
 

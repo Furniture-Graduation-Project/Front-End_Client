@@ -14,7 +14,7 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <Container className='px-8 sm:px-0'>
+      <Container className='px-8 lg:px-0'>
         <AnimatedSection variants={fadeInUp}>
           <TextTitle checkout title={t('title')} />
         </AnimatedSection>

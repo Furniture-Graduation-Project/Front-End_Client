@@ -3,6 +3,7 @@ import { useTranslate } from '@/hooks/useTranslate'
 import { IAddress } from '@/interface/address'
 import AddressForm from './AddressForm'
 import { AddressPopover } from './AddressPopover'
+import { Badge } from '@/components/ui/badge'
 
 interface IAddressCard {
   data: {
@@ -15,13 +16,13 @@ const AddressCard = ({ data }: IAddressCard) => {
 
   return (
     <main className='w-full'>
-      <div className='flex justify-between'>
+      <div className='flex flex-col gap-y-4 md:flex-row justify-between items-center'>
         <h2 className='text-xl font-semibold'>{t('orderAddressLabel')}</h2>
         <AddressPopover>
           <AddressForm />
         </AddressPopover>
       </div>
-      <div className='grid grid-cols-2 mt-5 gap-6 mb-14'>
+      <div className='grid grid-cols-1 lg:grid-cols-2 mt-5 gap-6 mb-14'>
         {data?.locations?.length === 0 && (
           <div className='col-span-3 text-center'>
             <p className='text-lg text-neutral-400'>{t('noAddress')}</p>
@@ -32,10 +33,10 @@ const AddressCard = ({ data }: IAddressCard) => {
           .map((item) => (
             <Card key={item._id} className='w-full max-w-md mx-auto shadow-lg hover:shadow-xl transition-shadow'>
               <CardHeader className='flex flex-row items-center space-y-0 pb-2'>
-                <h2 className='text-2xl font-bold tracking-tight'>
-                  {item.addressName}{' '}
-                  {item.default && <span className='text-xs text-zinc-500'>({t('defaultAddress')})</span>}
-                </h2>
+                <div className='flex items-center gap-x-2'>
+                  <h2 className='text-2xl font-bold tracking-tight'>{item.addressName}</h2>
+                  {item.default && <Badge className=''>{t('defaultAddress')}</Badge>}
+                </div>
                 <div className='ml-auto'>
                   <AddressPopover update locationId={item._id}>
                     <AddressForm update locationId={item._id} />

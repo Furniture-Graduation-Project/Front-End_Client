@@ -28,7 +28,7 @@ const BlogDetailPage = () => {
 
   return (
     <>
-      <Container>
+      <Container className='lg:px-0 px-8'>
         <div className='bg-white text-gray-900'>
           <div className='py-8'>
             <nav className='text-sm text-gray-500 mb-16'>

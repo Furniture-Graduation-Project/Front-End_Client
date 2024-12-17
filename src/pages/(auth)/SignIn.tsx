@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import ForgotPassPage from '../(user)/ForgotPass/ForgotPassPage'
+import { FacebookLogo, GoogleLogo } from '@/assets'
 
 export default function SignIn() {
   const { onSubmit: handleSubmit, isPending } = useAccountMutation({
@@ -129,7 +130,7 @@ export default function SignIn() {
             window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`
           }}
         >
-          <img src='/public/google-logo.webp' alt='logo-auth' className='w-5 h-5' />
+          <img src={GoogleLogo} alt='logo-auth' className='w-5 h-5' />
           <span>{t('signinGoogle')}</span>
         </Button>
         <Button
@@ -139,7 +140,7 @@ export default function SignIn() {
             window.location.href = `${import.meta.env.VITE_API_URL}/auth/facebook`
           }}
         >
-          <img src='/public/logo-fb.svg' alt='logo-auth' className='w-5 h-5' />
+          <img src={FacebookLogo} alt='logo-auth' className='w-5 h-5' />
           <span>{t('signinFacebook', 'Sign in with Facebook')}</span>
         </Button>
       </div>
