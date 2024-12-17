@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import IconButton from '@/components/ui/icon-button'
 import { useAuthContext } from '@/context/AuthContext'
 import useWishlistMutation from '@/hooks/mutations/useWishlistMutation'

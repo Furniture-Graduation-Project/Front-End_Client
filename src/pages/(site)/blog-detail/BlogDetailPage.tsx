@@ -5,6 +5,8 @@ import { Link, useParams } from 'react-router-dom'
 import { useBlogDetailQuery, useBlogNewQuery } from '@/hooks/queries/useBlogQuery'
 import { useTranslate } from '@/hooks/useTranslate'
 import { formatDate } from '@/utils/formatDate'
+import { Skeleton } from '@/components/ui/skeleton'
+import Container from '@/components/Container'
 
 const BlogDetailPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -12,7 +14,12 @@ const BlogDetailPage = () => {
   const { t } = useTranslate('blogDetail')
   const { data: newBlogsData, isLoading: isNewBlogsLoading } = useBlogNewQuery()
 
-  if (isLoading) return <div>{t('loading')}</div>
+  if (isLoading)
+    return (
+      <Container>
+        <Skeleton className='w-full h-[400px]' />
+      </Container>
+    )
   if (error) return <div>Error loading blog: {(error as Error).message}</div>
   if (!blogData || !blogData.data) return <div>{t('blogNotFound')}</div>
 
@@ -21,9 +28,9 @@ const BlogDetailPage = () => {
 
   return (
     <>
-      <div className='container mx-auto px-4 py-8'>
+      <Container>
         <div className='bg-white text-gray-900'>
-          <div className='container mx-auto px-4 py-8'>
+          <div className='py-8'>
             <nav className='text-sm text-gray-500 mb-16'>
               <Link to='/' className='hover:underline'>
                 {t('home')}
@@ -74,7 +81,7 @@ const BlogDetailPage = () => {
             )}
           </section>
         </main>
-      </div>
+      </Container>
       <JoinNewsletter />
     </>
   )

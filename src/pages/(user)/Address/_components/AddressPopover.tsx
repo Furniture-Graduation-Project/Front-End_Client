@@ -28,7 +28,6 @@ export function AddressPopover({
   const [isOpen, setIsOpen] = useState(false)
   const { user } = useAuthContext()
   const { mutate } = useAddressMutation({ action: 'DELETE' })
-  // const { mutate: setDefault } = useAddressMutation({ action: 'DEFAULT' })
 
   const { t } = useTranslate('account.order.address')
 
@@ -39,24 +38,6 @@ export function AddressPopover({
       console.log(error)
     }
   }
-
-  // const handleSetDefault = () => {
-  //   try {
-  //     setDefault({ userId: user?._id, query: locationId }, { onSuccess: () => setIsOpen(false) })
-  //     toast({
-  //       title: 'Success',
-  //       description: 'Set default address successfully',
-  //       variant: 'success'
-  //     })
-  //   } catch (error) {
-  //     console.log(error)
-  //     toast({
-  //       title: 'Error',
-  //       description: 'Set default address failed',
-  //       variant: 'destructive'
-  //     })
-  //   }
-  // }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

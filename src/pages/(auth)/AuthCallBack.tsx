@@ -22,5 +22,5 @@ export default function AuthCallback() {
     }
   }, [navigate])
 
-  return <div>Processing...</div>
+  return null
 }

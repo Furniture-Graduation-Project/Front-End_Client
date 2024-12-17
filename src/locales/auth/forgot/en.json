@@ -1,0 +1,7 @@
+{
+  "failed": {
+    "title": "Login failed!",
+    "description": "Login failed or this email has been registered, please try another account!",
+    "button": "Back to login page"
+  }
+}

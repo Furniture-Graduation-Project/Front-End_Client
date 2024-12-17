@@ -1,12 +1,13 @@
-import { motion } from 'framer-motion'
-import CheckoutForm from './CheckoutForm'
-import OrderSummary from './OrderSummary'
-import { useEffect, useState } from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Toaster } from '@/components/ui/toaster'
-import useSessionStorage from '@/hooks/useSessionStorage'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { IOrderItem } from '@/interface/order'
 import useOrderMutation from '@/hooks/mutations/useOrderMutation'
+import useSessionStorage from '@/hooks/useSessionStorage'
+import { IOrderItem } from '@/interface/order'
+import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import OrderSummary from './OrderSummary'
+import CheckoutFormTest from './CheckOutFormA'
 
 const slideInLeft = {
   hidden: { opacity: 0, x: -50 },
@@ -19,7 +20,6 @@ const slideInRight = {
 }
 
 const Checkout = () => {
-  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
   const [state, setState, removeState] = useSessionStorage('stateOrder', null)
   const [errorOrder, setErrorOrder] = useState<IOrderItem[]>()
@@ -44,9 +44,6 @@ const Checkout = () => {
       })
       mutate(itemsCartData)
       setIsLoading(false)
-    } else {
-      navigate('/')
-      setIsLoading(false)
     }
   }, [state])
   useEffect(() => {
@@ -64,12 +61,18 @@ const Checkout = () => {
   return (
     <div className='flex flex-col-reverse gap-y-6 lg:grid lg:grid-cols-7 gap-x-16 my-20'>
       <motion.div className='lg:col-span-4' initial='hidden' animate='visible' variants={slideInLeft}>
-        <CheckoutForm
+        {/* <CheckoutForm
           amount={amount}
           dataCart={state}
           isLoading={isLoading}
           setErrorOrder={setErrorOrder}
-          removeState={removeState}
+          stateErrorOrder={stateErrorOrder}
+        /> */}
+        <CheckoutFormTest
+          amount={amount}
+          dataCart={state}
+          isLoading={isLoading}
+          setErrorOrder={setErrorOrder}
           stateErrorOrder={stateErrorOrder}
         />
       </motion.div>

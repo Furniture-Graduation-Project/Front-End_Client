@@ -6,7 +6,7 @@ const FeatureSection = () => {
   const { t } = useTranslate('contact.featureSection')
   return (
     <div className='mt-12'>
-      <div className='grid md:grid-cols-1 lg:grid-cols-2 gap-0 w-full '>
+      <div className='grid md:grid-cols-1 lg:grid-cols-2 gap-0 w-full rounded-md'>
         <div className=''>
           <video width='1920' autoPlay loop muted>
             <source

@@ -98,5 +98,15 @@ export const ProductService = {
       console.error(`Lỗi khi tìm kiếm sản phẩm theo tên "${name}":`, error)
       throw error
     }
+  },
+
+  getProductWithPrice: async (id: string) => {
+    try {
+      const response = await axiosInstance.get(`${API_URL}/${id}/with-price`)
+      return response
+    } catch (error) {
+      console.error(`Lỗi khi lấy sản phẩm với ID ${id}:`, error)
+      throw error
+    }
   }
 }
