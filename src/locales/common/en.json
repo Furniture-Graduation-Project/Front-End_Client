@@ -16,7 +16,8 @@
       "search": "Search",
       "language": "Language",
       "result": "No results found.",
-      "type": "Enter word to search..."
+      "type": "Enter word to search...",
+      "holiday": "Holiday"
     },
     "cartHeader": {
       "cart": "Cart",

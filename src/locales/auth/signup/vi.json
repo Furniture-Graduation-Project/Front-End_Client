@@ -22,6 +22,7 @@
     "successDescription": "Bạn đã đăng ký thành công.",
     "errorDescription": "Đăng ký thất bại. Vui lòng thử lại.",
     "signinGoogle": "Đăng nhập bằng Google",
-    "signinFacebook": "Đăng nhập bằng Facebook"
+    "signinFacebook": "Đăng nhập bằng Facebook",
+    "or": "Hoặc"
   }
 }

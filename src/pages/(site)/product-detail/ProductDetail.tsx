@@ -16,6 +16,7 @@ const ProductDetail = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [id])
+
   return (
     <Container className='xl:px-0 px-8 pb-24'>
       <div className='py-8'>

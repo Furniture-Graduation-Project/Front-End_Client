@@ -22,6 +22,7 @@
     "successDescription": "You have successfully signed up.",
     "errorDescription": "Sign up failed. Please try again.",
     "signinGoogle": "Sign in with Google",
-    "signinFacebook": "Sign in with Facebook"
+    "signinFacebook": "Sign in with Facebook",
+    "or": "Or"
   }
 }

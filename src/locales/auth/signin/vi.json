@@ -11,6 +11,7 @@
     "invalidEmail": "Email không hợp lệ",
     "invalidPassword": "Mật khẩu không hợp lệ",
     "signinGoogle": "Đăng nhập với Google",
-    "signinFacebook": "Đăng nhập với Facebook"
+    "signinFacebook": "Đăng nhập với Facebook",
+    "or": "Hoặc"
   }
 }

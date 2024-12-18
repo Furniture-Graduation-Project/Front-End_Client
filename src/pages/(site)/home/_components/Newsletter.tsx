@@ -6,7 +6,7 @@ const Newsletter = () => {
   const { t } = useTranslate('home.newsletter')
 
   return (
-    <div className='relative mt-[74px] h-[300px]  lg:h-auto'>
+    <div className='relative mt-[74px] h-[300px] lg:h-auto'>
       {/* <img className='w-full h-full md:object-cover' src={NewsletterBanner} alt='banner' /> */}
       <div>
         <img src={NewsletterBanner} alt='newsletter' className='object-cover w-full h-[300px]' />
