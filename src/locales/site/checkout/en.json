@@ -31,7 +31,9 @@
       "updateDes": "Update address successfully!",
       "updateErrorDes": "Update address failed!",
       "paymentSuccessTitle": "Payment successful!",
-      "paymentSuccessDescription": "Success! You will be redirected to the order page in 3 seconds."
+      "paymentSuccessDescription": "Success! You will be redirected to the order page in 3 seconds.",
+      "error": "Error with action to order",
+      "description": "An error occurred, we will try to fix it as soon as possible"
     },
     "order": {
       "title": "Order Summary",

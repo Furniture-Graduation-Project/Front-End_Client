@@ -48,7 +48,7 @@ const Newsletter = () => {
       <img className='w-full h-full md:object-cover' src={NewsletterBanner} alt='banner' />
       <div>
         <img src='/images/footer.png' alt='' className='hidden lg:block' />
-        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center tracking-wider'>
+        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center tracking-wider w-full sm:w-fit px-5 sm:p-0'>
           <h1 className='headline-5 sm:headline-4 mb-3'>{t('join')}</h1>
           <p className='text-[14px] sm:text-[18px] text-[#141718]'>{t('signupText')}</p>
 
