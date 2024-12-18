@@ -1,5 +1,10 @@
 {
   "cart": {
+    "alert": {
+      "success": "Added to cart successfully!",
+      "error": "Error with action to cart",
+      "description": "An error occurred, we will try to fix it as soon as possible"
+    },
     "textTitle": {
       "cart": "Cart",
       "shop": "Shopping Cart",

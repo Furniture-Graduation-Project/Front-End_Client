@@ -79,61 +79,45 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
         unitPrice: item.productOptionId.price
       }
     })
-
-    try {
-      if (user && user._id && defaultLocation) {
-        const order: IOrder = {
-          userId: user._id,
-          orderName: defaultLocation.firstName + ' ' + defaultLocation.lastName,
-          orderPhone: defaultLocation.phone || '',
-          orderAddress:
-            defaultLocation.country +
-            ', ' +
-            defaultLocation.city +
-            ', ' +
-            defaultLocation.district +
-            ', ' +
-            defaultLocation.ward +
-            ', ' +
-            defaultLocation.street,
-          totalPrice: amount,
-          items,
-          payment: {
-            paymentMethod: data.payment,
-            amount: amount
-          },
-          statusHistory: [
-            {
-              status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
-            }
-          ],
-          status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
-        }
-        mutate(order)
-      } else {
-        toast({
-          title: 'Lỗi',
-          description: 'Không thể tạo đơn hàng, vui lòng thử lại sau.',
-          action: <ToastAction altText='Try again'>{t('tryAgain')}</ToastAction>
-        })
+    if (user && user._id && defaultLocation) {
+      const order: IOrder = {
+        userId: user._id,
+        orderName: defaultLocation.firstName + ' ' + defaultLocation.lastName,
+        orderPhone: defaultLocation.phone || '',
+        orderAddress:
+          defaultLocation.country +
+          ', ' +
+          defaultLocation.city +
+          ', ' +
+          defaultLocation.district +
+          ', ' +
+          defaultLocation.ward +
+          ', ' +
+          defaultLocation.street,
+        totalPrice: amount,
+        items,
+        payment: {
+          paymentMethod: data.payment,
+          amount: amount
+        },
+        statusHistory: [
+          {
+            status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
+          }
+        ],
+        status: data.payment == 'credit_card' ? 'unpaid' : 'pending'
       }
-    } catch (error) {
-      console.log(error)
+      mutate(order)
+    } else {
       toast({
-        title: t('errorOrder'),
-        description: t('errorOrder'),
-        action: <ToastAction altText='Try again'>{t('tryAgain')}</ToastAction>
+        title: t('error'),
+        description: t('description')
       })
     }
   }
   useEffect(() => {
     if (isErrorOrder) {
       setErrorOrder((error as any).response.data.data)
-      toast({
-        title: (error as any).response.data.message,
-        description: t('errorOrder'),
-        action: <ToastAction altText='Try again'>{t('tryAgain')}</ToastAction>
-      })
     }
   }, [isErrorOrder])
 
