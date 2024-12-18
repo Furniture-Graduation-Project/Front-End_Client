@@ -50,6 +50,7 @@
     "loginToWriteAReview": "Login to write a review",
     "anonymousUser": "Anonymous User",
     "writeYourReview": "Write your review here",
+    "errorReview": "The words you commented have seriously violated our community standards!. Please rewrite.",
     "additionalInfo": "Additional Information",
     "materialDetail": "Material Details",
     "warranty": "Warranty",

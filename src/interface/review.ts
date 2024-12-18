@@ -2,7 +2,7 @@ import { IProduct } from './product'
 import { IUser } from './user'
 
 export interface IReview {
-  id?: string
+  _id?: string
   productId?: IProduct
   userId: IUser
   rating: number
