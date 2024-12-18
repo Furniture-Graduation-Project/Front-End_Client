@@ -14,7 +14,6 @@ import { formatCurrency } from '@/utils/formatCurrency'
 
 const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { user } = useAuthContext()
-
   const { t } = useTranslate('header.cartHeader')
   const queryClient = useQueryClient()
   const [amount, setAmount] = useState(0)
@@ -25,6 +24,7 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { mutate: decreaseQuantity } = useCartMutation('DECREASE')
   const navigate = useNavigate()
   const { toast } = useToast()
+
   useEffect(() => {
     if (cartData && cartData.data && cartData.data.carts) {
       setAmount(
@@ -59,12 +59,28 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
   }
 
   const handleDecreaseQuantity = (item: any) => {
-    if (item.quantity > 1 && user) {
+    if (item.quantity <= 1) {
+      toast({
+        title: t('Giới hạn số lượng'),
+        description: t('Không thể giảm số lượng xuống dưới 1.'),
+        variant: 'default',
+      })
+      return
+    }
+
+    if (user) {
       decreaseQuantity(
         { productId: item.productId._id, productOptionId: item.productOptionId._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
+          },
+          onError: (error) => {
+            toast({
+              title: t('decreaseError'),
+              description: error.message,
+              variant: 'default'
+            })
           }
         }
       )
@@ -90,6 +106,7 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
       )
     }
   }
+
   function onSubmit() {
     if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
       const stateOrder = cartData.data.carts
