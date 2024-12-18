@@ -117,7 +117,7 @@ const CheckoutForm = ({ dataCart, amount, isLoading: isLoadingCart, setErrorOrde
   }
   useEffect(() => {
     if (isErrorOrder) {
-      setErrorOrder((error as any).response.data.data)
+      setErrorOrder((error as any).response?.data?.data)
     }
   }, [isErrorOrder])
 
