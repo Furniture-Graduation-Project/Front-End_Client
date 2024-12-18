@@ -16,7 +16,8 @@
       "search": "Tìm kiếm",
       "language": "Ngôn Ngữ",
       "result": " Không tìm thấy kết quả nào.",
-      "type": "Nhập từ để tìm kiếm..."
+      "type": "Nhập từ để tìm kiếm...",
+      "holiday": "Ngày lễ"
     },
     "cartHeader": {
       "cart": "Giỏ hàng",

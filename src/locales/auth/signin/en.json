@@ -11,6 +11,7 @@
     "invalidEmail": "Invalid email",
     "invalidPassword": "Invalid password",
     "signinGoogle": "Sign in with Google",
-    "signinFacebook": "Sign in with Facebook"
+    "signinFacebook": "Sign in with Facebook",
+    "or": "Or"
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NewsletterBanner } from '@/assets'
 import useSheetMutation from '@/hooks/mutations/useGoogleSheet'
 import { useTranslate } from '@/hooks/useTranslate'
@@ -45,9 +46,10 @@ const Newsletter = () => {
 
   return (
     <div className='relative mt-[74px] h-[300px] lg:h-auto'>
-      <img className='w-full h-full md:object-cover' src={NewsletterBanner} alt='banner' />
+      {/* <img className='w-full h-full md:object-cover' src={NewsletterBanner} alt='banner' /> */}
       <div>
-        <img src='/images/footer.png' alt='' className='hidden lg:block' />
+        <img src={NewsletterBanner} alt='newsletter' className='object-cover w-full h-[340px]' />
+
         <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center tracking-wider'>
           <h1 className='headline-5 sm:headline-4 mb-3'>{t('join')}</h1>
           <p className='text-[14px] sm:text-[18px] text-[#141718]'>{t('signupText')}</p>

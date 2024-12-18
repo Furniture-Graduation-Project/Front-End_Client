@@ -8,7 +8,7 @@ const Footer = () => {
   const { t } = useTranslate('footer')
 
   return (
-    <div className='flex sm:h-[250px] h-auto bg-neutral-6 sm:bg-neutral-7 text-neutral-1 p-10 sm:p-0'>
+    <div className='flex sm:h-[250px] h-auto bg-neutral-6 sm:bg-neutral-7 text-neutral-1 mt-10 sm:mt-0 p-10 sm:p-0'>
       <Container className='flex flex-col justify-center'>
         {/* Top Section */}
         <div className='flex sm:justify-between sm:flex-row flex-col items-center caption-1'>
@@ -28,7 +28,7 @@ const Footer = () => {
               {t('shop')}
             </NavLink> */}
             <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/product'>
-              {t('product')}
+              {t('products')}
             </NavLink>
             <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/blog'>
               {t('blog')}

@@ -1,3 +1,4 @@
+import { FacebookLogo, GoogleLogo } from '@/assets'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form'
@@ -185,7 +186,7 @@ const SignUp = () => {
           <span className='w-full border-t' />
         </div>
         <div className='relative flex justify-center text-xs uppercase'>
-          <span className='bg-white px-2 text-muted-foreground'>Hoặc</span>
+          <span className='bg-white px-2 text-muted-foreground'>{t('or')}</span>
         </div>
       </div>
 
@@ -197,7 +198,7 @@ const SignUp = () => {
             window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`
           }}
         >
-          <img src='/public/google-logo.webp' alt='logo-auth' className='w-5 h-5' />
+          <img src={GoogleLogo} alt='logo-auth' className='w-5 h-5' />
           <span>{t('signinGoogle')}</span>
         </Button>
         <Button
@@ -207,7 +208,7 @@ const SignUp = () => {
             window.location.href = `${import.meta.env.VITE_API_URL}/auth/facebook`
           }}
         >
-          <img src='/public/logo-fb.svg' alt='logo-auth' className='w-5 h-5' />
+          <img src={FacebookLogo} alt='logo-auth' className='w-5 h-5' />
           <span>{t('signinFacebook', 'Sign in with Facebook')}</span>
         </Button>
       </div>
