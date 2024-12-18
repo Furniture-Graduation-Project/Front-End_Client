@@ -31,7 +31,9 @@
       "updateDes": "Cập nhật địa chỉ thành công!",
       "updateErrorDes": "Cập nhật địa chỉ thất bại!",
       "paymentSuccessTitle": "Thanh toán thành công!",
-      "paymentSuccessDescription": "Thành công! Bạn sẽ được chuyển đến trang đơn hàng sau 3 giây."
+      "paymentSuccessDescription": "Thành công! Bạn sẽ được chuyển đến trang đơn hàng sau 3 giây.",
+      "error": "Đã xảy ra lỗi thao tác với đơn hàng",
+      "description": "Đã xảy ra lỗi, chúng tôi sẽ cố gắng khắc phục sớm nhất có thể"
     },
     "order": {
       "title": "Tóm Tắt Đơn Hàng",

@@ -61,7 +61,15 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
   }
 
   const handleDecreaseQuantity = (item: any) => {
-    if (item.quantity > 1 && user) {
+    if (item.quantity <= 1) {
+      toast({
+        title: t('Giới hạn số lượng'),
+        description: t('Không thể giảm số lượng xuống dưới 1.'),
+        variant: 'default',
+      })
+      return
+    }
+    if (user) {
       decreaseQuantity(
         { productId: item.productId._id, productOptionId: item.productOptionId._id },
         {

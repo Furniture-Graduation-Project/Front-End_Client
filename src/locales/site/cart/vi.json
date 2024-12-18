@@ -1,5 +1,10 @@
 {
   "cart": {
+    "alert": {
+      "success": "Thêm vào giỏ hàng thành công !",
+      "error": "Lỗi khi thao tác với giỏ hàng",
+      "description": "Đã có lỗi xảy ra chúng tôi sẽ cố gắng khắc phục sớm nhất có thế"
+    },
     "textTitle": {
       "cart": "Giỏ hàng",
       "shop": "Giỏ mua hàng",

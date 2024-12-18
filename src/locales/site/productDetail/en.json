@@ -50,6 +50,24 @@
     "loginToWriteAReview": "Login to write a review",
     "anonymousUser": "Anonymous User",
     "writeYourReview": "Write your review here",
-    "outStock": "Out of stock"
+    "outStock": "Out of stock",
+    "errorReview": "The words you commented have seriously violated our community standards!. Please rewrite.",
+    "additionalInfo": "Additional Information",
+    "materialDetail": "Material Details",
+    "warranty": "Warranty",
+    "nonWarranty": "No Warranty",
+    "warrantyItems": {
+      "item1": "Most furniture products at River Furniture are produced in the factory of River Architecture Construction Joint Stock Company with a team of talented employees and workers along with modern facilities.",
+      "item2": "River Furniture offers a one-year warranty for cases of technical defects during production or installation.",
+      "item3": "Customers should not attempt repairs themselves, please contact River Furniture via the hotline: <strong>088 6024 065</strong>.",
+      "item4": "After the warranty period expires, if customers have any requests or concerns, please contact Nhà Xinh for guidance and issue resolution."
+    },
+    "nonWarrantyItems": {
+      "item1": "Customers who attempt to repair the product without notifying River Furniture.",
+      "item2": "Products used contrary to the warranty instructions causing scratches, dents, dirt, or color loss.",
+      "item3": "Products deformed by abnormal external conditions (too humid, too dry, pests, or unsuitable chemicals).",
+      "item4": "Products beyond the warranty period.",
+      "item5": "Products without River Furniture's warranty card."
+    }
   }
 }

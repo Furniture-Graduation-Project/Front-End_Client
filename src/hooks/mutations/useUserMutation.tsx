@@ -6,12 +6,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { toast } from '../use-toast'
+import useSessionStorage from '../useSessionStorage'
 
 type MutationQueryProps = {
   action: 'SIGNIN' | 'SIGNUP' | 'DELETE' | 'UPDATE' | 'LOGOUT' | 'SEND_OTP' | 'VERIFY_OTP' | 'CHANGE_PASS'
 }
 
 const useAccountMutation = ({ action }: MutationQueryProps) => {
+  const [state, setState, removeState] = useSessionStorage('stateOrder', null)
   const { login, logout } = useAuthContext()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -44,6 +46,9 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
           description: 'Chuyển đến trang chính...',
           variant: 'success'
         })
+        console.log(state)
+        setState(null)
+        removeState()
         logout()
         break
 
@@ -59,6 +64,7 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
           title: 'Xóa thành công!',
           variant: 'success'
         })
+        removeState()
         break
 
       case 'SEND_OTP':

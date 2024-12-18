@@ -24,6 +24,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { PaginationState } from '@tanstack/react-table'
 import { AvatarNull } from '@/assets'
 import { Link } from 'react-router-dom'
+import { badWords } from '@/assets/data/badWords'
 
 const Review = ({ data }: any) => {
   const { t } = useTranslate('productDetail')
@@ -41,7 +42,15 @@ const Review = ({ data }: any) => {
   })
 
   type ReviewFormData = z.infer<typeof reviewSchema>
-  const { control, handleSubmit, reset } = useForm<ReviewFormData>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    trigger,
+    getValues,
+    setError,
+    formState: { errors }
+  } = useForm<ReviewFormData>({
     resolver: zodResolver(reviewSchema),
     defaultValues: {
       reviewText: '',
@@ -63,6 +72,25 @@ const Review = ({ data }: any) => {
       reset()
       setOpen(false)
     }
+  }
+  const hanleWriteReview = async () => {
+    const isValid = await trigger('reviewText')
+
+    if (!isValid) {
+      return
+    }
+    const reviewText = getValues('reviewText')
+    const containsBadWord = badWords.some((word: string) => reviewText.toLowerCase().includes(word.toLowerCase()))
+
+    if (containsBadWord) {
+      setError('reviewText', {
+        type: 'manual',
+        message: t('errorReview')
+      })
+      return
+    }
+
+    setOpen(true)
   }
 
   useEffect(() => {
@@ -112,36 +140,40 @@ const Review = ({ data }: any) => {
               </span>
             </div>
           </div>
-          <div className='relative'>
-            <Controller
-              disabled={!user}
-              control={control}
-              name='reviewText'
-              render={({ field }) => (
-                <Input
-                  {...field}
-                  className='p-9 border border-neutral-7'
-                  autoComplete='off'
-                  placeholder={t('writeYourReview')}
-                />
-              )}
-            />
-
-            {user ? (
-              <Button
-                className='absolute right-5 top-1/2 transform -translate-y-1/2 rounded-full button-s'
-                onClick={() => setOpen(true)}
-              >
-                <span className='hidden sm:block'>{t('Write Review')}</span>
-                <ArrowRight className='block sm:hidden' />
-              </Button>
-            ) : (
-              <Link to='/signin' className='absolute right-5 top-1/2 transform -translate-y-1/2 '>
-                <Button variant={'outline'} className='rounded-full button-s'>
-                  {t('loginToWriteAReview')}
+          <div>
+            <div className='relative'>
+              <Controller
+                disabled={!user}
+                control={control}
+                name='reviewText'
+                render={({ field }) => (
+                  <div>
+                    <Input
+                      {...field}
+                      className='p-9 border border-neutral-7'
+                      autoComplete='off'
+                      placeholder={t('writeYourReview')}
+                    />
+                  </div>
+                )}
+              />
+              {user ? (
+                <Button
+                  className='absolute right-5 top-1/2 transform -translate-y-1/2 rounded-full button-s'
+                  onClick={() => hanleWriteReview()}
+                >
+                  <span className='hidden sm:block'>{t('Write Review')}</span>
+                  <ArrowRight className='block sm:hidden' />
                 </Button>
-              </Link>
-            )}
+              ) : (
+                <Link to='/signin' className='absolute right-5 top-1/2 transform -translate-y-1/2 '>
+                  <Button variant={'outline'} className='rounded-full button-s'>
+                    {t('loginToWriteAReview')}
+                  </Button>
+                </Link>
+              )}
+            </div>
+            {errors.reviewText && <p className='text-red text-sm mt-1'>{errors.reviewText.message}</p>}
           </div>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className='sm:max-w-[425px]'>
@@ -177,7 +209,7 @@ const Review = ({ data }: any) => {
               reviewList?.data &&
               reviewList?.data.length > 0 &&
               reviewList?.data.map((review: IReview) => (
-                <div key={review.id} className='space-y-4 border-b pb-4'>
+                <div key={review._id} className='space-y-4 border-b pb-4'>
                   <div className='grid grid-cols-[72px_1fr] gap-4'>
                     <Avatar className='h-16 w-16'>
                       {review.userId ? (
