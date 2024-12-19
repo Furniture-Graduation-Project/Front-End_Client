@@ -103,7 +103,7 @@ export default function AccountDetail() {
           )}
         />
         <div className='flex items-center justify-between'>
-          <ForgotPassPage socialMediaAccount />
+          {socialMediaAccount && <ForgotPassPage socialMediaAccount />}
           <div className=''>
             <Button className='mr-4' type='button' variant={'outline'} onClick={() => setChange(!change)}>
               {t('change')}
