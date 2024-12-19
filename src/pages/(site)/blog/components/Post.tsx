@@ -1,4 +1,4 @@
-import { Grid, GripHorizontal, Search } from 'lucide-react'
+import { Columns2, Grid, GripHorizontal, Search } from 'lucide-react'
 import { useBlogQuery } from '@/hooks/queries/useBlogQuery'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -13,9 +13,8 @@ const Post = () => {
   const { blogs, isLoading, error } = useBlogQuery()
   const { t } = useTranslate('post')
 
-  // Trạng thái để theo dõi số lượng blog được hiển thị
   const [limit, setLimit] = useState(6)
-  const [showAll, setShowAll] = useState(false) // Trạng thái để theo dõi việc hiển thị tất cả các blog
+  const [showAll, setShowAll] = useState(false)
 
   if (isLoading) {
     return (
@@ -44,7 +43,6 @@ const Post = () => {
       <div className='flex flex-col gap-y-4 md:flex-row justify-between items-center mb-6'>
         <div className='flex gap-4'>
           <div className='text-gray-600 font-bold'>{t('allBlog')}</div>
-          <div className='text-gray-600 font-bold'>{t('featured')}</div>
         </div>
         <div className='flex items-center space-x-4'>
           <div className='relative'>
@@ -61,13 +59,13 @@ const Post = () => {
             onClick={() => handleViewChange('grid')}
             className={`text-gray-600 font-bold ${view === 'grid' ? 'text-black' : ''}`}
           >
-            <GripHorizontal />
+            <Grid />
           </button>
           <button
             onClick={() => handleViewChange('list')}
             className={`text-gray-600 font-bold ${view === 'list' ? 'text-black' : ''}`}
           >
-            <Grid />
+            <Columns2 className='rotate-90' />
           </button>
         </div>
       </div>

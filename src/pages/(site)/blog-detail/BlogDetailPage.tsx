@@ -7,6 +7,7 @@ import { useTranslate } from '@/hooks/useTranslate'
 import { formatDate } from '@/utils/formatDate'
 import { Skeleton } from '@/components/ui/skeleton'
 import Container from '@/components/Container'
+import Newsletter from '@/components/site/Newsletter'
 
 const BlogDetailPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -82,7 +83,7 @@ const BlogDetailPage = () => {
           </section>
         </main>
       </Container>
-      <JoinNewsletter />
+      <Newsletter />
     </>
   )
 }
