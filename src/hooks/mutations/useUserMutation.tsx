@@ -1,17 +1,19 @@
-import { useToast } from '@/components/ui/use-toast'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useAuthContext } from '@/context/AuthContext'
 import { IUser } from '@/interface/user'
 import { AuthService } from '@/services/account'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { toast } from '../use-toast'
+import useSessionStorage from '../useSessionStorage'
 
 type MutationQueryProps = {
-  action: 'SIGNIN' | 'SIGNUP' | 'DELETE' | 'UPDATE' | 'LOGOUT'
+  action: 'SIGNIN' | 'SIGNUP' | 'DELETE' | 'UPDATE' | 'LOGOUT' | 'SEND_OTP' | 'VERIFY_OTP' | 'CHANGE_PASS'
 }
 
 const useAccountMutation = ({ action }: MutationQueryProps) => {
-  const { toast } = useToast()
+  const [state, setState, removeState] = useSessionStorage('stateOrder', null)
   const { login, logout } = useAuthContext()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -44,13 +46,52 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
           description: 'Chuyển đến trang chính...',
           variant: 'success'
         })
+        console.log(state)
+        setState(null)
+        removeState()
         logout()
         break
+
+      case 'UPDATE':
+        toast({
+          title: 'Cập nhật thành công!',
+          variant: 'success'
+        })
+        break
+
       case 'DELETE':
         toast({
           title: 'Xóa thành công!',
           variant: 'success'
         })
+        removeState()
+        break
+
+      case 'SEND_OTP':
+        toast({
+          title: 'Gửi mã OTP thành công, bạn vui lòng check mail!',
+          variant: 'success'
+        })
+        break
+      case 'VERIFY_OTP':
+        toast({
+          title: 'Xác thực mã OTP thành công!',
+          variant: 'success'
+        })
+        break
+
+      case 'CHANGE_PASS':
+        logout()
+        localStorage.removeItem('token')
+        localStorage.removeItem('otp')
+        toast({
+          title: 'Đổi mật khẩu thành công!',
+          variant: 'success'
+        })
+        navigate('/signin')
+        break
+
+      default:
         break
     }
   }
@@ -79,10 +120,19 @@ const useAccountMutation = ({ action }: MutationQueryProps) => {
         case 'UPDATE':
           if (!data) throw new Error('Thiếu ID cho hành động')
           return await AuthService.update(data?._id || '', data)
+        case 'SEND_OTP':
+          return await AuthService.sendOtp(data?.email || '')
+        case 'VERIFY_OTP':
+          return await AuthService.verifyOtp(data?.otp || '')
+        case 'CHANGE_PASS':
+          if (!data || !data.newPassword || !data.confirmPassword) throw new Error('Thiếu thông tin mật khẩu')
+          return await AuthService.changePassword({
+            newPassword: data.newPassword,
+            confirmPassword: data.confirmPassword
+          })
         case 'LOGOUT':
           return await AuthService.logout()
-        case 'LOGOUT':
-          return await AuthService.logout()
+
         default:
           return null
       }

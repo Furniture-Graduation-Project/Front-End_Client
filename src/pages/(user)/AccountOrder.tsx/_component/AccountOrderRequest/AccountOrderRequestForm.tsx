@@ -15,21 +15,6 @@ import { z } from 'zod'
 import { IContact } from '@/interface/contact'
 import { useAuthContext } from '@/context/AuthContext'
 
-const returnRequestSchema = z.object({
-  selectedProducts: z
-    .array(
-      z.object({
-        productId: z.string(),
-        productOptionId: z.string(),
-        quantity: z.number().min(0, 'Quantity must be at least 0.'),
-        unitPrice: z.number().min(0, 'UnitPrice must be at least 0.')
-      })
-    )
-    .min(1, 'Select at least one product to return.'),
-  reason: z.string().min(10, 'Reason must be at least 10 characters long.')
-})
-
-type ReturnRequestForm = z.infer<typeof returnRequestSchema>
 const AccountOrderRequestForm = ({ data }: any) => {
   const { user } = useAuthContext()
   const { t } = useTranslate('account.order.request')
@@ -39,7 +24,20 @@ const AccountOrderRequestForm = ({ data }: any) => {
   const { mutate: sendMail } = useContactMutation()
   const { mutate } = useOrderMutation({ action: 'UPDATE' })
   const { toast } = useToast()
-  const form = useForm<ReturnRequestForm>({
+  const returnRequestSchema = z.object({
+    selectedProducts: z
+      .array(
+        z.object({
+          productId: z.string(),
+          productOptionId: z.string(),
+          quantity: z.number().min(0, t('quantityError')),
+          unitPrice: z.number().min(0, t('unitPriceError'))
+        })
+      )
+      .min(1, t('selectProductError')),
+    reason: z.string().min(10, t('reasonError'))
+  })
+  const form = useForm<z.infer<typeof returnRequestSchema>>({
     resolver: zodResolver(returnRequestSchema),
     defaultValues: {
       selectedProducts: [],
@@ -74,9 +72,26 @@ const AccountOrderRequestForm = ({ data }: any) => {
     }
   }, [data, form])
 
-  const onSubmit = (dataForm: ReturnRequestForm) => {
+  const onSubmit = (dataForm: z.infer<typeof returnRequestSchema>) => {
     if (data?.data._id) {
-      const returnData = dataForm.selectedProducts.filter((item) => item.quantity > 0 && item.productOptionId)
+      const check = dataForm.selectedProducts.some(
+        (item: any, index: number) => item.quantity > data?.data.items[index].quantity
+      )
+      if (check) {
+        form.setError('reason', {
+          message: 'Số lượng sản phẩm không hợp lệ so với số lượng sản phẩm trong đơn hàng !'
+        })
+        return
+      }
+      const returnData = dataForm.selectedProducts.filter((item: any) => item.quantity > 0 && item.productOptionId)
+      if (returnData.length <= 0) {
+        toast({
+          title:  "Không thể hoàn trả",
+          description: "Vui lòng thêm số lượng sản phẩm trên đơn hoàn trả !",
+          variant: 'default'
+        })
+        return
+      }
       mutate({
         _id: data?.data._id,
         returnInfo: {
@@ -85,20 +100,27 @@ const AccountOrderRequestForm = ({ data }: any) => {
         }
       })
       const newContact: IContact = {
-        email: import.meta.env.VITE_EMAIL_NAME,
-        subject: 'Yêu cầu hoàn đơn hàng từ khách hàng : ' + user?.name,
-        text:
-          'Email khách hàng : ' +
-          user?.email +
-          '\n' +
-          'Số điên thoại khách hàng : ' +
-          user?.phone +
-          '\n' +
-          'Lý do hoàn đơn : ' +
-          dataForm.reason +
-          'Mã đơn hàng : ' +
-          data.data.code
+        email: user?.email || import.meta.env.VITE_EMAIL_NAME,
+        subject: `Yêu cầu hoàn đơn hàng: ${data.data.code}`,
+        text: `
+          Xin chào ${user?.name || 'Quý khách'}, 
+      
+          Chúng tôi đã nhận được yêu cầu hoàn đơn hàng của bạn. Dưới đây là thông tin chi tiết:
+      
+          - Email khách hàng: ${user?.email || 'Không có thông tin'}
+          - Số điện thoại khách hàng: ${user?.phone || 'Không có thông tin'}
+          - Mã đơn hàng: ${data.data.code}
+          - Lý do hoàn đơn: ${dataForm.reason}
+      
+          Chúng tôi sẽ liên hệ và giải quyết yêu cầu của bạn trong thời gian sớm nhất. Nếu cần hỗ trợ thêm, vui lòng phản hồi email này hoặc liên hệ với chúng tôi qua hotline: ${
+            import.meta.env.VITE_SUPPORT_PHONE || 'Không có thông tin hotline'
+          }.
+      
+          Trân trọng, 
+          Đội ngũ hỗ trợ khách hàng - Nội Thất River
+        `
       }
+
       sendMail(newContact)
       toast({
         title: 'Success',
@@ -124,7 +146,7 @@ const AccountOrderRequestForm = ({ data }: any) => {
                   />
                   <div className='ml-4'>
                     <h3>Tên sản phẩm: {item.productId?.name}</h3>
-                    <div className='text-[12px] text-[#6C7275]'>
+                    <div className='text-[12px] text-neutral-7 '>
                       {item.productOptionId?.variants &&
                         item.productOptionId.variants.map((variant: any, id: number) => (
                           <h4 className='whitespace-nowrap' key={id}>
@@ -168,9 +190,9 @@ const AccountOrderRequestForm = ({ data }: any) => {
             control={form.control}
             render={({ field }) => (
               <FormItem className='mt-4'>
-                <FormLabel>Reason for Return</FormLabel>
+                <FormLabel>Lý do hoàn trả</FormLabel>
                 <FormControl>
-                  <Textarea placeholder='Enter your reason for returning these products...' {...field} />
+                  <Textarea placeholder='Nhập vào lý do bạn muốn trả những sản phẩm này...' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -178,7 +200,7 @@ const AccountOrderRequestForm = ({ data }: any) => {
           />
 
           <Button type='submit' className='mt-6 w-full' disabled={dayDelivery > 7}>
-            Submit Return Request
+            Gửi yêu cầu
           </Button>
         </form>
       </Form>

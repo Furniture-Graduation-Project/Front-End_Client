@@ -1,9 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { CartService } from '@/services/cart'
+import { useToast } from '../use-toast'
+import { useTranslate } from '../useTranslate'
 
 type CartMutation = 'ADD' | 'UPDATE' | 'REMOVE' | 'INCREASE' | 'DECREASE'
 
 export const useCartMutation = (key: CartMutation) => {
+  const { toast } = useToast()
+  const { t } = useTranslate('cart.alert')
   const query = useQueryClient()
   const { mutate } = useMutation({
     mutationKey: ['cart'],
@@ -19,6 +23,10 @@ export const useCartMutation = (key: CartMutation) => {
       try {
         switch (key) {
           case 'ADD':
+            toast({
+              title: t('success'),
+              variant: 'default'
+            })
             return await CartService.addToCart(data)
           case 'UPDATE':
             if (!productOptionId) throw new Error('productOptionId is required')
@@ -36,16 +44,18 @@ export const useCartMutation = (key: CartMutation) => {
             throw new Error('Khóa không hợp lệ')
         }
       } catch (error) {
-        console.error('Lỗi mutation:', error)
         throw error
       }
     },
     onSuccess: () => {
-      console.log('Thao tác thành công')
       query.invalidateQueries({ queryKey: ['cart'] })
     },
-    onError: (error) => {
-      console.error('Lỗi trong quá trình thực hiện thao tác:', error)
+    onError: () => {
+      toast({
+        title: t('error'),
+        description: t('description'),
+        variant: 'destructive'
+      })
     },
     onSettled: () => {
       console.log('Đã hoàn thành thao tác')

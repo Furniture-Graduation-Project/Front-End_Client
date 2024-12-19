@@ -41,12 +41,9 @@ const AccountOrderDetail = () => {
       })
     }
   }, [data])
-  useEffect(() => {
-    if (success) {
-    }
-  }, [success])
+
   return (
-    <div className='space-y-4 p-4 sm:p-6'>
+    <div className='space-y-4 p-6 sm:p-0 mb-14'>
       <AccountOrderStatus order={data} setOpenQR={setOpenQR} />
       <AccountOrderAddress order={data} />
       <AccountOrderInfomation order={data} />

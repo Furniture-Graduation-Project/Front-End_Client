@@ -30,15 +30,16 @@
       "supportDescription": "Phone and Email support"
     },
     "collection": {
-      "title": "NEW FALL COLLECTION",
-      "subtitle": "THE HUNT IS OVER",
-      "button": "Shop New Arrivals"
+      "title": "LIKE A JEWEL BOX",
+      "subtitle": "They say it's better to give.",
+      "button": "Shop Christmas Collection"
     },
     "sale": {
-      "title": "SALE UP TO 35% OFF",
+      "title": "When only",
+      "title2": "the best will do",
       "headline1": "HUNDREDS of",
       "headline2": "New lower prices!",
-      "description": "It’s more affordable than ever to give every room in your home a stylish makeover.",
+      "description": "Our top selling gifts will impress even the pickiest of recipients.",
       "shopNow": "Shop Now"
     },
     "articles": {
@@ -49,7 +50,12 @@
       "join": "Join Our Newsletter",
       "signupText": "Sign up for deals, new products and promotions",
       "emailPlaceholder": "Email address",
-      "signupButton": "Signup"
+      "signupButton": "Signup",
+      "successMessage": "Success Notification",
+      "subscriptionSuccess": "You have successfully subscribed!",
+      "errorMessage": "Error Notification",
+      "checkEmailError": "Please check your email and try again.",
+      "error": "Please enter a valid email address"
     }
   }
 }

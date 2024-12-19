@@ -7,6 +7,11 @@
     "passwordPlaceholder": "Mật khẩu",
     "remember": "Ghi nhớ",
     "forgotPassword": "Quên mật khẩu?",
-    "signinButton": "Đăng Nhập"
+    "signinButton": "Đăng Nhập",
+    "invalidEmail": "Email không hợp lệ",
+    "invalidPassword": "Mật khẩu không hợp lệ",
+    "signinGoogle": "Đăng nhập với Google",
+    "signinFacebook": "Đăng nhập với Facebook",
+    "or": "Hoặc"
   }
 }

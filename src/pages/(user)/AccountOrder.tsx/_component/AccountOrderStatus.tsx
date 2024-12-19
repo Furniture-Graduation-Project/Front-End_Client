@@ -5,16 +5,7 @@ import { useLanguage } from '@/context/LanguageContext'
 import useOrderMutation from '@/hooks/mutations/useOrderMutation'
 import { useTranslate } from '@/hooks/useTranslate'
 import { getOrderStatus } from '@/utils/getOrderStatus'
-import {
-  FileText,
-  MoveRight,
-  PackageCheck,
-  Truck,
-  XCircle,
-  PackageSearch,
-  FilePen,
-  Boxes,
-} from 'lucide-react'
+import { FileText, MoveRight, PackageCheck, Truck, XCircle, PackageSearch, FilePen, Boxes } from 'lucide-react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -71,6 +62,7 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
       .filter((item: any) => item.productId.status == 'available')
       .map((item: any) => ({
         ...item,
+        quantity: item.quantity > 0 ? item.quantity : 1,
         unitPrice: item.productOptionId.price
       }))
     if (!stateOrder || stateOrder.length <= 0) {
@@ -81,6 +73,8 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
       })
       return
     }
+    console.log(state)
+
     setState(JSON.stringify(stateOrder))
     navigate('/checkout')
   }
@@ -186,8 +180,8 @@ const AccountOrderStatus = ({ order, setOpenQR }: any) => {
             disabled={order?.data.payment?.paymentStatus == 'unpaid'}
           >
             {order?.data.returnInfo && order?.data.returnInfo?.items.length
-              ? 'Xem yêu cầu hoàn trả'
-              : 'Trả hàng / Hoàn tiền'}
+              ? t('view_return_request')
+              : t('return_refund')}
           </Button>
           <Button
             onClick={hanleRepurchase}

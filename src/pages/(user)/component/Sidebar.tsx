@@ -1,9 +1,4 @@
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import AvatarAccount from '@/components/auth/AvatarAccount'
-import { Button } from '@/components/ui/button'
-import { Camera } from 'lucide-react'
-import { useTranslate } from '@/hooks/useTranslate'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,21 +9,30 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { FieldValues, useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react'
-import { uploadFileCloudinary } from '@/utils/upload-cloudinary'
-import { useAuthContext } from '@/context/AuthContext'
-import { AuthService } from '@/services/account'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useAuthContext } from '@/context/AuthContext'
+import useAccountMutation from '@/hooks/mutations/useUserMutation'
+import { toast } from '@/hooks/use-toast'
+import { useTranslate } from '@/hooks/useTranslate'
+import { uploadFileCloudinary } from '@/utils/upload-cloudinary'
+import { Camera } from 'lucide-react'
+import { useState } from 'react'
+import { FieldValues, useForm } from 'react-hook-form'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+
 const SidebarAccount = () => {
   const { user } = useAuthContext()
   const { t } = useTranslate('account.sidebar')
   const navigate = useNavigate()
   const location = useLocation()
-  const [avatar, setAvatar] = useState<string>(user?.avatar || '/images/avatar.png')
   const [preview, setPreview] = useState<string | null>(user?.avatar || null)
   const [loading, setLoading] = useState(false)
+  const { mutate } = useAccountMutation({ action: 'UPDATE' })
   const form = useForm<FieldValues>({
     defaultValues: {
       image: ''
@@ -40,83 +44,91 @@ const SidebarAccount = () => {
     if (!files) return
     setLoading(true)
     const urls = await Promise.all(Array.from(files).map(uploadFileCloudinary))
-    setAvatar(urls[0])
     setPreview(URL.createObjectURL(files[0]))
     form.setValue('image', urls[0])
     setLoading(false)
   }
 
-  const isLoading = form.formState.isSubmitting
-
   const onSubmit = async (data: FieldValues) => {
     try {
-      await AuthService.update(user?._id || '', {
-        avatar: data.image,
+      mutate({
         _id: user?._id || '',
         email: user?.email || '',
-        password: user?.password || ''
+        password: user?.password || '',
+        locations: user?.locations || [],
+        avatar: data.image
       })
-      navigate('/account')
+      toast({
+        title: 'Cập nhật avatar thành công!',
+        variant: 'success'
+      })
+      setPreview(null)
     } catch (error) {
       console.error(error)
+      toast({
+        title: 'Có lỗi xảy ra!',
+        description: 'Không thể cập nhật',
+        variant: 'destructive'
+      })
     }
   }
 
-  useEffect(() => {
-    form.reset({ image: user?.avatar })
-  }, [user])
-
   return (
-    <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit md:h-[498px]'>
-      <div className='relative'>
-        <AvatarAccount src={user?.avatar || '/images/avatar.png'} className='h-20 w-20 mx-auto' />
-        <div className='bg-black border-[2px] border-white rounded-full w-[30px] h-[30px] flex justify-center items-center absolute top-14 right-20 hover:opacity-80 transition transform duration-200'>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
+    <aside className='py-10 px-4 bg-[#f3f5f7] rounded-lg w-full h-fit mb-24 static xl:sticky xl:top-32'>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <div className='relative w-20 h-20 mx-auto'>
+            <AvatarAccount
+              src={
+                user?.avatar ||
+                'https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8='
+              }
+              className='h-20 w-20 mx-auto'
+            />
+            <div className='bg-black border-[2px] border-white rounded-full w-[30px] h-[30px] flex justify-center items-center absolute top-14 right-0 hover:opacity-80 transition transform duration-200'>
               <Button size={'icon'} variant={'null'}>
                 <Camera className='text-white h-4 w-4' />
               </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>{t('image')}</AlertDialogTitle>
-              </AlertDialogHeader>
-              <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
-                <div className='flex justify-center items-center gap-x-6'>
-                  {loading ? (
-                    <Skeleton className='h-20 w-20 rounded-full' />
-                  ) : (
-                    <AvatarAccount src={preview || ''} className='h-20 w-20' />
-                  )}
-                  <div>
-                    <input
-                      disabled={isLoading}
-                      id='avatarUpload'
-                      type='file'
-                      className='hidden'
-                      onChange={onChangeImage}
-                    />
-                    <label
-                      htmlFor='avatarUpload'
-                      className='cursor-pointer text-sm border p-3 rounded-md border-zinc-400'
-                    >
-                      {t('upload')}
-                    </label>
-                  </div>
-                </div>
-                <Separator />
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
-                  <AlertDialogAction type='submit'>{t('save')}</AlertDialogAction>
-                </AlertDialogFooter>
-              </form>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
-        <p className='text-xl font-semibold text-center mt-2'>{user?.name}</p>
-      </div>
+            </div>
+          </div>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('image')}</AlertDialogTitle>
+          </AlertDialogHeader>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
+            <div className='flex justify-center items-center gap-x-6'>
+              {loading ? (
+                <Skeleton className='h-20 w-20 rounded-full' />
+              ) : (
+                <AvatarAccount src={preview || user?.avatar || ''} className='h-20 w-20' />
+              )}
+              <div>
+                <Input disabled={loading} id='avatarUpload' type='file' className='hidden' onChange={onChangeImage} />
+                <Label
+                  htmlFor='avatarUpload'
+                  className='cursor-pointer text-sm border p-3 rounded-md border-zinc-400'
+                  aria-disabled={loading}
+                >
+                  {t('upload')}
+                </Label>
+              </div>
+            </div>
+            <Separator />
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={loading} onClick={() => setPreview(null)}>
+                {t('cancel')}
+              </AlertDialogCancel>
+              <AlertDialogAction disabled={loading} type='submit'>
+                {t('save')}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </form>
+        </AlertDialogContent>
+      </AlertDialog>
+      <p className='text-xl font-semibold text-center mt-2'>{user?.name}</p>
       <div className='mt-10'>
-        <ul className='*:text-base *:font-semibold *:py-2 *:my-[6px] hidden md:flex flex-col'>
+        <ul className='*:text-base *:font-semibold hidden md:flex flex-col gap-y-6'>
           <li className='*:flex'>
             <NavLink
               to='/account'
@@ -128,6 +140,18 @@ const SidebarAccount = () => {
               }
             >
               {t('account')}
+            </NavLink>
+          </li>
+          <li className='*:flex'>
+            <NavLink
+              to='/account/change-password'
+              className={({ isActive }) =>
+                isActive
+                  ? 'text-black font-bold border-b-[1.5px] border-black'
+                  : 'text-neutral-400 hover:text-black transition'
+              }
+            >
+              {t('changePass')}
             </NavLink>
           </li>
           <li className='*:flex'>

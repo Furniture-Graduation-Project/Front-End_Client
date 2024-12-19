@@ -14,7 +14,6 @@ import { formatCurrency } from '@/utils/formatCurrency'
 
 const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { user } = useAuthContext()
-
   const { t } = useTranslate('header.cartHeader')
   const queryClient = useQueryClient()
   const [amount, setAmount] = useState(0)
@@ -25,6 +24,7 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
   const { mutate: decreaseQuantity } = useCartMutation('DECREASE')
   const navigate = useNavigate()
   const { toast } = useToast()
+
   useEffect(() => {
     if (cartData && cartData.data && cartData.data.carts) {
       setAmount(
@@ -59,12 +59,28 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
   }
 
   const handleDecreaseQuantity = (item: any) => {
-    if (item.quantity > 1 && user) {
+    if (item.quantity <= 1) {
+      toast({
+        title: t('Giới hạn số lượng'),
+        description: t('Không thể giảm số lượng xuống dưới 1.'),
+        variant: 'default'
+      })
+      return
+    }
+
+    if (user) {
       decreaseQuantity(
         { productId: item.productId._id, productOptionId: item.productOptionId._id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
+          },
+          onError: (error) => {
+            toast({
+              title: t('decreaseError'),
+              description: error.message,
+              variant: 'default'
+            })
           }
         }
       )
@@ -90,6 +106,7 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
       )
     }
   }
+
   function onSubmit() {
     if (cartData && cartData.data && cartData.data.carts && cartData.data.carts.length > 0) {
       const stateOrder = cartData.data.carts
@@ -159,12 +176,18 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                               <X className='text-neutral-4 w-[14px] h-[14px]' strokeWidth={2} /> Loại bỏ
                             </Button>
                           </div>
-                          <div className='h-24 w-24 flex-shrink-0 rounded-md border border-neutral-3'>
+
+                          <div className='relative h-24 w-24 flex-shrink-0 rounded-md border border-neutral-3'>
                             <img
                               src={item.productOptionId.image}
                               alt={item.productId.name}
                               className='h-full w-full object-cover object-center'
                             />
+                            <h6
+                              className={`bg-neutral-3/50 absolute bottom-0 left-0 w-full text-center text-xs font-semibold py-1 ${item.productOptionId.stock - item.productOptionId.outStock <= 20 ? 'inline' : 'hidden'}`}
+                            >
+                              Sắp hết hàng
+                            </h6>
                           </div>
 
                           <div className='ml-4 flex flex-1 flex-col'>
@@ -176,13 +199,13 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                                 <p className='ml-4 text-[#121212]'>{formatCurrency(item.productOptionId.price)}</p>
                               </div>
                               <div className='flex flex-1 justify-between items-center mt-1'>
-                                <p className='text-[12px] text-[#6C7275]'>
+                                <div className='text-[12px] text-neutral-7 flex flex-col'>
                                   {item.productOptionId.variants.map((variant: any, id: number) => (
                                     <span key={id}>
                                       {variant.variant}: {variant.value}
                                     </span>
                                   ))}
-                                </p>
+                                </div>
                                 <button
                                   type='button'
                                   onClick={() => handleDeleteItem(item)}

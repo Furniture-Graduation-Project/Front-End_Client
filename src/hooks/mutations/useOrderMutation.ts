@@ -4,6 +4,7 @@ import { OrderService } from '@/services/order'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import { useToast } from '../use-toast'
+import { useTranslate } from '../useTranslate'
 
 type MutationQueryProps = {
   action: 'CREATE' | 'UPDATE' | 'DELETE' | 'CHECK' | 'CREATE_QR' | 'PAYMENT'
@@ -11,6 +12,7 @@ type MutationQueryProps = {
 
 const useOrderMutation = ({ action }: MutationQueryProps) => {
   const { toast } = useToast()
+  const { t } = useTranslate('checkout.form')
   const query = useQueryClient()
   const mutationFn = async (
     data: any
@@ -32,7 +34,6 @@ const useOrderMutation = ({ action }: MutationQueryProps) => {
             return await OrderService.payment(data._id, data)
           }
           throw new Error('Order ID is required for update')
-
         case 'UPDATE':
           if (data._id) {
             return await OrderService.update(data._id, data)
@@ -47,7 +48,6 @@ const useOrderMutation = ({ action }: MutationQueryProps) => {
           throw new Error('Invalid action')
       }
     } catch (error) {
-      console.error(`Error during ${action} action:`, error)
       throw error
     }
   }
@@ -58,12 +58,10 @@ const useOrderMutation = ({ action }: MutationQueryProps) => {
     onSuccess: () => {
       query.invalidateQueries({ queryKey: ['ORDER'] })
     },
-    onError: (error: any) => {
-      const message = error?.response?.data?.message || 'Có lỗi xảy ra khi cập nhật đơn hàng !'
+    onError: () => {
       toast({
-        title: 'Có lỗi xảy ra!',
-        description: message,
-        variant: 'destructive'
+        title: t('error'),
+        description: t('description')
       })
       query.invalidateQueries({ queryKey: ['ORDER'] })
     }

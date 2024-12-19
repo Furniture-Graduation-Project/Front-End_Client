@@ -7,6 +7,11 @@
     "passwordPlaceholder": "Password",
     "remember": "Remember me",
     "forgotPassword": "Forgot password?",
-    "signinButton": "Sign In"
+    "signinButton": "Sign In",
+    "invalidEmail": "Invalid email",
+    "invalidPassword": "Invalid password",
+    "signinGoogle": "Sign in with Google",
+    "signinFacebook": "Sign in with Facebook",
+    "or": "Or"
   }
 }

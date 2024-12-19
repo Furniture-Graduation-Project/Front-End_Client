@@ -11,6 +11,18 @@
     "privacyPolicyLink": "Chính Sách Bảo Mật",
     "andTermsOfUse": "và",
     "termsOfUseLink": "Điều Khoản Sử Dụng",
-    "signupButton": "Đăng Ký"
+    "signupButton": "Đăng Ký",
+    "nameValidate": "Tên đầy đủ phải có ít nhất 3 ký tự.",
+    "emailValidate": "Địa chỉ email không hợp lệ.",
+    "passwordValidate": "Mật khẩu phải có ít nhất 9 ký tự.",
+    "check": "Vui lòng chấp nhận các điều khoản và điều kiện.",
+    "confirmPass": "Mật khẩu không khớp.",
+    "success": "Đăng ký thành công!",
+    "error": "Đăng ký thất bại!",
+    "successDescription": "Bạn đã đăng ký thành công.",
+    "errorDescription": "Đăng ký thất bại. Vui lòng thử lại.",
+    "signinGoogle": "Đăng nhập bằng Google",
+    "signinFacebook": "Đăng nhập bằng Facebook",
+    "or": "Hoặc"
   }
 }

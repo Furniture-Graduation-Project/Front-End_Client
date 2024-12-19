@@ -4,260 +4,266 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '@/components/ui/dialog'
-import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Textarea } from '@/components/ui/textarea'
-import { Flame, Headphones, Heart, Smile, ThumbsUp } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import AdditionalInfo from './AdditionalInfo'
-import { ICreateReview, IReview } from '@/interface/review'
+import { IReview } from '@/interface/review'
 import { useReviewQuery } from '@/hooks/queries/useReviewQuery'
 import { useReviewMutation } from '@/hooks/mutations/useReviewMutation'
 import { useTranslate } from '@/hooks/useTranslate'
-import { useAuthContext } from '../../../../context/AuthContext'
-import { Toast, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from '@radix-ui/react-toast'
+import { useAuthContext } from '@/context/AuthContext'
+import { Input } from '@/components/ui/input'
+import { ArrowRight, Star } from 'lucide-react'
+import { useForm, Controller } from 'react-hook-form'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { PaginationState } from '@tanstack/react-table'
+import { AvatarNull } from '@/assets'
+import { Link } from 'react-router-dom'
+import { badWords } from '@/assets/data/badWords'
 
-export default function Review({ data }: { data: any }) {
-  const { user } = useAuthContext()
+const Review = ({ data }: any) => {
   const { t } = useTranslate('productDetail')
-  const productId = data?.data?._id
-  const [notification, setNotification] = useState<string | null>(null)
-  const { data: reviewList = [], isLoading, refetch } = useReviewQuery(undefined, productId)
-  const { mutate: addReview } = useReviewMutation('CREATE')
-  const [newReview, setNewReview] = useState<ICreateReview>({
-    userId: user?._id,
-    rating: 5,
-    reviewText: ''
+  const { user } = useAuthContext()
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 5
+  })
+  const { data: reviewList, isLoading, isError, refetch } = useReviewQuery(data?.data?._id || '', pagination)
+  const { mutate } = useReviewMutation()
+  const [averageRating, setAverageRating] = useState<string>('5')
+  const reviewSchema = z.object({
+    reviewText: z.string().min(5, t('reviewMustBeAtLeast5CharactersLong')),
+    rating: z.number().min(1).max(5, t('ratingMustBeBetween1And5'))
   })
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const reviewsPerPage = 5
+  type ReviewFormData = z.infer<typeof reviewSchema>
+  const {
+    control,
+    handleSubmit,
+    reset,
+    trigger,
+    getValues,
+    setError,
+    formState: { errors }
+  } = useForm<ReviewFormData>({
+    resolver: zodResolver(reviewSchema),
+    defaultValues: {
+      reviewText: '',
+      rating: 5
+    }
+  })
+  const [selectedRating, setSelectedRating] = useState<number>(5)
+  const [open, setOpen] = useState(false)
 
-  const calculateAverageRating = (reviews: IReview[]) => {
-    if (reviews.length === 0) return 0
-    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0)
-    return (totalRating / reviews.length).toFixed(1)
-  }
-
-  const averageRating = calculateAverageRating(reviewList)
-
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-
-  const handleSubmitReview = (e: React.FormEvent) => {
-    e.preventDefault()
-    addReview({
-      data: { ...newReview, productId },
-      onSuccess: () => {
-        setNewReview({ userId: user?._id, rating: 5, reviewText: '' })
-        setNotification('Bạn đã gửi đánh giá thành công!')
-        setIsDialogOpen(false)
+  const handleReviewSubmit = (form: ReviewFormData) => {
+    if (user && data) {
+      const newReview = {
+        userId: user._id,
+        productId: data?.data?._id as string,
+        rating: selectedRating,
+        reviewText: form.reviewText
       }
-    } as { data: ICreateReview; onSuccess?: () => void })
+      mutate(newReview)
+      reset()
+      setOpen(false)
+    }
+  }
+  const hanleWriteReview = async () => {
+    const isValid = await trigger('reviewText')
+
+    if (!isValid) {
+      return
+    }
+    const reviewText = getValues('reviewText')
+    const containsBadWord = badWords.some((word: string) => reviewText.toLowerCase().includes(word.toLowerCase()))
+
+    if (containsBadWord) {
+      setError('reviewText', {
+        type: 'manual',
+        message: t('errorReview')
+      })
+      return
+    }
+
+    setOpen(true)
   }
 
-  const sortedReviews = Array.isArray(reviewList)
-    ? reviewList.sort((a: IReview, b: IReview) => {
-        if (a.createdAt && b.createdAt) {
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        }
-        return 0
-      })
-    : []
-  const indexOfLastReview = currentPage * reviewsPerPage
-  const indexOfFirstReview = indexOfLastReview - reviewsPerPage
-  const currentReviews = Array.isArray(reviewList) ? reviewList.slice(indexOfFirstReview, indexOfLastReview) : []
+  useEffect(() => {
+    setAverageRating('5')
+    if (reviewList?.data) {
+      const totalRating = reviewList?.data.reduce((sum, review) => sum + review.rating, 0)
+      const averageRating = (totalRating / reviewList?.data.length).toFixed(1)
+      setAverageRating(averageRating)
+    }
+  }, [reviewList?.data])
 
-  const totalPages =
-    Array.isArray(reviewList) && reviewList.length > 0 ? Math.ceil(reviewList.length / reviewsPerPage) : 1
+  useEffect(() => {
+    refetch()
+  }, [pagination])
 
   return (
-    <>
-      <ToastProvider>
-        {notification && (
-          <Toast>
-            <ToastTitle>{notification}</ToastTitle>
-            <ToastDescription>{t('Your review has been submitted successfully!')}</ToastDescription>
-          </Toast>
-        )}
-        <ToastViewport />
-        <Tabs defaultValue='reviews' className='w-full'>
-          <TabsList className='border-b rounded-none w-full justify-start h-auto p-0 bg-transparent'>
-            <TabsTrigger
-              value='info'
-              className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent'
-            >
-              {t('Additional Info')}
-            </TabsTrigger>
-            <TabsTrigger
-              value='reviews'
-              className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent'
-            >
-              {t('Reviews')}
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value='info' className='mt-6'>
-            <AdditionalInfo productId={productId} />
-          </TabsContent>
-
-          <TabsContent value='reviews' className='mt-6'>
-            <div className='space-y-8'>
-              <div>
-                <h2 className='text-2xl font-semibold mb-2'> {t('Customer Reviews')}</h2>
-                <div className='flex items-center gap-2 mb-4'>
-                  <div className='flex'>
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <svg
-                        key={star}
-                        className={`w-5 h-5 ${star <= Number(averageRating) ? 'fill-primary' : 'text-muted-foreground'}`}
-                        viewBox='0 0 20 20'
-                        fill='currentColor'
-                      >
-                        <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className='text-sm text-muted-foreground'>
-                    {' '}
-                    {t('Average Rating')} {averageRating}/5
-                  </span>
-                </div>
+    <Tabs defaultValue='reviews' className='w-full'>
+      <TabsList className='border-b rounded-none w-full justify-start h-auto p-0 bg-transparent'>
+        <TabsTrigger
+          value='info'
+          className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary'
+        >
+          {t('Additional Info')}
+        </TabsTrigger>
+        <TabsTrigger
+          value='reviews'
+          className='rounded-none border-b-2 border-transparent data-[state=active]:border-primary'
+        >
+          {t('Reviews')}
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value='info' className='mt-6'>
+        <AdditionalInfo data={data} />
+      </TabsContent>
+      <TabsContent value='reviews' className='mt-6'>
+        <div className='space-y-8'>
+          <div>
+            <h2 className='text-2xl font-semibold mb-2'>{t('Customer Reviews')}</h2>
+            <div className='flex items-center gap-2 mb-4'>
+              <div className='flex gap-1'>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star fill={star <= Math.round(+averageRating) ? '#000000' : 'none'} key={star} size={16} />
+                ))}
               </div>
-
-              <div className='flex items-center justify-between'>
-                <div className='flex gap-2'>
-                  <Button variant='outline' size='icon'>
-                    <Heart className='w-4 h-4' />
-                  </Button>
-                  <Button variant='outline' size='icon'>
-                    <Headphones className='w-4 h-4' />
-                  </Button>
-                  <Button variant='outline' size='icon'>
-                    <ThumbsUp className='w-4 h-4' />
-                  </Button>
-                  <Button variant='outline' size='icon'>
-                    <Smile className='w-4 h-4' />
-                  </Button>
-                  <Button variant='outline' size='icon'>
-                    <Flame className='w-4 h-4' />
-                  </Button>
-                </div>
-
-                {user ? (
-                  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button onClick={() => setIsDialogOpen(true)}>{t('Write Review')}</Button>
-                    </DialogTrigger>
-                    <DialogContent className='sm:max-w-[425px]'>
-                      <DialogHeader>
-                        <DialogTitle>{t('Write a Review')}</DialogTitle>
-                        <DialogDescription>
-                          {t('Share your thoughts about the product. Your review will be visible to other customers.')}
-                        </DialogDescription>
-                      </DialogHeader>
-                      <form onSubmit={handleSubmitReview} className='grid gap-4 py-4'>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                          <Label htmlFor='rating' className='text-right'>
-                            {t('Rating')}
-                          </Label>
-                          <Select
-                            value={newReview.rating.toString()}
-                            onValueChange={(value) => setNewReview({ ...newReview, rating: parseInt(value) })}
-                          >
-                            <SelectTrigger className='col-span-3'>
-                              <SelectValue placeholder='Select a rating' />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {[1, 2, 3, 4, 5].map((rating) => (
-                                <SelectItem key={rating} value={rating.toString()}>
-                                  {rating} Star{rating > 1 ? 's' : ''}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                          <Label htmlFor='review' className='text-right'>
-                            {t('Review')}
-                          </Label>
-                          <Textarea
-                            id='review'
-                            value={newReview.reviewText}
-                            onChange={(e) => setNewReview({ ...newReview, reviewText: e.target.value })}
-                            className='col-span-3'
-                          />
-                        </div>
-                        <Button onClick={() => setIsDialogOpen(false)} type='submit' className='ml-auto'>
-                          {t('Submit Review')}
-                        </Button>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
-                ) : (
-                  <Button disabled>{t('Please log in to write a review')}</Button>
-                )}
-              </div>
-
-              <div className='space-y-8'>
-                {isLoading ? (
-                  <p>Loading reviews...</p>
-                ) : (
-                  Array.isArray(currentReviews) &&
-                  currentReviews.map((review: IReview) => (
-                    <div key={review.id} className='space-y-4'>
-                      <div className='flex items-center gap-4'>
-                        <Avatar>
-                          <AvatarImage src={review.userId?.avatar} alt={review.userId?.name || 'User  Avatar'} />
-                          <AvatarFallback>{review.userId?.name ? review.userId.name.charAt(0) : '?'}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <h3 className='font-semibold'>{review.userId.name}</h3>
-                          <div className='flex'>
-                            {Array.from({ length: review.rating }).map((_, i) => (
-                              <svg key={i} className='w-4 h-4 fill-primary' viewBox='0 0 20 20' fill='currentColor'>
-                                <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                              </svg>
-                            ))}
-                          </div>
-                          <p className='text-sm text-muted-foreground'>
-                            {review.createdAt
-                              ? `${new Date(review.createdAt).toLocaleDateString('vi-VN', { weekday: 'long' })}, ${new Date(review.createdAt).getDate()} tháng ${new Date(review.createdAt).getMonth() + 1}, ${new Date(review.createdAt).getFullYear()}`
-                              : 'Ngày không xác định'}
-                          </p>
-                        </div>
-                      </div>
-                      <p className='text-muted-foreground'>{review.reviewText}</p>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              <div className='flex justify-between mt-4'>
-                <Button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
-                  {t('Previous')}
-                </Button>
-                <Button
-                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                  disabled={currentPage === totalPages}
-                >
-                  {t('Next')}
-                </Button>
-              </div>
-
-              <div className='flex justify-center mt-4'>
-                <p>
-                  {t('Page')} {currentPage} {t('of')} {totalPages}
-                </p>
-              </div>
+              <span className='text-sm text-muted-foreground'>
+                {t('Average Rating')} {averageRating || '5'}/5
+              </span>
             </div>
-          </TabsContent>
-        </Tabs>
-      </ToastProvider>
-    </>
+          </div>
+          <div>
+            <div className='relative'>
+              <Controller
+                disabled={!user}
+                control={control}
+                name='reviewText'
+                render={({ field }) => (
+                  <div>
+                    <Input
+                      {...field}
+                      className='p-9 border border-neutral-7'
+                      autoComplete='off'
+                      placeholder={t('writeYourReview')}
+                    />
+                  </div>
+                )}
+              />
+              {user ? (
+                <Button
+                  className='absolute right-5 top-1/2 transform -translate-y-1/2 rounded-full button-s'
+                  onClick={() => hanleWriteReview()}
+                >
+                  <span className='hidden sm:block'>{t('Write Review')}</span>
+                  <ArrowRight className='block sm:hidden' />
+                </Button>
+              ) : (
+                <Link to='/signin' className='absolute right-5 top-1/2 transform -translate-y-1/2 '>
+                  <Button variant={'outline'} className='rounded-full button-s'>
+                    {t('loginToWriteAReview')}
+                  </Button>
+                </Link>
+              )}
+            </div>
+            {errors.reviewText && <p className='text-red text-sm mt-1'>{errors.reviewText.message}</p>}
+          </div>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className='sm:max-w-[425px]'>
+              <DialogHeader>
+                <DialogTitle>{t('productReview')}</DialogTitle>
+                <DialogDescription>{t('pleaseEnterYourReviewForTheProduct')}</DialogDescription>
+              </DialogHeader>
+              <DialogFooter className='flex justify-between'>
+                <div className='flex items-center gap-2 mr-10'>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      className={`w-6 h-6 cursor-pointer ${
+                        star <= selectedRating ? 'text-yellow fill-current' : 'text-neutral-950 fill-none'
+                      }`}
+                      onClick={() => setSelectedRating(star)}
+                    />
+                  ))}
+                </div>
+                <Button onClick={handleSubmit(handleReviewSubmit)}>{t('Submit Review')}</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          <h2 className='headline-6'>
+            {reviewList?.totalData ? reviewList?.totalData : 0} {t('Reviews')}
+          </h2>
+          <div className='space-y-8'>
+            {isLoading ? (
+              <p>{t('Loading reviews...')}</p>
+            ) : isError ? (
+              <p>{t('Failed to load reviews')}</p>
+            ) : (
+              reviewList?.data &&
+              reviewList?.data.length > 0 &&
+              reviewList?.data.map((review: IReview) => (
+                <div key={review._id} className='space-y-4 border-b pb-4'>
+                  <div className='grid grid-cols-[72px_1fr] gap-4'>
+                    <Avatar className='h-16 w-16'>
+                      {review.userId ? (
+                        <>
+                          <AvatarImage alt='avatar' src={review.userId.avatar || AvatarNull} />
+                          <AvatarFallback>{review.userId.avatar || 'N/A'}</AvatarFallback>
+                        </>
+                      ) : (
+                        <>
+                          <AvatarImage alt='avatar' src={AvatarNull} />
+                          <AvatarFallback>N/A</AvatarFallback>
+                        </>
+                      )}
+                    </Avatar>
+
+                    <div>
+                      <h3 className='text-neutral-7 body-1-semi mb-4'>
+                        {review.userId ? review.userId.name : t('anonymousUser')}
+                      </h3>
+                      <div className='flex gap-1'>
+                        {Array.from({ length: review.rating }).map((_, i) => (
+                          <Star fill='#000000' key={i} size={16} />
+                        ))}
+                      </div>
+                    </div>
+                    <div className='hidden md:block'></div>
+                    <p className='body-2 text-neutral-5 col-span-2 md:col-span-1'>{review.reviewText}</p>
+                  </div>
+                </div>
+              ))
+            )}
+            <div
+              className={` justify-center ${reviewList?.totalData && reviewList?.totalData > pagination.pageSize ? 'flex' : 'hidden'}`}
+            >
+              <Button
+                className='rounded-full px-10'
+                variant={'outline'}
+                onClick={() =>
+                  setPagination((p) => {
+                    return {
+                      ...p,
+                      pageSize: p.pageSize + 5
+                    }
+                  })
+                }
+              >
+                Tải thêm
+              </Button>
+            </div>
+          </div>
+        </div>
+      </TabsContent>
+    </Tabs>
   )
 }
+
+export default Review

@@ -8,7 +8,7 @@ const Footer = () => {
   const { t } = useTranslate('footer')
 
   return (
-    <div className='flex sm:h-[250px] h-auto bg-neutral-6 sm:bg-neutral-7 text-neutral-1 p-10 sm:p-0'>
+    <div className='flex sm:h-[250px] h-auto bg-neutral-6 sm:bg-neutral-7 text-neutral-1 mt-10 sm:mt-0 p-10 sm:p-0'>
       <Container className='flex flex-col justify-center'>
         {/* Top Section */}
         <div className='flex sm:justify-between sm:flex-row flex-col items-center caption-1'>
@@ -24,11 +24,11 @@ const Footer = () => {
             <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/'>
               {t('home')}
             </NavLink>
-            <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/shop'>
+            {/* <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/shop'>
               {t('shop')}
-            </NavLink>
+            </NavLink> */}
             <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/product'>
-              {t('product')}
+              {t('products')}
             </NavLink>
             <NavLink className='sm:mr-10 sm:mb-0 mb-5 hover:opacity-80 transition duration-200' to='/blog'>
               {t('blog')}
@@ -38,9 +38,9 @@ const Footer = () => {
             </NavLink>
           </div>
         </div>
-        <div className='flex justify-center items-center flex-col-reverse sm:flex-row sm:justify-between text-[12px] pt-3 border-t border-t-neutral-4 mt-[40px]'>
+        <div className='flex justify-center items-center flex-col-reverse sm:flex-row sm:justify-between text-[12px] pt-6 border-t border-t-neutral-4 mt-[40px]'>
           <div className='flex sm:mr-6 items-center mt-5 sm:mt-0 space-x-7'>
-            <p className='text-[12px] text-neutral-3'>{t('copyright')}</p>
+            <p className='text-[12px] text-neutral-3 text-center'>{t('copyright')}</p>
             <Link className='sm:block hidden' to='/privacy-policy'>
               {t('privacyPolicy')}
             </Link>
@@ -56,7 +56,7 @@ const Footer = () => {
               {t('termsOfUse')}
             </Link>
           </div>
-          <div className='flex mt-5 sm:mt-08 space-x-5'>
+          <div className='flex mt-5 sm:mt-0 space-x-5'>
             <Instagram />
             <Facebook />
             <Youtube />

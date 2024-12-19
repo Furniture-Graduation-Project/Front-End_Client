@@ -20,6 +20,7 @@ export function DeleteAccount({ id }: DeleteAccountProps) {
   const onDelete = async () => {
     try {
       await AuthService.delete(id)
+      window.location.href = '/'
     } catch (error) {
       console.error(error)
     }

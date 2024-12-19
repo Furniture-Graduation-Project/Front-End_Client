@@ -1,5 +1,11 @@
+import WishlistTable from './components/WishlistTable'
+
 const AccountWishlist = () => {
-  return <div>AccountWishlist</div>
+  return (
+    <div>
+      <WishlistTable />
+    </div>
+  )
 }
 
 export default AccountWishlist

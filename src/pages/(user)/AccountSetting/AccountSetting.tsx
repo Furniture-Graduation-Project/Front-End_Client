@@ -3,7 +3,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { useAuthContext } from '@/context/AuthContext'
 import useAccountMutation from '@/hooks/mutations/useUserMutation'
-import { toast } from '@/hooks/use-toast'
 import { useTranslate } from '@/hooks/useTranslate'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
@@ -11,32 +10,21 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { DeleteAccount } from './DeleteAccount'
 
-const formSchema = z
-  .object({
-    name: z.string().min(1, 'Name is required'),
-    email: z.string().min(1, 'Email is required'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
-    newPassword: z.string().min(6, 'New Password must be at least 6 characters').optional(),
-    confirmPassword: z.string().min(6, 'Confirm Password must be at least 6 characters').optional()
-  })
-  .refine(
-    (data) => {
-      if (data.newPassword) {
-        return data.newPassword === data.confirmPassword
-      }
-      return true
-    },
-    {
-      message: 'New Password and Confirm Password must match',
-      path: ['confirmPassword']
-    }
-  )
-
 export default function AccountDetail() {
   const [change, setChange] = useState(true)
-  const [showPassword, setShowPassword] = useState(false)
   const { user } = useAuthContext()
   const { t } = useTranslate('account.detail')
+
+  const formSchema = z.object({
+    name: z.string().min(1, t('nameValidate')),
+    email: z
+      .string()
+      .email({
+        message: t('emailValidate2')
+      })
+      .min(1, t('emailValidate')),
+    password: z.string().min(6, t('passwordValidate'))
+  })
 
   const { mutate } = useAccountMutation({ action: 'UPDATE' })
 
@@ -52,42 +40,17 @@ export default function AccountDetail() {
   }, [user])
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    try {
-      if (showPassword) {
-        if (!data.newPassword || !data.confirmPassword || data.newPassword !== data.confirmPassword) {
-          toast({
-            title: 'Error',
-            description: 'New Password and Confirm Password must match',
-            variant: 'destructive'
-          })
-          return
-        }
-      } else {
-        delete data.newPassword
-        delete data.confirmPassword
-      }
-
-      if (user?._id) {
-        const payload = { ...data, _id: user._id }
-        mutate(payload)
-        setChange(true)
-        form.reset({
-          name: user?.name,
-          email: user?.email,
-          password: '',
-          newPassword: '',
-          confirmPassword: ''
-        })
-      } else {
-        console.error('User ID is undefined')
-      }
-    } catch (error) {
-      console.error(error)
-      toast({
-        title: 'Error',
-        description: 'Update failed',
-        variant: 'destructive'
+    if (user?._id) {
+      const payload = { ...data, _id: user._id }
+      mutate(payload)
+      setChange(true)
+      form.reset({
+        name: user?.name,
+        email: user?.email,
+        password: ''
       })
+    } else {
+      console.error('User ID is undefined')
     }
   }
 
@@ -123,56 +86,24 @@ export default function AccountDetail() {
             </FormItem>
           )}
         />
-        {showPassword ? (
-          <>
-            <p className='text-xl font-semibold'>{t('pass')}</p>
-            {['password', 'newPassword', 'confirmPassword'].map((fieldName) => (
-              <FormField
-                key={fieldName}
-                control={form.control}
-                name={fieldName as 'password' | 'newPassword' | 'confirmPassword'}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t(fieldName)}</FormLabel>
-                    <FormControl>
-                      <Input disabled={change} placeholder={t(fieldName)} type='password' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
-          </>
-        ) : (
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('pass')}</FormLabel>
-                <FormControl>
-                  <Input disabled={change} placeholder={t('pass')} type='password' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
+        <FormField
+          control={form.control}
+          name='password'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t('pass')}</FormLabel>
+              <FormControl>
+                <Input disabled={change} placeholder={t('pass')} type='password' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <Button className='mr-4' type='button' variant={'outline'} onClick={() => setChange(!change)}>
           {t('change')}
         </Button>
-        <Button
-          className='mr-4'
-          type='button'
-          variant={'outline'}
-          onClick={() => {
-            setShowPassword(!showPassword)
-            setChange(!change)
-          }}
-        >
-          {t('changePass')}
-        </Button>
+
         <Button disabled={change} type='submit'>
           {t('submit')}
         </Button>

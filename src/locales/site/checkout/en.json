@@ -22,8 +22,18 @@
       "submit": "Place Order",
       "errorOrder": "Go back to cart",
       "tryAgain": "Try again",
+      "setDefault": "Set as default address",
+      "setDefaultDes": "Set this address as default for your shipping needs",
+      "successTitle": "Success!",
+      "errorTitle": "Error!",
+      "successDes": "Create address successfully!",
+      "errorDes": "Create address failed!",
+      "updateDes": "Update address successfully!",
+      "updateErrorDes": "Update address failed!",
       "paymentSuccessTitle": "Payment successful!",
-      "paymentSuccessDescription": "Success! You will be redirected to the order page in 3 seconds."
+      "paymentSuccessDescription": "Success! You will be redirected to the order page in 3 seconds.",
+      "error": "Error with action to order",
+      "description": "An error occurred, we will try to fix it as soon as possible"
     },
     "order": {
       "title": "Order Summary",
@@ -45,6 +55,14 @@
       "errorTitle": "An error occurred while fetching your cart!",
       "retryAction": "Retry",
       "retryAltText": "Try again"
+    },
+    "address": {
+      "title": "Shipping Address",
+      "noAddress": "No default address!",
+      "default": "Default",
+      "change": "Change",
+      "list": "Address List",
+      "close": "Close"
     }
   }
 }

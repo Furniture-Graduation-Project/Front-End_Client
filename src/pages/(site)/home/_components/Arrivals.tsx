@@ -6,6 +6,7 @@ import ProductCard from '@/components/site/ProductCard'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { useTranslate } from '@/hooks/useTranslate'
 import { useProductListQuery } from '@/hooks/queries/useProductQuery'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export function CarouselSize() {
   const { t } = useTranslate('home.carousel')
@@ -13,7 +14,13 @@ export function CarouselSize() {
   const { data: products, isLoading, isError } = useProductListQuery(undefined, true)
 
   if (isLoading) {
-    return <div>Đang tải...</div>
+    return (
+      <>
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Skeleton key={index} className='h-[300px]' />
+        ))}
+      </>
+    )
   }
 
   if (isError) {
@@ -24,7 +31,7 @@ export function CarouselSize() {
   })
 
   return (
-    <Container className='sm:px-0 px-8'>
+    <Container className='lg:px-0 px-8'>
       <div className='flex justify-between *:font-medium mb-12 mt-9'>
         <div className='headline-4'>
           <h1>
@@ -41,8 +48,8 @@ export function CarouselSize() {
       <Carousel opts={{ align: 'start' }} className='w-full'>
         <CarouselContent className='-ml-[30px]'>
           {sortedProducts?.map((product) => (
-            <CarouselItem key={product._id} className='basis-1 md:basis-1/2 lg:basis-1/4 pl-[30px]'>
-              <ProductCard product={product} />
+            <CarouselItem key={product._id} className='basis-1/1 md:basis-1/2 lg:basis-1/4 pl-[30px]'>
+              <ProductCard height='300px' product={product} />
             </CarouselItem>
           ))}
         </CarouselContent>

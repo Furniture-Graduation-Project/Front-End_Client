@@ -4,6 +4,7 @@ import routes from '@/routes'
 import ScrollToTopButton from '@/components/ui/ScrollToTopButton'
 import { Toaster } from '@/components/ui/toaster'
 import { IRoute } from './interface/route'
+
 const renderRoutes = (routes: IRoute[]) =>
   routes.map(({ path, component: Component, layout: Layout, children }: IRoute) => (
     <Route

@@ -1,13 +1,12 @@
 import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from '@/components/ui/alert-dialog'
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { MapPinPlus, PencilIcon, Trash2 } from 'lucide-react'
 import { useState } from 'react'
@@ -29,6 +28,7 @@ export function AddressPopover({
   const [isOpen, setIsOpen] = useState(false)
   const { user } = useAuthContext()
   const { mutate } = useAddressMutation({ action: 'DELETE' })
+
   const { t } = useTranslate('account.order.address')
 
   const handleDelete = () => {
@@ -40,68 +40,69 @@ export function AddressPopover({
   }
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       {update && (
-        <AlertDialogTrigger asChild>
+        <DialogTrigger asChild>
           <Button variant='ghost' size='icon' className='h-8 w-8'>
             <PencilIcon className='h-4 w-4 text-muted-foreground' />
             <span className='sr-only'>{t('updateButton')}</span>{' '}
           </Button>
-        </AlertDialogTrigger>
+        </DialogTrigger>
       )}
 
       {onDelete && (
-        <AlertDialogTrigger asChild>
+        <DialogTrigger asChild>
           <Button variant='ghost' size='icon' className='h-8 w-8'>
             <Trash2 className='h-4 w-4 text-muted-foreground  text-rose-500' />
             <span className='sr-only'>{t('deleteButton')}</span>
           </Button>
-        </AlertDialogTrigger>
+        </DialogTrigger>
       )}
 
       {!update && !onDelete && (
-        <AlertDialogTrigger asChild>
-          <Button size={'sm'} variant={'default'} onClick={() => setIsOpen(true)}>
+        <DialogTrigger asChild>
+          <Button className='w-full md:w-auto' size={'sm'} variant={'default'} onClick={() => setIsOpen(true)}>
             <MapPinPlus className='mr-2 w-4 h-4' />
             {t('addAddress')}
           </Button>
-        </AlertDialogTrigger>
+        </DialogTrigger>
       )}
-      <AlertDialogContent>
-        <AlertDialogHeader>
+      <DialogContent className='max-w-fit'>
+        <DialogHeader>
           {update && (
             <>
-              <AlertDialogTitle>{t('editAddressTitle')}</AlertDialogTitle>
-              <AlertDialogDescription>{t('editAddressDescription')}</AlertDialogDescription>
+              <DialogTitle>{t('editAddressTitle')}</DialogTitle>
+              <DialogDescription>{t('editAddressDescription')}</DialogDescription>
             </>
           )}
           {onDelete && (
             <>
-              <AlertDialogTitle>{t('deleteAddressTitle')}</AlertDialogTitle>
-              <AlertDialogDescription>{t('deleteAddressDescription')}</AlertDialogDescription>
+              <DialogTitle>{t('deleteAddressTitle')}</DialogTitle>
+              <DialogDescription>{t('deleteAddressDescription')}</DialogDescription>
             </>
           )}
           {!update && !onDelete && (
             <>
-              <AlertDialogTitle>{t('addAddress')}</AlertDialogTitle>
-              <AlertDialogDescription>{t('des')}</AlertDialogDescription>
+              <DialogTitle>{t('addAddress')}</DialogTitle>
+              <DialogDescription>{t('des')}</DialogDescription>
             </>
           )}
-        </AlertDialogHeader>
+        </DialogHeader>
         {children}
-        <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => setIsOpen(false)}>{t('cancelButton')}</AlertDialogCancel>
+        <DialogFooter>
           {onDelete ? (
             <Button onClick={() => handleDelete()} variant={'destructive'}>
-              {t('saveButton')}
+              {t('deleteButton')}
             </Button>
           ) : (
-            <Button onClick={() => setIsOpen(false)} form='addressFormId' variant={'default'}>
-              {t('saveButton')}
-            </Button>
+            <>
+              <Button onClick={() => setIsOpen(false)} form='addressFormId' variant={'default'}>
+                {t('saveButton')}
+              </Button>
+            </>
           )}
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }

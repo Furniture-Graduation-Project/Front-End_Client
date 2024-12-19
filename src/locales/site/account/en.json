@@ -10,7 +10,35 @@
       "image": "Do you want to change avatar",
       "upload": "Upload Image",
       "cancel": "Cancel",
-      "save": "Save"
+      "save": "Save",
+      "changePass": "Change Password"
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "oldPassword": "Old Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "change": "Change",
+      "passValidate": "Password must be at least 9 characters long.",
+      "newPassValidate": "New password must be at least 9 characters long.",
+      "confirmPasswordValidate": "confirmPassword must be at least 9 characters long.",
+      "confirmPasswordNotMatch": "Confirm password does not match."
+    },
+    "forgotPassword": {
+      "title": "Forgot Password?",
+      "subTitle": "Forgot Password?",
+      "description": "Don't worry, we'll help you recover your password.",
+      "submit": "Submit",
+      "otp": "OTP Verification",
+      "otpDescription": "The OTP code has been sent to your email. Please enter the OTP code to verify your account.",
+      "otpResend": "Resend OTP",
+      "changePassword": "Change Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordNotMatch": "Confirm password does not match.",
+      "save": "Save",
+      "validateNewPassword": "New password must be at least 9 characters long.",
+      "validateConfirmPassword": "Confirm password must be at least 9 characters long."
     },
     "detail": {
       "title": "My Account",
@@ -23,9 +51,14 @@
       "newPassword": "New Password",
       "confirmPassword": "Confirm Password",
       "change": "Change",
-      "submit": "Submit"
+      "submit": "Submit",
+      "emailValidate": "Email is required",
+      "emailValidate2": "Invalid email format",
+      "nameValidate": "Name is required",
+      "passwordValidate": "Password must be at least 9 characters long"
     },
     "order": {
+      "title": "Orders History",
       "status": {
         "order_status": "Order Status",
         "cancel_order": "Cancel Order",
@@ -39,11 +72,14 @@
         "unpaid": "Unpaid",
         "paymentDescription": "The order needs to be paid before it can be processed.",
         "pleaseAddProduct": "Please add products.",
-        "orderMustHaveProduct": "The cart must contain more than one product."
+        "orderMustHaveProduct": "The cart must contain more than one product.",
+        "view_return_request": "View return request",
+        "return_refund": "Return / Refund"
       },
       "address": {
         "addAddress": "Add Address",
         "noAddress": "No address added",
+        "defaultAddress": "Default",
         "des": "Add a new address to receive your order",
         "addressTitle": "Shipping Address",
         "editAddressTitle": "Edit Shipping Address",
@@ -56,9 +92,13 @@
         "orderAddressPlaceholder": "Shipping Address",
         "updateButton": "Update",
         "saveButton": "Save",
+        "setDefault": "Set location as default",
+        "deleteButton": "Delete",
         "cancelButton": "Cancel",
         "successTitle": "Success!",
         "successDescription": "You have successfully updated the shipping address.",
+        "deleteAddressTitle": "Delete Address",
+        "deleteAddressDescription": "Are you sure you want to delete this address?",
         "validation": {
           "orderNameRequired": "Recipient name is required.",
           "orderPhoneInvalid": "Phone number must have 10-11 digits.",
@@ -73,7 +113,8 @@
         "totalAmount": "Total Amount",
         "orderIdLabel": "Order ID",
         "copyButton": "Copy",
-        "copySuccess": "Copied successfully"
+        "copySuccess": "Copied successfully",
+        "Invoice": "Invoice"
       },
       "payment": {
         "paymentMethod": "Payment Method",
@@ -88,8 +129,66 @@
         "unpaid": "Unpaid",
         "paid": "Paid",
         "successTitle": "Change Successful",
-        "successDescription": "The payment method has been updated successfully"
+        "successDescription": "The payment method has been updated successfully",
+        "statusHistory": "Status history"
+      },
+      "request": {
+        "quantityError": "Quantity must be at least 0.",
+        "unitPriceError": "UnitPrice must be at least 0.",
+        "selectProductError": "Select at least one product to return.",
+        "reasonError": "Reason must be at least 10 characters long.",
+        "orderRequestTitle": "Order Return Request",
+        "returnRequest": "Return Request",
+        "back": "Back",
+        "status": {
+          "pending": "Pending",
+          "processing": "Processing",
+          "resolved": "Resolved",
+          "returned": "Returned",
+          "refunded": "Refunded",
+          "finished": "Finished",
+          "unknown": "Unknown status"
+        },
+        "requestDate": "Request Date:",
+        "resolvedDate": "Resolved Date:",
+        "reason": "Return Reason:",
+        "products": {
+          "header": "Returned Products:",
+          "product": "Product",
+          "quantity": "Quantity",
+          "price": "Price",
+          "status": "Status"
+        },
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "contact_request": "Contact Request",
+        "support_message": "If you need further assistance or want to contact us, please use the information below:",
+        "email": "Email",
+        "email_subject": "Customer Support Request",
+        "hotline": "Hotline",
+        "resolution_message": "We are ready to assist you in resolving any questions related to your return request.",
+        "working_hours": "Working hours : Monday - Friday, 8:00 AM - 6:00 PM"
       }
+    },
+    "wishlist": {
+      "title": "Your Wishlist",
+      "emptyWishlist": "No data.",
+      "search": "Search...",
+      "remove": "Remove",
+      "addCart": "Add to Cart",
+      "time": "Added At",
+      "action": "Action",
+      "previous": "Previous",
+      "next": "Next",
+      "open": "Open Menu",
+      "delete": "Delete",
+      "view": "Move to Product",
+      "price": "Price",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "sure": "Are you sure?",
+      "description": "This action cannot be undone."
     }
   }
 }

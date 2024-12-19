@@ -1,36 +1,22 @@
+import { AxiosResponse } from 'axios'
 import { axiosInstance } from '../config/axios'
 import { ICreateReview, IReview } from '../interface/review'
+import { IApiResponse } from '@/interface/apiRespose'
 
 const API_URL = '/review'
 
 export const ReviewService = {
-  getAllReviews: async (): Promise<IReview[]> => {
-    const response = await axiosInstance.get(API_URL)
-    return response.data.data
-  },
-
-  getReviewById: async (id: string): Promise<IReview> => {
-    const response = await axiosInstance.get(`${API_URL}/${id}`)
-    return response.data
-  },
-
-  createReview: async (review: ICreateReview): Promise<IReview> => {
+  create: async (review: ICreateReview): Promise<AxiosResponse<IApiResponse<IReview>>> => {
     const response = await axiosInstance.post(API_URL, review)
-    return response.data
+    return response
   },
-
-  updateReviewById: async (id: string, updatedReview: ICreateReview): Promise<IReview> => {
-    const response = await axiosInstance.put(`${API_URL}/${id}`, updatedReview)
-    return response.data
-  },
-
-  deleteReviewById: async (id: string): Promise<IReview> => {
-    const response = await axiosInstance.delete(`${API_URL}/${id}`)
-    return response.data
-  },
-
-  getReviewsByProductId: async (productId: string): Promise<IReview[]> => {
-    const response = await axiosInstance.get(`${API_URL}/product/${productId}`)
-    return response.data.data
+  getAll: async (
+    productId: string,
+    pagination: { pageIndex: number; pageSize: number }
+  ): Promise<AxiosResponse<IApiResponse<IReview[]>>> => {
+    const response = await axiosInstance.get(
+      `${API_URL}/product/${productId}?page=${pagination.pageIndex}&limit=${pagination.pageSize}`
+    )
+    return response
   }
 }

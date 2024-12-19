@@ -1,21 +1,39 @@
-import { Grid, GripHorizontal, List, Menu, Search } from 'lucide-react'
+import { Grid, GripHorizontal, Search } from 'lucide-react'
 import { useBlogQuery } from '@/hooks/queries/useBlogQuery'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { formatDate } from '@/utils/formatDate'
 import { useTranslate } from '@/hooks/useTranslate'
+import { Skeleton } from '@/components/ui/skeleton'
+import Container from '@/components/Container'
 
 const Post = () => {
-  const [view, setView] = useState<'grid' | 'list' | 'bars' | 'menu'>('grid')
+  const [view, setView] = useState<'grid' | 'list'>('grid')
   const [searchTerm, setSearchTerm] = useState('')
-  const { blogs, isLoading, error, page, limit, handlePageChange, handleLimitChange } = useBlogQuery()
+  const { blogs, isLoading, error } = useBlogQuery()
   const { t } = useTranslate('post')
 
-  if (isLoading) return <div className='text-center py-4'>{t('loading')}</div>
+  // Trạng thái để theo dõi số lượng blog được hiển thị
+  const [limit, setLimit] = useState(6)
+  const [showAll, setShowAll] = useState(false) // Trạng thái để theo dõi việc hiển thị tất cả các blog
+
+  if (isLoading) {
+    return (
+      <>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <Container key={index} className='grid grid-cols-3 gap-6 my-14'>
+            <Skeleton className='w-[400px] h-[255px]' />
+            <Skeleton className='w-[400px] h-[255px]' />
+            <Skeleton className='w-[400px] h-[255px]' />
+          </Container>
+        ))}
+      </>
+    )
+  }
   if (error) return <div className='text-center py-4 text-red-500'>{t('errorLoadingBlogs')}</div>
   if (!blogs || blogs.length === 0) return <div className='text-center py-4'>{t('noBlogsFound')}</div>
 
-  const handleViewChange = (viewType: 'grid' | 'list' | 'bars' | 'menu') => {
+  const handleViewChange = (viewType: 'grid' | 'list') => {
     setView(viewType)
   }
 
@@ -23,7 +41,7 @@ const Post = () => {
 
   return (
     <section className='container mx-auto px-4 py-8'>
-      <div className='flex justify-between items-center mb-6'>
+      <div className='flex flex-col gap-y-4 md:flex-row justify-between items-center mb-6'>
         <div className='flex gap-4'>
           <div className='text-gray-600 font-bold'>{t('allBlog')}</div>
           <div className='text-gray-600 font-bold'>{t('featured')}</div>
@@ -51,23 +69,11 @@ const Post = () => {
           >
             <Grid />
           </button>
-          {/* <button
-            onClick={() => handleViewChange('bars')}
-            className={`text-gray-600 font-bold ${view === 'bars' ? 'text-black' : ''}`}
-          >
-            <List />
-          </button>
-          <button
-            onClick={() => handleViewChange('menu')}
-            className={`text-gray-600 font-bold ${view === 'menu' ? 'text-black' : ''}`}
-          >
-            <Menu />
-          </button> */}
         </div>
       </div>
 
       <div className={`grid ${view === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-6`}>
-        {filteredBlogs.map((blog) => (
+        {filteredBlogs.slice(0, showAll ? filteredBlogs.length : limit).map((blog) => (
           <Link to={`/blog/${blog._id}`} key={blog._id} className='bg-white shadow rounded overflow-hidden'>
             <div className='relative'>
               <img
@@ -87,31 +93,14 @@ const Post = () => {
 
       {filteredBlogs.length === 0 && <div className='text-center py-4 text-gray-500'>{t('noBlogsMatchingSearch')}</div>}
 
-      <div className='text-center mt-8'>
-        <button onClick={() => handleLimitChange(limit + 5)} className='px-8 py-2 rounded-full border border-solid'>
-          {t('showMore')}
-        </button>
-      </div>
-
-      {/* <div className='flex justify-center mt-8 gap-4'>
-        <button
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1}
-          className='px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300'
-        >
-          {t('previous')}
-        </button>
-        <span className='px-4 py-2'>
-          {t('page')} {page}
-        </span>
-        <button
-          onClick={() => handlePageChange(page + 1)}
-          disabled={blogs.length < limit}
-          className='px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300'
-        >
-          {t('next')}
-        </button>
-      </div> */}
+      {/* Nút Show More / Show Less */}
+      {filteredBlogs.length > limit && (
+        <div className='text-center mt-8'>
+          <button onClick={() => setShowAll(!showAll)} className='px-8 py-2 rounded-full border border-solid'>
+            {showAll ? t('showLess') : t('showMore')}
+          </button>
+        </div>
+      )}
     </section>
   )
 }
