@@ -68,7 +68,7 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
   return (
     <>
       <div className='lg:sticky lg:top-28'>
-        <div className=''>
+        {/* <div className=''>
           <h1 className='text-xl font-medium'>{t('coupon')}</h1>
           <p className='text-[#6C7275]'>{t('couponText')}</p>
           <form action='' className='mt-4'>
@@ -82,7 +82,7 @@ const CartForm = ({ amount, cartData }: { amount: number; cartData: IApiResponse
               </button>
             </div>
           </form>
-        </div>
+        </div> */}
         <div className='p-6 border rounded-md border-black mt-4'>
           <h1 className='mb-4 text-xl font-medium'>{t('title')}</h1>
           <Form {...form}>

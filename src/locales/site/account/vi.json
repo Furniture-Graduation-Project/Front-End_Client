@@ -26,6 +26,7 @@
     },
     "forgotPassword": {
       "title": "Bạn quên mật khẩu ư ?",
+      "title2": "Bạn muốn lấy mật khẩu của mình ?",
       "subTitle": "Bạn quên mật khẩu ?",
       "description": " Đừng lo lắng, chúng tôi sẽ giúp bạn khôi phục mật khẩu của mình.",
       "submit": "Gửi",

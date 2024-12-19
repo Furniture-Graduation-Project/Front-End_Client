@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import useAccountMutation from '@/hooks/mutations/useUserMutation'
 import { useTranslate } from '@/hooks/useTranslate'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff } from 'lucide-react'
+import { ArrowRight, Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
@@ -48,6 +48,10 @@ export default function SignIn() {
 
   return (
     <div className='py-4 px-6 sm:px-12 lg:px-24 xl:px-32 sm:h-full flex flex-col justify-center text-neutral-4 space-y-6'>
+      <Link to={'/'} className='flex items-center group hover:opacity-80 transform duration-200'>
+        <p>{t('back')}</p>
+        <ArrowRight className='ml-2 w-4 h-4 group-hover:translate-x-1 transform duration-200' />
+      </Link>
       <h1 className='headline-7 sm:headline-6 lg:headline-5 xl:headline-4 text-black'>{t('title', 'Sign In')}</h1>
       <div className='flex sm:block lg:flex space-x-1 mb-3 sm:mb-6 body-2'>
         <span className='font-normal'>{t('noAccount', "Don't have an account yet?")}</span>

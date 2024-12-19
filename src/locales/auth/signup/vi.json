@@ -23,6 +23,7 @@
     "errorDescription": "Đăng ký thất bại. Vui lòng thử lại.",
     "signinGoogle": "Đăng nhập bằng Google",
     "signinFacebook": "Đăng nhập bằng Facebook",
-    "or": "Hoặc"
+    "or": "Hoặc",
+    "back": "Quay lại trang chủ"
   }
 }

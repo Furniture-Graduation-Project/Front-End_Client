@@ -16,4 +16,5 @@ export interface IUser {
   updatedAt?: string
   otp?: string
   wishlist?: string[]
+  account?: object
 }
