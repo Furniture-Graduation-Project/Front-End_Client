@@ -151,14 +151,7 @@ const AccountOrderAddress = ({ order }: any) => {
                   )}
                 />
                 <DialogFooter>
-                  <Button
-                    disabled={
-                      order?.data.status != 'confirmed' &&
-                      order?.data.status != 'pending' &&
-                      order?.data.status != 'cancelled'
-                    }
-                    type='submit'
-                  >
+                  <Button disabled={order?.data.status != 'confirmed' && order?.data.status != 'pending'} type='submit'>
                     {t('saveButton')}
                   </Button>
                   <Button variant='secondary' onClick={() => setDialogOpen(false)} type='button'>

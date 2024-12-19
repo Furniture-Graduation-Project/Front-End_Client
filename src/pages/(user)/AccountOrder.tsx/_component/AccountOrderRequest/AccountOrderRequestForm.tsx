@@ -74,7 +74,24 @@ const AccountOrderRequestForm = ({ data }: any) => {
 
   const onSubmit = (dataForm: z.infer<typeof returnRequestSchema>) => {
     if (data?.data._id) {
+      const check = dataForm.selectedProducts.some(
+        (item: any, index: number) => item.quantity > data?.data.items[index].quantity
+      )
+      if (check) {
+        form.setError('reason', {
+          message: 'Số lượng sản phẩm không hợp lệ so với số lượng sản phẩm trong đơn hàng !'
+        })
+        return
+      }
       const returnData = dataForm.selectedProducts.filter((item: any) => item.quantity > 0 && item.productOptionId)
+      if (returnData.length <= 0) {
+        toast({
+          title:  "Không thể hoàn trả",
+          description: "Vui lòng thêm số lượng sản phẩm trên đơn hoàn trả !",
+          variant: 'default'
+        })
+        return
+      }
       mutate({
         _id: data?.data._id,
         returnInfo: {
