@@ -26,6 +26,7 @@
     },
     "forgotPassword": {
       "title": "Forgot Password?",
+      "title2": "You want to take your password?",
       "subTitle": "Forgot Password?",
       "description": "Don't worry, we'll help you recover your password.",
       "submit": "Submit",

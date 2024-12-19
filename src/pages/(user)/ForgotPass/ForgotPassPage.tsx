@@ -21,7 +21,11 @@ const formSchema = z.object({
   email: z.string()
 })
 
-const ForgotPassPage = () => {
+interface IForgotPass {
+  socialMediaAccount?: boolean
+}
+
+const ForgotPassPage = ({ socialMediaAccount }: IForgotPass) => {
   const { user } = useAuthContext()
   const [open, setOpen] = useState(false)
 
@@ -52,7 +56,7 @@ const ForgotPassPage = () => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button type='button' className='float-left p-0 text-[#4BA9FE]' variant={'link'} onClick={() => setOpen(!open)}>
-          {t('title')}
+          {socialMediaAccount ? t('title2') : t('title')}
         </Button>
       </DialogTrigger>
       <DialogContent>

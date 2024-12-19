@@ -12,6 +12,7 @@
     "invalidPassword": "Invalid password",
     "signinGoogle": "Sign in with Google",
     "signinFacebook": "Sign in with Facebook",
-    "or": "Or"
+    "or": "Or",
+    "back": "Back to home"
   }
 }

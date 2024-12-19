@@ -9,11 +9,14 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { DeleteAccount } from './DeleteAccount'
+import ForgotPassPage from '../ForgotPass/ForgotPassPage'
 
 export default function AccountDetail() {
   const [change, setChange] = useState(true)
   const { user } = useAuthContext()
   const { t } = useTranslate('account.detail')
+
+  const socialMediaAccount = user?.account
 
   const formSchema = z.object({
     name: z.string().min(1, t('nameValidate')),
@@ -99,14 +102,18 @@ export default function AccountDetail() {
             </FormItem>
           )}
         />
+        <div className='flex items-center justify-between'>
+          <ForgotPassPage socialMediaAccount />
+          <div className=''>
+            <Button className='mr-4' type='button' variant={'outline'} onClick={() => setChange(!change)}>
+              {t('change')}
+            </Button>
 
-        <Button className='mr-4' type='button' variant={'outline'} onClick={() => setChange(!change)}>
-          {t('change')}
-        </Button>
-
-        <Button disabled={change} type='submit'>
-          {t('submit')}
-        </Button>
+            <Button disabled={change} type='submit'>
+              {t('submit')}
+            </Button>
+          </div>
+        </div>
         <div className='ml-auto'>
           <DeleteAccount id={user?._id || ''} />
         </div>
