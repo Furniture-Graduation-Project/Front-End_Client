@@ -46,6 +46,11 @@ export default function ChangePassPage() {
       if (user?._id) {
         const payload = { ...data, _id: user._id }
         mutate(payload)
+        form.reset({
+          password: '',
+          newPassword: '',
+          confirmPassword: ''
+        })
       }
     } catch (error) {
       console.error('Form submission error', error)
