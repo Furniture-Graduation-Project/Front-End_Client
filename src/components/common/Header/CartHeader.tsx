@@ -63,7 +63,7 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
       toast({
         title: t('Giới hạn số lượng'),
         description: t('Không thể giảm số lượng xuống dưới 1.'),
-        variant: 'default',
+        variant: 'default'
       })
       return
     }
@@ -176,12 +176,18 @@ const CartHeader = ({ mobile }: { mobile: boolean }) => {
                               <X className='text-neutral-4 w-[14px] h-[14px]' strokeWidth={2} /> Loại bỏ
                             </Button>
                           </div>
-                          <div className='h-24 w-24 flex-shrink-0 rounded-md border border-neutral-3'>
+
+                          <div className='relative h-24 w-24 flex-shrink-0 rounded-md border border-neutral-3'>
                             <img
                               src={item.productOptionId.image}
                               alt={item.productId.name}
                               className='h-full w-full object-cover object-center'
                             />
+                            <h6
+                              className={`bg-neutral-3/50 absolute bottom-0 left-0 w-full text-center text-xs font-semibold py-1 ${item.productOptionId.stock - item.productOptionId.outStock <= 20 ? 'inline' : 'hidden'}`}
+                            >
+                              Sắp hết hàng
+                            </h6>
                           </div>
 
                           <div className='ml-4 flex flex-1 flex-col'>
