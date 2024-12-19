@@ -65,7 +65,7 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
       toast({
         title: t('Giới hạn số lượng'),
         description: t('Không thể giảm số lượng xuống dưới 1.'),
-        variant: 'default',
+        variant: 'default'
       })
       return
     }
@@ -137,7 +137,14 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
             >
               <TableCell className='lg:p-4 px-0'>
                 <div className='flex gap-4'>
-                  <img src={item.productOptionId.image} alt={item.productId.name} className='w-24 h-28' />
+                  <div className='relative'>
+                    <img src={item.productOptionId.image} alt={item.productId.name} className='w-24 h-28' />
+                    <h6
+                      className={`bg-neutral-3/50 absolute bottom-0 left-0 w-full text-center text-xs font-semibold py-1 ${item.productOptionId.stock - item.productOptionId.outStock <= 20 ? 'inline' : 'hidden'}`}
+                    >
+                      Sắp hết hàng
+                    </h6>
+                  </div>
                   <div className='flex flex-col gap-y-2 justify-center'>
                     <h1 className='font-semibold text-[14px]'>{item.productId.name}</h1>
                     <div className='text-[12px] text-neutral-7 flex flex-col'>
@@ -160,11 +167,17 @@ const CartTable = ({ setAmount, cartData, isLoading, isError }: CartTableProps) 
                       <p className='font-semibold text-[14px]'>{t('action')}</p>
                     </button>
                     <div className='w-20 justify-center flex items-center border sm:hidden border-black rounded-lg'>
-                      <button onClick={() => handleDecreaseQuantity(item)} disabled={item.productOptionId.stock === 0}>
+                      <button
+                        onClick={() => handleDecreaseQuantity(item)}
+                        disabled={item.productOptionId.stock - item.productOptionId.outStock === 0}
+                      >
                         <Minus className='h-4 w-4' strokeWidth={1} />
                       </button>
                       <span className='mx-3'>{item.quantity}</span>
-                      <button onClick={() => handleIncreaseQuantity(item)} disabled={item.productOptionId.stock === 0}>
+                      <button
+                        onClick={() => handleIncreaseQuantity(item)}
+                        disabled={item.productOptionId.outStock + item.quantity === 0}
+                      >
                         <Plus className='h-4 w-4' />
                       </button>
                     </div>
